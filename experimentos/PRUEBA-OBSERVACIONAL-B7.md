@@ -198,6 +198,7 @@ Inventario y mapeo: Extractor-1 y Extractor-2, independientes y sin las hipótes
 ### FASE 2 — Medición Tier A
 
 - **2.1** **Inventario de requisitos** por los dos extractores, en sesiones independientes. Calibración y acuerdo primero (§Validacion de los instrumentos), inventario completo después. Congelar cada inventario por `sha256` **antes** de calcular nada. **[Enmienda 5, 2026-07-30] MUST NOT consolidarse los dos inventarios en uno**: `H1` se computa por separado con el de cada extractor y la dirección debe sostenerse en ambos (ver §Definicion operacional, Granularidad). El texto previo mandaba congelar «el inventario consolidado»; consolidar resultó ser **elegir una granularidad** con el dato a la vista, y sólo en el brazo casero.
+- **2.1-bis** **[Enmienda 6, 2026-07-31] Entrega parcial de una sesión: se rescata el bloque faltante, no se re-corre.** Si una sesión emite el inventario de requisitos y no los juicios de verificador, el par NO se re-corre: el denominador ya está congelado y una re-corrida **selecciona sobre la variable medida** —la sesión trunca por volumen de salida, y el volumen lo fija cuán fino atomiza el extractor, luego sólo completa si atomiza más grueso—. Se rescatan únicamente los juicios, entregando el bloque de requisitos byte a byte como entrada cerrada, con cobertura exacta de ids exigida. MUST — declararse junto al resultado de esa celda que el juicio lo emitió una sesión distinta de la que atomizó. Ocurrió una vez, en `SPEC-006` neutral E1. Texto e instrumento: `experimentosdd-b7/obs/prereg/ENMIENDAS.md` §Enmienda 6.
 - **2.2** **Mapeo requisito a verificador**, misma regla en los dos brazos. Validación cruzada del brazo híbrido contra `tools/check_traceability.py`.
 - **2.3** **`H1`** = proporción sin verificador, por spec. Reportar medianas por brazo, distribución completa, conteo de unidades por spec y *tooling* excluido.
 - **2.4** **`H3`** = colisión de archivos, capas cruzadas y fan-out, crudo y normalizado, por spec. Reportar medianas por brazo.
@@ -241,6 +242,29 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
 
 ### Registro de cambios del documento
 
+- **2026-07-31 (Fase 2 COMPLETA; Enmienda 6, nacida del último tramo)** — cerrados los 13 tramos,
+  **28 sesiones, 14 pares**. El último (`SPEC-006` neutral) falló de un modo que el guardián no
+  cubría: E1 emitió sus 91 unidades de requisito y cerró el turno anunciando que seguía "en la próxima
+  respuesta", que en `claude -p` no existe. No fue el tope de salida (ya estaba en 64000, la salida
+  pesó 31 KB, `stop_reason=end_turn`) ni la captura (los 4 mensajes se capturaron enteros): el modelo
+  se auto-limitó. Como el guardián sólo exigía el bloque `requisitos`, el artefacto se publicó y el
+  acuerdo se calculó con **`pares_comparables: 0`** —un número sin numerador de `H1`— sin señal de
+  error; el guardián ahora exige los dos bloques y la medición inválida quedó en `out/INVALIDO/`.
+  **Enmienda 6** (no viaja al extractor): se rescata el bloque faltante en vez de re-correr, porque
+  re-correr **selecciona sobre lo medido** —sólo completa quien atomiza más grueso, y justo en el brazo
+  de Regla A, la variante neutral y la spec *outlier*, el eje de la Enmienda 5—, mientras que el
+  rescate no puede mover un denominador ya congelado. Cobertura 91/91 exacta; el `ACUERDO` resultó
+  **idéntico** (0.6197) al calculado sobre el artefacto truncado, que es la comprobación de que el
+  denominador no se movió, y el acuerdo de verificador pasó de 0 pares comparables a **44, con
+  0.8636**. **Reserva declarada:** a diferencia de las enmiendas 3 a 5, ésta **no se decidió con cero
+  dato a la vista** (el Orquestador ya había visto las 91 unidades y el 0.6197); lo que la hace
+  admisible es que la opción elegida es la que impide que ese número influya en el resultado.
+  Desviación de régimen en **1 de 28** sesiones, a reportar con esa celda. Auditoría de integridad
+  28/28 sin hallazgos; sello 9 de 9. Dato del cierre, sin ninguna proporción de `H1` calculada
+  todavía: el brazo híbrido da **1.000 exacto en sus 4 specs** bajo Regla B (primaria) y **cae en las
+  4** al forzarle Regla A (neutral: 0.694 / 0.769 / 0.758 / 0.620), o sea que su reproducibilidad
+  perfecta es efecto de la regla y no del formato — que es exactamente lo que la variante de
+  sensibilidad existía para poder distinguir.
 - **2026-07-30 (Fase 2 en ejecución: enmiendas 4 y 5, nacidas de la medición)** — 9 pares medidos
   (`SPEC-001/002/003/004/005/008` primaria, `SPEC-001/003/005` neutral) y dos enmiendas que el propio dato
   obligó. **Enmienda 4** (viaja al extractor): carga de prueba para los §Criterios de aceptación del
