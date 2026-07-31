@@ -198,7 +198,8 @@ Contraste con el check 3 según manda el template: los cuatro archivos que devol
 - **nuevo (2026-07-29)** — **`R6` sin recorrido guionado pre-registrado.** La métrica está de alta pero su instrumento no existe; aplica a la próxima corrida. Casilla abierta en el Checklist de pre-registro del SSOT.
 - **nuevo (2026-07-29)** — **4 requisitos de `SPEC-013` sin ningún dato**: `SC-US1-004`, `FR-US2-004`, `SC-US2-004`, `SC-US3-004`. Los cuatro son de UI/caso real en el dashboard; son el universo propio de `R6` y la única parte del espacio de requisitos de la feature sobre la que el experimento no tiene medición alguna.
 - ~~**nuevo (2026-07-29)** — **`PRUEBA-OBSERVACIONAL-B7.md` no es todavía un runbook ejecutable**: le faltan la sección «Definicion operacional» y una Fase 0 sellada.~~ **RESUELTO (2026-07-29, verificado 2026-07-30)** — el documento se reescribió como runbook ejecutable con §Definicion operacional completa, Fases 0 a 4, roles y glosario; **Fase 0 sellada** (`hash_de_hashes 0eb6ee72…e673`, 9 artefactos) y corte fijado en **`3f1ed33`**, tal como pedía esta deuda. Quedó además **registrado en `SPECS_REGISTRY.md`** (2026-07-30) junto a `PRUEBA-REGENERABILIDAD-B7.md`: ninguno tenía spec, porque la exención de `experimentos/` cubre lo *generado desde templates* y un runbook no lo es.
-- **arrastrado, actualizado 2026-07-30** — **H1 y H3 sin medir**: es lo único que resta para cerrar B-07 integralmente, y está **en ejecución**, no detenido. Fase 1 completa, calibración pasada (acuerdo 0.951 / 1.000), inventario de **3 de 7 specs**, **22 sesiones** de extractor restantes. **Corrección de esta entrada:** decía que `H1` precisa unidad de requisito *neutral al formato*; la decisión del 2026-07-29 fue la **opuesta y deliberada** — el cálculo primario usa **la anatomía propia de cada formato**, porque el estudio mide los formatos *como se practicaron*, y la unidad neutral quedó como **variante de sensibilidad obligatoria**, no como unidad primaria. Desde el 2026-07-30 esa variante tiene instrumento (Enmienda 3, selector de regla externo) y regla de decisión en el SSOT: divergencia entre variantes deja `H1` **NO CONCLUYENTE**, igual que un piso de ruido de instrumento comparable a la brecha entre brazos. Para `H3` sigue en pie el indicador topológico independiente (el split `SPEC-006`→`008` generó la hipótesis y no puede confirmarla).
+- **RESUELTO (2026-07-31)** — **`H1` y `H3` medidos; criterio (b) cerrado.** 28 sesiones, 14 pares, corte `3f1ed33`. `H1` **NO CONCLUYENTE** por tres vías simultáneas (divergencia entre variantes de unidad, inversión bajo `LOO` en la primaria y en los dos extractores, piso de ruido de 5 a 8 veces la brecha); `H3` **no consistente** con la hipótesis en los tres ejes, robusto bajo `LOO`, con las reservas de instrumento declaradas. Ver §Resultado del criterio (b). **Deuda nueva que deja:** (i) `H3` sin validación de instrumento tras anularse su compuerta por HARKing (Enmienda 7); (ii) modo de fallo común `src/dashboard/app.py` (citado por 4/4 híbridas y 1/3 caseras) **no descartado**, y su sensibilidad **no se corrió** por no estar pre-registrada; (iii) el hueco C1 de `software/ANALISIS-SPEC-KIT.md` **sigue abierto**, ahora con motivo medido. Texto previo de esta entrada, conservado abajo como registro datado.
+- ~~**arrastrado, actualizado 2026-07-30** — **H1 y H3 sin medir**:~~ es lo único que resta para cerrar B-07 integralmente, y está **en ejecución**, no detenido. Fase 1 completa, calibración pasada (acuerdo 0.951 / 1.000), inventario de **3 de 7 specs**, **22 sesiones** de extractor restantes. **Corrección de esta entrada:** decía que `H1` precisa unidad de requisito *neutral al formato*; la decisión del 2026-07-29 fue la **opuesta y deliberada** — el cálculo primario usa **la anatomía propia de cada formato**, porque el estudio mide los formatos *como se practicaron*, y la unidad neutral quedó como **variante de sensibilidad obligatoria**, no como unidad primaria. Desde el 2026-07-30 esa variante tiene instrumento (Enmienda 3, selector de regla externo) y regla de decisión en el SSOT: divergencia entre variantes deja `H1` **NO CONCLUYENTE**, igual que un piso de ruido de instrumento comparable a la brecha entre brazos. Para `H3` sigue en pie el indicador topológico independiente (el split `SPEC-006`→`008` generó la hipótesis y no puede confirmarla).
 - **resuelto** — Sincronizar derivados: checklist de `EXPERIMENTO-B7-formato-hibrido.md` y `../software/PLAN-PRUEBAS.md §B-07`.
 - **nuevo** — Elegir una feature de control que discrimine, para que un futuro 2×2 no quede con la mitad muda (Hallazgo 3).
 - **arrastrado** — Gate SDD *fail-open* del testigo (§4.4-bis): no se corrige retroactivamente en B-07; queda como hallazgo transferible en `../06-BACKLOG-INVESTIGACION-FUTURA.md` #4.
@@ -231,3 +232,188 @@ Contraste con el check 3 según manda el template: los cuatro archivos que devol
 - Deuda arrastrada: ver sección homónima (4 nuevos, 2 arrastrados, 2 resueltos)
 - Riesgos/reservas: la confusión formato×procedencia (Hallazgo 2) es estructural y no reparable con los datos existentes — condiciona toda lectura causal del resultado; n=1 por celda, sin repetición, luego el contraste mezcla efecto-formato con varianza estocástica de una única generación y ninguna afirmación acá es estadística; F001 no discriminó, así que el 2×2 aportó un solo contraste efectivo; ocho enmiendas post-hoc al runbook (todas fechadas y operacionales, ninguna redefine el pre-registro sellado); ceguera del orquestador rota en F001 antes de 4.1
 ```
+
+---
+
+# Resultado del criterio (b) — corpus observacional (cerrado 2026-07-31)
+
+> Segundo de los **dos veredictos** que exige la regla de cierre de `EXPERIMENTO-B7-formato-hibrido.md`.
+> MUST NOT fundirse con el de (a) ni promediarse. Runbook: `PRUEBA-OBSERVACIONAL-B7.md`. Datos, sello,
+> enmiendas y bitácora: repo `experimentosdd-b7/`. Corte observacional `3f1ed33`.
+> **Techo de conclusión: descriptivo**, por la confusión estructural declarada (formato confundido con
+> tiempo, madurez de repo, feature y presencia del gate `check_traceability.py`, que existió sólo sobre
+> el brazo híbrido).
+
+## Ejecución
+
+28 sesiones de extractor (7 specs × 2 extractores × 2 variantes de unidad), 14 pares, `n = 3` specs en
+CAS-OBS contra `4` en HIB-OBS. Auditoría de integridad: 28 inventarios, 0 hallazgos. Sello de Fase 0
+verificado 9/9 en cada etapa. Siete enmiendas post-sello, todas fechadas y aditivas.
+
+## `H1` (cobertura) — **NO CONCLUYENTE**
+
+Proporción de unidades de requisito **sin verificador declarado**, mediana por brazo, por extractor y
+sin consolidar (Enmienda 5).
+
+| celda | CAS-OBS | HIB-OBS | dirección | margen | *leave-one-out* |
+|---|---|---|---|---|---|
+| E1 primaria | 0.1071 | 0.0896 | HIB menor | −0.018 | **invierte** (`SPEC-001`, `SPEC-002`) |
+| E2 primaria | 0.0417 | 0.0294 | HIB menor | −0.012 | **invierte** (`SPEC-001`, `SPEC-004`, `SPEC-005`) |
+| E1 neutral | 0.2143 | 0.2448 | HIB **mayor** | +0.030 | no invierte |
+| E2 neutral | 0.0400 | 0.0952 | HIB **mayor** | +0.055 | no invierte |
+
+Distribución completa por spec, conteo de unidades y *tooling* excluido: `obs/out/H1-CONTEO-*.json` y
+`obs/out/METRICAS-OBS-*.json`. Rangos **solapados en las cuatro celdas**.
+
+**Se disparan tres de las cuatro vías pre-registradas hacia NO CONCLUYENTE:**
+
+1. **Divergencia entre variantes de unidad.** La primaria da HIB menor; la neutral, HIB mayor. La regla
+   del SSOT es terminante: *"Divergencia de dirección ⇒ `H1` NO CONCLUYENTE (…) MUST NOT resolverse
+   eligiendo una de las dos; la divergencia **es** el hallazgo."* La dirección de `H1` no es propiedad
+   del corpus sino de la convención de medición.
+2. **Inversión bajo *leave-one-out*** en la variante primaria, en **los dos** extractores.
+3. **Piso de ruido comparable a la brecha.** La misma spec del control, medida dos veces con la **misma**
+   Regla A, se mueve **0.131** (E1) y **0.098** (E2), contra brechas entre brazos de 0.018 y 0.012: el
+   ruido del instrumento es de **5 a 8 veces** el efecto buscado. `piso(E1) = 0.0357` contra un umbral
+   de `0.0088` (`obs/out/PISO-RUIDO.json`).
+
+**La cuarta vía NO se dispara, y es informativa:** los dos extractores **coinciden** en dirección dentro
+de cada variante. La divergencia no es ruido de modelo — **es la regla de conteo**. Es exactamente la
+distinción que la Enmienda 5 existía para permitir: consolidar habría producido el mismo número sin
+poder atribuirlo.
+
+**Magnitudes, que MUST leerse con el veredicto.** El margen de la variante primaria (0.012 a 0.018) es
+del orden de **una** unidad de requisito cambiando de lado en una spec de ~28, y su inversión bajo `LOO`
+al quitar `SPEC-001` es de **+0.0003**: un empate, no una inversión sustantiva. La variante neutral tiene
+márgenes de 2 a 4 veces mayores y **no invierte en ninguna** de las 7 omisiones ni en ninguno de los dos
+extractores. **La variante que no es la primaria es la robusta.** MUST reportarse; **MUST NOT** usarse
+para promoverla (regla 1 de la variante de sensibilidad).
+
+Contra la predicción sellada, que anticipaba `H1` menor en HIB: la primaria coincide pero no sobrevive
+al `LOO`; la neutral contradice y es estable.
+
+## `H3` (fronteras) — **NO CONSISTENTE con la hipótesis**
+
+Indicador topológico independiente sobre el corte, normalizado por nº de archivos citados. `H3` sería
+**consistente** si la mediana fuera **menor** en el híbrido. Es **mayor en los tres ejes**.
+
+| eje | CAS-OBS | HIB-OBS | dirección | solapamiento | *leave-one-out* |
+|---|---|---|---|---|---|
+| colisión de archivos | 0.400 | 0.750 | HIB mayor | sí | no invierte |
+| capas cruzadas | 0.600 | 1.000 | HIB mayor | sí | no invierte |
+| fan-out de imports | 2.20 | 9.75 | HIB mayor | **no** | no invierte |
+
+Enunciado con la redacción obligada ante solapamiento: **tendencia no consistente con `H3`, con rangos
+solapados** en colisión y capas cruzadas; en fan-out la separación es **completa** (CAS 2.0–6.0 contra
+HIB 8.0–10.5) y ninguna omisión individual invierte ninguno de los tres ejes.
+
+**Tres reservas que acotan fuerte esta lectura:**
+
+- **`H3` quedó sin validación de instrumento.** Su única compuerta pre-registrada —reproducir el split
+  `SPEC-006` a `006+008`— se **anuló** (Enmienda 7) por contradecir la regla crítica de medición 6 del
+  propio runbook, que prohíbe usar ese split como confirmación por ser la observación que **generó**
+  `H3`. No se reemplazó: fabricar una compuerta con los valores ya calculados sería el mismo HARKing por
+  otra puerta.
+- **Resolución pobre.** Las 7 specs citan entre 2 y 5 archivos, luego el normalizado avanza a saltos de
+  0.33 y 0.5. `SPEC-005` y `SPEC-006` citan el **mismo** conjunto y reciben valores **idénticos** en los
+  tres ejes: el instrumento no las distingue.
+- **Modo de fallo común, y probablemente dominante.** `src/dashboard/app.py` lo citan las **cuatro**
+  specs híbridas y **una sola** de las tres caseras. Es un punto de entrada de dashboard con muchos
+  imports, así que empuja hacia arriba la colisión **y** el fan-out del brazo híbrido por una razón
+  arquitectónica —dónde vive el punto de entrada— y no por limpieza de frontera. **No se recomputó `H3`
+  excluyéndolo**: esa sensibilidad no está pre-registrada y elegirla ahora sería una decisión analítica
+  tomada con el veredicto a la vista. Queda registrada como ítem obligatorio de pre-registro para
+  cualquier réplica.
+
+## Tier B (contexto, no puntúa)
+
+- **`H2` descriptivo.** Las 6 ocurrencias de `[NEEDS CLARIFICATION]` del brazo híbrido (1/2/1/2) están
+  **todas dentro de `## Historial`; cero en el cuerpo**: al corte no queda deuda de ambigüedad abierta,
+  son el registro de ambigüedades declaradas y ya resueltas. Casero **`N/A`**, nunca `0`. Refuerza el
+  motivo de la degradación: lo observable no es cuánta ambigüedad hubo sino cuánta se **documentó y se
+  cerró**, y sólo un brazo tiene la convención para documentarla.
+- **Costo de redacción.** El híbrido cuesta ~64% más palabras por spec en la mediana (1655 contra 1008),
+  con `SPEC-006` outlier en 3827. Confundido con feature, momento y madurez. No puntúa y **no moduló**
+  esta decisión.
+
+## Veredicto (b)
+
+**El corpus observacional NO sostiene que el formato híbrido produzca mejor cobertura ni fronteras más
+limpias, y en fronteras apunta en sentido contrario.**
+
+- `H1`: **NO CONCLUYENTE.** Tres vías simultáneas. No hay dirección que afirmar.
+- `H3`: **NO CONSISTENTE con la hipótesis**, tendencia robusta bajo `LOO` en los tres ejes, con rangos
+  solapados en dos de ellos y separación completa en fan-out — pero **sin validación de instrumento** y
+  con un **modo de fallo común no descartado** (`app.py`) que puede explicar buena parte de la
+  diferencia.
+
+**Lectura admitida (techo descriptivo):** *no consistente con `H3`*; *no concluyente* para `H1`. **MUST
+NOT** enunciarse como efecto del formato: en este corpus el formato está confundido con tiempo, madurez,
+feature y enforcement.
+
+**Lo que sí queda establecido, y es el aporte más sólido de (b):** la dirección de `H1` **depende de la
+convención de conteo**, y el ruido de sesión del instrumento es de 5 a 8 veces la brecha que se pretendía
+medir. Cualquier estudio futuro que compare cobertura entre formatos de spec **MUST** medir su piso de
+ruido antes de reportar una brecha; sin eso, una diferencia del tamaño de la que buscábamos es
+indistinguible de ruido de una sola sesión de extracción.
+
+## Cierre de B-07 — los dos veredictos
+
+MUST NOT fundirse ni promediarse.
+
+| | veredicto | techo |
+|---|---|---|
+| **(a) regenerabilidad** (cerrado 2026-07-28) | H4 **no sostenida** en F013, F001 **no concluyente**, una sola feature discriminante ⇒ **sin veredicto global** | *no atribuible al formato* (guarda de confusión) |
+| **(b) corpus observacional** (cerrado 2026-07-31) | `H1` **NO CONCLUYENTE**; `H3` **no consistente** con la hipótesis | descriptivo |
+
+**No apuntan en sentidos opuestos:** ninguno de los dos sostiene la hipótesis del formato híbrido, y (b)
+además apunta en contra en fronteras. Se reporta así, sin resolver por elección.
+
+## Decisión
+
+**Propuesta: AJUSTAR, no adoptar ni descartar.** Peso relativo declarado, como exige la regla de cierre:
+**(a) pesa más que (b)**, porque (a) mide el efecto sobre la regenerabilidad —el mecanismo por el que el
+formato tendría valor— con un diseño 2×2 controlado, mientras (b) es observacional, retrospectivo, con
+`n` de 3 contra 4, sin cegado posible y con el formato confundido con cuatro ejes. `H3` de (b) entra a la
+decisión **sólo como señal de que no hay evidencia a favor**, no como evidencia en contra: perdió su
+compuerta y tiene un modo de fallo común sin descartar. `H1` **no entra**: no emitió dirección. El costo
+de redacción (~64% más palabras) **no moduló** esta decisión y así se declara.
+
+Fundamento: dos criterios independientes, ninguno sostiene la hipótesis, y ninguno la refuta con fuerza
+suficiente para descartar el formato. Lo que el conjunto sí sostiene es que **las convenciones adoptadas
+de Spec Kit que ya están en uso** (`[NEEDS CLARIFICATION]`, *coverage mapping*, `Cobertura` en el
+`[SDD-Check]`) se conservan por su valor de método, no por evidencia de superioridad medida.
+
+> **MUST — esta decisión requiere confirmación explícita del Custodio antes de propagarse.** El veredicto
+> de (b) es del Orquestador y es mecánico; la ponderación entre (a) y (b) es del proyecto.
+
+## Propagacion (criterio (b))
+
+Los tres checks, corridos el 2026-07-31 — no de memoria.
+
+- **Check 1** (`grep -n "B-07" SPECS_REGISTRY.md`): 9 coincidencias. Relevantes: línea 87 (tabla SSOT,
+  protocolo de medición), líneas 550 y 573 (specs de los dos runbooks), líneas 455 y 478.
+- **Check 2** (estructural): SSOT de la hipótesis = `EXPERIMENTO-B7-formato-hibrido.md`. Sus referenciantes
+  en la tabla SSOT: `software/PLAN-PRUEBAS.md`, `software/LINEAS-INVESTIGACION.md`, `00-INDEX.md`.
+  **MUST sincronizarse el SSOT antes que sus derivados.**
+- **Check 3** (grep de deuda declarada, excluyendo `experimentos/`):
+  `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`.
+- **Contraste contra §Documentos que esperan este resultado** del runbook (SHOULD): el check 3 devuelve
+  **2** de los **6** declarados. No aparecen `EXPERIMENTO-B7-formato-hibrido.md`,
+  `software/LINEAS-INVESTIGACION.md`, `software/PLAN-PRUEBAS.md` ni `software/ANALISIS-SPEC-KIT.md` —
+  los tres primeros porque el check 2 los cubre por estructura, y `ANALISIS-SPEC-KIT.md` porque ya no
+  declara la deuda en forma grep-able (en el cierre de (a) había matcheado por un bloque antiguo).
+  **La divergencia confirma el motivo por el que los tres checks son obligatorios:** el check 3 aislado
+  habría encontrado 2 de 6.
+
+| documento | qué afirmaba | estado nuevo | hecho |
+|---|---|---|---|
+| `EXPERIMENTO-B7-formato-hibrido.md` **(SSOT)** | criterio (b) enunciado, sin resultado | (b) resuelto: `H1` NO CONCLUYENTE, `H3` no consistente; regla de cierre satisfecha con dos veredictos | **pendiente de la confirmación del Custodio** |
+| `software/LINEAS-INVESTIGACION.md` §B7 **(SSOT de agenda)** | pregunta 2 (cobertura) **abierta** | respondida como **no concluyente por convención de conteo**, con el piso de ruido como hallazgo transferible | **pendiente** |
+| `software/PLAN-PRUEBAS.md` §B-07 | experimento en ejecución | B-07 **cerrado** con dos veredictos | **pendiente** |
+| `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` | deuda abierta por el corpus observacional | deuda **cerrada**; se anota con bloque `[SDD-Check]` nuevo, sin reescribir los anteriores | **pendiente** |
+| `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` | §9.3 enumera el corpus entre lo pendiente de medir | corpus medido; la decisión de fondo (Ajustar) se alinea con §9.3 | **pendiente** |
+| `software/ANALISIS-SPEC-KIT.md` | hueco C1 (cobertura) sin evidencia | `H1` no emitió dirección: el hueco C1 **sigue abierto**, ahora con motivo medido | **pendiente** |
+| `06-BACKLOG-INVESTIGACION-FUTURA.md` | 6 ítems en prioridad alta | +7: **medir el piso de ruido del instrumento antes de reportar una brecha** | **pendiente** |
+| `experimentos/PREREG-B7.md` | pre-registro sellado | **intocable por diseño** | **no aplica** — sellado |
+| `SPECS_REGISTRY.md` | referencia resultados sin copiarlos | ninguna afirmación de estado vencida; las specs de los dos runbooks siguen correctas | **no aplica** |
