@@ -1,55 +1,48 @@
 # 00 - Index
 
+Navegación del proyecto: dónde está cada cosa y en qué orden leerla.
+
+El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion`) y el **mapa tema → SSOT** viven en [SPECS_REGISTRY.md](./SPECS_REGISTRY.md); acá no se reproducen.
+
 ## Ruta recomendada
-1. [SPECS_REGISTRY.md](./SPECS_REGISTRY.md)
-2. [AGENTS.md](./AGENTS.md)
-3. [MARCO-COMPARATIVO-DOS-LINEAS.md](./MARCO-COMPARATIVO-DOS-LINEAS.md)
-4. [SDD-ADAPTATIVO-VS-CASCADA.md](./SDD-ADAPTATIVO-VS-CASCADA.md)
-5. [docs-y-investigacion/00-INDEX.md](./docs-y-investigacion/00-INDEX.md)
-6. [software/00-INDEX.md](./software/00-INDEX.md)
+
+1. [README.md](./README.md) — qué es el proyecto
+2. [CONSTITUTION.md](./CONSTITUTION.md) — principios no-negociables (leer antes de proponer un doc o un cambio de método)
+3. [AGENTS.md](./AGENTS.md) — protocolo para asistentes IA (`CLAUDE.md` lo importa)
+4. [SPECS_REGISTRY.md](./SPECS_REGISTRY.md) — alcance y validación por documento, tabla SSOT y reglas de propagación
+5. [MARCO-COMPARATIVO-DOS-LINEAS.md](./MARCO-COMPARATIVO-DOS-LINEAS.md)
+6. [SDD-ADAPTATIVO-VS-CASCADA.md](./SDD-ADAPTATIVO-VS-CASCADA.md)
 7. [ESCENARIOS-QUE-JUSTIFICAN-SDD.md](./ESCENARIOS-QUE-JUSTIFICAN-SDD.md)
 8. [ESTADISTICAS-TENDENCIAS-EVOLUCION.md](./ESTADISTICAS-TENDENCIAS-EVOLUCION.md)
 9. [PROYECTOS-LIDERES-Y-FRAMEWORKS.md](./PROYECTOS-LIDERES-Y-FRAMEWORKS.md)
 10. [IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md](./IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md)
-11. [06-BACKLOG-INVESTIGACION-FUTURA.md](./06-BACKLOG-INVESTIGACION-FUTURA.md)
-12. [REFERENCIAS.md](./REFERENCIAS.md)
+11. [docs-y-investigacion/00-INDEX.md](./docs-y-investigacion/00-INDEX.md) — línea A
+12. [software/00-INDEX.md](./software/00-INDEX.md) — línea B
+13. [06-BACKLOG-INVESTIGACION-FUTURA.md](./06-BACKLOG-INVESTIGACION-FUTURA.md)
+14. [REFERENCIAS.md](./REFERENCIAS.md)
 
 ## Estructura del proyecto
 
-| Directorio / archivo | Contenido |
+| Directorio / archivo | Rol |
 |---|---|
-| `SPECS_REGISTRY.md` | SSOT del registro central de specs — alcance y validación por documento |
-| `AGENTS.md` | SSOT del protocolo operativo para asistentes IA |
-| `MARCO-COMPARATIVO-DOS-LINEAS.md` | SSOT de diferencias entre línea A y línea B |
-| `SDD-ADAPTATIVO-VS-CASCADA.md` | SSOT del anti-patrón cascada encubierta y circuitos de aprendizaje |
-| `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | SSOT del catálogo de escenarios/problemas que justifican SDD |
-| `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | SSOT de datos cuantitativos y tendencias |
-| `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | SSOT de frameworks y proyectos de referencia |
-| `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | SSOT de adopción pragmática sin CI |
-| `REFERENCIAS.md` | SSOT de bibliografía y enlaces [Rxx] |
-| `06-BACKLOG-INVESTIGACION-FUTURA.md` | Backlog priorizado de líneas de investigación |
-| `ROADMAP-MEJORAS-SDD.md` | Análisis comparativo de mejoras SDD identificadas |
-| `docs-y-investigacion/` | Línea A: SDD para análisis, conocimiento y documentos de decisión |
-| `software/` | Línea B: SDD para requisitos ejecutables, APIs, contratos y entrega |
-| `templates/` | Plantillas para diseñar y cerrar experimentos |
-| `historial/` | Log evolutivo de fases y mejoras completadas |
-
-## Mapa de SSOTs
-
-| Tema | SSOT |
-|---|---|
-| Registro de specs | `SPECS_REGISTRY.md` |
-| Protocolo IA | `AGENTS.md` |
-| Modelo dual SDD | `MARCO-COMPARATIVO-DOS-LINEAS.md` |
-| SDD adaptativo y circuitos de aprendizaje | `SDD-ADAPTATIVO-VS-CASCADA.md` |
-| Escenarios que justifican SDD | `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
-| Tendencias y estadística | `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` |
-| Frameworks y proyectos líderes | `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` |
-| Adopción pragmática sin CI | `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
-| Bibliografía [Rxx] | `REFERENCIAS.md` |
-| Agenda línea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` |
-| Métricas línea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` |
-| Plan experimental línea A | `docs-y-investigacion/PLAN-PRUEBAS.md` |
-| Agenda línea B | `software/LINEAS-INVESTIGACION.md` |
-| Métricas línea B | `software/NECESIDADES-Y-METRICAS.md` |
-| Plan experimental línea B | `software/PLAN-PRUEBAS.md` |
+| `CONSTITUTION.md` | SSOT — invariantes; precedencia 1 |
+| `SPECS_REGISTRY.md` | SSOT — registro de specs; precedencia 2 |
+| `AGENTS.md` | SSOT — protocolo del asistente; precedencia 3 |
+| `CLAUDE.md` | operativo — adaptador de Claude Code (`@AGENTS.md`) |
+| `README.md` | operativo — entrada al proyecto |
+| `00-INDEX.md` | operativo — este índice |
+| `MARCO-COMPARATIVO-DOS-LINEAS.md` | SSOT |
+| `SDD-ADAPTATIVO-VS-CASCADA.md` | SSOT |
+| `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | SSOT |
+| `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | SSOT |
+| `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | SSOT |
+| `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | SSOT |
+| `REFERENCIAS.md` | SSOT — catálogo `[Rxx]` |
+| `06-BACKLOG-INVESTIGACION-FUTURA.md` | operativo — backlog |
+| `ROADMAP-MEJORAS-SDD.md` | operativo — mejoras identificadas |
+| `docs-y-investigacion/` | línea A — SSOTs de agenda, métricas y plan experimental |
+| `software/` | línea B — SSOTs de agenda, métricas y plan experimental; derivados de análisis |
+| `experimentos/` | diseños, runbooks y resultados de experimentos |
+| `templates/` | operativo — plantillas de experimento y de cierre |
+| `historial/` | operativo — log evolutivo de fases y cambios de método |
+| `fuentes-externas/` | material fuente externo (vendored); fuera del registro y del versionado |

@@ -8,9 +8,12 @@ Registro central de specs del proyecto `SDD`.
 - `MAY`: opcional.
 
 ## Precedencia
-1. Este archivo (`SPECS_REGISTRY.md`) MUST prevalecer para alcance y validacion por documento.
-2. `AGENTS.md` SHOULD regir la ejecucion diaria.
-3. El criterio del asistente MAY usarse solo cuando no haya conflicto con 1 y 2.
+1. `CONSTITUTION.md` MUST prevalecer sobre todo lo demas: declara los invariantes no-negociables. Si una regla de este registro entra en conflicto con un principio, se ajusta la regla, no el principio.
+2. Este archivo (`SPECS_REGISTRY.md`) MUST prevalecer para alcance y validacion por documento.
+3. `AGENTS.md` SHOULD regir la ejecucion diaria.
+4. El criterio del asistente MAY usarse solo cuando no haya conflicto con 1, 2 y 3.
+
+Division de trabajo: `CONSTITUTION.md` declara **que nunca cede** (invariante; cambia por enmienda versionada). Este registro declara **como se aplica hoy** (alcance por documento, convenciones de forma, exenciones; cambia sin enmienda).
 
 ## Reglas globales
 - Todo cambio documental MUST mapearse a una spec registrada.
@@ -20,6 +23,11 @@ Registro central de specs del proyecto `SDD`.
 - Sin emoticones en documentos de contenido.
 - Fechas en formato YYYY-MM-DD.
 - No duplicar contenido entre SSOTs: referenciar, no repetir.
+- **Alcance de un documento: un solo lugar (regla operativa del Principio I).** Los campos `proposito`, `incluye`, `excluye` y `validacion` MUST vivir unicamente en este registro. Ningun otro documento los reproduce ni los parafrasea:
+  - `00-INDEX.md` responde *donde esta cada archivo* (ruta de lectura y ubicacion), no *que contiene cada doc* ni *quien es SSOT de que tema* — esa tabla vive aca, acoplada a la regla de propagacion. Su tabla de estructura MUST declarar rol (`SSOT` / `derivado` / `operativo`), no proposito.
+  - El encabezado de un documento MAY llevar **una** linea de identidad para quien lo abre suelto; MUST NOT enumerar `incluye`/`excluye` ni criterios de validacion.
+  - Motivo: el 2026-07-31 se midio la divergencia real — 11 filas de `00-INDEX.md` repetian el `proposito` del registro y 5 ya habian derivado (perdiendo, entre otras cosas, la procedencia de `ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
+  - Migracion: los encabezados de documentos preexistentes SHOULD limpiarse de forma oportunista al tocarlos, no en una reescritura masiva.
 - Ortografía: el contenido en español MUST usar ortografía correcta con tildes y signos (acentos, "ñ", apertura de interrogación/exclamación). Aplica a documentos nuevos y a todo documento que se edite. Excepciones: identificadores técnicos, rutas, nombres de archivo y claves de los bloques normativos (ej. campos del `[SDD-Check]` y nombres de campo de spec como `validacion`, `proposito`) MUST conservarse sin tildes por estabilidad grep-able. Los documentos preexistentes sin tildes SHOULD migrarse de forma oportunista al tocarlos, no en una reescritura masiva.
 
 ## Campo ssot_level
@@ -61,6 +69,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 | Linea | Concepto | SSOT | Quien referencia |
 |------|----------|------|------------------|
+| Comun | Principios no-negociables de la investigacion | `CONSTITUTION.md` | `AGENTS.md`, `SPECS_REGISTRY.md`, `00-INDEX.md`, `README.md` |
 | Comun | Modelo dual SDD | `MARCO-COMPARATIVO-DOS-LINEAS.md` | `README.md`, `00-INDEX.md`, planes de linea |
 | Comun | SDD adaptativo y circuitos de aprendizaje | `SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
@@ -77,6 +86,26 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Software | Protocolo de medicion de B-07 (el «como») | `experimentos/PRUEBA-REGENERABILIDAD-B7.md` (metrica primaria) y `experimentos/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
 
 ## Specs registradas (MVP)
+
+### CONSTITUTION.md
+- `path`: `CONSTITUTION.md`
+- `proposito`: SSOT de los invariantes no-negociables de la investigacion — lo que ninguna spec, protocolo ni decision de redaccion puede contradecir.
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `incluye`:
+  - preambulo: que es, como se usa, alcance y que NO es
+  - principios, cada uno con invariante autocontenido + `Enforcement` + `Detalle` (SSOT donde vive el detalle operativo)
+  - governance: precedencia de fuentes, versionado semver, fase pre-1.0, procedimiento de enmienda, limite honesto del enforcement
+- `excluye`:
+  - convenciones de forma (fechas, ortografia, nomenclatura) — viven en este registro
+  - el protocolo paso a paso del asistente — vive en `AGENTS.md`
+  - el detalle operativo de cada principio — vive en el SSOT que el principio referencia en `Detalle:`
+- `validacion`:
+  - [ ] cada principio declara un invariante autocontenido, sin duplicar el detalle que referencia
+  - [ ] cada principio tiene `Enforcement` y `Detalle` con SSOT existente
+  - [ ] version, fecha de ratificacion y de ultima enmienda presentes y coherentes con `historial/sdd.md`
+  - [ ] la precedencia declarada coincide con la de este registro y la de `AGENTS.md`
+  - [ ] ningun documento activo contradice un principio vigente
 
 ### README.md
 - `path`: `README.md`
@@ -95,21 +124,20 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### 00-INDEX.md
 - `path`: `00-INDEX.md`
-- `proposito`: indice de navegacion global — punto de entrada unico para orientarse en documentacion, estructura y SSOTs.
+- `proposito`: indice de navegacion global — responde donde esta cada archivo y en que orden leerlo.
 - `ssot_level`: `operativo`
 - `incluye`:
   - ruta de lectura recomendada con links a documentos nucleares
-  - link a `SPECS_REGISTRY.md`
-  - link a `AGENTS.md`
-  - estructura del proyecto: tabla de directorios/archivos con su contenido
-  - mapa de SSOTs: tabla tema → archivo autoritativo
+  - links a `CONSTITUTION.md`, `SPECS_REGISTRY.md` y `AGENTS.md`
+  - estructura del proyecto: tabla directorio/archivo → **rol** (`SSOT` / `derivado` / `operativo`)
 - `excluye`:
+  - alcance de cada documento (`proposito`/`incluye`/`excluye`/`validacion`) — vive en este registro
+  - mapa tema → SSOT — vive en la tabla SSOT de este registro
   - definiciones conceptuales extensas
-  - contenido duplicado de cualquier SSOT
 - `validacion`:
   - [ ] enlaces vigentes
-  - [ ] link a `AGENTS.md` presente
-  - [ ] link a `SPECS_REGISTRY.md` presente
+  - [ ] links a `CONSTITUTION.md`, `AGENTS.md` y `SPECS_REGISTRY.md` presentes
+  - [ ] la tabla de estructura declara rol, no proposito
   - [ ] sin duplicacion de SSOT
 
 ### MARCO-COMPARATIVO-DOS-LINEAS.md
