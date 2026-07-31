@@ -4,6 +4,34 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 10 — Backstop determinista de documentación, M-01 (2026-07-31) — COMPLETADA
+
+**Acción**: implementar la primera capa de verificación mecánica del repositorio, portando a un repo documental la capa 2 del enforcement de tres capas del testigo (`docs/SDD-ENFORCEMENT.md`).
+
+### Qué hace
+`tools/check_docs.py`, stdlib pura, dos severidades (ERROR falla; WARN informa, o falla con `--strict`). Ocho checks: cobertura de spec con exenciones declaradas; el registro no apunta a archivos inexistentes; links internos; `[Rxx]` usadas contra el catálogo y sin duplicados; valores válidos de `ssot_level`/`estado` y coherencia de `deriva_de`; ciclos en la cadena `deriva_de`; alcance en un solo lugar (campos de spec fuera del registro); cadena de precedencia; emoticones.
+
+Límite heredado y declarado en el propio docstring: **verifica presencia y forma, no adecuación**. Que un documento tenga spec no dice que la spec lo describa bien.
+
+### Qué encontró la primera corrida
+41 documentos, 6 ERROR y 22 WARN. Desglose honesto:
+- **2 ERROR eran deriva real**, ambos de la misma clase y ambos de un día de antigüedad: `software/ANALISIS-SPEC-KIT.md` C4 decía «nuestra precedencia `SPECS_REGISTRY.md`» y `templates/RESULTADO-EXPERIMENTO.md` decía «Es precedencia 1» sobre el registro, que desde la Fase 8 es precedencia 2. Los dos documentos habían sido revisados a mano el mismo día, dentro de la propagación de la Fase 8, y los dos se escaparon.
+- **1 ERROR era un hueco anterior**: `experimentos/PREREG-B7.md` sin spec registrada. Es un pre-registro autorado, no generado desde template, así que la exención de `experimentos/` no lo alcanza — el mismo criterio que el 2026-07-30 obligó a registrar los runbooks. Se le escribió spec (`derivado` de `PRUEBA-REGENERABILIDAD-B7.md`), con la advertencia explícita de que describe un documento sellado y MUST NOT usarse para reescribirlo.
+- **3 ERROR eran falsos positivos** del check de precedencia: disparaba dentro de bloques de código, no reconocía «esta constitución» escrito en prosa, y usaba una ventana que no miraba hacia atrás. Corregido: se ignoran los fences, se acepta la palabra además del nombre de archivo, y la ventana va de −4 a +12 líneas.
+- **20 WARN eran ruido de diseño**: «spec sin campo `owner`» en casi todas. En un repo de un solo equipo, escribir 25 veces el mismo owner es ruido; se declaró en el registro que `owner` ausente significa `proyecto SDD` y se quitó el check. Los 2 WARN restantes (specs sin `proposito` en bloques que declaran dos paths) se corrigieron escribiendo el campo.
+
+Estado final: **0 ERROR, 1 WARN** — los emoticones de `PREREG-B7.md`, que quedan vivos a propósito porque son M-08, decisión pendiente sobre un documento sellado.
+
+### Cómo se validó
+La corrección de los falsos positivos se verificó contra los dos positivos verdaderos: tras afinar la heurística, ambos siguen detectándose. El check se corrió también con `--strict` para confirmar que la única diferencia es el WARN esperado.
+
+### Deuda abierta
+- El checker **no verifica su propio criterio de separación** método/investigación (Fase 9): nada impide dar de alta una tarea de método en el backlog de investigación.
+- No está cableado a `pre-commit`; hay que acordarse de correrlo. Cablearlo depende de decidir M-02.
+- Sigue sin cubrir adecuación: los dos positivos verdaderos de hoy fueron de forma. Una spec que describe mal a su documento pasa igual.
+
+---
+
 ## Fase 9 — Separación de agenda de método y agenda de investigación (2026-07-31) — COMPLETADA
 
 **Acción**: dar un hogar priorizado a las mejoras de método pendientes de la Fase 8, sin mezclarlas con las preguntas abiertas de investigación.

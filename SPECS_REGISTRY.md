@@ -57,12 +57,15 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Estandar | minima + `incluye`, `excluye` | SSOTs simples, derivados |
 | Extendida | estandar + `refresh`, requisitos con `[ ]` | SSOTs criticos con multiples derivados |
 
+`owner` ausente MUST leerse como `proyecto SDD` (unico owner mientras el repo sea de un solo equipo). Se escribe explicito solo cuando difiere del default; asi el campo no se vuelve ruido repetido en 25 specs.
+
 ## Docs excluidos del registro (no necesitan spec)
 - Archivos fuente originales (.pdf, .docx, .xlsx, .pptx)
 - Reportes auto-generados (.conversion_report.json)
 - Notas de sesion sin estructura formal
 - Contenido en `experimentos/` **generado desde templates** (los templates si tienen spec): diseños de experimento (`EXPERIMENTO-*.md`) y resultados (`RESULTADO-EXPERIMENTO-*.md`). La exención es de **spec propia**, no de **propagación**: cerrar un experimento MUST disparar la revisión de la seccion «Regla de propagacion».
   - **Los runbooks de método NO estan exentos (aclarado 2026-07-30).** Un runbook (`PRUEBA-*.md`) vive en `experimentos/` pero **no deriva de ningun template**: es un documento autorado de protocolo de medicion, con definicion operacional, roles y fases. Al no ser generado desde template, la exencion de arriba no lo alcanza y MUST tener spec registrada. Hueco detectado el 2026-07-30: los dos runbooks de B-07 estaban sin spec y se venian modificando, contra la regla global «todo cambio documental MUST mapearse a una spec registrada». Criterio para clasificar un `.md` de `experimentos/`: ¿su estructura la fija un template del proyecto? Exento. ¿La fija su autor? Necesita spec.
+- Codigo de verificacion en `tools/`: no es pieza documental autorada (Principio IV habla de documentos). Su contrato de uso se declara en `AGENTS.md` §Al cerrar una iteracion; lo que verifica y lo que MUST NOT pretender verificar vive en su docstring.
 - Repositorios externos clonados (vendored) en `fuentes-externas/` — material fuente de referencia, no autorado por el proyecto. La version analizada se ancla en `REFERENCIAS.md`; el analisis propio si tiene spec (ver `software/ANALISIS-SPEC-KIT.md`).
 
 ## Tabla SSOT
@@ -274,6 +277,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 ### docs-y-investigacion/00-INDEX.md y software/00-INDEX.md
 - `path`: `docs-y-investigacion/00-INDEX.md`
 - `path`: `software/00-INDEX.md`
+- `proposito`: indice de navegacion de su linea — pregunta central, gobernanza aplicable y lectura sugerida.
 - `ssot_level`: `operativo`
 - `validacion`:
   - [ ] links vigentes
@@ -282,6 +286,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 ### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md
 - `path`: `templates/EXPERIMENTO.md`
 - `path`: `templates/RESULTADO-EXPERIMENTO.md`
+- `proposito`: plantillas para disenar y cerrar experimentos — fijan los campos minimos y el procedimiento de propagacion; los documentos generados desde ellas quedan exentos de spec propia.
 - `ssot_level`: `operativo`
 - `validacion`:
   - [ ] campos minimos para ejecutar y cerrar experimentos
@@ -567,6 +572,29 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no redefine hipotesis ni criterio — referencia a su SSOT
   - [ ] toda cifra citada del artefacto es verificable en el corte declarado, no en el texto vigente
   - [ ] el techo de conclusion declarado no se excede
+
+### experimentos/PREREG-B7.md
+- `path`: `experimentos/PREREG-B7.md`
+- `proposito`: pre-registro de B-07 — fija y congela los **valores** de entrada de la prueba de regenerabilidad (constantes, PROMPT, fronteras in-spec, mapeo de tests) que la Fase 0.7 sella como tag. Es SSOT de los inputs, no del que ni del como.
+- `ssot_level`: `derivado`
+- `deriva_de`: `experimentos/PRUEBA-REGENERABILIDAD-B7.md`
+- `estado`: `Activo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - ciclo de vida y regimen de congelamiento (que puede ajustarse y hasta cuando)
+  - constantes de modelo y `K`, PROMPT de regeneracion y de reparacion
+  - definicion operativa de `R2`, lista de contratos `R4`, mapeo de tests
+  - notas de ambiente fechadas, pre-primer `RUN`, con su clase (congelado vs atestiguado)
+- `excluye`:
+  - hipotesis, metricas y criterio de exito (viven en `EXPERIMENTO-B7-formato-hibrido.md`)
+  - el procedimiento por fases (vive en `PRUEBA-REGENERABILIDAD-B7.md`, su SSOT)
+  - resultados y veredictos (viven en `RESULTADO-EXPERIMENTO-B7.md`)
+- `validacion`:
+  - [ ] cada input declara su clase: congelado en `vN` o atestiguado por ambiente
+  - [ ] ningun ajuste posterior al primer `RUN` de Fase 2 — los hallazgos van como reserva al resultado
+  - [ ] toda nota de ambiente esta fechada y declara si toca el sello
+  - [ ] no redefine hipotesis, metricas ni procedimiento — referencia a sus SSOT
+  - [ ] alta de spec el 2026-07-31: documento sellado, la spec describe lo que ya existe y MUST NOT usarse para reescribirlo
 
 ### experimentos/PRUEBA-OBSERVACIONAL-B7.md
 - `path`: `experimentos/PRUEBA-OBSERVACIONAL-B7.md`

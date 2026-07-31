@@ -18,7 +18,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 
 | ID | Mejora | Prioridad | Estado | Origen | Destino |
 |---|---|---|---|---|---|
-| M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | Aprobada | testigo `tools/check_traceability.py` | script nuevo + `AGENTS.md` |
+| M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `tools/check_traceability.py` | `tools/check_docs.py` + `AGENTS.md` |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | alta | Aprobada | testigo `tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -36,6 +36,10 @@ Script local (sin CI) que verifica lo que hoy son checkboxes aspiracionales del 
 Es la capa 2 del enforcement de tres capas del testigo (`docs/SDD-ENFORCEMENT.md`), portada a un repo documental. Límite heredado y explícito: verifica **presencia y forma, no adecuación** — que un documento tenga spec no dice que la spec lo describa bien.
 
 Contraparte de investigación: `06-BACKLOG` exploratoria «evaluación automática parcial sin CI», y prioridad alta «umbral de control manual a automatizado». Ejecutar M-01 produce dato para ambas; no las cierra.
+
+**Hecha el 2026-07-31** (`tools/check_docs.py`, Fase 10). Ocho checks, dos severidades, sin dependencias externas. Primera corrida sobre 41 documentos: 6 ERROR, de los cuales **2 eran deriva real** (`ANALISIS-SPEC-KIT.md` C4 y `templates/RESULTADO-EXPERIMENTO.md`, ambos describiendo la precedencia sin la constitución, un día después de haberla creado) y 4 falsos positivos que obligaron a afinar la heurística. Queda 1 WARN vivo a propósito: los emoticones de `PREREG-B7.md`, que son M-08.
+
+Pendiente evaluado y no hecho: cablearlo a `pre-commit` (requiere decidir M-02 primero) y un check del criterio de separación método/investigación, que hoy nada verifica.
 
 ## M-02 — Gate de autoría documental
 

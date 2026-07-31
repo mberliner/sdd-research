@@ -114,7 +114,7 @@ Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, 
 
 ### C4. Constitution Check confirma el valor de un gate de autoridad explicito
 
-El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno) es el equivalente operativo de nuestra precedencia `SPECS_REGISTRY.md`. Spec Kit lo hace *ejecutable* en el flujo del agente; nosotros lo aplicamos por protocolo. Validar si formalizar nuestra precedencia como un paso explicito reduce violaciones.
+El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno) es el equivalente operativo de nuestra cadena de precedencia, que desde 2026-07-31 encabeza `../CONSTITUTION.md` y sigue con `../SPECS_REGISTRY.md` y `../AGENTS.md`. Spec Kit lo hace *ejecutable* en el flujo del agente; nosotros lo aplicamos por protocolo. Validar si formalizar nuestra precedencia como un paso explicito reduce violaciones.
 
 ### C5. Lo que NO conviene adoptar tal cual
 

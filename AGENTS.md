@@ -61,7 +61,7 @@ MUST — toda entrega cierra con este bloque:
 
 ## Al cerrar una iteración
 
-1. Corré los checks de post-generación de arriba; no hay pipeline que los cubra.
+1. Corré `python3 tools/check_docs.py` y dejá el resultado en verde (0 ERROR). Cubre la parte mecánica de los checks de arriba: cobertura de spec, links, `[Rxx]`, campos de spec, alcance en un solo lugar y cadena de precedencia. **Verifica presencia y forma, no adecuación** — que un doc tenga spec no dice que la spec lo describa bien; eso sigue siendo tuyo.
 2. Actualizá `SPECS_REGISTRY.md` si cambió el alcance, el estado o la lista de documentos.
 3. Si el cambio es de **método** (protocolo, registro, templates, constitución): agregá una entrada **al principio** de `historial/sdd.md` — más reciente arriba — con fecha, acción, cambios, cómo se validó y deuda abierta (Principio VI).
 4. Si enmendaste `CONSTITUTION.md`: seguí su procedimiento de enmienda completo (versión, historial, propagación, verificación).
@@ -102,6 +102,7 @@ Los resultados van en `experimentos/`. Los runbooks de método de ese directorio
 ## Comandos útiles
 
 ```bash
+python3 tools/check_docs.py                                          # backstop determinista (--strict, --quiet)
 rg --files                                                           # listar contenido rastreado
 rg "\[R[0-9]{2}\]" *.md docs-y-investigacion/*.md software/*.md     # inspeccionar uso de referencias
 rg -n "NEEDS CLARIFICATION|TODO|FIXME" .                             # pendientes y ambigüedades abiertas

@@ -30,7 +30,7 @@ MUST — antes de dar el experimento por cerrado, correr los **tres** checks. Ni
 grep -n "<ID>" SPECS_REGISTRY.md
 ```
 
-Las clausulas `incluye`/`excluye` suelen justificarse con el estado del experimento ("aun no ejecutado"). Es precedencia 1: si queda vencida, contradice a todo lo demás.
+Las clausulas `incluye`/`excluye` suelen justificarse con el estado del experimento ("aun no ejecutado"). El registro es precedencia 2 —bajo `CONSTITUTION.md`— y gobierna el alcance de cada documento: si queda vencida, contradice a todo lo demás.
 
 **2. El SSOT dueño de la hipótesis, y sus derivados** — estructural, sin grep:
 
