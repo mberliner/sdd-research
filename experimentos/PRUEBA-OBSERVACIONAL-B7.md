@@ -114,7 +114,7 @@ MUST — normalizar capas cruzadas y fan-out por **nº de archivos citados** por
 
 - **Inventario de requisitos**: MUST correr los dos extractores sobre **una spec de calibración de cada brazo** y reportar el **acuerdo** (unidades coincidentes sobre total). Desacuerdo mayor al 20% implica que la regla de extracción es ambigua y MUST refinarse **antes** de inventariar el resto, con la refinación fechada.
 - **Mapeo requisito a verificador del brazo híbrido**: MUST validarse cruzando contra `tools/check_traceability.py`, que es el gate propio del proyecto sobre esa relación. Divergencia se registra y **prevalece el gate** (misma regla que `PRUEBA-REGENERABILIDAD-B7.md` §3.3-bis).
-- **`H3`**: MUST verificarse que el extractor de rutas reproduce, para `SPEC-006` y `SPEC-008`, el split conocido `006` a `006+008`. Si no lo detecta, el instrumento no ve fronteras.
+- ~~**`H3`**: MUST verificarse que el extractor de rutas reproduce, para `SPEC-006` y `SPEC-008`, el split conocido `006` a `006+008`. Si no lo detecta, el instrumento no ve fronteras.~~ **[Enmienda 7, 2026-07-31] ANULADA: contradice §Reglas criticas de medicion 6**, que prohíbe usar el split como confirmación de `H3` por ser la observación que lo generó. La compuerta pedía validar el instrumento contra esa misma observación, y además contra un evento interno al brazo de tratamiento. **No se reemplaza:** fabricar ahora una compuerta con los valores de `H3` ya calculados sería el mismo HARKing por otra puerta. `H3` **sigue puntuando** —una métrica pre-registrada no sale porque su compuerta resultó inválida— pero queda **sin validación de instrumento**, y eso MUST reportarse con su resultado junto al defecto de resolución registrado en `experimentosdd-b7/obs/prereg/ENMIENDAS.md` §Enmienda 7.
 
 ### Granularidad, agregación y empate
 
@@ -242,6 +242,23 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
 
 ### Registro de cambios del documento
 
+- **2026-07-31 (Fase 2.4: `H3` calculado; Enmienda 7, contradicción interna del propio documento)** —
+  fijadas primero, a ciegas y commiteadas antes de existir el instrumento, la regla de conteo de `H1`,
+  los nueve nombres de salida y el umbral del piso de ruido (`piso(E) >= 0.5 × brecha(E)` en cualquiera
+  de los dos extractores fuerza NO CONCLUYENTE, elegido estricto a propósito); escrito y validado el
+  contador (`tools/h1_conteo.py`, 28 de 28 celdas OK, **sin emitir ningún numerador**). `H3` se computó
+  sobre el corte con la herramienta sellada, y al ir a aplicar su compuerta apareció que **contradice
+  §Reglas criticas de medicion 6 de este mismo documento**: pedía validar el instrumento contra el split
+  `006` a `006+008`, que es la observación que **generó** `H3` y que la regla 6 prohíbe usar como su
+  confirmación. **Enmienda 7** (no viaja al extractor): la compuerta se **anula y no se reemplaza**;
+  `H3` sigue puntuando, sin validación de instrumento y con su defecto de resolución declarado —las 7
+  specs citan entre 2 y 5 archivos, `SPEC-005` y `SPEC-006` citan el mismo conjunto y salen idénticas,
+  y `src/dashboard/app.py` lo citan las cuatro híbridas y domina su colisión. **Reserva:** la
+  contradicción se detectó con los valores de `H3` ya calculados, pero su fundamento es **textual** y
+  verificable leyendo el documento, sin mirar un solo número; lo que se descarta por inadmisible es
+  elegir entre las dos lecturas posibles de «reproducir el split», que sí habría sido una elección con
+  el resultado a la vista. Falla de método declarada: el Paso 0 afirmó que sobre `H3` no quedaba
+  ninguna decisión abierta, y la condición de aprobación de la compuerta debió fijarse a ciegas ahí.
 - **2026-07-31 (Fase 2 COMPLETA; Enmienda 6, nacida del último tramo)** — cerrados los 13 tramos,
   **28 sesiones, 14 pares**. El último (`SPEC-006` neutral) falló de un modo que el guardián no
   cubría: E1 emitió sus 91 unidades de requisito y cerró el turno anunciando que seguía "en la próxima
