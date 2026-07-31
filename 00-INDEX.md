@@ -18,8 +18,9 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 10. [IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md](./IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md)
 11. [docs-y-investigacion/00-INDEX.md](./docs-y-investigacion/00-INDEX.md) — línea A
 12. [software/00-INDEX.md](./software/00-INDEX.md) — línea B
-13. [06-BACKLOG-INVESTIGACION-FUTURA.md](./06-BACKLOG-INVESTIGACION-FUTURA.md)
-14. [REFERENCIAS.md](./REFERENCIAS.md)
+13. [06-BACKLOG-INVESTIGACION-FUTURA.md](./06-BACKLOG-INVESTIGACION-FUTURA.md) — preguntas abiertas
+14. [MEJORAS-METODO.md](./MEJORAS-METODO.md) — mejoras al método, en curso
+15. [REFERENCIAS.md](./REFERENCIAS.md)
 
 ## Estructura del proyecto
 
@@ -38,8 +39,9 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 | `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | SSOT |
 | `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | SSOT |
 | `REFERENCIAS.md` | SSOT — catálogo `[Rxx]` |
-| `06-BACKLOG-INVESTIGACION-FUTURA.md` | operativo — backlog |
-| `ROADMAP-MEJORAS-SDD.md` | operativo — mejoras identificadas |
+| `06-BACKLOG-INVESTIGACION-FUTURA.md` | operativo — preguntas abiertas de investigación |
+| `MEJORAS-METODO.md` | operativo — mejoras al método del repo (`M-NN`) |
+| `ROADMAP-MEJORAS-SDD.md` | operativo — registro histórico cerrado (2026-06-01) |
 | `docs-y-investigacion/` | línea A — SSOTs de agenda, métricas y plan experimental |
 | `software/` | línea B — SSOTs de agenda, métricas y plan experimental; derivados de análisis |
 | `experimentos/` | diseños, runbooks y resultados de experimentos |

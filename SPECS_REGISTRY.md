@@ -70,6 +70,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Linea | Concepto | SSOT | Quien referencia |
 |------|----------|------|------------------|
 | Comun | Principios no-negociables de la investigacion | `CONSTITUTION.md` | `AGENTS.md`, `SPECS_REGISTRY.md`, `00-INDEX.md`, `README.md` |
+| Comun | Mejoras al metodo SDD del repositorio | `MEJORAS-METODO.md` | `06-BACKLOG-INVESTIGACION-FUTURA.md`, `historial/sdd.md` |
 | Comun | Modelo dual SDD | `MARCO-COMPARATIVO-DOS-LINEAS.md` | `README.md`, `00-INDEX.md`, planes de linea |
 | Comun | SDD adaptativo y circuitos de aprendizaje | `SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
@@ -333,21 +334,52 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### 06-BACKLOG-INVESTIGACION-FUTURA.md
 - `path`: `06-BACKLOG-INVESTIGACION-FUTURA.md`
-- `proposito`: backlog priorizado de lineas de investigacion para ambas lineas A y B.
+- `proposito`: backlog priorizado de **preguntas abiertas** de investigacion para ambas lineas A y B — se cierran con evidencia, no con una edicion.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
+- `incluye`:
+  - preguntas de investigacion con prioridad (alta / media / exploratoria)
+  - anti-patrones y hallazgos metodologicos que abren preguntas nuevas
+  - criterio de priorizacion
+- `excluye`:
+  - cambios al metodo del repositorio (protocolo, registro, constitucion, templates, tooling) — viven en `MEJORAS-METODO.md`, aprobados o propuestos
+  - resultados de experimentos (viven en `experimentos/`)
 - `validacion`:
   - [ ] items tienen prioridad asignada
   - [ ] criterio de priorizacion presente
+  - [ ] ningun item es una tarea de metodo con decision tomada — esos migran a `MEJORAS-METODO.md`
+  - [ ] los items con contraparte de metodo la referencian por ID (`M-NN`)
+
+### MEJORAS-METODO.md
+- `path`: `MEJORAS-METODO.md`
+- `proposito`: backlog de cambios al **metodo** SDD del repositorio (protocolo, registro, constitucion, templates, tooling de verificacion), con prioridad, origen y estado.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - criterio de separacion respecto de `06-BACKLOG-INVESTIGACION-FUTURA.md` (operativa del Principio VI)
+  - tabla de estado: ID `M-NN`, prioridad, estado (`Propuesta`/`Aprobada`/`Hecha`/`Descartada`), origen, destino
+  - detalle por mejora: que resuelve, de donde se porta, requisitos de diseño y reservas
+- `excluye`:
+  - preguntas de investigacion — viven en `06-BACKLOG-INVESTIGACION-FUTURA.md`
+  - el registro cronologico de lo ya aplicado — vive en `historial/sdd.md`
+  - el analisis historico cerrado de 2026-03-01 — vive en `ROADMAP-MEJORAS-SDD.md` (cerrado, no se reabre)
+- `validacion`:
+  - [ ] cada item tiene ID, prioridad, estado y destino
+  - [ ] cada item declara su origen (testigo, referencia `[Rxx]`, fase del historial)
+  - [ ] los items `Hecha` referencian la fase de `historial/sdd.md` que los cerro
+  - [ ] no duplica preguntas de investigacion — referencia por seccion
 
 ### ROADMAP-MEJORAS-SDD.md
 - `path`: `ROADMAP-MEJORAS-SDD.md`
 - `proposito`: analisis comparativo de mejoras SDD identificadas desde el proyecto "Transformacion AI-Native Org".
 - `ssot_level`: `operativo`
+- `estado`: `Activo` como **registro historico cerrado** (2026-06-01): documenta el analisis de 2026-03-01 y no recibe items nuevos. Las mejoras de metodo vivas van a `MEJORAS-METODO.md`.
 - `owner`: proyecto SDD
 - `validacion`:
   - [ ] mejoras tienen prioridad y archivo destino identificado
   - [ ] fuente de comparacion identificada
+  - [ ] el aviso de cierre y de temporalidad del contenido en presente sigue visible al inicio
+  - [ ] no se agregaron items posteriores a 2026-06-01
 
 ### SDD-ADAPTATIVO-VS-CASCADA.md
 - `path`: `SDD-ADAPTATIVO-VS-CASCADA.md`

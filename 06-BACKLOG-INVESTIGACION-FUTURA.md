@@ -1,5 +1,9 @@
 # Backlog de Investigacion Futura
 
+Agenda de **preguntas abiertas** sobre SDD: se cierran con evidencia (experimento o analisis), no con una edicion.
+
+Los cambios al **metodo** de este repositorio —protocolo, registro, constitucion, templates, tooling de verificacion— viven en `MEJORAS-METODO.md`, que declara el criterio de separacion (Principio VI). Un item puede tener contraparte del otro lado: implementar una mejora de metodo MAY producir dato para una pregunta de aca, pero son entradas distintas y se cierran por separado.
+
 ## Prioridad alta
 1. Medir variabilidad entre asistentes IA en tareas de especificacion.
 2. Identificar campos minimos de spec por tipo de documento.
@@ -15,7 +19,7 @@
 3. Evaluar fatiga operacional por checklists en equipos pequenos.
 
 ## Prioridad exploratoria
-1. Integrar evaluacion automatica parcial sin CI completo (scripts locales).
+1. Que gana y que pierde un repo documental al pasar de verificacion humana a evaluacion automatica parcial sin CI (scripts locales): que clase de deriva atrapa y cual se le escapa. *(La construccion del script es mejora de metodo — `MEJORAS-METODO.md` M-01, aprobada el 2026-07-31; aca queda la pregunta que su ejecucion permite responder.)*
 2. Generar indice de madurez SDD de doble eje (docs vs software).
 3. Comparar frameworks emergentes orientados a agentes IA.
 
@@ -49,8 +53,10 @@ Origen: `software/ANALISIS-SPEC-KIT.md` (analisis de GitHub Spec Kit v0.8.13 [R1
 Spec Kit es Linea-B-nativo (no tiene funcion nativa para documentos de analisis/conocimiento). Diferido: desarrollar la transferencia a Linea A solo cuando Linea B avance y haya claridad. Conceptos candidatos a transferir:
 
 1. `/speckit.checklist` ("unit tests for English"): validar completitud, claridad y consistencia de requisitos en prosa. Aplicabilidad a checks de calidad de documentos de investigacion (Linea A).
-2. Marcador `[NEEDS CLARIFICATION: ...]` como convencion comun a ambas lineas (candidato C2 del analisis).
+2. ~~Marcador `[NEEDS CLARIFICATION: ...]` como convencion comun a ambas lineas (candidato C2 del analisis).~~ **ADOPTADO**: vive en `AGENTS.md` §Disambiguacion, comun a ambas lineas.
 3. Modelo presets/extensions como via para adaptar un toolkit Linea-B a flujos de documentacion.
+
+Cuando un concepto de esta lista pasa de candidato a decision de adopcion, deja de ser pregunta de investigacion: se da de alta en `MEJORAS-METODO.md` con su estado.
 
 ## Fuente reservada: "From Spark to Fire" (multi-agente) — para uso futuro (prioridad exploratoria)
 
@@ -66,7 +72,7 @@ Origen: verificación en fuente completa de R25 y R30 (2026-07-10, ver `historia
 
 1. **Regla de decisión de rigor mínimo [R30] → candidata para `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`.** Piskala formula una "Golden Rule": *usar el mínimo nivel de rigor de especificación que elimine la ambigüedad del contexto* — spec-first para desarrollo inicial asistido por IA, spec-anchored para sistemas productivos de vida larga, spec-as-source solo cuando el tooling de generación es maduro y confiable. Complementa el catálogo de escenarios con una regla de *cuánto* SDD aplicar, no solo *cuándo*. Incluye además el anti-catálogo (cuándo SDD es overkill: prototipos descartables, proyectos solo/cortos, exploración, CRUD simple).
 2. **Catálogo de pitfalls [R30] → candidato a cross-ref desde `SDD-ADAPTATIVO-VS-CASCADA.md`.** Cinco fallas predecibles al adoptar SDD: sobre-especificación (spec que es pseudo-código), *specification rot* (la spec deriva del código por falta de enforcement — el análogo directo de la cascada encubierta), spec como burocracia, complejidad de tooling, y falsa confianza (tests de spec verdes no garantizan software correcto si la spec está mal). Refuerzan la tesis del doc sin contradecirla.
-3. **Modelo de confianza confirmado/inferido/gap [R25] → candidato a convención de Línea A.** Reversa obliga a clasificar cada afirmación de una spec generada como *confirmada* (evidencia directa verificable), *inferida* (patrón recurrente, no certeza) o *gap* (requiere validación humana). Es una graduación más fina que el binario actual del proyecto (afirmación con `[Rxx]` vs. `[NEEDS CLARIFICATION]`) y podría adoptarse para specs/documentos de análisis donde la evidencia es heterogénea. Evaluar costo de mantenimiento antes de adoptar (la propia fuente advierte que la trazabilidad tiene costo).
+3. **Modelo de confianza confirmado/inferido/gap [R25].** Migrado el 2026-07-31 a `MEJORAS-METODO.md` M-06: es una convención de escritura, es decir método, no pregunta de investigación.
 
 ## Criterio de priorizacion
 - Impacto en riesgo o calidad.

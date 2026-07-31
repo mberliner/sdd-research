@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 9 — Separación de agenda de método y agenda de investigación (2026-07-31) — COMPLETADA
+
+**Acción**: dar un hogar priorizado a las mejoras de método pendientes de la Fase 8, sin mezclarlas con las preguntas abiertas de investigación.
+
+### Diagnóstico
+La lista de mejoras existía solo como prosa en la Fase 8 y en la conversación que la produjo — el modo de fallo que el proyecto combate (deuda sin índice, que muere en silencio). El destino que parecía natural, `ROADMAP-MEJORAS-SDD.md`, no servía por dos razones independientes: está declarado **CERRADO / HISTÓRICO** desde 2026-06-01 con la advertencia de que su contenido en presente describe el estado previo a la Fase 1, y su `proposito` lo ata a una fuente única (proyecto "Transformacion AI-Native Org") que no es la nuestra. El otro candidato, `06-BACKLOG-INVESTIGACION-FUTURA.md`, es agenda de **investigación**: mezclarle tareas de método contradice el Principio VI recién ratificado.
+
+Además, la revisión del backlog encontró tres solapamientos reales con lo nuevo:
+- Exploratoria #1 «evaluación automática parcial sin CI» **era** la mejora M-01, en estado exploratorio pese a estar aprobada — conflicto de estado.
+- Transferencia Spec Kit #2 (marcador `[NEEDS CLARIFICATION]`) figuraba como candidato **y ya estaba adoptado** en `AGENTS.md`.
+- Enriquecimientos R25/R30 #3 (modelo confirmado/inferido/gap) es una convención de escritura — método, no pregunta.
+
+### Cambios aplicados
+- **`MEJORAS-METODO.md` (nuevo)**: criterio de separación explícito frente al backlog, tabla de estado con IDs `M-01`..`M-08` (prioridad, estado, origen, destino) y detalle por mejora. Estados: `Propuesta` / `Aprobada` / `Hecha` / `Descartada`; una mejora que se aprueba no cambia de documento, cambia de estado.
+- **`06-BACKLOG-INVESTIGACION-FUTURA.md`**: encabezado que declara su naturaleza (preguntas que se cierran con evidencia, no con una edición) y remite a `MEJORAS-METODO.md`; exploratoria #1 reformulada como la pregunta que M-01 permite responder, con la construcción del script migrada; transferencia Spec Kit #2 marcada como adoptada; R25/R30 #3 migrado a M-06.
+- **`SPECS_REGISTRY.md`**: spec de `MEJORAS-METODO.md`; `incluye`/`excluye`/`validacion` del backlog reescritos con el criterio de separación; spec de `ROADMAP-MEJORAS-SDD.md` marcada como registro histórico cerrado que no recibe items nuevos; fila en la tabla SSOT.
+- **`00-INDEX.md`** y **`README.md`**: alta del documento nuevo y rol de cada backlog diferenciado.
+
+### Cómo se validó
+Links internos: 0 rotos. Los tres solapamientos detectados quedaron con una sola representación cada uno: M-01 como tarea con su pregunta hermana en el backlog, el marcador `[NEEDS CLARIFICATION]` como adoptado, y M-06 en un solo documento. `06-BACKLOG` alta #4 (gates que fallan abierto) se mantuvo del lado de investigación y se citó desde M-02 como requisito de diseño fail-closed, sin duplicar su contenido.
+
+### Deuda abierta
+- M-01 a M-08 sin ejecutar; M-01 es el próximo por valor.
+- El criterio de separación es una regla escrita más, sin verificación: nada impide dar de alta una tarea de método en el backlog. Lo atraparía M-01 solo si se le agrega un check específico.
+
+---
+
 ## Fase 8 — Versionado, constitución y alcance en un solo lugar (2026-07-31) — COMPLETADA
 
 **Acción**: incorporar al repositorio de análisis las mejoras de método maduradas en el proyecto testigo `evaluador-flujo-intent`, empezando por las que no requieren tooling.
