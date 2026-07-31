@@ -208,7 +208,8 @@ Inventario y mapeo: Extractor-1 y Extractor-2, independientes y sin las hipótes
 ### FASE 3 — Contexto Tier B (no puntúa)
 
 - **3.1** **`H2`, cualitativo.** *Qué* tuvo que agregar cada brazo después: en el casero, los bloques `**Pendiente (rev.…)**` que suman criterios de aceptación faltantes; en el híbrido, los `[NEEDS CLARIFICATION]` declarados y cuándo se resolvieron. MUST NOT construirse ninguna cifra comparable: la variable de salida es un artefacto documental y el tratamiento es un régimen de documentación, luego el formato altera la observabilidad de su propio resultado ("revisó menos" es indistinguible de "documentó menos sus revisiones") y no hay fuente independiente porque git no cubre la ventana. MUST — reportar el conteo de `[NEEDS CLARIFICATION]` como **descripción de un solo brazo**, con el casero en `N/A`, nunca en `0`.
-  - Dato de contexto ya verificado: las 7 specs de ambos brazos llevan `## Historial` con entradas fechadas (6/8/4 en CAS, 7/7/10/4 en HIB) y el casero marca además `rev.YYYY-MM-DD` in-line (8/0/2). Es una convención **compartida** por los dos formatos; se conserva como descripción, sin cifra comparable.
+  - Dato de contexto: las 7 specs de ambos brazos llevan `## Historial` con entradas fechadas y el casero marca además `rev.YYYY-MM-DD` in-line (8/0/2 en el corte). Es una convención **compartida** por los dos formatos; se conserva como descripción, sin cifra comparable. **[2026-07-31] Corregido:** las cifras que este bullet declaraba (6/8/4 en CAS, 7/7/10/4 en HIB) **no se reproducen sobre el corte** bajo ninguno de tres criterios de conteo, y lo más plausible es que se hayan medido sobre el **texto vigente** —la misma trampa que `PREDICCION.md` ya había declarado para los conteos de identificadores—. Cifras del corte, criterio explícito *bullets bajo `## Historial`*: **CAS 5/6/3, HIB 5/6/8/3**. Detalle de los tres conteos: `experimentosdd-b7/BITACORA.md`, entrada del 2026-07-31 (Fase 3).
+  - **Resultado de 3.1 sobre el corte:** las 6 ocurrencias de `[NEEDS CLARIFICATION]` del brazo híbrido (1/2/1/2) están **todas dentro de `## Historial`; cero en el cuerpo**. No queda deuda de ambigüedad abierta al corte: son el registro de ambigüedades declaradas y ya resueltas. Refuerza el motivo de la degradación de `H2`: lo observable no es cuánta ambigüedad hubo sino cuánta se documentó y se cerró, y sólo un brazo tiene la convención para documentarla. Casero **`N/A`**, nunca `0`.
 - **3.2** **Costo de redacción**, cualitativo y sin umbral: extensión, iteraciones y tiempo observados según `historial/sdd.md`. No puntúa; MAY modular la decisión final de la regla de cierre, y si lo hace MUST declararse cómo.
 
 ### FASE 4 — Análisis, cierre y propagación
@@ -242,6 +243,24 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
 
 ### Registro de cambios del documento
 
+- **2026-07-31 (Fases 2.3 a 3 completas: `H1` NO CONCLUYENTE)** — emitidos los cuatro conteos de `H1`
+  (por extractor y variante, sin consolidar). **Direcciones opuestas entre variantes**: la primaria da
+  HIB menor (E1 0.0896 contra 0.1071; E2 0.0294 contra 0.0417), la neutral da HIB **mayor** (E1 0.2448
+  contra 0.2143; E2 0.0952 contra 0.0400). `H1` queda **NO CONCLUYENTE por tres de las cuatro vías**
+  pre-registradas: divergencia entre variantes de unidad, inversión bajo *leave-one-out* en la primaria
+  y en los dos extractores, y piso de ruido. La cuarta **no** se dispara: los extractores **coinciden**
+  en dirección dentro de cada variante, luego la divergencia no es ruido de extractor sino **la regla de
+  conteo**, que es exactamente lo que la Enmienda 5 permitió distinguir. Magnitudes, que MUST reportarse
+  con el veredicto: el margen de la primaria es de 0.012 a 0.018 —del orden de **una** unidad de
+  requisito cambiando de lado— y su inversión bajo `LOO` al quitar `SPEC-001` es de **+0.0003**, o sea
+  un empate; la neutral tiene márgenes de 0.030 a 0.055 y **no invierte en ninguna** de las 7 omisiones
+  ni en ninguno de los dos extractores. La variante **no primaria** es la robusta, y la regla
+  pre-registrada **MUST NOT** usar eso para promoverla. Piso de ruido: la misma spec del control medida
+  dos veces con la **misma** Regla A se mueve **0.131** (E1) y **0.098** (E2), de 5 a 8 veces la brecha
+  entre brazos: la comparación entera ocurre dentro del ruido del instrumento. Fase 3 (no puntúa): el
+  híbrido cuesta ~64% más palabras por spec en la mediana (1655 contra 1008), con la confusión
+  estructural de siempre. La decisión de conteo fijada a ciegas sobre evidencia faltante resultó
+  **inocua**: 0 casos en las 28 celdas.
 - **2026-07-31 (Fase 2.4: `H3` calculado; Enmienda 7, contradicción interna del propio documento)** —
   fijadas primero, a ciegas y commiteadas antes de existir el instrumento, la regla de conteo de `H1`,
   los nueve nombres de salida y el umbral del piso de ruido (`piso(E) >= 0.5 × brecha(E)` en cualquiera
