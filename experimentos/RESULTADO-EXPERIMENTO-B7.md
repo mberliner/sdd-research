@@ -384,8 +384,8 @@ suficiente para descartar el formato. Lo que el conjunto sí sostiene es que **l
 de Spec Kit que ya están en uso** (`[NEEDS CLARIFICATION]`, *coverage mapping*, `Cobertura` en el
 `[SDD-Check]`) se conservan por su valor de método, no por evidencia de superioridad medida.
 
-> **MUST — esta decisión requiere confirmación explícita del Custodio antes de propagarse.** El veredicto
-> de (b) es del Orquestador y es mecánico; la ponderación entre (a) y (b) es del proyecto.
+> **CONFIRMADA por el Custodio el 2026-07-31.** El veredicto de (b) es del Orquestador y es mecánico; la
+> ponderación entre (a) y (b) es del proyecto, y se confirmó explícitamente antes de propagar.
 
 ## Propagacion (criterio (b))
 
@@ -408,12 +408,12 @@ Los tres checks, corridos el 2026-07-31 — no de memoria.
 
 | documento | qué afirmaba | estado nuevo | hecho |
 |---|---|---|---|
-| `EXPERIMENTO-B7-formato-hibrido.md` **(SSOT)** | criterio (b) enunciado, sin resultado | (b) resuelto: `H1` NO CONCLUYENTE, `H3` no consistente; regla de cierre satisfecha con dos veredictos | **pendiente de la confirmación del Custodio** |
-| `software/LINEAS-INVESTIGACION.md` §B7 **(SSOT de agenda)** | pregunta 2 (cobertura) **abierta** | respondida como **no concluyente por convención de conteo**, con el piso de ruido como hallazgo transferible | **pendiente** |
-| `software/PLAN-PRUEBAS.md` §B-07 | experimento en ejecución | B-07 **cerrado** con dos veredictos | **pendiente** |
-| `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` | deuda abierta por el corpus observacional | deuda **cerrada**; se anota con bloque `[SDD-Check]` nuevo, sin reescribir los anteriores | **pendiente** |
-| `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` | §9.3 enumera el corpus entre lo pendiente de medir | corpus medido; la decisión de fondo (Ajustar) se alinea con §9.3 | **pendiente** |
-| `software/ANALISIS-SPEC-KIT.md` | hueco C1 (cobertura) sin evidencia | `H1` no emitió dirección: el hueco C1 **sigue abierto**, ahora con motivo medido | **pendiente** |
-| `06-BACKLOG-INVESTIGACION-FUTURA.md` | 6 ítems en prioridad alta | +7: **medir el piso de ruido del instrumento antes de reportar una brecha** | **pendiente** |
+| `EXPERIMENTO-B7-formato-hibrido.md` **(SSOT)** | criterio (b) enunciado, sin resultado | (b) resuelto: `H1` NO CONCLUYENTE, `H3` no consistente; regla de cierre satisfecha con dos veredictos | **sincronizado** |
+| `software/LINEAS-INVESTIGACION.md` §B7 **(SSOT de agenda)** | pregunta 2 (cobertura) **abierta** | respondida como **no concluyente por convención de conteo**, con el piso de ruido como hallazgo transferible | **sincronizado** |
+| `software/PLAN-PRUEBAS.md` §B-07 | experimento en ejecución | B-07 **cerrado** con dos veredictos | **sincronizado** |
+| `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` | deuda abierta por el corpus observacional | deuda **cerrada**; se anota con bloque `[SDD-Check]` nuevo, sin reescribir los anteriores | **sincronizado** |
+| `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` | §9.3 enumera el corpus entre lo pendiente de medir | corpus medido; la decisión de fondo (Ajustar) se alinea con §9.3 | **sincronizado** |
+| `software/ANALISIS-SPEC-KIT.md` | hueco C1 (cobertura) sin evidencia | `H1` no emitió dirección: el hueco C1 **sigue abierto**, ahora con motivo medido | **sincronizado** |
+| `06-BACKLOG-INVESTIGACION-FUTURA.md` | 6 ítems en prioridad alta | +7: **medir el piso de ruido del instrumento antes de reportar una brecha** | **sincronizado** |
 | `experimentos/PREREG-B7.md` | pre-registro sellado | **intocable por diseño** | **no aplica** — sellado |
 | `SPECS_REGISTRY.md` | referencia resultados sin copiarlos | ninguna afirmación de estado vencida; las specs de los dos runbooks siguen correctas | **no aplica** |

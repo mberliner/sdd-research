@@ -275,3 +275,15 @@ Los ejes son **ortogonales**: un SDD puede ser fuerte en regenerabilidad y debil
 - Cobertura: completa para el cierre de esta deuda
 - Deuda arrastrada: **CERRADA** — reformular el Criterio de exito de B-07: hecho el 2026-07-29, separado en (a) prueba de regenerabilidad contra `R1`–`R6` y (b) corpus observacional contra `H1`+`H3`, con regla de cierre a dos veredictos. **SIGUE ABIERTA** — el **corpus observacional** de las secundarias (`H1`, `H3`, costo) no se midio; `H2` fue degradada a descriptiva el 2026-07-29 y ya no integra criterio. La dimension "regenerabilidad" **ya tiene evidencia** (`../experimentos/RESULTADO-EXPERIMENTO-B7.md`): los bloques `[SDD-Check]` previos de este doc que la declaran "sin evidencia" son registro datado y MUST NOT reescribirse.
 - Riesgos/reservas: el criterio (a) se redacto conociendo los resultados de la prueba ya cerrada; gobierna replicas y no reabre el veredicto (reserva declarada en el SSOT)
+
+```text
+[SDD-Check]  (2026-07-31 — cierre integral de B-07)
+- Spec leida: SI
+- Incluye/Excluye verificado: SI
+- Validaciones aplicadas: los bloques anteriores de este documento son registro datado y NO se reescribieron; el cierre de deuda se anota agregando este bloque, segun templates/RESULTADO-EXPERIMENTO.md §Propagacion
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para el cierre de esta deuda
+- Deuda arrastrada: **CERRADA** — el corpus observacional de las secundarias se midio el 2026-07-31. `H1` (cobertura) **NO CONCLUYENTE**: su direccion depende de la convencion de conteo (la anatomia propia de cada formato favorece al hibrido, la unidad neutral lo desfavorece, y los dos extractores coinciden dentro de cada variante) y el piso de ruido del instrumento resulto de 5 a 8 veces la brecha entre brazos. `H3` (fronteras) **no consistente con la hipotesis** en los tres ejes, robusto al leave-one-out. Costo de redaccion: el hibrido cuesta ~64% mas palabras por spec en la mediana, cualitativo y sin umbral. B-07 cierra con dos veredictos y decision **AJUSTAR**. Detalle: `../experimentos/RESULTADO-EXPERIMENTO-B7.md` §Resultado del criterio (b)
+- Riesgos/reservas: techo de conclusion **descriptivo** — el formato esta confundido con tiempo, madurez de repo, feature y presencia del gate check_traceability.py; `H3` perdio su compuerta de validacion de instrumento y tiene un modo de fallo comun (`src/dashboard/app.py`, citado por las 4 specs hibridas y 1 de las 3 caseras) que no se descarto
+```

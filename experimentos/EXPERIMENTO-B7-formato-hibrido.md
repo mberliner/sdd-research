@@ -124,6 +124,14 @@ Congelar y anotar todo lo siguiente antes de regenerar; ninguna casilla puede re
 
 ### (b) Criterio del corpus observacional — contra `H1` y `H3`
 
+> **RESUELTO 2026-07-31.** `H1` **NO CONCLUYENTE** —se dispararon tres de las cuatro vías: divergencia
+> entre variantes de unidad, inversión bajo *leave-one-out* en la primaria y en los dos extractores, y
+> piso de ruido de 5 a 8 veces la brecha entre brazos—. `H3` **no consistente con la hipótesis** en los
+> tres ejes, robusto bajo `LOO`, con instrumento sin validación (su compuerta se anuló por HARKing) y un
+> modo de fallo común no descartado. Veredicto, distribuciones completas, reservas y propagación:
+> `RESULTADO-EXPERIMENTO-B7.md` §Resultado del criterio (b). El criterio de abajo queda como redacción
+> vigente para réplicas; **MUST NOT reescribirse a la luz del resultado**.
+
 **MUST — sólo métricas Tier A integran el criterio.** Tier A = extraíble mecánicamente del artefacto congelado y del código (`H1` cobertura, `H3` fronteras). Tier B —`H2` (degradada a descriptiva, ver §Hipotesis) y **costo de redacción**— se reporta como contexto y MUST NOT sostener ni no-sostener ninguna hipótesis.
 
 **Unidad de medida (decidida 2026-07-29, antes de contar nada):** cada formato aporta **su propia** anatomía de requisitos, porque el estudio mide los formatos **como se practicaron**. Denominador del brazo casero = aserciones normativas atómicas del **cuerpo** de la spec; denominador del brazo híbrido = los `FR-` y `SC-` que declara, **cada ID una vez** (la tabla de *Coverage mapping* es declaración de verificador, no un segundo inventario). Numerador = requisitos **sin verificador declarado**, donde verificador admisible es (i) test que ejerce el requisito, (ii) gate ejecutable del *pipeline*, o (iii) verificación visual o documental registrada. MUST — los criterios de *tooling* (`mypy` verde, `ruff`, `check_naming`, cobertura ≥ X) se clasifican **aparte en ambos brazos**: no son requisitos sobre el comportamiento del sistema y su verificador es trivial, luego contarlos infla la cobertura del casero (sesgo **en contra** de `H1`). Detalle operacional en `PRUEBA-OBSERVACIONAL-B7.md`.
@@ -156,6 +164,14 @@ Congelar y anotar todo lo siguiente antes de regenerar; ninguna casilla puede re
 **Comprobación de satisfacibilidad:** `H1` y `H3` son computables en **ambos** brazos —cada uno con su propia anatomía de requisitos, verificado en el artefacto: las 7 specs citan rutas `src/` explícitas, y los dos brazos declaran verificadores (el híbrido en tabla, el casero en prosa)— y pueden resultar en cualquier dirección. La comparación de medianas con *leave-one-out* es alcanzable con 3 vs 4 specs, a diferencia del no-solapamiento que la precedía. Ninguna cláusula depende de una convención que sólo una anatomía contemple (`N/A` ≠ 0, ver anti-patrón 6 de `../06-BACKLOG-INVESTIGACION-FUTURA.md`); en particular MUST NOT usarse la tabla de *Coverage mapping* como instrumento de `H1`, porque **es el tratamiento**.
 
 ### Regla de cierre de B-07
+
+> **SATISFECHA 2026-07-31.** B-07 cerró con los dos veredictos, sin fundirlos: **(a)** H4 no sostenida en
+> F013, F001 no concluyente, sin veredicto global, techo *"no atribuible al formato"*; **(b)** `H1` NO
+> CONCLUYENTE y `H3` no consistente con la hipótesis, techo descriptivo. **No apuntan en sentidos
+> opuestos**: ninguno sostiene la hipótesis del formato híbrido. **Decisión: AJUSTAR**, con el peso
+> relativo declarado —(a) pesa más que (b) por ser controlado contra observacional; `H3` entra sólo como
+> ausencia de evidencia a favor; `H1` no entra por no emitir dirección; el costo de redacción no moduló—.
+> Confirmada por el Custodio el 2026-07-31.
 
 MUST — **B-07 cierra con DOS veredictos, no con uno**; MUST NOT fundirse en un enunciado único ni promediarse. La **decisión** (Adoptar / Ajustar / Descartar) los pondera explícitamente y **MUST declarar el peso relativo** que se les dio y por qué. MUST — si (a) y (b) apuntan en sentidos opuestos, eso se reporta como resultado, no se resuelve eligiendo uno.
 
