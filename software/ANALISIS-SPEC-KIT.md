@@ -77,7 +77,7 @@ Esto refuerza la lectura de C4 (mas abajo): el valor no esta en *tener* una cons
 
 | Concepto | Spec Kit | Nuestro proyecto |
 |----------|----------|------------------|
-| Fuente de autoridad no-negociable | `memory/constitution.md` + Constitution Check gate | Precedencia `SPECS_REGISTRY.md` > `AGENTS.md` (`../AGENTS.md`) |
+| Fuente de autoridad no-negociable | `memory/constitution.md` + Constitution Check gate | `../CONSTITUTION.md` (desde 2026-07-31) > `../SPECS_REGISTRY.md` > `../AGENTS.md` |
 | Lenguaje normativo | `MUST` en FR/plantillas [R04] | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../AGENTS.md`) [R04] |
 | Manejo de ambiguedad | `[NEEDS CLARIFICATION]` + `/speckit.clarify` (<=5 preguntas) | "MUST preguntar al usuario si la spec tiene ambiguedad" (`../AGENTS.md`, seccion Disambiguacion) |
 | Validacion de consistencia | `/speckit.analyze`: duplicacion, ambiguedad, gaps de cobertura, conflictos | Bloque `[SDD-Check]` por entrega + checks post-generacion (`../AGENTS.md`) |
@@ -143,6 +143,8 @@ Diferencias con el Constitution Check de Spec Kit [R10], relevantes para Linea B
 - **Constitucion vs. arranque del agente.** El testigo mantuvo su archivo de protocolo del asistente como punto de arranque (referencia la constitucion, no la contiene), de modo que la constitucion sobreviva a un cambio de asistente IA. Refuerza C4: el gate de autoridad es del proyecto, no del agente.
 
 Implicacion para nuestro propio marco: formalizar la precedencia `SPECS_REGISTRY.md` como un paso ejecutable (no solo protocolo en `AGENTS.md`) tiene ahora un precedente operativo de bajo costo. Sigue siendo mejora candidata, no cambio aprobado; su evaluacion formal como experimento propio queda fuera de este analisis (candidato de backlog, hermano de B-07 pero sobre gobernanza, no formato).
+
+**Adoptado en este repositorio (2026-07-31, cambio aprobado):** el patron *invariante en la constitucion, detalle en el SSOT* se porto aca — `../CONSTITUTION.md` v0.1.0 encabeza la precedencia, con siete principios que declaran invariante + `Enforcement` + `Detalle`. Es la parte **declarativa** del patron; la parte **ejecutable** (gate y check deterministas, equivalentes a `tools/check_constitution.py`) sigue sin portarse, y por eso la constitucion declara su enforcement como humano y a pedido. La pregunta de C4 —si formalizar la precedencia reduce violaciones— queda igual de abierta: adoptar el artefacto no la responde.
 
 **Respaldo upstream (v0.11.6+):** Spec Kit hizo explicito en su filosofia que los articulos IV, V y VI de su constitucion de ejemplo son *project-defined governance* — slots que cada proyecto rellena, no principios prescritos por el framework [R10] (`spec-driven.md`, "Articles IV, V & VI: Project-Defined Governance"; commit `3cfc81f`). Es una aclaracion de docs, no de comportamiento (la plantilla `constitution-template.md` ya era 100% placeholders en v0.8.13), y **converge con la posicion del testigo**: la estructura la fija el framework, el contenido no-negociable lo posee el proyecto. Corrobora C4 y el enfoque "gate de autoridad del proyecto, no del agente". Ademas, `/speckit.analyze` evalua la constitucion *concreta*, de modo que los articulos project-defined participan de los compliance checks igual que los prescritos — el mismo mecanismo de *consistency propagation* que el gate de integridad del testigo aplica en version liviana.
 

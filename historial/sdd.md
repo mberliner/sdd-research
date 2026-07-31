@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 8 — Versionado, constitución y alcance en un solo lugar (2026-07-31) — COMPLETADA
+
+**Acción**: incorporar al repositorio de análisis las mejoras de método maduradas en el proyecto testigo `evaluador-flujo-intent`, empezando por las que no requieren tooling.
+
+### Diagnóstico
+Comparación del repo contra el testigo (HEAD `ded63e5`). La higiene documental estaba sana —0 links internos rotos, 36/36 referencias `[Rxx]` definidas—, pero faltaban tres piezas de método: (1) ninguna capa de invariantes por encima del registro, de modo que reglas duras (propagación, nacida del incidente B-07) convivían al mismo nivel que convenciones de forma; (2) el repo **no estaba versionado en ningún nivel**, sin baseline ni diff antes de tocar los documentos de mayor precedencia; (3) el alcance de cada documento estaba duplicado — medido: **11 filas de `00-INDEX.md` repetían el `proposito` del registro y 5 ya habían derivado**, perdiendo la procedencia de `ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`.
+
+### Cambios aplicados
+- **Versionado**: `git init` en `SDD/` con baseline `499c44a` (40 archivos) antes de cualquier edición. `.gitignore` excluye `fuentes-externas/` (material vendored con `.git` anidado; su versión sigue anclada en `REFERENCIAS.md`), caches y config local del asistente.
+- **`CONSTITUTION.md` (nuevo, v0.1.0)**: siete invariantes con la anatomía del testigo —invariante autocontenido + `Enforcement` + `Detalle`— más governance semver, fase pre-1.0 y procedimiento de enmienda. Principios: I SSOT único por tema; II trazabilidad de afirmación a fuente; III propagación bidireccional; IV documento autorado, spec registrada; V integridad del registro experimental; VI separación método/contenido; VII preguntar antes que interpretar. Declara explícitamente su **límite honesto**: el enforcement es humano y a pedido.
+- **Precedencia a cuatro niveles** (`CONSTITUTION.md` → `SPECS_REGISTRY.md` → `AGENTS.md` → criterio), con división de trabajo declarada: la constitución dice *qué nunca cede*, el registro *cómo se aplica hoy*.
+- **Regla de alcance en un solo lugar** (`SPECS_REGISTRY.md` §Reglas globales, operativa del Principio I): `proposito`/`incluye`/`excluye`/`validacion` viven solo en el registro; el índice declara **rol**, no propósito; el encabezado de un doc puede llevar una línea de identidad pero no enumerar incluye/excluye. Migración oportunística para los encabezados preexistentes.
+- **`00-INDEX.md` a navegación pura**: se eliminó la columna «Contenido» y también el «Mapa de SSOTs», que duplicaba la tabla SSOT del registro. La tabla quedó en el registro y no en el índice porque de ella depende la regla de propagación, y ahí tiene precedencia 2.
+- **`AGENTS.md` reescrito** (119 → 118 líneas, con más contenido y menos duplicación): orden de lectura que arranca por la constitución, sección «Al cerrar una iteración» (registro, historial, commit), sección «Qué NO hacer» con cada ítem anclado a su principio. Se eliminó la reproducción de la regla de propagación —que el propio documento declaraba delegada al registro tres líneas antes— y las convenciones de forma, ahora referenciadas.
+- **Propagación**: `software/ANALISIS-SPEC-KIT.md` (fila de autoridad del mapeo + nota fechada en C4: se adoptó la parte declarativa del patrón, no la ejecutable, y la pregunta de C4 sigue abierta); `software/00-INDEX.md` y `docs-y-investigacion/00-INDEX.md` (repetían la cadena de precedencia sin la constitución); `README.md`.
+
+### Cómo se validó
+Links internos: 0 rotos antes y después. Cadena de precedencia coherente en los cuatro documentos que la mencionan. La medición de divergencia del `proposito` se hizo con script contra el registry, no a ojo. La spec de `CONSTITUTION.md` se escribió en el mismo lote que el documento — inversión del Principio IV que se declara acá como excepción de bootstrap, no como precedente.
+
+### Deuda abierta
+- **P3 y P4 sin implementar**: backstop determinista (`check_docs.py`) y gate de autoría, las dos capas que convertirían el `validacion` de checkbox en verificable. Aprobadas como mejora de método, no como experimento. Mientras no existan, la constitución se cumple por disciplina.
+- **P5 y P7 sin abrir**: playbooks agnósticos de asistente y formato/compactación de documentos.
+- Los **encabezados de documento** que restatan su alcance (al menos `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`) siguen duplicando: migración oportunística, no barrido.
+- `AGENTS.md` e `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` describen un contexto **sin CI**; sigue siendo cierto, pero ahora hay git, y eso habilita `pre-commit` como sustrato de P3/P4. Revisar ambos cuando se implementen.
+
+---
+
 ## Fase 7 — Aparato de evaluación de B-07: R6, degradación de H2 y criterio reformulado (2026-07-29) — COMPLETADA
 
 **Acción**: cerrar las deudas que el cierre de B-07 dejó en su propio aparato de medición, sin tocar ningún valor medido ni el veredicto.

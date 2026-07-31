@@ -1,48 +1,48 @@
-# Assistant
+# Protocolo SDD para asistentes IA
 
-This file provides guidance to AI assistants when working in this repository.
+> **SSOT del protocolo del asistente.** Los asistentes que buscan `AGENTS.md` por
+> convención (opencode, Cursor, Codex, Aider, Gemini CLI…) lo leen directo; Claude Code
+> lo recibe vía `@AGENTS.md` en `CLAUDE.md`. Precedencia 3: por debajo de
+> [`CONSTITUTION.md`](CONSTITUTION.md) (invariantes) y [`SPECS_REGISTRY.md`](SPECS_REGISTRY.md)
+> (alcance por documento).
 
-## Propósito del Repositorio
+Repositorio de investigación sobre Spec-Driven Development en dos líneas paralelas —
+`docs-y-investigacion/` (línea A) y `software/` (línea B); la diferencia entre ambas es
+SSOT de `MARCO-COMPARATIVO-DOS-LINEAS.md`. Hay git desde 2026-07-31, pero **no hay CI ni
+verificación determinista**: todo check de este protocolo es humano y a pedido.
 
-Este repositorio investiga **Spec-Driven Development (SDD)** en dos líneas paralelas:
+## Antes de cualquier cambio
 
-- **Línea A (docs-y-investigacion/)**: SDD aplicado a análisis, conocimiento y documentos de decisión. Foco en consistencia semántica, trazabilidad de fuentes y calidad argumental.
-- **Línea B (software/)**: SDD aplicado a requisitos ejecutables, APIs, contratos y entrega. Foco en comportamiento correcto, seguridad y confiabilidad.
+1. Leé `CONSTITUTION.md`. Ningún documento ni spec puede violar un principio; si hay conflicto, se ajusta la spec, no el principio.
+2. Leé `00-INDEX.md` para ubicarte en la estructura.
+3. Leé la spec del documento en `SPECS_REGISTRY.md` —incluidas la tabla SSOT y las reglas globales— antes de escribir.
+4. Verificá `incluye`/`excluye` de esa spec antes de agregar contenido.
+5. Si no hay spec: **proponé spec mínima y esperá aprobación** antes de proceder.
+6. Si la solicitud contradice la spec: **detené y explicitá el conflicto**. MUST NOT proceder ni proponer alternativas sin aprobación explícita del usuario.
 
-No hay CI ni tooling de automatización. Todo opera en modo **"Markdown + asistentes IA"**.
+## Durante el cambio
 
-## Protocolo Obligatorio para Asistentes
-
-### Antes de generar o modificar
-
-1. **Leer la spec del documento** en `SPECS_REGISTRY.md` antes de escribir.
-2. **Verificar `Incluye/Excluye`** de la spec antes de agregar contenido.
-3. Si no hay spec: **proponer spec mínima y esperar aprobación** antes de proceder.
-4. Si la solicitud contradice la spec: **detener y explicitar el conflicto**. MUST NOT proceder ni proponer alternativas sin aprobación explícita del usuario.
-
-### Durante la generación
-
-1. Mantener coherencia con SSOTs activos.
-2. Citar fuentes con IDs `[Rxx]` cuando haya afirmaciones factuales.
-3. Minimizar duplicación entre documentos — referenciar el SSOT correspondiente.
-4. MAY proponer mejoras de spec cuando se detecte ambigüedad.
+- Mantené coherencia con los SSOTs activos.
+- Citá fuentes con IDs `[Rxx]` de `REFERENCIAS.md` en toda afirmación factual externa (Principio II).
+- Referenciá el SSOT en lugar de reproducirlo, entre documentos y dentro de uno (Principio I).
+- MAY proponer mejoras de spec cuando detectes ambigüedad.
 
 ### Disambiguación
 
 - MUST preguntar al usuario si la spec tiene ambigüedad, en lugar de interpretar.
 - MUST NOT anticipar ambigüedad agregando texto a la spec sin aprobación.
-- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able y MUST resolverse (preguntando al usuario) antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/ANALISIS-SPEC-KIT.md`, C2).
+- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able y MUST resolverse antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/ANALISIS-SPEC-KIT.md`, C2).
 
-### Post-generación (salida obligatoria)
+## Post-generación (salida obligatoria)
 
-MUST — los checks genéricos deben verificarse antes de entregar:
+MUST — verificar antes de entregar:
 - [ ] Referencias internas no rotas
 - [ ] No duplica contenido de ningún SSOT (referencia, no copia)
 - [ ] No contradice SSOTs activos
 - [ ] Si el doc modificado es SSOT: derivados listados en "Derivados a revisar"
 - [ ] Si la entrega cierra un experimento: "Derivados a revisar" poblado con los tres checks de «Propagacion» (`templates/RESULTADO-EXPERIMENTO.md`), no de memoria
 
-MUST — toda entrega debe cerrar con este bloque:
+MUST — toda entrega cierra con este bloque:
 
 ```text
 [SDD-Check]
@@ -56,64 +56,63 @@ MUST — toda entrega debe cerrar con este bloque:
 - Riesgos/reservas: <texto breve>
 ```
 
-El campo `Cobertura` espeja el *coverage mapping* de `/speckit.analyze` [R10]: declara si todo requisito o afirmación del cambio queda respaldado por un derivado/tarea, o lista los huecos. Convención adoptada de GitHub Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`, C1).
+- `Cobertura` espeja el *coverage mapping* de `/speckit.analyze` [R10]: declara si todo requisito o afirmación del cambio queda respaldado por un derivado/tarea, o lista los huecos. Convención adoptada de GitHub Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`, C1).
+- `Deuda arrastrada` lista lo diferido; MUST re-explicitarse en entregas siguientes hasta resolverse (anti-cascada). Derivado del experimento B-06 (`experimentos/RESULTADO-EXPERIMENTO-B6.md`).
 
-El campo `Deuda arrastrada` lista lo diferido en esta entrega; MUST re-explicitarse en entregas siguientes hasta resolverse, para evitar abandono silencioso (anti-cascada). Práctica derivada del experimento B-06 (`experimentos/RESULTADO-EXPERIMENTO-B6.md`).
+## Al cerrar una iteración
 
-### Criterios de calidad mínima
+1. Corré los checks de post-generación de arriba; no hay pipeline que los cubra.
+2. Actualizá `SPECS_REGISTRY.md` si cambió el alcance, el estado o la lista de documentos.
+3. Si el cambio es de **método** (protocolo, registro, templates, constitución): agregá una entrada **al principio** de `historial/sdd.md` — más reciente arriba — con fecha, acción, cambios, cómo se validó y deuda abierta (Principio VI).
+4. Si enmendaste `CONSTITUTION.md`: seguí su procedimiento de enmienda completo (versión, historial, propagación, verificación).
+5. Commiteá con `docs: <resumen imperativo corto>`, un commit por pieza revisable.
+
+## Criterios de calidad mínima
 
 - MUST — cada cambio debe indicar qué decisión habilita.
-- SHOULD — cada cifra o afirmación externa debe tener referencia `[Rxx]`.
-- MUST — los cambios en SSOT deben disparar revisión de derivados.
-- MUST — un resultado que responde una pregunta abierta de un SSOT debe propagarse **primero al SSOT y después a sus derivados**. La regla anterior sólo cubre la dirección descendente; el conocimiento producido por una ejecución entra por abajo y tiene que subir. Al cerrar B-07 se actualizó `software/PLAN-PRUEBAS.md` (derivado) dejando `software/LINEAS-INVESTIGACION.md` (su SSOT) afirmando lo contrario.
+- MUST — los cambios en SSOT disparan revisión de derivados, y los resultados de una ejecución suben al SSOT antes de bajar a sus derivados. Regla completa y su procedimiento: `SPECS_REGISTRY.md` §Regla de propagacion (Principio III).
+- SHOULD — cada cifra o afirmación externa tiene referencia `[Rxx]`.
 
-### Ciclo de vida de specs
+## Ciclo de vida de specs
 
 - SHOULD proponer el cambio en la spec antes de modificar el doc.
 - MUST si se detecta divergencia spec vs. doc: señalarlo y proponer reconciliación al usuario.
 - SHOULD si se depreca un doc: marcar su spec con `estado: Deprecado` antes de archivar.
 
-### Excepciones
+## Qué NO hacer
+
+- No escribir ni modificar un documento autorado sin spec registrada (Principio IV).
+- No copiar el alcance de un documento fuera de `SPECS_REGISTRY.md`, ni el mapa tema → SSOT fuera de su tabla SSOT.
+- No cerrar un experimento sin correr los tres checks de «Propagacion».
+- No formular ni reescribir una hipótesis después de ver el resultado que la evalúa (Principio V).
+- No cambiar el método y presentarlo como hallazgo de investigación, ni al revés (Principio VI).
+- No interpretar una ambigüedad en silencio.
+
+## Excepciones
 
 MAY — omitir parte del protocolo si el usuario lo pide explícitamente y asume el riesgo.
 
-## Arquitectura de Documentos
+## Templates disponibles en `templates/`
 
-Tabla SSOT, niveles `ssot_level` y regla de propagación: ver `SPECS_REGISTRY.md` (SSOT de esta información).
+- `EXPERIMENTO.md`: diseño de experimentos (hipótesis, diseño, métricas, criterio de éxito, documentos que esperan el resultado).
+- `RESULTADO-EXPERIMENTO.md`: cierre de experimentos (incluye la sección «Propagacion» obligatoria).
 
-### Templates disponibles en `templates/`
+Los resultados van en `experimentos/`. Los runbooks de método de ese directorio **no** están exentos de spec: ver `SPECS_REGISTRY.md` §Docs excluidos.
 
-- `EXPERIMENTO.md`: plantilla para diseñar experimentos (hipótesis, diseño, métricas, criterio de éxito).
-- `RESULTADO-EXPERIMENTO.md`: plantilla para cerrar experimentos.
-
-Los resultados van en `experimentos/` (directorio separado).
-
-## Reglas de Escritura
-
-- SHOULD — toda afirmación factual externa debe tener referencia `[Rxx]` de `REFERENCIAS.md`.
-- MUST — todo cambio documental debe mapearse a una spec registrada en `SPECS_REGISTRY.md`.
-- Minimizar duplicación entre documentos — referenciar el SSOT correspondiente.
-- Lenguaje normativo: `MUST` = obligatorio, `SHOULD` = recomendado fuerte, `MAY` = opcional.
-
-## Comandos Útiles
+## Comandos útiles
 
 ```bash
 rg --files                                                           # listar contenido rastreado
 rg "\[R[0-9]{2}\]" *.md docs-y-investigacion/*.md software/*.md     # inspeccionar uso de referencias
-rg -n "TODO|FIXME" .                                                 # pendientes
-sed -n '1,220p' SPECS_REGISTRY.md                                    # revisar reglas de spec antes de editar
+rg -n "NEEDS CLARIFICATION|TODO|FIXME" .                             # pendientes y ambigüedades abiertas
+sed -n '1,120p' SPECS_REGISTRY.md                                    # reglas globales y precedencia
+git log --oneline                                                    # historial de cambios versionados
 ```
 
 ## Convenciones
 
 - Markdown como formato fuente; secciones cortas y escaneables.
-- Lenguaje normativo: `MUST`/`SHOULD`/`MAY` MUST aparecer al inicio de la sentencia, seguido de `—` y el enunciado (ej. `MUST — cada cambio debe indicar qué decisión habilita.`).
+- Lenguaje normativo: `MUST` = obligatorio, `SHOULD` = recomendado fuerte, `MAY` = opcional. MUST aparecer al inicio de la sentencia, seguido de `—` y el enunciado (ej. `MUST — cada cambio debe indicar qué decisión habilita.`).
 - Nombres de archivo: mayúsculas, separados por guión (ej. `PLAN-PRUEBAS.md`).
-- Commits: `docs: <resumen imperativo corto>` (ej. `docs: align PLAN-PRUEBAS with SSOT metrics`).
-- SHOULD — los PRs deben incluir: propósito, archivos modificados, SSOT/derivados afectados, notas de validación.
-
-## Precedencia de Fuentes
-
-1. `SPECS_REGISTRY.md` — alcance y validación por documento (mayor precedencia).
-2. Este archivo (`AGENTS.md`) — protocolo de ejecución diaria.
-3. Criterio del asistente — solo cuando no haya conflicto con 1 y 2.
+- Commits: `docs: <resumen imperativo corto>` (ej. `docs: align PLAN-PRUEBAS with SSOT metrics`), sin firma de asistente.
+- Convenciones de forma restantes (fechas, ortografía, sin emoticones): `SPECS_REGISTRY.md` §Reglas globales.

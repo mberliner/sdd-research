@@ -304,10 +304,23 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `proposito`: SSOT del protocolo operativo y contexto del repositorio para asistentes IA (estandar cross-asistente).
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
+- `incluye`:
+  - orden de lectura previo a cualquier cambio (constitucion -> indice -> spec del doc)
+  - protocolo durante el cambio y disambiguacion
+  - checks de post-generacion y bloque `[SDD-Check]`
+  - cierre de iteracion (registro, historial, commit)
+  - criterios de calidad, ciclo de vida de specs, «Que NO hacer», excepciones, convenciones
+- `excluye`:
+  - invariantes y su justificacion — viven en `CONSTITUTION.md` (se citan por principio)
+  - regla de propagacion, tabla SSOT y alcance por documento — viven en este registro
+  - convenciones de forma (fechas, ortografia, emoticones) — viven en este registro
 - `validacion`:
+  - [ ] orden de lectura arranca por `CONSTITUTION.md`
   - [ ] protocolo pre/durante/post generacion presente
   - [ ] bloque `[SDD-Check]` definido
-  - [ ] referencia a SPECS_REGISTRY.md
+  - [ ] referencia a `SPECS_REGISTRY.md` y a `CONSTITUTION.md`
+  - [ ] no reproduce la regla de propagacion ni el alcance por documento — referencia
+  - [ ] precedencia declarada coincide con la de este registro y la de `CONSTITUTION.md`
 
 ### CLAUDE.md
 - `path`: `CLAUDE.md`

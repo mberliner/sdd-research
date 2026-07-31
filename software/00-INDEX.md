@@ -4,9 +4,8 @@
 Como aplicar SDD para convertir especificaciones en software confiable, verificable y evolutivo.
 
 ## Gobernanza SDD de esta linea
-1. `../SPECS_REGISTRY.md` MUST definir alcance y validacion por documento.
-2. `../AGENTS.md` MUST guiar ejecucion y salida del asistente.
-3. Las excepciones SHOULD justificarse explicitamente en resultados de experimento.
+1. La cadena de precedencia (`../CONSTITUTION.md` -> `../SPECS_REGISTRY.md` -> `../AGENTS.md`) MUST regir tambien esta linea; su definicion vive en `../SPECS_REGISTRY.md` §Precedencia y no se reproduce aca.
+2. Las excepciones SHOULD justificarse explicitamente en resultados de experimento.
 
 ## Lectura sugerida
 1. [LINEAS-INVESTIGACION.md](./LINEAS-INVESTIGACION.md)

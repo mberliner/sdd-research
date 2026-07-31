@@ -4,9 +4,8 @@
 Como aplicar SDD para mejorar calidad analitica y consistencia documental en equipos apoyados por asistentes IA.
 
 ## Gobernanza SDD de esta linea
-1. `../SPECS_REGISTRY.md` MUST definir alcance y validacion por documento.
-2. `../AGENTS.md` MUST guiar ejecucion y salida del asistente.
-3. Si hay ambiguedad, el equipo SHOULD actualizar primero la spec y luego el contenido.
+1. La cadena de precedencia (`../CONSTITUTION.md` -> `../SPECS_REGISTRY.md` -> `../AGENTS.md`) MUST regir tambien esta linea; su definicion vive en `../SPECS_REGISTRY.md` §Precedencia y no se reproduce aca.
+2. Si hay ambiguedad, el equipo SHOULD actualizar primero la spec y luego el contenido.
 
 ## Lectura sugerida
 1. [GUIA-INICIO-PROYECTO-INVESTIGACION.md](./GUIA-INICIO-PROYECTO-INVESTIGACION.md)
