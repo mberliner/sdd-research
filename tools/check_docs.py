@@ -7,12 +7,16 @@ cumplan mecanicamente. Que una spec describa *bien* a su documento es juicio
 humano y queda fuera del alcance de este script (mismo limite declarado por el
 proyecto testigo en docs/SDD-ENFORCEMENT.md).
 
-Uso:
-    python3 tools/check_docs.py            # ERROR y WARN, sale 1 si hay ERROR
-    python3 tools/check_docs.py --strict   # WARN tambien hace salir 1
-    python3 tools/check_docs.py --quiet    # solo el resumen
+Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
+o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
 
-Sin dependencias externas: stdlib de Python 3.
+    <interprete> tools/check_docs.py            # ERROR y WARN, sale 1 si hay ERROR
+    <interprete> tools/check_docs.py --strict   # WARN tambien hace salir 1
+    <interprete> tools/check_docs.py --quiet    # solo el resumen
+
+Sin dependencias externas: stdlib de Python 3.8+. Las rutas se resuelven contra
+la raiz del repo, no contra el directorio de trabajo, asi que puede invocarse
+desde cualquier lado.
 """
 
 from __future__ import annotations
