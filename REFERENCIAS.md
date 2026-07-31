@@ -1,0 +1,57 @@
+# Referencias
+
+Fecha de consulta general: 2026-03-01.
+
+## Fuentes externas
+
+- [R01] NIST AI RMF 1.0 (AI 100-1): https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10
+- [R02] NIST AI RMF - Generative AI Profile (AI 600-1): https://www.nist.gov/itl/ai-risk-management-framework/airmf-resources
+- [R03] ISO/IEC/IEEE 29148 (Requirements Engineering): https://www.iso.org/standard/45190.html
+- [R04] RFC 2119 (Key words for use in RFCs): https://www.rfc-editor.org/rfc/rfc2119
+- [R05] ISO/IEC 42001 (AI management system): https://www.iso.org/standard/81230.html
+- [R06] OpenAPI Initiative: https://www.openapis.org/
+- [R07] Cucumber Docs: https://cucumber.io/docs/
+- [R08] Pact Foundation: https://pact.io/
+- [R09] DORA 2025 Report + launch note:
+  - https://dora.dev/research/2025/dora-report/
+  - https://cloud.google.com/blog/products/devops-sre/dora-research-2025-ai-driven-development-redefines-software-teams
+- [R10] GitHub Spec Kit: https://github.com/github/spec-kit
+  - Version analizada: v0.8.13 (base de `software/ANALISIS-SPEC-KIT.md`). Clon vendored actualizado a v0.12.11.dev0 (`983a87f`, 2026-07-10). Actualizar via `git pull` solo al re-analizar deliberadamente, registrando en `historial/sdd.md`. Diff v0.8.13→v0.12.11 no invalida el análisis; pendiente incorporar `/speckit.converge` y artículos IV-VI *project-defined* (ver `historial/sdd.md`, entrada 2026-07-10).
+  - Filosofia: `fuentes-externas/spec-kit/spec-driven.md`. Analisis propio: `software/ANALISIS-SPEC-KIT.md`.
+- [R11] Stack Overflow Developer Survey 2025:
+  - https://survey.stackoverflow.co/2025
+  - https://survey.stackoverflow.co/2025/ai
+- [R12] GitHub Octoverse 2024: https://octoverse.github.com/
+- [R13] MADR (Markdown Architectural Decision Records): https://adr.github.io/madr/
+- [R14] AsyncAPI: https://www.asyncapi.com/
+- [R15] McKinsey - The state of AI (2025): https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai
+- [R16] OECD - AI incidents update (2025): https://oecd.ai/en/wonk/how-much-and-where-ai-incidents-increased-in-2024
+- [R17] NBER Working Paper 31161 (Impact of AI on developer productivity): https://www.nber.org/papers/w31161
+- [R18] OpenAI - Releasing SWE-Lancer and SWE-Lancer Diamond: https://openai.com/index/swe-lancer/
+- [R19] Karpathy - LLM Wiki (gist): https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+- [R20] Martin Fowler - Understanding Spec-Driven Development: Kiro, spec-kit, and Tessl (consultada 2026-06-03): https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
+- [R21] Thoughtworks - Spec-driven development: Unpacking one of 2025's key new AI-assisted engineering practices (consultada 2026-06-03): https://www.thoughtworks.com/en-us/insights/blog/agile-engineering-practices/spec-driven-development-unpacking-2025-new-engineering-practices
+- [R22] Scott Logic - Putting Spec Kit Through Its Paces: Radical Idea or Reinvented Waterfall? (consultada 2026-06-03): https://blog.scottlogic.com/2025/11/26/putting-spec-kit-through-its-paces-radical-idea-or-reinvented-waterfall.html
+- [R23] Michael Feathers - Working Effectively with Legacy Code (2004); Characterization Testing (consultada 2026-06-05): https://michaelfeathers.silvrback.com/characterization-testing
+- [R24] IEEE - Software Reverse Engineering to Requirement Engineering for Evolution of Legacy System (consultada 2026-06-05): https://ieeexplore.ieee.org/document/7293021/
+- [R25] Reversa: A Reverse Documentation Engineering Framework for Converting Legacy Software into Operational Specifications for AI Agents (arXiv, consultada 2026-06-05; verificada en fuente completa 2026-07-10, vendored en `fuentes-externas/arXiv-2605.18684v1/`): https://arxiv.org/html/2605.18684
+  - Naturaleza: paper de framework + **caso exploratorio único** (ATM COBOL→Go, sistema educativo, 9/11 tareas completadas; paridad final y cutover **no** completados). Sin comparación controlada ni validación empírica — los propios autores lo delimitan en Threats to Validity. Vale como evidencia de que existe trabajo formal en retro-specs legacy para agentes (uso actual en `software/SDD-EN-LEGACY-Y-BROWNFIELD.md`), NO como evidencia de efectividad. Su modelo confirmado/inferido/gap + trazabilidad claim→evidencia es afín al protocolo de este repo (`[NEEDS CLARIFICATION]`, refs `[Rxx]`).
+- [R26] Scott Ambler - Agile/Lean Documentation (consultada 2026-06-05): https://agilemodeling.com/essays/agiledocumentation.htm
+- [R27] INCOSE / Wiley - Systems engineering barriers to legacy system evolution: Legacy system assessment (Terry, 2025): https://incose.onlinelibrary.wiley.com/doi/full/10.1002/sys.21788
+- [R28] dplooy - Spec-Driven Development with AI: Complete 2025 Guide (consultada 2026-06-06): https://www.dplooy.com/blog/spec-driven-development-with-ai-complete-2025-guide
+  - Naturaleza: guia divulgativa (fuente secundaria). Las cifras que cita (vibe coding, YC, EPAM, tasas de vulnerabilidad) SHOULD verificarse contra fuente primaria antes de elevar su peso argumental.
+- [R29] Red Hat Developer - How spec-driven development improves AI coding quality (consultada 2026-06-06): https://developers.redhat.com/articles/2025/10/22/how-spec-driven-development-improves-ai-coding-quality
+- [R30] Piskala - Spec-Driven Development: From Code to Contract in the Age of AI Coding Assistants (arXiv, consultada 2026-06-06; verificada en fuente completa 2026-07-10, vendored en `fuentes-externas/arXiv-2602.00180v1/`): https://arxiv.org/html/2602.00180v1
+  - Naturaleza: **technical report de autor único, no peer-reviewed** (guía para practitioners). Sus afirmaciones conceptuales (intent drift/"mind reading", spec como contrato multi-agente, regeneración elimina drift por construcción) están respaldadas en el texto y sostienen los usos actuales en `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`. Su cifra "error reductions of up to 50%" cita secundarias (Red Hat [R29], InfoQ) — MUST NOT usarse como dato primario. Aporta taxonomía **spec-first / spec-anchored / spec-as-source** relevante a B-07: la "regenerabilidad primaria" del experimento corresponde a su nivel *spec-as-source*.
+- [R31] Azure-Samples - azure-speckit-constitution (ejemplo de constitution.md especializada por dominio cloud, consultada 2026-06-08): https://github.com/Azure-Samples/azure-speckit-constitution
+- [R32] codestandup.com - GitHub Spec Kit Tutorial 02: Constitution Command (consultada 2026-06-08): https://codestandup.com/posts/2025/github-spec-kit-tutorial-constitution-command/
+- [R33] Rosa et al. - Understanding Specification-Driven Code Generation with LLMs: An Empirical Study Design (SANER 2026, Registered Report Stage 1, arXiv, consultada 2026-07-09; verificada en fuente completa 2026-07-10, vendored en `fuentes-externas/arXiv-2601.03878v1/`): https://arxiv.org/abs/2601.03878
+  - Relevancia B-07: diseño de evaluación spec→código por **tarea aislada** (between-subjects, un problema por participante), con endpoint LLM/prompts/parámetros **fijos como constante entre participantes**; workflow interno Specification→Tests→Function; métricas PassAll/PassRate/IterationsToPass/SuiteRegenerations; control de dificultad por blocking factor (TaskId).
+  - Naturaleza: **protocolo pre-registrado, sin resultados aún** (Stage 1). El modelo concreto se elegirá en ejecución (open-weight reciente, p.ej. Qwen3-Coder). Citarlo como precedente metodológico, no como evidencia de resultados.
+- [R34] Le Hai et al. - On the Impacts of Contexts on Repository-Level Code Generation (RepoExec; NAACL 2025 Findings; arXiv 2406.11927, consultada 2026-07-09; verificada en fuente completa 2026-07-10, vendored en `fuentes-externas/arXiv-2406.11927v4/`): https://aclanthology.org/2025.findings-naacl.82/
+  - Relevancia B-07: 18 modelos evaluados; **el contexto de dependencias completo da el mejor desempeño y los contextos más chicos pueden ser engañosos** ("smaller context sizes can be misleading", verificado literal en abstract); los rankings dependen del tipo de modelo (pretrained mejores en pass@k/corrección, instruction-tuned en uso de dependencias); métrica Dependency Invocation Rate (DIR). Hallazgo adicional útil: correlación fuerte pass@1↔DIR (mejor uso de contexto → más corrección) y riesgo de que el modelo **reimplemente** dependencias en vez de invocarlas (análogo a un regenerador ignorando contratos referenciados).
+- [R35] The Productivity-Reliability Paradox: Specification-Driven Governance for AI-Augmented Software Development (arXiv 2605.01160, consultada 2026-07-09; fuente vendored en `fuentes-externas/arXiv-2605.01160v1/`): https://arxiv.org/abs/2605.01160
+  - Naturaleza: revisión sistemática multivocal de 67 fuentes (2022-2026); define el *Productivity-Reliability Paradox* y evalúa Spec Kit + TDAD bajo un *Specification Governance Model*. Tesis central: **"specification discipline, not model capability, is the binding constraint on AI-assisted software dependability"**. Sintetiza primarias que el proyecto ya cita (METR [R36], DORA [R09], Stack Overflow [R11], McKinsey [R15]). Relevante a toda Línea B y a B-07 (encuadre Power Inversion + sustento para fijar el modelo en Fase 1: si la capacidad del modelo no es la restricción vinculante, el efecto-formato debería verse a través de modelos).
+  - Resumen exhaustivo: `fuentes-externas/arXiv-2605.01160v1/RESUMEN.md`.
+- [R36] METR (Becker et al.) — Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity (RCT; NeurIPS 2025; arXiv 2507.09089, consultada 2026-07-09; fuente vendored en `fuentes-externas/arXiv-2507.09089v2/`): https://arxiv.org/abs/2507.09089
+  - Naturaleza: **ensayo controlado aleatorizado (RCT)** verificado en fuente — 16 devs experimentados, 246 tareas en repos maduros propios (~23.000 stars, ~5 años de experiencia en ellos). Pronóstico: −24 % tiempo; auto-estimación posterior: −20 %; **medición objetiva: +19 % (más lentos con IA)**. Tareas definidas antes de randomizar (controla el confusor de código verboso pero equivalente). Fuente **primaria** del efecto que R35 sintetiza; ancla rigurosa para "en codebases maduros el costo de verificación puede superar el ahorro de generación".

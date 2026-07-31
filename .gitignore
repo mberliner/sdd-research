@@ -1,0 +1,11 @@
+# Material fuente externo (vendored): no autorado por el proyecto y exento del
+# registro de specs. La version analizada se ancla en REFERENCIAS.md.
+fuentes-externas/
+
+# Caches de herramientas
+.ruff_cache/
+__pycache__/
+*.pyc
+
+# Configuracion local del asistente (no compartible)
+.claude/settings.local.json
