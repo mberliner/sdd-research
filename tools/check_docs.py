@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
 cumplan mecanicamente. Que una spec describa *bien* a su documento es juicio
 humano y queda fuera del alcance de este script (mismo limite declarado por el
 proyecto testigo en docs/SDD-ENFORCEMENT.md).
+
+Dos checks son SEÑAL, no veredicto, y por eso emiten WARN: `ssot-collision` y
+`normative-block` (M-09) marcan candidatos a duplicacion entre SSOTs para que un
+humano los mire. Rozan el limite de arriba a proposito, pero no lo cruzan: no
+afirman que haya duplicacion, solo que dos documentos se declaran dueños del
+mismo tema. Ambos se validaron reproduciendo los dos casos reales que la Fase 11
+corrigio, corriendolos contra el arbol anterior a esa fase.
 
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
@@ -25,14 +32,23 @@ import argparse
 import os
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = "SPECS_REGISTRY.md"
 REFERENCIAS = "REFERENCIAS.md"
+PROTOCOLO = "AGENTS.md"
 
 # Directorios que nunca se auditan: material fuente externo y tooling.
 SKIP_DIRS = ("fuentes-externas", "tools", ".git")
+
+# Directorios de primer nivel de ESTE repositorio. Sirven para distinguir una ruta
+# propia de una mencion a otro proyecto: el testigo tiene directorios homonimos
+# (`docs/`, `specs/`, `memory/`) que no deben resolverse contra nuestro disco.
+REPO_DIRS = frozenset(
+    d.name for d in ROOT.iterdir() if d.is_dir() and not d.name.startswith(".")
+)
 
 # Exentos de spec propia por generarse desde un template del proyecto
 # (SPECS_REGISTRY.md, seccion "Docs excluidos del registro").
@@ -52,6 +68,17 @@ EMOJI = re.compile(
 )
 
 PRECEDENCE_CHAIN = ["CONSTITUTION.md", "SPECS_REGISTRY.md", "AGENTS.md"]
+
+# Spans de codigo inline: dentro de ellos no hay links markdown, pero si rutas.
+CODE_SPAN = re.compile(r"`([^`\n]+)`")
+
+# Una ruta escrita en backticks: sin espacios, sin comodines, terminada en .md.
+BACKTICK_PATH = re.compile(r"^[\w./-]+\.md$")
+
+STOPWORDS = frozenset(
+    "de del la el los las un una y o en por para con que su sus al es son no"
+    " este esta esto sobre entre como cada".split()
+)
 
 
 class Report:
@@ -91,25 +118,63 @@ def read(rel: str) -> str:
     return (ROOT / rel).read_text(encoding="utf-8")
 
 
-def parse_registry() -> dict[str, dict[str, str]]:
-    """Devuelve {path_declarado: {campo: valor}} leyendo los bloques del registro."""
-    specs: dict[str, dict[str, str]] = {}
+def parse_registry() -> dict[str, dict]:
+    """Devuelve {path_declarado: {campo: valor}} leyendo los bloques del registro.
+
+    Los campos multi-linea (`incluye`, `excluye`, `validacion`) guardan ademas sus
+    viñetas bajo la clave `<campo>_items`, que `ssot-collision` necesita.
+    """
+    specs: dict[str, dict] = {}
     current: list[str] = []
+    field = ""
     for line in read(REGISTRY).splitlines():
         if line.startswith("### "):
-            current = []
+            current, field = [], ""
             continue
         m = re.match(r"^-\s+`path`:\s+`([^`]+)`", line)
         if m:
             current.append(m.group(1))
             specs.setdefault(m.group(1), {})
+            field = ""
             continue
         m = re.match(r"^-\s+`([a-z_]+)`:\s*(.*)$", line)
         if m and current:
             field, value = m.group(1), m.group(2).strip()
             for p in current:
                 specs[p][field] = value
+            continue
+        m = re.match(r"^\s{2,}-\s+(.+)$", line)
+        if m and current and field:
+            for p in current:
+                specs[p].setdefault(field + "_items", []).append(m.group(1).strip())
+            continue
+        if not line.strip():
+            field = ""
     return specs
+
+
+def parse_ssot_table() -> list[tuple[str, list[str]]]:
+    """Devuelve [(concepto, [paths SSOT])] leyendo la tabla SSOT del registro."""
+    rows: list[tuple[str, list[str]]] = []
+    inside = False
+    for line in read(REGISTRY).splitlines():
+        if line.startswith("## "):
+            inside = line.startswith("## Tabla SSOT")
+            continue
+        if not inside or not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 3 or cells[0].startswith("-") or cells[0] == "Linea":
+            continue
+        rows.append((cells[1], re.findall(r"`([^`]+\.md)`", cells[2])))
+    return rows
+
+
+def tokens(text: str) -> set[str]:
+    """Palabras significativas, sin tildes ni stopwords, para comparar temas."""
+    plain = unicodedata.normalize("NFKD", text.lower())
+    plain = "".join(c for c in plain if not unicodedata.combining(c))
+    return {t for t in re.findall(r"[a-z0-9]+", plain) if len(t) > 2 and t not in STOPWORDS}
 
 
 def is_exempt(rel: str) -> bool:
@@ -163,16 +228,132 @@ def check_deriva_cycles(rep: Report, specs: dict) -> None:
 
 
 def check_links(rep: Report, all_docs: list[str]) -> None:
-    """Links markdown internos a .md que existan."""
+    """Links markdown internos a .md que existan.
+
+    Ignora bloques de codigo y spans inline: ahi un `[texto](destino.md)` es la
+    sintaxis citada como ejemplo, no un link. Las rutas escritas en backticks las
+    verifica `check_backtick_paths`, que sabe resolverlas.
+    """
     for rel in all_docs:
         base = os.path.dirname(rel)
-        for m in re.finditer(r"\]\(([^)\s]+\.md)(#[^)]*)?\)", read(rel)):
+        body = "\n".join(strip_code_fences(read(rel).splitlines()))
+        body = CODE_SPAN.sub(" ", body)
+        for m in re.finditer(r"\]\(([^)\s]+\.md)(#[^)]*)?\)", body):
             target = m.group(1)
             if target.startswith(("http://", "https://")):
                 continue
             resolved = os.path.normpath(os.path.join(base, target))
             if not (ROOT / resolved).exists():
                 rep.error("links", rel, f"link roto: {target}")
+
+
+def resolve_ref(rel: str, ref: str) -> tuple[str, bool]:
+    """Resuelve una ruta citada en `rel`. Devuelve (ruta, verificable). Ver M-10.
+
+    Tres casos: prefijo relativo explicito se resuelve contra el documento; primer
+    segmento que es directorio de este repo, contra la raiz; cualquier otro primer
+    segmento pertenece a otro repositorio y no se verifica.
+    """
+    if ref.startswith(("./", "../")):
+        resolved = os.path.normpath(os.path.join(os.path.dirname(rel), ref))
+        # Un `../` que sale de la raiz apunta a un repo hermano: no es nuestro.
+        return resolved, not resolved.startswith("..")
+    if ref.split("/")[0] in REPO_DIRS:
+        return os.path.normpath(ref), True
+    return ref, False
+
+
+def check_backtick_paths(rep: Report, all_docs: list[str]) -> None:
+    """Las rutas escritas en backticks existen (M-10).
+
+    En este repositorio la mayoria de las referencias se escriben asi, no como link
+    markdown, y hasta la Fase 11 nadie las verificaba. Un backtick sin barra es una
+    mencion por nombre, no una ruta, y se ignora.
+    """
+    for rel in all_docs:
+        body = "\n".join(strip_code_fences(read(rel).splitlines()))
+        for m in CODE_SPAN.finditer(body):
+            ref = m.group(1).strip()
+            if "/" not in ref or not BACKTICK_PATH.match(ref):
+                continue
+            resolved, verifiable = resolve_ref(rel, ref)
+            if verifiable and not (ROOT / resolved).exists():
+                rep.error("rutas", rel, f"ruta inexistente: {ref}")
+
+
+def check_ssot_collision(rep: Report, specs: dict, ssot_rows: list) -> None:
+    """Señal: dos specs que se declaran dueñas del mismo tema (M-09).
+
+    Cruza el concepto de cada fila de la tabla SSOT contra las viñetas de `incluye`
+    de las demas specs. Es señal para revision humana, no veredicto: que una spec
+    mencione un tema ajeno puede ser legitimo si lo referencia en vez de contenerlo.
+    """
+    for concepto, ssot_paths in ssot_rows:
+        tema = tokens(concepto)
+        if len(tema) < 2:
+            continue
+        for path, fields in specs.items():
+            if path in ssot_paths:
+                continue
+            for item in fields.get("incluye_items", []):
+                if tema <= tokens(item):
+                    rep.warn(
+                        "ssot-collision",
+                        path,
+                        f"`incluye` cubre «{concepto}», cuyo SSOT es {' / '.join(ssot_paths) or 'otro'}: "
+                        f"«{item}»",
+                    )
+                    break
+
+
+def normative_fields() -> set[str]:
+    """Primeras palabras de los campos del bloque `[SDD-Check]`, leidas de AGENTS.md."""
+    body = read(PROTOCOLO)
+    block = re.search(r"\[SDD-Check\]\n(.*?)```", body, re.S)
+    if not block:
+        return set()
+    heads = set()
+    for line in block.group(1).splitlines():
+        m = re.match(r"^-\s+([A-Za-zÁÉÍÓÚáéíóúñ/]+)", line)
+        if m:
+            heads |= tokens(m.group(1))
+    return heads
+
+
+def check_normative_block(rep: Report, all_docs: list[str], heads: set[str]) -> None:
+    """Señal: la definicion del bloque `[SDD-Check]` reproducida fuera de su SSOT (M-09).
+
+    Distingue instancia de definicion. Una entrega que cierra con el bloque lleno es
+    legitima en cualquier documento y lleva el literal `[SDD-Check]` al lado; lo que
+    no lo es, es enumerar los campos como definicion — el caso corregido en la Fase 11.
+    """
+    if len(heads) < 3:
+        return
+    for rel in all_docs:
+        if rel == PROTOCOLO or rel.startswith(("templates/", "historial/")):
+            continue
+        lines = read(rel).splitlines()
+        for n, line in enumerate(lines):
+            m = re.match(r"^\s*-\s+([A-Za-zÁÉÍÓÚáéíóúñ/]+)", line)
+            if not m or not (tokens(m.group(1)) & heads):
+                continue
+            window = lines[n : n + 10]
+            found = {
+                t
+                for w in window
+                for mm in [re.match(r"^\s*-\s+([A-Za-zÁÉÍÓÚáéíóúñ/]+)", w)]
+                if mm
+                for t in tokens(mm.group(1)) & heads
+            }
+            # La ventana hacia atras cubre un bloque entero: sus 8 campos mas el titulo.
+            if len(found) >= 3 and not any("[SDD-Check]" in w for w in lines[max(0, n - 20) : n + 10]):
+                rep.warn(
+                    "normative-block",
+                    f"{rel}:{n + 1}",
+                    f"enumera campos del bloque `[SDD-Check]` fuera de {PROTOCOLO}: "
+                    f"{', '.join(sorted(found))}",
+                )
+                break
 
 
 def check_references(rep: Report, all_docs: list[str]) -> None:
@@ -263,8 +444,11 @@ def main() -> int:
     check_spec_fields(rep, specs)
     check_deriva_cycles(rep, specs)
     check_links(rep, all_docs)
+    check_backtick_paths(rep, all_docs)
     check_references(rep, all_docs)
     check_scope_single_home(rep, all_docs)
+    check_ssot_collision(rep, specs, parse_ssot_table())
+    check_normative_block(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
     check_no_emoji(rep, all_docs)
 

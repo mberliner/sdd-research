@@ -33,7 +33,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
 ## LLM Wiki (Karpathy) como SDD automatizado — tension no resuelta (prioridad alta)
 
-Origen: caso I-021 en `../investigaIA/casos/llm-wiki-karpathy/RESULTADO-llm-wiki-karpathy.md`
+Origen: caso I-021 en `../../investigaIA/casos/llm-wiki-karpathy/RESULTADO-llm-wiki-karpathy.md` (repositorio hermano)
 
 El patron LLM Wiki de Karpathy [R19] es SDD Linea A implementado con delegacion total al LLM: la capa raw/ es la matriz de fuentes, la wiki/ es el cuerpo de SSOTs derivados, y CLAUDE.md es la spec operativa del mantenedor. La diferencia critica es que el mantenedor es la IA, no un humano.
 

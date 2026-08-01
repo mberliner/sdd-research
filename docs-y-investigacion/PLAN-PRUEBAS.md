@@ -19,11 +19,7 @@ Criterio de exito:
 ## Experimento A-02
 Objetivo: medir impacto de protocolo de salida estandar del asistente.
 
-Bloque obligatorio sugerido:
-- Spec leida.
-- Incluye/excluye verificado.
-- Validaciones aplicadas.
-- Derivados impactados.
+Bloque obligatorio: el `[SDD-Check]` definido en `../AGENTS.md`, que es su SSOT. El experimento mide su efecto; no redefine sus campos.
 
 Metrica primaria:
 - Variabilidad entre asistentes en la misma tarea.

@@ -26,6 +26,10 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | Aprobada | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
+| M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `normative-block`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
+| M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
+| M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
+| M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
 
 ---
 
@@ -74,3 +78,40 @@ Clasificar cada afirmación como *confirmada* (evidencia directa), *inferida* (p
 ## M-08 — Emoticones en `PREREG-B7.md`
 
 El documento viola la regla global «sin emoticones» pero está **pre-registrado y sellado**. Editarlo post-sello tiene implicancias metodológicas (Principio V). Decisión pendiente del usuario: corregir con enmienda fechada, o declarar excepción permanente para documentos sellados.
+
+## M-09 — Señales de duplicación entre SSOTs
+
+Dos checks nuevos en el backstop, ambos WARN, ambos originados en la Fase 11: los dos casos serios de duplicación que esa fase corrigió habían pasado los ocho checks existentes sin ruido.
+
+- `ssot-collision`: cruza la columna *Concepto* de la tabla SSOT contra los campos `incluye` de las demás specs. Detecta que dos specs se declaren dueñas del mismo tema. Habría señalado el caso D1 (la spec de `../comun/MARCO-COMPARATIVO-DOS-LINEAS.md` declaraba `incluye: metricas por linea` mientras la tabla SSOT asignaba esas métricas a los dos `NECESIDADES-Y-METRICAS.md`).
+- `normative-block`: detecta que la definición de un bloque normativo —hoy el `[SDD-Check]`, cuyo SSOT es `../AGENTS.md`— se reproduzca enumerada fuera de su SSOT. Distingue *instancia* de *definición*: una entrega que cierra con el bloque lleno es legítima en cualquier documento; lo que no lo es, es listar los campos como definición. Habría señalado el caso D2.
+
+**Límite: son señales para revisión humana, no veredictos.**
+**Hecha el 2026-07-31** (Fase 12). Validados contra el árbol anterior a la Fase 11: corriendo el script nuevo sobre el commit previo, `ssot-collision` reproduce el caso D1 (dos filas, líneas A y B) y `normative-block` reproduce el D2. Es la única forma honesta de saber que un check detecta lo que dice detectar.
+
+En su primera corrida sobre el árbol actual `normative-block` encontró **un caso vivo que la Fase 11 no había auditado**: `../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 reproducía los mismos cuatro campos del bloque. Corregido en la misma entrega. Calibración necesaria: la ventana hacia atrás que distingue instancia de definición pasó de 6 a 20 líneas, porque un bloque lleno tiene ocho campos y los últimos quedaban fuera del alcance del literal `[SDD-Check]`.
+ El script conserva su límite declarado —presencia y forma, no adecuación— y por eso los dos checks emiten WARN: marcan candidatos a mirar, no violaciones probadas. Ampliar el límite del script a *adecuación* sería otra decisión y no se toma acá.
+
+## M-10 — Verificar rutas escritas en backticks
+
+`check_links` valida solo la sintaxis markdown `[texto](destino.md)`, pero este repositorio referencia sobre todo con backticks (`` `../comun/X.md` ``). Esas rutas no se verificaban, así que la reorganización de la Fase 11 pudo haber dejado referencias muertas sin que el backstop dijera nada.
+
+Regla de resolución en tres casos, elegida para no producir falsos positivos con el proyecto testigo, cuya estructura de directorios es homónima de la nuestra:
+
+1. Ruta con prefijo relativo explícito (`../`, `./`): se resuelve contra el directorio del documento. Es intención de navegación inequívoca.
+2. Ruta cuyo primer segmento es un directorio **de este repositorio**: se resuelve contra la raíz.
+3. Cualquier otro primer segmento (`docs/`, `specs/`, `memory/`, `.b7/`): es de otro repositorio, se ignora.
+
+Un backtick sin barra es una mención por nombre, no una ruta, y no se verifica.
+
+Se agregó un cuarto caso durante la implementación: una ruta relativa que **sale de la raíz** apunta a un repositorio hermano y tampoco se verifica.
+
+**Hecha el 2026-07-31** (Fase 12). Encontró en su primera corrida una ruta que la propia Fase 11 había roto sin darse cuenta: `agenda/BACKLOG-INVESTIGACION.md` citaba `../investigaIA/...`, correcto mientras el archivo vivía en la raíz y falso al bajarlo un nivel. El barrido de referencias de la Fase 11 no podía verlo porque solo reescribía nombres de archivos movidos. De paso se corrigió `check_links`, que no ignoraba bloques ni spans de código y marcaba como roto cualquier ejemplo de sintaxis markdown citado en un documento.
+
+## M-11 — Validar la tabla SSOT
+
+Hoy la tabla SSOT no se verifica en absoluto: ni que sus paths existan en disco, ni que coincidan con un `path` registrado. Los paths de la Fase 11 se actualizaron a mano y un olvido habría pasado limpio. Diferida a la iteración siguiente de M-09/M-10.
+
+## M-12 — Higiene de archivo
+
+CRLF mezclado, BOM y ausencia de newline final. Origen concreto: en la Fase 11 un barrido de referencias convirtió CRLF a LF en `../docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`, único archivo del repo con ese final de línea, inflando su diff de 3 a 418 líneas. Se detectó por el diffstat, no por el backstop. Diferida junto con M-11.

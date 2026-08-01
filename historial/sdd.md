@@ -4,6 +4,35 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 12 — El backstop aprende a ver duplicación y rutas, M-09 y M-10 (2026-07-31) — COMPLETADA
+
+**Acción**: cerrar los dos huecos que la Fase 11 dejó documentados. Los dos casos serios de duplicación que esa fase corrigió habían pasado los ocho checks existentes sin ruido, y `check_links` solo miraba links markdown mientras el repositorio referencia sobre todo con backticks.
+
+### Qué se agregó
+Tres checks nuevos (10 en total) y una corrección:
+- `ssot-collision` (WARN): cruza el concepto de cada fila de la tabla SSOT contra las viñetas de `incluye` de las demás specs.
+- `normative-block` (WARN): detecta la definición del bloque `[SDD-Check]` reproducida fuera de `AGENTS.md`, distinguiendo *instancia* —una entrega que cierra con el bloque lleno, legítima en cualquier documento— de *definición*.
+- `rutas` (ERROR): resuelve las rutas escritas en backticks, con la regla de cuatro casos de M-10.
+- `check_links` corregido: ignoraba bloques y spans de código, así que marcaba como roto cualquier ejemplo de sintaxis markdown citado en prosa. Lo detectó el propio checker sobre el texto de M-10, que cita esa sintaxis.
+
+### Cómo se validaron
+No alcanza con que un check esté en verde: hay que probar que **detecta lo que dice detectar**. Se creó un worktree temporal en el commit anterior a la Fase 11, se copió el script nuevo sobre ese árbol viejo y se corrió: `ssot-collision` reprodujo el caso D1 en sus dos filas —líneas A y B— y `normative-block` reprodujo el D2. Sin esa prueba, dos checks que no encuentran nada son indistinguibles de dos checks rotos.
+
+### Qué encontraron en el árbol actual
+Dos hallazgos vivos en la primera corrida, ambos corregidos en la misma entrega:
+- **`docs-y-investigacion/PLAN-PRUEBAS.md` A-02 reproducía los cuatro campos del bloque `[SDD-Check]`** — el hermano exacto del caso D2, en un documento que la auditoría manual de la Fase 11 no había mirado. La auditoría humana recorrió la raíz; este estaba en una línea.
+- **`agenda/BACKLOG-INVESTIGACION.md` citaba `../investigaIA/...`**, ruta correcta mientras el archivo vivía en la raíz y falsa desde que la Fase 11 lo bajó un nivel. El barrido de referencias de esa fase no podía verlo: solo reescribía nombres de archivos movidos, no rutas cuyo significado cambia al mover el archivo que las contiene. Una reorganización rompe dos clases de referencia, y la Fase 11 solo trató una.
+
+Calibración: la ventana hacia atrás de `normative-block` pasó de 6 a 20 líneas —un bloque lleno tiene ocho campos y los últimos quedaban fuera del alcance del literal `[SDD-Check]`— y `resolve_ref` ganó un cuarto caso, la ruta relativa que sale de la raíz y apunta a un repositorio hermano.
+
+### Deuda abierta
+- **M-11 y M-12 quedan diferidas** y aprobadas: validar la tabla SSOT contra el disco, e higiene de archivo (CRLF, BOM, newline final).
+- El script sigue **sin tests propios**. La Fase 10 ya había afinado la heurística de precedencia contra tres falsos positivos y hoy se calibró `normative-block` contra siete; ninguna de esas calibraciones está protegida contra regresión. La técnica del worktree histórico funcionó bien y es la base natural de un `--selftest`, pero no se implementó.
+- `ssot-collision` solo mira el campo `incluye` de las specs. Una duplicación entre dos documentos cuyas specs no la declaran —el caso más probable, porque nadie escribe en la spec que va a duplicar— se le escapa entera.
+- M-05 y M-08 siguen abiertas desde fases anteriores.
+
+---
+
 ## Fase 11 — Deduplicación de SSOT y reorganización de la raíz (2026-07-31) — COMPLETADA
 
 **Acción**: auditar los 16 `.md` de la raíz buscando contenido duplicado entre SSOTs y agrupar la raíz por naturaleza. Detonante: la raíz mezclaba cinco naturalezas distintas (gobernanza, contenido común, operativos, backlogs, registro histórico) en un solo nivel, mientras las dos líneas sí tenían directorio propio.
