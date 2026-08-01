@@ -357,6 +357,32 @@ medir. Cualquier estudio futuro que compare cobertura entre formatos de spec **M
 ruido antes de reportar una brecha; sin eso, una diferencia del tamaño de la que buscábamos es
 indistinguible de ruido de una sola sesión de extracción.
 
+### Adenda 2026-08-01 — verificación del instrumento bajo una segunda familia de modelos
+
+**Posterior al cierre de (b) (2026-07-31). No modifica ningún veredicto, ni `H1`, ni `H3`, ni el
+criterio (b), ni ninguna cifra de arriba.** Se registra acá porque responde una objeción que el propio
+veredicto deja abierta.
+
+El acuerdo inter-extractor del corpus se midió con dos modelos de la **misma** familia, así que no podía
+distinguirse si medía claridad de la regla o idiosincrasia compartida de esa familia. El corpus se
+replicó bajo un segundo harness y otra familia de modelos, con pre-registro sellado antes de correr y
+enviando los **mismos bytes** de entrada. Cerró 13 de las 14 celdas.
+
+Lo relevante para lo que este documento afirma: **bajo Regla B —la unidad es el identificador
+declarado— las dos familias producen inventarios de idéntico tamaño, celda por celda; bajo Regla A —el
+corte lo decide el modelo— divergen, y en direcciones distintas según la spec.** Es evidencia
+independiente, y desde otra familia de modelos, de que **la convención de conteo manda sobre el
+corpus** — la conclusión de arriba.
+
+**Techo, declarado en el pre-registro de la réplica y vigente acá:** `n = 1` por celda; **MUST NOT**
+atribuirse nada al harness ni al modelo por separado; **MUST NOT** compararse celda contra celda entre
+harness como si fueran del mismo diseño (contextos efectivos y esfuerzo no conmensurables); y esto
+**no** sostiene por sí solo la cláusula de reproducibilidad del criterio (b). Falta `SPEC-004` primaria.
+
+Diseño, resultados por celda, dos defectos del pre-registro encontrados al cerrar y la deuda abierta:
+repo de datos `experimentosdd-b7/`, `Harness/RESULTADO-REPLICA-HARNESS.md` y
+`obs/prereg/PREREG-HARNESS.md`. Acá se referencia, no se copia.
+
 ## Cierre de B-07 — los dos veredictos
 
 MUST NOT fundirse ni promediarse.
