@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 11 — Deduplicación de SSOT y reorganización de la raíz (2026-07-31) — COMPLETADA
+
+**Acción**: auditar los 16 `.md` de la raíz buscando contenido duplicado entre SSOTs y agrupar la raíz por naturaleza. Detonante: la raíz mezclaba cinco naturalezas distintas (gobernanza, contenido común, operativos, backlogs, registro histórico) en un solo nivel, mientras las dos líneas sí tenían directorio propio.
+
+### Duplicación encontrada y corregida
+
+- **Métricas por línea, con dos SSOT declarados a la vez.** La spec de `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` declaraba `incluye: metricas por linea`, pero la tabla SSOT asignaba las métricas de cada línea a su `NECESIDADES-Y-METRICAS.md`. El solapamiento medido era de 3 de 4 métricas en línea A y 3 de 4 en línea B, más las listas de necesidades (4 de 5 casi literales en B) y de riesgos. `MARCO` quedó reducido a la tabla de eje diferencial —objetivo, artefactos, familia de métricas— y remite al SSOT de cada lado. Antes de borrar se migraron los dos ítems que **no** tenían contraparte en destino: «consistencia terminológica sostenida por SSOT único» y la métrica «tiempo de localización de evidencia», ambos a `docs-y-investigacion/NECESIDADES-Y-METRICAS.md`.
+- **Bloque de salida del asistente, con deriva ya consumada.** `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` reproducía cuatro campos del `[SDD-Check]`, cuyo SSOT es `../AGENTS.md`, y la copia estaba vieja: le faltaban `Cobertura`, `Deuda arrastrada` y `Riesgos/reservas`. Es el mismo modo de fallo que la Fase 8 midió en `00-INDEX.md`, en un documento que nadie había mirado. Reemplazado por referencia.
+- **Navegación triplicada.** El mismo conjunto de documentos vivía en `README.md` §Estructura, en la ruta de lectura de `00-INDEX.md` y en su tabla de estructura, y ya había divergido: el README omitía `experimentos/`, `templates/`, `tools/`, `CLAUDE.md` y `AGENTS.md`, y presentaba el roadmap cerrado al mismo nivel que los SSOT vivos. El README pasó a ser lo que su spec siempre dijo —entrada humana y breve— y delega el listado en el índice; `00-INDEX.md` fusionó ruta y estructura en una tabla con orden, link y rol, más una segunda tabla disjunta con el resto.
+- **Criterio de separación método/investigación**, enunciado dos veces: `agenda/BACKLOG-INVESTIGACION.md` parafraseaba la tabla de `agenda/MEJORAS-METODO.md`. Reducido a una línea con puntero.
+
+### Reorganización
+
+`comun/` (seis SSOT transversales), `agenda/` (los dos backlogs vivos) y el roadmap cerrado a `historial/`. El prefijo `06-` era vestigio de una numeración 01–05 inexistente: `06-BACKLOG-INVESTIGACION-FUTURA.md` pasó a `agenda/BACKLOG-INVESTIGACION.md`. La raíz quedó con gobernanza y entrada: constitución, registro, protocolo, adaptador, README, índice y referencias.
+
+### Cómo se validó
+`tools/check_docs.py` en verde (0 ERROR, 1 WARN — el de M-08) antes de cada uno de los tres commits. Además, dos barridos escritos para esta fase: uno que resuelve todo link markdown contra el filesystem (0 rotos sobre 41 documentos) y otro que verifica que cada `path` del registro existe. La reescritura masiva de referencias reveló un efecto colateral que hay que anotar: el script convirtió CRLF a LF en `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`, único archivo del repo con ese final de línea, inflando su diff de 3 a 418 líneas; se restauró antes de commitear. Un barrido mecánico sobre documentos puede cambiar cosas que el backstop no mira.
+
+### Deuda abierta
+- **M-05 sigue abierta**: `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` conserva el encabezado que restata su alcance. Se tocaron sus referencias, no su encabezado; la limpieza oportunística no se aplicó.
+- **M-08 sigue abierta** (emoticones de `PREREG-B7.md`), único WARN vivo.
+- El backstop **no detecta esta clase de duplicación**: los dos casos serios de hoy —dos SSOT para el mismo tema y una copia derivada de un bloque normativo— pasaron sus ocho checks sin ruido. Verifica presencia y forma; el solapamiento semántico entre SSOTs sigue siendo trabajo humano. Candidato a mejora de método, no dado de alta todavía.
+- `comun/` no tiene `00-INDEX.md` propio, a diferencia de las dos líneas. Se decidió no crearlo para no agregar superficie de navegación; si `comun/` crece, revisar.
+
+---
+
 ## Fase 10 — Backstop determinista de documentación, M-01 (2026-07-31) — COMPLETADA
 
 **Acción**: implementar la primera capa de verificación mecánica del repositorio, portando a un repo documental la capa 2 del enforcement de tres capas del testigo (`docs/SDD-ENFORCEMENT.md`).
