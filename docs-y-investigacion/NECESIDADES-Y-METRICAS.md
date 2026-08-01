@@ -3,6 +3,7 @@
 ## Necesidades operativas
 - Reglas claras de alcance por documento.
 - Citas verificables en afirmaciones criticas.
+- Consistencia terminologica sostenida por SSOT unico por tema.
 - Control de vigencia de fuentes (fecha de consulta/publicacion).
 - Protocolo de salida estandar para asistentes IA.
 
@@ -21,6 +22,9 @@ Definicion: `cantidad de contradicciones detectadas por ciclo de revision`.
 
 5. Costo de mantenimiento
 Definicion: `horas por mes dedicadas a mantener sistema SDD`.
+
+6. Tiempo de localizacion de evidencia
+Definicion: `tiempo desde una afirmacion hasta su fuente primaria, para auditoria`.
 
 ## Umbrales iniciales sugeridos
 - Cobertura specs: >= 80% docs criticos.

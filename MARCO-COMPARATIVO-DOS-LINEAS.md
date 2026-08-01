@@ -3,61 +3,22 @@
 ## Tesis
 SDD es un enfoque, no un unico estandar. Su aplicacion cambia segun el tipo de proyecto.
 
-Para el catálogo de problemas y escenarios que justifican adoptar SDD (común a ambas líneas), ver `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`.
+Este documento aisla **en que se diferencian** la linea A (docs e investigacion) y la linea B (software). Lo que es propio de cada lado vive en el SSOT de esa linea y aca se referencia, no se copia:
 
-## Linea A: Docs e investigacion
-Objetivo principal: calidad de decision basada en evidencia.
+- Necesidades operativas, metricas, umbrales y riesgos por linea: `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` (A) y `software/NECESIDADES-Y-METRICAS.md` (B).
+- Modos de fallo y escenarios que justifican adoptar SDD, ya separados por linea: `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`.
+- Frameworks y herramientas concretas recomendadas por linea: `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`.
 
-Necesidades tipicas:
-- Delimitacion explicita de alcance (incluye/excluye).
-- Trazabilidad fuente -> afirmacion -> conclusion.
-- Consistencia terminologica (SSOT).
-- Control de contradicciones entre documentos.
-- Cadencia de actualizacion y vigencia de evidencia.
+## Eje diferencial
 
-Riesgos tipicos:
-- Alucinacion o extrapolacion no sustentada.
-- Deriva de narrativa (documentos se contradicen).
-- Sobrecarga documental sin criterio de decision.
+| Eje | Linea A — docs e investigacion | Linea B — software |
+|---|---|---|
+| Objetivo principal | calidad de decision basada en evidencia | comportamiento correcto y evolucion segura del sistema |
+| Artefactos SDD mas utiles | spec por documento, registro de decisiones, matriz de fuentes, checklist de validacion semantica | especificaciones de API/contratos, criterios de aceptacion ejecutables (BDD/ATDD), ADR, paquetes de tests por requisito |
+| Familia de metricas | verificabilidad y coherencia del cuerpo documental | correccion del comportamiento y estabilidad de la entrega (DORA) |
+| SSOT del detalle | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `software/NECESIDADES-Y-METRICAS.md` |
 
-Metricas sugeridas:
-- Tasa de hallazgos sin fuente primaria.
-- Tasa de contradicciones detectadas por revision.
-- Tiempo de localizacion de evidencia para auditoria.
-- Cobertura de documentos con spec activa.
-
-Artefactos SDD mas utiles:
-- Spec por documento.
-- Registro de decisiones.
-- Matriz de fuentes.
-- Checklist de validacion semantica.
-
-## Linea B: Software
-Objetivo principal: comportamiento correcto y evolucion segura del sistema.
-
-Necesidades tipicas:
-- Requisitos verificables y testeables.
-- Contratos de integracion estables (API/eventos).
-- Trazabilidad requisito -> test -> cambio de codigo.
-- Manejo explicito de breaking changes.
-- Seguridad y confiabilidad desde diseño.
-
-Riesgos tipicos:
-- Specs ambiguas que no se traducen en tests.
-- Desalineacion entre contrato y implementacion.
-- Aceleracion IA sin validacion de calidad.
-
-Metricas sugeridas:
-- Defectos en produccion por requisito ambiguo.
-- Porcentaje de cambios con prueba ligada a spec.
-- Change failure rate y MTTR (DORA).
-- Tiempo de ciclo desde spec aceptada a deploy.
-
-Artefactos SDD mas utiles:
-- Especificaciones de API/contratos.
-- Criterios de aceptacion ejecutables (BDD/ATDD).
-- ADR para decisiones tecnicas.
-- Paquetes de tests por requisito.
+La fila "familia de metricas" nombra el **tipo** de metrica que cada linea necesita, no las metricas: la lista concreta y sus umbrales son SSOT de cada linea.
 
 ## Implicacion para este proyecto
 Se investigan ambas lineas en paralelo, pero con backlog y metrica separada.

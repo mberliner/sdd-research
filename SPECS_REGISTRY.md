@@ -78,14 +78,14 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Comun | SDD adaptativo y circuitos de aprendizaje | `SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
 | Comun | Frameworks/proyectos lideres | `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | `LINEAS-INVESTIGACION.md` de ambas lineas |
-| Comun | Tendencias y estadistica | `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `06-BACKLOG`, `MARCO-COMPARATIVO-DOS-LINEAS.md`, `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
+| Comun | Tendencias y estadistica | `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `06-BACKLOG`, `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
 | Comun | Escenarios que justifican SDD | `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `README.md`, `00-INDEX.md`, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Comun | Implementacion pragmatica sin CI | `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | `PLAN-PRUEBAS.md` de ambas lineas |
 | Docs/Investigacion | Agenda linea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea A |
-| Docs/Investigacion | Metricas linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A |
+| Docs/Investigacion | Necesidades, metricas y riesgos linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental linea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `experimentos/` de linea A al cerrar |
 | Software | Agenda linea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea B |
-| Software | Metricas linea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea B |
+| Software | Necesidades, metricas y riesgos linea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea B, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Software | Plan experimental linea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (disenos y resultados B-06/B-07) |
 | Software | Protocolo de medicion de B-07 (el «como») | `experimentos/PRUEBA-REGENERABILIDAD-B7.md` (metrica primaria) y `experimentos/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
 
@@ -149,13 +149,18 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `proposito`: SSOT de diferencias entre linea A y linea B.
 - `ssot_level`: `SSOT`
 - `incluye`:
-  - necesidades y riesgos por linea
-  - metricas por linea
+  - tesis del modelo dual
+  - eje diferencial A vs B: objetivo principal, artefactos SDD mas utiles, familia de metricas
+  - punteros al SSOT donde vive el detalle de cada linea
 - `excluye`:
+  - necesidades operativas, metricas concretas, umbrales y riesgos por linea — viven en `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` y `software/NECESIDADES-Y-METRICAS.md`
+  - modos de fallo y escenarios por linea — viven en `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
+  - frameworks y herramientas concretas por linea — viven en `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
   - resultados de experimentos concretos
 - `validacion`:
   - [ ] separacion explicita A/B
-  - [ ] no mezcla metrica de lineas
+  - [ ] nombra la familia de metricas de cada linea, no las metricas — esas se referencian
+  - [ ] cada eje de la tabla contrasta las dos lineas; ninguno describe una sola
 
 ### ESCENARIOS-QUE-JUSTIFICAN-SDD.md
 - `path`: `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
@@ -210,9 +215,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - criterio para escalar tooling
 - `excluye`:
   - detalle de resultados experimentales
+  - los campos del bloque `[SDD-Check]` — son SSOT de `AGENTS.md`; aca se referencia
 - `validacion`:
   - [ ] contexto sin CI explicito
   - [ ] criterios de evolucion definidos
+  - [ ] no enumera los campos del `[SDD-Check]` — referencia a `AGENTS.md`
 
 ### REFERENCIAS.md
 - `path`: `REFERENCIAS.md`
@@ -236,11 +243,19 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### docs-y-investigacion/NECESIDADES-Y-METRICAS.md
 - `path`: `docs-y-investigacion/NECESIDADES-Y-METRICAS.md`
-- `proposito`: SSOT de metricas linea A.
+- `proposito`: SSOT de necesidades operativas, metricas, umbrales y riesgos de la linea A.
 - `ssot_level`: `SSOT`
+- `incluye`:
+  - necesidades operativas de la linea
+  - metricas nucleo con definicion
+  - umbrales iniciales sugeridos
+  - riesgos de la linea y su mitigacion
+- `excluye`:
+  - el contraste con la linea B — vive en `MARCO-COMPARATIVO-DOS-LINEAS.md`
 - `validacion`:
   - [ ] metrica con definicion
   - [ ] umbral inicial definido
+  - [ ] no describe la linea B — el contraste se referencia
 
 ### docs-y-investigacion/PLAN-PRUEBAS.md
 - `path`: `docs-y-investigacion/PLAN-PRUEBAS.md`
@@ -260,11 +275,18 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/NECESIDADES-Y-METRICAS.md
 - `path`: `software/NECESIDADES-Y-METRICAS.md`
-- `proposito`: SSOT de metricas linea B.
+- `proposito`: SSOT de necesidades operativas, metricas, umbrales y riesgos de la linea B.
 - `ssot_level`: `SSOT`
+- `incluye`:
+  - necesidades operativas de la linea
+  - metricas tecnicas con definicion y su relacion con DORA
+  - riesgos de la linea y su mitigacion
+- `excluye`:
+  - el contraste con la linea A — vive en `MARCO-COMPARATIVO-DOS-LINEAS.md`
 - `validacion`:
   - [ ] metricas DORA y requisitos
   - [ ] riesgos y mitigaciones
+  - [ ] no describe la linea A — el contraste se referencia
 
 ### software/PLAN-PRUEBAS.md
 - `path`: `software/PLAN-PRUEBAS.md`
