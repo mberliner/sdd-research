@@ -79,7 +79,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
 | Comun | Frameworks/proyectos lideres | `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | `LINEAS-INVESTIGACION.md` de ambas lineas |
 | Comun | Tendencias y estadistica | `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `BACKLOG-INVESTIGACION`, `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
-| Comun | Escenarios que justifican SDD | `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `README.md`, `00-INDEX.md`, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
+| Comun | Escenarios que justifican SDD | `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `00-INDEX.md`, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Comun | Implementacion pragmatica sin CI | `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | `PLAN-PRUEBAS.md` de ambas lineas |
 | Docs/Investigacion | Agenda linea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea A |
 | Docs/Investigacion | Necesidades, metricas y riesgos linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
@@ -117,23 +117,25 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `ssot_level`: `operativo`
 - `tono`: humano y descriptivo — es el primer contacto con el proyecto, no un documento tecnico.
 - `incluye`:
-  - proposito del repo
-  - enlaces a documentos nucleares
+  - proposito del repo y por que corre en dos lineas
+  - un puñado de enlaces de entrada: indice, constitucion, las dos lineas, protocolo y registro
 - `excluye`:
   - detalle metodologico profundo
+  - el listado de documentos y directorios del repo — vive en `00-INDEX.md`; el README remite, no lo reproduce
 - `validacion`:
   - [ ] links internos vigentes
   - [ ] no contradice SSOTs
   - [ ] tono narrativo, sin lenguaje normativo (MUST/SHOULD/MAY)
+  - [ ] no enumera el contenido del repo — remite a `00-INDEX.md`
 
 ### 00-INDEX.md
 - `path`: `00-INDEX.md`
 - `proposito`: indice de navegacion global — responde donde esta cada archivo y en que orden leerlo.
 - `ssot_level`: `operativo`
 - `incluye`:
-  - ruta de lectura recomendada con links a documentos nucleares
+  - ruta de lectura recomendada: una sola tabla con orden, link y **rol** (`SSOT` / `derivado` / `operativo`)
   - links a `CONSTITUTION.md`, `SPECS_REGISTRY.md` y `AGENTS.md`
-  - estructura del proyecto: tabla directorio/archivo → **rol** (`SSOT` / `derivado` / `operativo`)
+  - tabla complementaria con el resto de la estructura: directorios y operativos que no estan en la ruta
 - `excluye`:
   - alcance de cada documento (`proposito`/`incluye`/`excluye`/`validacion`) — vive en este registro
   - mapa tema → SSOT — vive en la tabla SSOT de este registro
@@ -141,7 +143,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] enlaces vigentes
   - [ ] links a `CONSTITUTION.md`, `AGENTS.md` y `SPECS_REGISTRY.md` presentes
-  - [ ] la tabla de estructura declara rol, no proposito
+  - [ ] ambas tablas declaran rol, no proposito
+  - [ ] ningun documento aparece en las dos tablas — la ruta y el resto de la estructura son disjuntas
   - [ ] sin duplicacion de SSOT
 
 ### comun/MARCO-COMPARATIVO-DOS-LINEAS.md

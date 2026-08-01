@@ -2,7 +2,7 @@
 
 Agenda de **preguntas abiertas** sobre SDD: se cierran con evidencia (experimento o analisis), no con una edicion.
 
-Los cambios al **metodo** de este repositorio —protocolo, registro, constitucion, templates, tooling de verificacion— viven en `MEJORAS-METODO.md`, que declara el criterio de separacion (Principio VI). Un item puede tener contraparte del otro lado: implementar una mejora de metodo MAY producir dato para una pregunta de aca, pero son entradas distintas y se cierran por separado.
+Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que es donde se declara el criterio de separacion entre ambos backlogs y como conviven los items con contraparte de los dos lados (Principio VI).
 
 ## Prioridad alta
 1. Medir variabilidad entre asistentes IA en tareas de especificacion.
