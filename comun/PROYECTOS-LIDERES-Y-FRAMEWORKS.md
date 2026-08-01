@@ -20,9 +20,9 @@
 ## 2) Software
 
 ### GitHub Spec Kit
-- Tipo: flujo spec-first para trabajo asistido por IA; toolkit Linea-B-nativo (CLI `specify` + comandos slash constitution/specify/clarify/plan/tasks/analyze/implement). Sin soporte nativo para documentos de analisis/conocimiento (transferencia a Linea A diferida — ver `06-BACKLOG-INVESTIGACION-FUTURA.md`).
+- Tipo: flujo spec-first para trabajo asistido por IA; toolkit Linea-B-nativo (CLI `specify` + comandos slash constitution/specify/clarify/plan/tasks/analyze/implement). Sin soporte nativo para documentos de analisis/conocimiento (transferencia a Linea A diferida — ver `../agenda/BACKLOG-INVESTIGACION.md`).
 - Valor: convenciones claras de idea a especificacion antes de ejecutar; gate de autoridad (constitution), manejo explicito de ambiguedad (`[NEEDS CLARIFICATION]`) y validacion de consistencia continua (`/speckit.analyze`).
-- Analisis detallado y mapeo contra nuestro protocolo: `software/ANALISIS-SPEC-KIT.md`.
+- Analisis detallado y mapeo contra nuestro protocolo: `../software/ANALISIS-SPEC-KIT.md`.
 - Fuente: [R10].
 
 ### OpenAPI Initiative

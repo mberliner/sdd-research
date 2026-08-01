@@ -37,7 +37,7 @@ La corrección de los falsos positivos se verificó contra los dos positivos ver
 **Acción**: dar un hogar priorizado a las mejoras de método pendientes de la Fase 8, sin mezclarlas con las preguntas abiertas de investigación.
 
 ### Diagnóstico
-La lista de mejoras existía solo como prosa en la Fase 8 y en la conversación que la produjo — el modo de fallo que el proyecto combate (deuda sin índice, que muere en silencio). El destino que parecía natural, `ROADMAP-MEJORAS-SDD.md`, no servía por dos razones independientes: está declarado **CERRADO / HISTÓRICO** desde 2026-06-01 con la advertencia de que su contenido en presente describe el estado previo a la Fase 1, y su `proposito` lo ata a una fuente única (proyecto "Transformacion AI-Native Org") que no es la nuestra. El otro candidato, `06-BACKLOG-INVESTIGACION-FUTURA.md`, es agenda de **investigación**: mezclarle tareas de método contradice el Principio VI recién ratificado.
+La lista de mejoras existía solo como prosa en la Fase 8 y en la conversación que la produjo — el modo de fallo que el proyecto combate (deuda sin índice, que muere en silencio). El destino que parecía natural, `ROADMAP-MEJORAS-SDD.md`, no servía por dos razones independientes: está declarado **CERRADO / HISTÓRICO** desde 2026-06-01 con la advertencia de que su contenido en presente describe el estado previo a la Fase 1, y su `proposito` lo ata a una fuente única (proyecto "Transformacion AI-Native Org") que no es la nuestra. El otro candidato, `../agenda/BACKLOG-INVESTIGACION.md`, es agenda de **investigación**: mezclarle tareas de método contradice el Principio VI recién ratificado.
 
 Además, la revisión del backlog encontró tres solapamientos reales con lo nuevo:
 - Exploratoria #1 «evaluación automática parcial sin CI» **era** la mejora M-01, en estado exploratorio pese a estar aprobada — conflicto de estado.
@@ -45,13 +45,13 @@ Además, la revisión del backlog encontró tres solapamientos reales con lo nue
 - Enriquecimientos R25/R30 #3 (modelo confirmado/inferido/gap) es una convención de escritura — método, no pregunta.
 
 ### Cambios aplicados
-- **`MEJORAS-METODO.md` (nuevo)**: criterio de separación explícito frente al backlog, tabla de estado con IDs `M-01`..`M-08` (prioridad, estado, origen, destino) y detalle por mejora. Estados: `Propuesta` / `Aprobada` / `Hecha` / `Descartada`; una mejora que se aprueba no cambia de documento, cambia de estado.
-- **`06-BACKLOG-INVESTIGACION-FUTURA.md`**: encabezado que declara su naturaleza (preguntas que se cierran con evidencia, no con una edición) y remite a `MEJORAS-METODO.md`; exploratoria #1 reformulada como la pregunta que M-01 permite responder, con la construcción del script migrada; transferencia Spec Kit #2 marcada como adoptada; R25/R30 #3 migrado a M-06.
-- **`SPECS_REGISTRY.md`**: spec de `MEJORAS-METODO.md`; `incluye`/`excluye`/`validacion` del backlog reescritos con el criterio de separación; spec de `ROADMAP-MEJORAS-SDD.md` marcada como registro histórico cerrado que no recibe items nuevos; fila en la tabla SSOT.
+- **`../agenda/MEJORAS-METODO.md` (nuevo)**: criterio de separación explícito frente al backlog, tabla de estado con IDs `M-01`..`M-08` (prioridad, estado, origen, destino) y detalle por mejora. Estados: `Propuesta` / `Aprobada` / `Hecha` / `Descartada`; una mejora que se aprueba no cambia de documento, cambia de estado.
+- **`../agenda/BACKLOG-INVESTIGACION.md`**: encabezado que declara su naturaleza (preguntas que se cierran con evidencia, no con una edición) y remite a `../agenda/MEJORAS-METODO.md`; exploratoria #1 reformulada como la pregunta que M-01 permite responder, con la construcción del script migrada; transferencia Spec Kit #2 marcada como adoptada; R25/R30 #3 migrado a M-06.
+- **`SPECS_REGISTRY.md`**: spec de `../agenda/MEJORAS-METODO.md`; `incluye`/`excluye`/`validacion` del backlog reescritos con el criterio de separación; spec de `ROADMAP-MEJORAS-SDD.md` marcada como registro histórico cerrado que no recibe items nuevos; fila en la tabla SSOT.
 - **`00-INDEX.md`** y **`README.md`**: alta del documento nuevo y rol de cada backlog diferenciado.
 
 ### Cómo se validó
-Links internos: 0 rotos. Los tres solapamientos detectados quedaron con una sola representación cada uno: M-01 como tarea con su pregunta hermana en el backlog, el marcador `[NEEDS CLARIFICATION]` como adoptado, y M-06 en un solo documento. `06-BACKLOG` alta #4 (gates que fallan abierto) se mantuvo del lado de investigación y se citó desde M-02 como requisito de diseño fail-closed, sin duplicar su contenido.
+Links internos: 0 rotos. Los tres solapamientos detectados quedaron con una sola representación cada uno: M-01 como tarea con su pregunta hermana en el backlog, el marcador `[NEEDS CLARIFICATION]` como adoptado, y M-06 en un solo documento. `BACKLOG-INVESTIGACION` alta #4 (gates que fallan abierto) se mantuvo del lado de investigación y se citó desde M-02 como requisito de diseño fail-closed, sin duplicar su contenido.
 
 ### Deuda abierta
 - M-01 a M-08 sin ejecutar; M-01 es el próximo por valor.
@@ -81,8 +81,8 @@ Links internos: 0 rotos antes y después. Cadena de precedencia coherente en los
 ### Deuda abierta
 - **P3 y P4 sin implementar**: backstop determinista (`check_docs.py`) y gate de autoría, las dos capas que convertirían el `validacion` de checkbox en verificable. Aprobadas como mejora de método, no como experimento. Mientras no existan, la constitución se cumple por disciplina.
 - **P5 y P7 sin abrir**: playbooks agnósticos de asistente y formato/compactación de documentos.
-- Los **encabezados de documento** que restatan su alcance (al menos `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`) siguen duplicando: migración oportunística, no barrido.
-- `AGENTS.md` e `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` describen un contexto **sin CI**; sigue siendo cierto, pero ahora hay git, y eso habilita `pre-commit` como sustrato de P3/P4. Revisar ambos cuando se implementen.
+- Los **encabezados de documento** que restatan su alcance (al menos `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`) siguen duplicando: migración oportunística, no barrido.
+- `AGENTS.md` e `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` describen un contexto **sin CI**; sigue siendo cierto, pero ahora hay git, y eso habilita `pre-commit` como sustrato de P3/P4. Revisar ambos cuando se implementen.
 
 ---
 
@@ -94,7 +94,7 @@ Links internos: 0 rotos antes y después. Cadena de precedencia coherente en los
 - **Alta de `R6` (verificación funcional manual)** en el SSOT del experimento + §3.7 del runbook. Motivo: `R1` se automatizó con `pytest`, luego midió **sólo el subconjunto pytest-verificable**; la doctrina del propio testigo asigna los `FR` de UI y de consistencia documental a verificación visual (relación requisito↔verificador **N:M**). `R6` exige recorrido guionado pre-registrado y observación de **comportamiento, no de fuente** (el fuente des-ciega el formato). No se midió en B-07.
 - **Medición exploratoria post-cierre, NO ciega**, de los 13 requisitos de `SPEC-013` que quedaron fuera del denominador: **9 eran mecanizables** (5 por gate objetivo del repo, 4 por suites que existen en `ENV-REF` pero quedaron fuera de `TESTS-F013`) y están **satisfechos en ambas celdas** ⇒ el espacio no medido no escondía señal. Sensibilidad al denominador: extendido 25→34, la brecha por requisito pasa de 100/64 a **100/74** — misma dirección, menor magnitud. Quedan **4 requisitos sin ningún dato**, todos de UI.
 - **`H2` degradada a descriptiva.** Dos motivos independientes: su ratio upfront/reactivo **no es computable** (`[NEEDS CLARIFICATION]` no existe en la anatomía casero — es **`N/A`, no `0`**), y su variable de salida está **confundida con el tratamiento** (una práctica documental altera la visibilidad de su propio resultado; los conteos crudos van en dirección contraria a H2). Se conserva la lectura cualitativa.
-- **Anti-patrón nuevo en `06-BACKLOG` #6**: *variable de salida que es artefacto del propio tratamiento (confusión de visibilidad)*, con el corolario operativo **`N/A` ≠ 0** y el test de diseño «¿la variable de salida sobreviviría si el tratamiento no existiera?».
+- **Anti-patrón nuevo en `BACKLOG-INVESTIGACION` #6**: *variable de salida que es artefacto del propio tratamiento (confusión de visibilidad)*, con el corolario operativo **`N/A` ≠ 0** y el test de diseño «¿la variable de salida sobreviviría si el tratamiento no existiera?».
 - **Criterio de éxito REFORMULADO** —la deuda que venía abierta desde la Fase 5— en **(a)** prueba de regenerabilidad contra `R1`–`R6` (unidad intra-feature; `R1` mayor + `R2` menor + **≥1 secundaria independiente** en el mismo sentido y ninguna en contra, admisibles `R4`/`R5`/`R6`, `R3` excluida por no ser independiente de `R1`; empate ⇒ no concluyente; veredicto global sólo con ≥2 features discriminantes; **guarda de confusión** con techo *"no atribuible al formato"*) y **(b)** corpus observacional contra **`H1`+`H3`** (sólo Tier A; no-solapamiento de rangos; techo **descriptivo**), más **regla de cierre a dos veredictos**. Ambos pasan la comprobación de satisfacibilidad.
 - **§Propagacion escrita en `RESULTADO-EXPERIMENTO-B7.md`** —faltaba, y era la deuda 4.5 real— con los **tres checks efectivamente corridos** y triaje de 11 filas. Corregido también el encabezado stale *"(propuestas, NO aplicadas)"*: 3 de 4 cambios al marco **ya estaban aplicados**.
 
@@ -116,13 +116,13 @@ Aplicar el criterio (a) a la prueba ya ejecutada **reproduce el veredicto existe
 ### Diagnóstico
 Al cerrar B-07 (2026-07-28) el `[SDD-Check]` listó tres derivados y los tres se sincronizaron; la lista se había armado de memoria y omitió cuatro documentos —entre ellos `software/LINEAS-INVESTIGACION.md`, que es **SSOT** y quedó atrás de su propio derivado `PLAN-PRUEBAS.md`. Tres causas independientes:
 1. `experimentos/` está exento de spec (`SPECS_REGISTRY.md` §Docs excluidos) ⇒ fuera del grafo SSOT ⇒ nada dispara.
-2. La regla de propagación era **unidireccional** (SSOT → derivados), pero el conocimiento de una ejecución entra por abajo y tiene que subir. Contradecía la tesis bidireccional del propio proyecto (`SDD-ADAPTATIVO-VS-CASCADA.md`).
+2. La regla de propagación era **unidireccional** (SSOT → derivados), pero el conocimiento de una ejecución entra por abajo y tiene que subir. Contradecía la tesis bidireccional del propio proyecto (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`).
 3. `Derivados a revisar` se poblaba de memoria, sin índice.
 
 ### Cambios aplicados
 - **`templates/RESULTADO-EXPERIMENTO.md`**: sección **«Propagacion» obligatoria**, con **tres checks** y tabla de triaje. (1) grep del ID en `SPECS_REGISTRY.md` — las cláusulas `incluye`/`excluye` suelen justificarse con el estado del experimento; (2) el SSOT dueño de la hipótesis y sus derivados según la tabla SSOT — único check que ve a quien afirma el estado **sin declararlo como deuda**; (3) `grep -rl "Deuda arrastrada.*<ID>"` — captura documentos lejanos que ningún índice conecta con el experimento.
 - **`templates/EXPERIMENTO.md`**: sección **«Documentos que esperan este resultado»**, contraparte del check 3 en el pre-registro.
-- **`templates/RESULTADO-EXPERIMENTO.md` §Deuda arrastrada**: la deuda no resuelta MUST migrar a `06-BACKLOG-INVESTIGACION-FUTURA.md` antes de cerrar. "Re-explicitarse en el siguiente cierre" ataba la deuda a que existiera otro experimento; si no lo hay, muere en silencio.
+- **`templates/RESULTADO-EXPERIMENTO.md` §Deuda arrastrada**: la deuda no resuelta MUST migrar a `../agenda/BACKLOG-INVESTIGACION.md` antes de cerrar. "Re-explicitarse en el siguiente cierre" ataba la deuda a que existiera otro experimento; si no lo hay, muere en silencio.
 - **`AGENTS.md`**: regla de propagación **ascendente** en §Criterios de calidad mínima, y check de post-generación para el cierre de experimentos.
 - **`SPECS_REGISTRY.md`**: la regla, donde tiene precedencia 1 — propagación ascendente y disparador por cierre de experimento, con la aclaración de que la exención de `experimentos/` es de **spec propia**, no de **propagación**. Se corrigió además la columna «Quien referencia» de ambos `PLAN-PRUEBAS.md`, que decía `templates/` (dirección invertida) siendo que el plan se apoya en esa columna como índice inverso.
 
@@ -130,9 +130,9 @@ Al cerrar B-07 (2026-07-28) el `[SDD-Check]` listó tres derivados y los tres se
 Prueba en seco de los tres checks contra el cierre real de B-07: reproducen exactamente los cuatro documentos corregidos a mano el 2026-07-29. **El check 3 aislado sólo encuentra dos** —`COMPARATIVA` y `DECISION`, que sí habían declarado deuda desde 2026-05-28— y no ve a `LINEAS-INVESTIGACION` ni al registry, que afirmaban el estado sin anotarlo como pendiente. Ese punto ciego, detectado por la propia verificación, es el motivo de que el mecanismo tenga tres checks y no uno.
 
 ### Deuda abierta
-- Los tres checks son **manuales** (proyecto sin CI): nada impide cerrar un experimento salteándolos. Es el mismo modo de fallo que el anti-patrón *gate fail-open* que B-07 dejó registrado en `06-BACKLOG` #4.
+- Los tres checks son **manuales** (proyecto sin CI): nada impide cerrar un experimento salteándolos. Es el mismo modo de fallo que el anti-patrón *gate fail-open* que B-07 dejó registrado en `BACKLOG-INVESTIGACION` #4.
 - Sin cobertura para documentos que afirman el estado de un experimento **y** no están en el registry **y** no declararon deuda. No hay caso conocido; el riesgo se declara.
-- ~~Sigue abierto de la Fase 5: reformular el Criterio de éxito de B-07 (requiere decisión del usuario) y registrar el anti-patrón *fail-open* como regla del marco.~~ **CERRADO en la Fase 7 (2026-07-29)**: criterio reformulado en (a)/(b) y anti-patrón *fail-open* ya en `06-BACKLOG` #4.
+- ~~Sigue abierto de la Fase 5: reformular el Criterio de éxito de B-07 (requiere decisión del usuario) y registrar el anti-patrón *fail-open* como regla del marco.~~ **CERRADO en la Fase 7 (2026-07-29)**: criterio reformulado en (a)/(b) y anti-patrón *fail-open* ya en `BACKLOG-INVESTIGACION` #4.
 
 ---
 
@@ -158,7 +158,7 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 ### Deuda abierta
 - **Reformular el Criterio de éxito de B-07** en `EXPERIMENTO-B7-formato-hibrido.md` (SSOT): resultó **no evaluable** — no define agregación y su cláusula "≥2 secundarias" mezcla las del corpus observacional con las de la prueba. Nota fechada ya inscrita en el doc; la reformulación **requiere decisión del usuario**.
 - **Desambiguar formato vs. procedencia**: es el límite principal del resultado y no es reparable con los datos existentes.
-- **Hallazgos transferibles** ya registrados en `06-BACKLOG-INVESTIGACION-FUTURA.md`: gates de gobernanza que fallan abierto (#4) y régimen de permisos en experimentos de regeneración (#5).
+- **Hallazgos transferibles** ya registrados en `../agenda/BACKLOG-INVESTIGACION.md`: gates de gobernanza que fallan abierto (#4) y régimen de permisos en experimentos de regeneración (#5).
 
 ---
 
@@ -168,13 +168,13 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 
 ### Veredicto: las cuatro siguen siendo relevantes; ninguna cita requirió corrección
 - **[R25] Reversa** (`arXiv-2605.18684v1/`): el uso en `software/SDD-EN-LEGACY-Y-BROWNFIELD.md` (existe trabajo formal en retro-specs legacy para agentes) es fiel y modesto. Anotada su naturaleza en `REFERENCIAS.md`: caso exploratorio único COBOL→Go incompleto (9/11 tareas; sin paridad final ni cutover), sin comparación controlada — no citar como evidencia de efectividad.
-- **[R30] Piskala** (`arXiv-2602.00180v1/`): technical report de autor único, no peer-reviewed. Las tres citas en `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` (intent drift, contrato multi-agente, regeneración reduce divergencia) están respaldadas textualmente. Anotado: su cifra "hasta 50 % menos errores" viene de secundarias — no usar como dato primario. Bonus para B-07: taxonomía spec-first/spec-anchored/**spec-as-source** (la regenerabilidad primaria de B-07 es su nivel spec-as-source).
+- **[R30] Piskala** (`arXiv-2602.00180v1/`): technical report de autor único, no peer-reviewed. Las tres citas en `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` (intent drift, contrato multi-agente, regeneración reduce divergencia) están respaldadas textualmente. Anotado: su cifra "hasta 50 % menos errores" viene de secundarias — no usar como dato primario. Bonus para B-07: taxonomía spec-first/spec-anchored/**spec-as-source** (la regenerabilidad primaria de B-07 es su nivel spec-as-source).
 - **[R33] Rosa et al.** (`arXiv-2601.03878v1/`): confirmado todo lo citado en `experimentos/EXPERIMENTO-B7-formato-hibrido.md` (tarea aislada between-subjects, endpoint/prompts/parámetros fijos, métricas, TaskId como blocking factor). Precisión anotada: es protocolo Stage 1 **sin resultados aún**; el modelo se elegirá open-weight en ejecución.
 - **[R34] RepoExec** (`arXiv-2406.11927v4/`): confirmado literal en abstract ("smaller context sizes can be misleading", 18 modelos, pretrained vs instruction-tuned, DIR). Autor primero corregido: Le Hai et al. (no Nguyen). Hallazgo adicional anotado: correlación pass@1↔DIR y riesgo de reimplementar dependencias en vez de invocarlas.
 
 ### Actualizaciones en positivo aplicadas (aprobadas por el usuario)
 - `experimentos/EXPERIMENTO-B7-formato-hibrido.md`: (1) H4 encuadrada en la taxonomía spec-first/spec-anchored/spec-as-source [R30] — la regenerabilidad primaria es el test operativo del nivel spec-as-source, lo que da escala graduada al resultado; (2) métrica **R4 nueva** (invocación vs. reimplementación de contratos de la frontera in-spec, análogo del DIR [R34]) — captura el modo de fallo "verde en R1, limpio en R2, pero mal integrado al sistema"; (3) precisión de fidelidad: [R33] fija endpoint/prompts/parámetros (no seed; modelo a elegir en ejecución; Stage 1 sin resultados).
-- `06-BACKLOG-INVESTIGACION-FUTURA.md`: sección nueva "Enriquecimientos diferidos desde verificación de fuentes R25/R30" (regla de rigor mínimo y pitfalls de [R30]; modelo confirmado/inferido/gap de [R25] como convención candidata de Línea A).
+- `../agenda/BACKLOG-INVESTIGACION.md`: sección nueva "Enriquecimientos diferidos desde verificación de fuentes R25/R30" (regla de rigor mínimo y pitfalls de [R30]; modelo confirmado/inferido/gap de [R25] como convención candidata de Línea A).
 
 ---
 
@@ -198,12 +198,12 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 **Alcance**: consolidar, con investigación web, el catálogo de problemas/escenarios que hacen necesario SDD hoy, separando modos de fallo (cualitativo) de cifras (cuantitativo).
 
 ### Archivos creados
-- `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` (SSOT, común): causas raíz transversales; escenarios por línea A, B y transversales; mapa escenario → eje SDD. Referencia `ESTADISTICAS` (cifras) y `SDD-ADAPTATIVO-VS-CASCADA` (cascada) sin duplicarlos.
+- `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` (SSOT, común): causas raíz transversales; escenarios por línea A, B y transversales; mapa escenario → eje SDD. Referencia `ESTADISTICAS` (cifras) y `SDD-ADAPTATIVO-VS-CASCADA` (cascada) sin duplicarlos.
 
 ### Archivos modificados
 - `REFERENCIAS.md`: alta de [R28] (dplooy, marcada como secundaria), [R29] (Red Hat Developer), [R30] (arXiv "From Code to Contract").
-- `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` (SSOT): nueva subsección "Calidad del código generado por IA y señal de adopción SDD" con cifras secundarias [R28] marcadas como tales.
-- `SPECS_REGISTRY.md`: spec nueva para `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`; alta en tabla SSOT.
+- `../comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` (SSOT): nueva subsección "Calidad del código generado por IA y señal de adopción SDD" con cifras secundarias [R28] marcadas como tales.
+- `SPECS_REGISTRY.md`: spec nueva para `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`; alta en tabla SSOT.
 - `00-INDEX.md`: ruta recomendada, estructura y mapa de SSOTs.
 
 ### Reserva
@@ -217,7 +217,7 @@ Las cifras de [R28] son de fuente divulgativa (secundaria); marcadas como tales 
 
 ### Decisiones aplicadas (propuestas de B-06, antes pendientes)
 1. **"Deuda arrastrada" formalizada como artefacto del marco.** Campo `Deuda arrastrada` anadido al bloque `[SDD-Check]` (`CLAUDE.md`) y seccion homonima en `templates/RESULTADO-EXPERIMENTO.md`. Mecanismo anti-cascada: re-explicitar lo diferido hasta resolverlo.
-2. **Umbral de cascada reformulado de absoluto a relativo.** `SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT) reemplazo "30 dias absolutos" por "2-3 iteraciones o ciclos de cierre"; los 30 dias quedan solo como equivalencia de referencia. Derivados revisados: implicaciones por linea y senales de salud, ya alineadas.
+2. **Umbral de cascada reformulado de absoluto a relativo.** `../comun/SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT) reemplazo "30 dias absolutos" por "2-3 iteraciones o ciclos de cierre"; los 30 dias quedan solo como equivalencia de referencia. Derivados revisados: implicaciones por linea y senales de salud, ya alineadas.
 
 ### Archivos creados
 - `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` — comparacion en 5 dimensiones (derivado de `ANALISIS-SPEC-KIT.md`); enlazada desde `software/00-INDEX.md`.
@@ -225,14 +225,14 @@ Las cifras de [R28] son de fuente divulgativa (secundaria); marcadas como tales 
 
 ### Archivos modificados
 - `CLAUDE.md`: campos `Cobertura` y `Deuda arrastrada` en el bloque `[SDD-Check]`; convencion `[NEEDS CLARIFICATION]`.
-- `SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT): ventana de inactividad relativa; mecanismo "Deuda arrastrada"; aclaracion regenerabilidad vs. adaptatividad.
+- `../comun/SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT): ventana de inactividad relativa; mecanismo "Deuda arrastrada"; aclaracion regenerabilidad vs. adaptatividad.
 - `software/LINEAS-INVESTIGACION.md` y `software/PLAN-PRUEBAS.md`: alta de hipotesis/experimento B7.
 - `SPECS_REGISTRY.md`: specs nuevas para `COMPARATIVA-SPECKIT-VS-TESTIGO.md`.
 
 ### Revision de consistencia (este mismo cierre)
 - `ROADMAP-MEJORAS-SDD.md` marcado como **CERRADO/HISTORICO**: sus mejoras 1-10 ya vivian en `SPECS_REGISTRY.md`/`CLAUDE.md` desde Fase 1; el doc se conserva como registro pero ya no se lee en presente.
-- `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` (SSOT): GitHub Spec Kit recategorizado de Linea A a **Linea B (software)**, coherente con su caracterizacion "Linea-B-nativo" en `ANALISIS-SPEC-KIT.md`.
-- `REFERENCIAS.md`: alta de `[R19]` (Karpathy LLM Wiki) para resolver una colision de ID en `06-BACKLOG` (citaba el gist como `[R01]`).
+- `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` (SSOT): GitHub Spec Kit recategorizado de Linea A a **Linea B (software)**, coherente con su caracterizacion "Linea-B-nativo" en `ANALISIS-SPEC-KIT.md`.
+- `REFERENCIAS.md`: alta de `[R19]` (Karpathy LLM Wiki) para resolver una colision de ID en `BACKLOG-INVESTIGACION` (citaba el gist como `[R01]`).
 - Correcciones menores: renumeracion de la ruta en `00-INDEX.md`; conteo de archivos en Fase 1.
 
 ---
@@ -250,9 +250,9 @@ Se introduce el directorio `fuentes-externas/` para repositorios externos clonad
 ### Archivos modificados
 - `SPECS_REGISTRY.md`: exclusion de `fuentes-externas/`; spec nueva para `software/ANALISIS-SPEC-KIT.md`.
 - `REFERENCIAS.md`: [R10] anclado a version v0.8.13 (consultada 2026-05-21) + ruta del clon vendored y politica de actualizacion.
-- `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` (SSOT): entrada Spec Kit enriquecida con flujo de comandos y link al analisis.
+- `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` (SSOT): entrada Spec Kit enriquecida con flujo de comandos y link al analisis.
 - `software/00-INDEX.md`: seccion "Analisis de frameworks" con link al doc.
-- `06-BACKLOG-INVESTIGACION-FUTURA.md`: item "Transferencia de conceptos de Spec Kit a Linea A" (diferido).
+- `../agenda/BACKLOG-INVESTIGACION.md`: item "Transferencia de conceptos de Spec Kit a Linea A" (diferido).
 
 ### Hallazgo principal
 Convergencia alta entre Spec Kit y nuestro protocolo (lenguaje normativo, gate de autoridad, manejo explicito de ambiguedad, validacion de consistencia continua). `/speckit.analyze` valida empiricamente el diseno de nuestro bloque `[SDD-Check]`. Tension abierta: la "Power Inversion" (spec ejecutable que genera codigo) es mas radical que nuestra posicion actual (spec como representacion del conocimiento) — conecta con el backlog de umbral manual->automatizado.
@@ -270,7 +270,7 @@ Se designa `agent-test-suite` (`../../../test_circuito_intents/agent_test_suite/
 
 **Decision pendiente (del usuario):** _[RESUELTA en Fase 3, 2026-06-01: ambas propuestas fueron aprobadas y aplicadas.]_ dos propuestas de cambio al marco SDD derivadas de B-06:
 1. Formalizar "Deuda arrastrada" como artefacto del marco (template de resultado y/o `[SDD-Check]`).
-2. Reformular el umbral de cascada de "30 dias absolutos" a un criterio relativo a la velocidad del proyecto — toca el SSOT `SDD-ADAPTATIVO-VS-CASCADA.md`, requiere aprobacion y revision de derivados.
+2. Reformular el umbral de cascada de "30 dias absolutos" a un criterio relativo a la velocidad del proyecto — toca el SSOT `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`, requiere aprobacion y revision de derivados.
 
 ### Archivos modificados/creados (continuacion)
 - `CLAUDE.md` (modificado): Bloque 1.
@@ -308,7 +308,7 @@ Se designa `agent-test-suite` (`../../../test_circuito_intents/agent_test_suite/
 - Agrega seccion "Docs excluidos del registro"
 - Tabla SSOT: columna "Derivados/Referencias" renombrada a "Quien referencia" con datos precisos
 - Reglas globales: referencia tabla de profundidad en lugar de listar campos fijos
-- 4 specs nuevas: `SPECS_REGISTRY.md`, `CLAUDE.md`, `06-BACKLOG-INVESTIGACION-FUTURA.md`, `ROADMAP-MEJORAS-SDD.md`
+- 4 specs nuevas: `SPECS_REGISTRY.md`, `CLAUDE.md`, `../agenda/BACKLOG-INVESTIGACION.md`, `ROADMAP-MEJORAS-SDD.md`
 
 **`REFERENCIAS.md`**:
 - Elimina R19, R20, R21 (referencias a proyecto externo "Transformacion AI-Native Org")

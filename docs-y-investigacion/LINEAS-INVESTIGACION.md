@@ -44,7 +44,7 @@ Preguntas:
 - Cuales son las señales observables de que una spec se ha congelado sin justificacion?
 - Que porcentaje de actualizaciones de spec provienen de experimentos vs de cambio de contexto externo?
 
-Base: circuitos de aprendizaje SDD y anti-patron cascada encubierta — ver `SDD-ADAPTATIVO-VS-CASCADA.md`.
+Base: circuitos de aprendizaje SDD y anti-patron cascada encubierta — ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`.
 
 ## Evidencia externa relevante
 - Modelos de riesgo y gobernanza IA para documentacion responsable [R01], [R02], [R05].

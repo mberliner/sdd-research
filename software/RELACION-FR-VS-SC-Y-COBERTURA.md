@@ -2,7 +2,7 @@
 
 Fecha: 2026-06-16.
 Deriva de: `ANALISIS-SPEC-KIT.md` (SSOT del análisis de Spec Kit) y de la anatomía de spec híbrida documentada en el testigo (`SPEC-FORMAT.md`).
-Alcance: Línea B (software). El FR/SC y el coverage mapping son nativos de la anatomía de spec de software [R10]; la transferencia a Línea A queda fuera (ver `../06-BACKLOG-INVESTIGACION-FUTURA.md`).
+Alcance: Línea B (software). El FR/SC y el coverage mapping son nativos de la anatomía de spec de software [R10]; la transferencia a Línea A queda fuera (ver `../agenda/BACKLOG-INVESTIGACION.md`).
 
 Pregunta que origina el documento: *¿los `FR-xxx` y los `SC-xxx` van 1 a 1? Si necesitan un test para verificarse, ¿hay un test por requisito?*
 

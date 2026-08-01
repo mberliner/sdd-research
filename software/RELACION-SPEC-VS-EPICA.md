@@ -2,7 +2,7 @@
 
 Fecha: 2026-06-03.
 Deriva de: `ANALISIS-SPEC-KIT.md` (SSOT del análisis de Spec Kit).
-Alcance: Línea B (software). El vocabulario ágil (épicas, historias) y Spec Kit son nativos de software; la transferencia del razonamiento a Línea A queda fuera (ver `../06-BACKLOG-INVESTIGACION-FUTURA.md`).
+Alcance: Línea B (software). El vocabulario ágil (épicas, historias) y Spec Kit son nativos de software; la transferencia del razonamiento a Línea A queda fuera (ver `../agenda/BACKLOG-INVESTIGACION.md`).
 
 Pregunta que origina el documento: *¿una "spec" es análoga a una "épica"?*
 
@@ -79,7 +79,7 @@ Existe discusión autoritativa y reciente (2025-2026), con consenso en lo esenci
 
 - **Convergencia**: una spec de Spec Kit comprende múltiples historias de usuario junto a specs funcionales, supuestos y resultados; trata las historias como componentes de un marco mayor, no como su equivalente [R10][R21].
 - **SDD como síntesis waterfall/ágil**: enfatiza especificación detallada (como waterfall) pero iterativa y viva (como ágil), con la spec en el centro [R20][R21].
-- **Tensión crítica**: parte de la comunidad lee Spec Kit como un retorno encubierto a cascada ("documentary bureaucracy") [R22]. Esta crítica conecta con nuestro propio anti-patrón "cascada encubierta" (ver `../SDD-ADAPTATIVO-VS-CASCADA.md`): la diferencia no está en cuánta spec se escribe, sino en si la spec permanece viva o se congela.
+- **Tensión crítica**: parte de la comunidad lee Spec Kit como un retorno encubierto a cascada ("documentary bureaucracy") [R22]. Esta crítica conecta con nuestro propio anti-patrón "cascada encubierta" (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`): la diferencia no está en cuánta spec se escribe, sino en si la spec permanece viva o se congela.
 
 No se ha hallado una fuente que defienda la equivalencia estricta "spec = épica"; la posición dominante es la de **contención/inversión de jerarquía**, coherente con lo documentado arriba.
 
@@ -97,7 +97,7 @@ No se ha hallado una fuente que defienda la equivalencia estricta "spec = épica
 [SDD-Check]
 - Spec leida: SI (spec propuesta, aprobada y registrada en `../SPECS_REGISTRY.md` para este doc)
 - Incluye/Excluye verificado: SI (foco en la relación spec/épica; no re-analiza el flujo interno de Spec Kit ni duplica el mapeo del SSOT; Línea A diferida)
-- Validaciones aplicadas: afirmaciones externas ancladas en [R10][R20][R21][R22]; refs internas verificadas (ANALISIS-SPEC-KIT, SDD-ADAPTATIVO-VS-CASCADA, SPECS_REGISTRY, 06-BACKLOG); sin emoticones; fechas YYYY-MM-DD; ortografía del español con tildes (convención fijada en SPECS_REGISTRY.md); no duplica SSOT (referencia, no copia)
+- Validaciones aplicadas: afirmaciones externas ancladas en [R10][R20][R21][R22]; refs internas verificadas (ANALISIS-SPEC-KIT, SDD-ADAPTATIVO-VS-CASCADA, SPECS_REGISTRY, BACKLOG-INVESTIGACION); sin emoticones; fechas YYYY-MM-DD; ortografía del español con tildes (convención fijada en SPECS_REGISTRY.md); no duplica SSOT (referencia, no copia)
 - SSOT afectado: ninguno (derivado de `software/ANALISIS-SPEC-KIT.md`)
 - Derivados a revisar: ninguno
 - Cobertura: completa — cada afirmación de la comparación mapea a una fuente [Rxx] o a un SSOT interno referenciado

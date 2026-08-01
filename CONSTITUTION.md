@@ -30,7 +30,7 @@ Ninguna afirmación factual externa se sostiene sola: cita una referencia `[Rxx]
 Un cambio en un SSOT obliga a revisar sus derivados, y un resultado que responde una pregunta abierta de un SSOT sube **primero al SSOT y después a sus derivados**. La dirección ascendente no es opcional: el conocimiento producido por una ejecución entra por abajo. Cerrar un experimento dispara esta revisión aunque el experimento esté exento de spec propia — la exención es de *spec*, no de *propagación*.
 
 - **Enforcement:** sección «Propagacion» de `templates/RESULTADO-EXPERIMENTO.md` (tres checks); campo `Derivados a revisar` del bloque `[SDD-Check]`.
-- **Detalle:** `SPECS_REGISTRY.md` (regla de propagación), `SDD-ADAPTATIVO-VS-CASCADA.md` (por qué el circuito es bidireccional).
+- **Detalle:** `SPECS_REGISTRY.md` (regla de propagación), `comun/SDD-ADAPTATIVO-VS-CASCADA.md` (por qué el circuito es bidireccional).
 
 ### IV. Documento autorado, spec registrada
 
@@ -51,7 +51,7 @@ Un experimento se pre-registra antes de producir su dato: hipótesis, definició
 Los cambios al método SDD de este repositorio —protocolo del asistente, registro de specs, templates, esta constitución— no son hallazgos de investigación y no se registran como tales: se rigen por esta constitución y se asientan en el historial. Simétricamente, un hallazgo de investigación no modifica el método por sí solo: lo propone, y la adopción es una decisión explícita y fechada.
 
 - **Enforcement:** entrada obligatoria en el historial al cambiar método; revisión de post-generación.
-- **Detalle:** `historial/sdd.md`, `ROADMAP-MEJORAS-SDD.md`.
+- **Detalle:** `historial/sdd.md`, `historial/ROADMAP-MEJORAS-SDD.md`.
 
 ### VII. Preguntar antes que interpretar
 

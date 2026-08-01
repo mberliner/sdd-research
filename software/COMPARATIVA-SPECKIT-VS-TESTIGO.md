@@ -52,7 +52,7 @@ Los dos modelos optimizan ejes distintos. **Feature/rama** organiza por el **tra
   - **No mapea solo a branch/PR/CI**: necesita convencion anadida para "que spec estas tocando" → de ahi `.sdd/current-spec` (ver `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` §9.1).
   - **Tooling propio (fork)**: numeracion manual (riesgo de colision/reuso de IDs, ocurrido en el corte hibrido), sin mejora upstream automatica.
 
-**Cuando gana cada uno.** Feature/rama: equipo grande y paralelo, flujo PR/CI maduro, features bien aisladas, prioridad en throughput. Centralizado: equipo chico, fuerte necesidad de consistencia/trazabilidad global, muchas capacidades que se referencian entre si, y cuando el riesgo principal es la cascada encubierta (`../SDD-ADAPTATIVO-VS-CASCADA.md`).
+**Cuando gana cada uno.** Feature/rama: equipo grande y paralelo, flujo PR/CI maduro, features bien aisladas, prioridad en throughput. Centralizado: equipo chico, fuerte necesidad de consistencia/trazabilidad global, muchas capacidades que se referencian entre si, y cuando el riesgo principal es la cascada encubierta (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`).
 
 **Sintesis del eje.** No son excluyentes: feature/rama optimiza **aislamiento y paralelismo**; el registro central optimiza **visibilidad y adaptatividad**. El testigo eligio centralizado y **compro de vuelta** lo que perdia: `.sdd/current-spec` recupera el "que estoy tocando ahora" que la rama daba gratis, sin fragmentar el indice. El costo que paga es la contencion sobre un archivo y el peso creciente del registry — aceptable en proyecto chico, problematico si escalara el equipo.
 
@@ -90,7 +90,7 @@ Diferencia clave: el testigo formaliza **artefactos de metodo que Spec Kit no ti
 **Testigo**
 - Ajustado a su contexto (equipo chico, **proveedor-agnostico**: el proveedor concreto vive aislado en `adapters/`) y **asistente-agnostico** (2026-06-21): el protocolo es SSOT unico en `AGENTS.md` con cuerpo neutro en `docs/playbooks/`; cada asistente IA (Claude, opencode, Cursor…) entra por un wrapper fino, sin reescribir el metodo. El gate `sdd_gate.py` es **multi-transporte** (argv/env/stdin) para servir a cualquier asistente y a pre-commit con el mismo veredicto. Al 2026-07-01 esa agnosticidad dejo de depender de wrappers a mano: (a) `gen_skill_adapters.py` **genera** los adaptadores divergentes desde `.agents/skills/` con `--check` anti-drift en el pipeline (verificado: Codex y Antigravity convergen al formato skill de Claude; opencode es el unico que sigue con *command* explicito); y (b) el gate preventivo de opencode quedo cableado como plugin (`.opencode/plugin/sdd-gate.js`), **verificado E2E en opencode real**, alcanzando paridad con el `PreToolUse` de Claude — cierra la deuda #1 de la universalizacion. El plugin evoluciono a **multi-tool y fail-closed** (2026-06-25): intercepta `edit`/`write`/`multiedit`/`apply_patch`, parsea cabeceras de patch estilo Codex, y **bloquea** si no logra ejecutar el gate (Python ausente o stub de la Store) en vez de permitir en silencio.
 - **Specs vivas demostradas empiricamente** (B-06: circuito activo, specs ajustadas en horas, no congeladas).
-- *Deuda arrastrada* previene la **cascada encubierta** (`../SDD-ADAPTATIVO-VS-CASCADA.md`) — **instrumenta el feedback bidireccional que Spec Kit solo declara**: vuelve el pendiente un artefacto obligatorio en vez de dejarlo a disciplina.
+- *Deuda arrastrada* previene la **cascada encubierta** (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`) — **instrumenta el feedback bidireccional que Spec Kit solo declara**: vuelve el pendiente un artefacto obligatorio en vez de dejarlo a disciplina.
 - **Constitution-by-reference**: invariante en la constitucion, detalle en el SSOT -> evita duplicacion divergente; la constitucion **sobrevive a un cambio de agente**. Desde v0.6.0 (2026-07-05) el **Principio VI ("SSOT unico por tema")** eleva el *by-reference* a invariante general y lo extiende hacia adentro de las specs (un detalle compartido se declara una vez; los principios se citan con link, no se re-declaran como `FR`), instrumentado en `SPEC-FORMAT.md` + revision editorial + `docs/playbooks/analyze.md`.
 - Pragmatismo: toma la anatomia de spec de Spec Kit **sin** su superficie operativa (CLI, branches por feature, 30+ integraciones).
 
@@ -102,7 +102,7 @@ Diferencia clave: el testigo formaliza **artefactos de metodo que Spec Kit no ti
 - Acoplamiento spec -> codigo -> tests con **costo/beneficio no medido** en equipos chicos (riesgo de fatiga de checklists).
 - **Linea-B-nativo**: sin soporte para documentos de analisis/conocimiento.
 - "Power Inversion" es una posicion fuerte **que no quedo validada** en este contexto: B-07 midio su componente de regenerabilidad (2026-07-28) y **no encontro ventaja** del formato hibrido — sin refutarla tampoco (ver `../experimentos/RESULTADO-EXPERIMENTO-B7.md`).
-- **Feedback bidireccional declarado pero no instrumentado**: el circuito spec<-aprendizaje depende de la disciplina del equipo (re-ejecutar `specify`/`clarify`), no de un artefacto obligatorio. El riesgo de cascada encubierta queda contenido solo por habito, no por mecanismo (ver `../SDD-ADAPTATIVO-VS-CASCADA.md`).
+- **Feedback bidireccional declarado pero no instrumentado**: el circuito spec<-aprendizaje depende de la disciplina del equipo (re-ejecutar `specify`/`clarify`), no de un artefacto obligatorio. El riesgo de cascada encubierta queda contenido solo por habito, no por mecanismo (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`).
 
 **Testigo**
 - **Muestra minima** (1 proyecto, ~13 specs activas en semanas): evidencia indicativa, no generalizable.
@@ -121,7 +121,7 @@ Spec Kit es el **estandar de referencia**: completo, ejecutable y portable, pero
 
 ### Dos ejes independientes (evitar comparar en un solo eje)
 
-La comparacion se aclara separando dos preguntas que suelen mezclarse (ver `../SDD-ADAPTATIVO-VS-CASCADA.md`, "Aclaracion: invertir la jerarquia no es anticipar el conocimiento"):
+La comparacion se aclara separando dos preguntas que suelen mezclarse (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`, "Aclaracion: invertir la jerarquia no es anticipar el conocimiento"):
 
 - **Eje 1 — regenerabilidad** ("¿la spec genera el codigo?"): Spec Kit apuesta fuerte (Power Inversion, codigo regenerable); el testigo no regenera, reconcilia. Es el eje que midio **B-07**: cerrado el 2026-07-28 en "ajustar / no concluyente", **sin ventaja del hibrido** (ver `../experimentos/RESULTADO-EXPERIMENTO-B7.md`).
 - **Eje 2 — adaptatividad** ("¿la spec se actualiza con lo aprendido?"): aqui el testigo va **mas lejos**, porque instrumenta el feedback (`Deuda arrastrada` + historial + specs vivas, B-06), mientras Spec Kit lo declara como principio pero lo deja a disciplina.
@@ -169,8 +169,8 @@ Los ejes son **ortogonales**: un SDD puede ser fuerte en regenerabilidad y debil
 [SDD-Check] — actualizacion 2026-05-28 (incorporacion de hallazgos + saldo de sintesis)
 - Spec leida: SI (SPECS_REGISTRY.md: la incorporacion cae en "tabla comparativa por dimension" + "sintesis de la relacion entre ambos y su conexion con B-06/B-07")
 - Incluye/Excluye verificado: SI — se añadio fila "Circuito spec<-aprendizaje" a la tabla 3 (Funcionalidad), un punto en Debilidades de Spec Kit, refuerzo en Beneficios del testigo y una subseccion "Dos ejes independientes" en la Sintesis; no se re-analiza el flujo interno de Spec Kit ni se anticipan resultados de B-07
-- Validaciones aplicadas: feedback de Spec Kit anclado en fuente real (`spec-driven.md` L57 principio / L63 "discipline"; comandos specify/clarify/analyze) [R10]; instrumentacion del testigo anclada en CLAUDE.md (Deuda arrastrada) y RESULTADO-EXPERIMENTO-B6.md; ortogonalidad remitida a SDD-ADAPTATIVO-VS-CASCADA.md (SSOT); refs [R04][R10] intactas; sin emoticones; fechas YYYY-MM-DD
-- SSOT afectado: ninguno (doc derivado de ANALISIS-SPEC-KIT.md); coherente con la subseccion nueva de SDD-ADAPTATIVO-VS-CASCADA.md actualizada esta sesion
+- Validaciones aplicadas: feedback de Spec Kit anclado en fuente real (`spec-driven.md` L57 principio / L63 "discipline"; comandos specify/clarify/analyze) [R10]; instrumentacion del testigo anclada en CLAUDE.md (Deuda arrastrada) y RESULTADO-EXPERIMENTO-B6.md; ortogonalidad remitida a ../comun/SDD-ADAPTATIVO-VS-CASCADA.md (SSOT); refs [R04][R10] intactas; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno (doc derivado de ANALISIS-SPEC-KIT.md); coherente con la subseccion nueva de ../comun/SDD-ADAPTATIVO-VS-CASCADA.md actualizada esta sesion
 - Derivados a revisar: ninguno; SHOULD enlazar desde software/00-INDEX.md (operativo, pendiente)
 - Cobertura: completa — los 3 hallazgos de la sesion incorporados; la deuda "retomar la sintesis comparativa" queda SALDADA sobre dos ejes (regenerabilidad / adaptatividad)
 - Deuda arrastrada: Eje 1 (regenerabilidad / Power Inversion) sigue sin evidencia empirica — depende de ejecutar B-07; enlace desde software/00-INDEX.md pendiente

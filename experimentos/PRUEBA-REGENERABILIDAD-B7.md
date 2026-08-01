@@ -293,7 +293,7 @@ MUST — correr **después** de registrar R1 (§3.2), para no contaminarlo. Por 
   - **Efecto en R5:** los ítems 1 y 4 de `PREREG §5.1` cambian de significado — el 1 pasa a medir declaración **voluntaria** (no navegación del gate) y el 4 queda **degenerado** (retirado, §3.6-bis).
   - **Alcance acotado:** la condición es **idéntica en las 4 celdas** (ningún ws tiene `.venv`) → el **contraste intra-feature** (efecto-formato, señal primaria) **no se invalida**. Interactúa con la reserva de asimetría `.sdd/current-spec` ya registrada (en F001 el placeholder existe y es trackeado → hay *affordance* para declarar; en F013 está ausente y gitignored → sin affordance **y** sin gate que obligue), que pesa solo en el cruce F001↔F013.
   - **MUST — no se corrige retroactivamente:** montar `.venv` y re-correr rompería el `OUT` one-shot que fijó R1. Se declara como reserva y se considera **condición del experimento**, no defecto de una celda.
-  - **Hallazgo transferible (no de B-07):** un gate de gobernanza que depende de un intérprete opcional y **sale 0** al no encontrarlo es un **agujero de enforcement silencioso** — falla abierto justo en el entorno menos preparado. Registrado en `../06-BACKLOG-INVESTIGACION-FUTURA.md`.
+  - **Hallazgo transferible (no de B-07):** un gate de gobernanza que depende de un intérprete opcional y **sale 0** al no encontrarlo es un **agujero de enforcement silencioso** — falla abierto justo en el entorno menos preparado. Registrado en `../agenda/BACKLOG-INVESTIGACION.md`.
 - **4.5** Consolidar en `RESULTADO-EXPERIMENTO-B7.md` usando `../templates/RESULTADO-EXPERIMENTO.md`.
 
 ---

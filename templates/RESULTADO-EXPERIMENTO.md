@@ -61,7 +61,7 @@ SHOULD — contrastar el resultado del check 3 contra la sección «Documentos q
 <!-- Pendientes diferidos al cerrar. MUST re-explicitarse en el siguiente cierre hasta resolverse (anti-cascada). Marcar cada item como nuevo | arrastrado | resuelto. -->
 -
 
-> MUST — todo ítem que quede `nuevo` o `arrastrado` migra a `06-BACKLOG-INVESTIGACION-FUTURA.md`, con fecha y origen, **antes** de dar el experimento por cerrado.
+> MUST — todo ítem que quede `nuevo` o `arrastrado` migra a `../agenda/BACKLOG-INVESTIGACION.md`, con fecha y origen, **antes** de dar el experimento por cerrado.
 >
 > Motivo: "re-explicitarse en el siguiente cierre" ata la deuda a que exista otro experimento. Si no lo hay, muere en silencio — que es exactamente el abandono que la convención anti-cascada quiere evitar. El backlog tiene cadencia propia. Precedente: B-07 ya lo hizo con dos hallazgos, hoy #4 y #5 de Prioridad alta.
 

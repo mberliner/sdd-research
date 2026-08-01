@@ -3,7 +3,7 @@
 Fecha: 2026-03-01.
 Fuente: análisis comparativo con proyecto "Transformacion AI-Native Org" — SPECS_REGISTRY.md, CLAUDE.md, historial/sdd.md.
 
-> **Estado: CERRADO / HISTÓRICO (2026-06-01).** Las mejoras 1–10 de este reporte se implementaron en la **Fase 1** de consolidación del sistema (2026-03-01) y viven hoy en `SPECS_REGISTRY.md` y `CLAUDE.md`; la mejora 11 (tests del sistema SDD) evolucionó hacia los experimentos B-06/B-07 sobre el proyecto testigo. El detalle de qué quedó aplicado está en `historial/sdd.md`. Este documento se conserva como registro auditable del análisis original; **el contenido en presente ("Situación actual…", "Mejora…") describe el estado previo a la Fase 1, no el estado actual del repositorio.**
+> **Estado: CERRADO / HISTÓRICO (2026-06-01).** Las mejoras 1–10 de este reporte se implementaron en la **Fase 1** de consolidación del sistema (2026-03-01) y viven hoy en `../SPECS_REGISTRY.md` y `../CLAUDE.md`; la mejora 11 (tests del sistema SDD) evolucionó hacia los experimentos B-06/B-07 sobre el proyecto testigo. El detalle de qué quedó aplicado está en `sdd.md`. Este documento se conserva como registro auditable del análisis original; **el contenido en presente ("Situación actual…", "Mejora…") describe el estado previo a la Fase 1, no el estado actual del repositorio.**
 
 ---
 
@@ -24,7 +24,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 **Mejora**: Agregar campo `deriva_de` en cada spec con `ssot_level: derivado`. Ejemplo:
 
 ```
-| deriva_de | `MARCO-COMPARATIVO-DOS-LINEAS.md` |
+| deriva_de | `../comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 ```
 
 **Impacto**: Hace la propagación trazable y el bloque `[SDD-Check]` puede listar derivados con precisión.
@@ -33,7 +33,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 ### 1.2 Tabla SSOT sin columna "Quién referencia"
 
-**Situación actual**: La tabla SSOT en `CLAUDE.md` tiene columnas Concepto / SSOT / Derivados.
+**Situación actual**: La tabla SSOT en `../CLAUDE.md` tiene columnas Concepto / SSOT / Derivados.
 
 **Problema**: No es fácil evaluar el impacto de cambiar un SSOT porque no se sabe qué documentos lo citan.
 
@@ -43,7 +43,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 ### 1.3 Specs sin campos `owner`, `refresh`, `audiencia` y `estado`
 
-**Situación actual**: Las specs en `SPECS_REGISTRY.md` solo tienen: `path`, `propósito`, `ssot_level`, `incluye`, `excluye`, `validación`.
+**Situación actual**: Las specs en `../SPECS_REGISTRY.md` solo tienen: `path`, `propósito`, `ssot_level`, `incluye`, `excluye`, `validación`.
 
 **Problema**: Falta accountability (quién mantiene el doc), cadencia de actualización (cuándo revisarlo) y estado del ciclo de vida (activo/borrador/deprecado).
 
@@ -64,7 +64,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 **Problema**: Un índice operativo no necesita la misma spec que un SSOT central con múltiples derivados.
 
-**Mejora**: Definir tres niveles en `SPECS_REGISTRY.md`:
+**Mejora**: Definir tres niveles en `../SPECS_REGISTRY.md`:
 
 | Nivel | Campos | Aplicar a |
 |-------|--------|-----------|
@@ -80,7 +80,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 **Problema**: Ambigüedad sobre si archivos de datos, logs o fuentes originales necesitan spec.
 
-**Mejora**: Agregar sección en `SPECS_REGISTRY.md`:
+**Mejora**: Agregar sección en `../SPECS_REGISTRY.md`:
 
 ```
 ## Docs excluidos del registro (no necesitan spec)
@@ -99,7 +99,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 **Problema**: Cuando una spec diverge del doc real (por evolución del contenido), no hay regla clara de qué hacer.
 
-**Mejora**: Agregar al protocolo en `CLAUDE.md`:
+**Mejora**: Agregar al protocolo en `../CLAUDE.md`:
 
 ```
 ### Ciclo de vida de specs
@@ -165,7 +165,7 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 **Problema**: No hay forma de saber qué funcionó, qué falló y qué correcciones se aplicaron al protocolo — impide mejora iterativa.
 
-**Mejora**: Crear `historial/sdd.md` con estructura:
+**Mejora**: Crear `sdd.md` con estructura:
 
 ```
 ## Fase N — Nombre (fecha) — estado
@@ -202,14 +202,14 @@ El proyecto "Transformacion AI-Native Org" completó dos fases de implementació
 
 | # | Mejora | Archivo a modificar | Esfuerzo |
 |---|--------|---------------------|----------|
-| 1 | Campo `deriva_de` en specs de derivados | `SPECS_REGISTRY.md` | bajo |
-| 2 | MUST NOT en violación de scope | `CLAUDE.md` | bajo |
-| 3 | Checks genéricos post-generación | `CLAUDE.md` | bajo |
-| 4 | Ciclo de vida de specs | `CLAUDE.md` | bajo |
-| 5 | Disambiguación conversacional | `CLAUDE.md` | bajo |
-| 6 | Campos `owner`, `refresh`, `estado`, `audiencia` en specs | `SPECS_REGISTRY.md` | medio |
-| 7 | Niveles de profundidad de spec | `SPECS_REGISTRY.md` | medio |
-| 8 | Docs excluidos del registro | `SPECS_REGISTRY.md` | bajo |
-| 9 | Columna "Quién referencia" en tabla SSOT | `CLAUDE.md` | medio |
-| 10 | Crear `historial/sdd.md` | nuevo archivo | medio |
-| 11 | Diseñar y ejecutar tests SDD | `historial/sdd.md` | alto |
+| 1 | Campo `deriva_de` en specs de derivados | `../SPECS_REGISTRY.md` | bajo |
+| 2 | MUST NOT en violación de scope | `../CLAUDE.md` | bajo |
+| 3 | Checks genéricos post-generación | `../CLAUDE.md` | bajo |
+| 4 | Ciclo de vida de specs | `../CLAUDE.md` | bajo |
+| 5 | Disambiguación conversacional | `../CLAUDE.md` | bajo |
+| 6 | Campos `owner`, `refresh`, `estado`, `audiencia` en specs | `../SPECS_REGISTRY.md` | medio |
+| 7 | Niveles de profundidad de spec | `../SPECS_REGISTRY.md` | medio |
+| 8 | Docs excluidos del registro | `../SPECS_REGISTRY.md` | bajo |
+| 9 | Columna "Quién referencia" en tabla SSOT | `../CLAUDE.md` | medio |
+| 10 | Crear `sdd.md` | nuevo archivo | medio |
+| 11 | Diseñar y ejecutar tests SDD | `sdd.md` | alto |

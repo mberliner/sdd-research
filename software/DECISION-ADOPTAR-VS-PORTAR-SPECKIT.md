@@ -150,7 +150,7 @@ Referencia, no copia:
 
 - `COMPARATIVA-SPECKIT-VS-TESTIGO.md` — comparacion descriptiva en 5 dimensiones y los dos ejes (regenerabilidad / adaptatividad).
 - `ANALISIS-SPEC-KIT.md` — SSOT del flujo interno de Spec Kit (comandos y artefactos).
-- `../SDD-ADAPTATIVO-VS-CASCADA.md` — anti-patron cascada encubierta y circuitos de aprendizaje (sustenta el valor del enforcement no-salteable).
+- `../comun/SDD-ADAPTATIVO-VS-CASCADA.md` — anti-patron cascada encubierta y circuitos de aprendizaje (sustenta el valor del enforcement no-salteable).
 
 ---
 

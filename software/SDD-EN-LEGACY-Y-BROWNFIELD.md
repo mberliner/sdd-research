@@ -114,7 +114,7 @@ Hipótesis candidata: *la retro-spec (spec mínima + characterization tests) red
 el costo o el error del próximo cambio en un módulo legacy, frente a tocarlo sin
 spec*. Métrica primaria: defectos introducidos o tiempo de comprensión por cambio.
 La formalización como experimento queda **diferida** a `software/PLAN-PRUEBAS.md` y
-su priorización a `06-BACKLOG-INVESTIGACION-FUTURA.md`.
+su priorización a `../agenda/BACKLOG-INVESTIGACION.md`.
 
 ## Nota relacionada: enforcement SDD sin git
 
@@ -128,7 +128,7 @@ tooling moderno.
 ## Alcance diferido
 
 - Transferencia a Línea A (retro-spec de documentos/conocimiento legacy): diferida
-  a `06-BACKLOG-INVESTIGACION-FUTURA.md`.
+  a `../agenda/BACKLOG-INVESTIGACION.md`.
 - Diseño del experimento B: diferido a `software/PLAN-PRUEBAS.md`.
 
 ## Referencias

@@ -203,7 +203,7 @@ El resultado es un repositorio donde cualquier asistente nuevo puede orientarse 
 
 ## Referencias internas
 
-- Modelo SDD dual (docs e investigacion vs. software): `../MARCO-COMPARATIVO-DOS-LINEAS.md`
-- Implementacion pragmatica sin CI: `../IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`
-- Anti-patron cascada encubierta y circuitos de aprendizaje: `../SDD-ADAPTATIVO-VS-CASCADA.md`
+- Modelo SDD dual (docs e investigacion vs. software): `../comun/MARCO-COMPARATIVO-DOS-LINEAS.md`
+- Implementacion pragmatica sin CI: `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`
+- Anti-patron cascada encubierta y circuitos de aprendizaje: `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`
 - Registro de specs: `../SPECS_REGISTRY.md`

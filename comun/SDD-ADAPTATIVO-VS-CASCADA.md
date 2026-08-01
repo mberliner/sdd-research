@@ -31,7 +31,7 @@ La señal de congelamiento MUST medirse en **iteraciones del proyecto, no en tie
 - Criterio recomendado: una spec activa sin tocar durante **2-3 iteraciones o ciclos de cierre** del proyecto es candidata a revision.
 - Equivalencias de referencia: cadencia mensual ≈ 30 dias; cadencia semanal ≈ 1 semana; cadencia por iteracion rapida ≈ N iteraciones.
 
-Hallazgo de respaldo: experimento B-06 (`experimentos/RESULTADO-EXPERIMENTO-B6.md`) mostro que un proyecto testigo que itera en horas vuelve inutil el umbral absoluto de 30 dias.
+Hallazgo de respaldo: experimento B-06 (`../experimentos/RESULTADO-EXPERIMENTO-B6.md`) mostro que un proyecto testigo que itera en horas vuelve inutil el umbral absoluto de 30 dias.
 
 ### Por que ocurre
 
@@ -64,8 +64,8 @@ La cadencia correcta es una variable del proyecto, no un estandar fijo. SHOULD a
 - El ciclo hipotesis -> experimento -> resultado -> revision de `LINEAS-INVESTIGACION.md` es el circuito de aprendizaje primario.
 - El bloque `[SDD-Check]` al final de cada entrega es un micro-circuito de retroalimentacion por sesion.
 - El campo `estado: Borrador/Activo/Deprecado` en specs explicita el ciclo de vida del conocimiento.
-- El historial en `historial/sdd.md` registra la evolucion del sistema como evidencia de que los circuitos funcionan.
-- El campo **`Deuda arrastrada`** del bloque `[SDD-Check]` (ver `AGENTS.md`) lista lo diferido en cada entrega y MUST re-explicitarse en las siguientes hasta resolverse. Es el mecanismo anti-cascada mas directo: convierte el pendiente en un artefacto obligatorio y grep-able en lugar de depender de que alguien lo recuerde. Distingue deuda de producto (se resuelve rapido) de deuda de tooling/entorno (persiste, señal de alarma leve). Derivado del experimento B-06 (`experimentos/RESULTADO-EXPERIMENTO-B6.md`, hallazgo 2 y propuesta 1), que lo identifico como "el instrumento que mas claramente previene la cascada encubierta" en el proyecto testigo.
+- El historial en `../historial/sdd.md` registra la evolucion del sistema como evidencia de que los circuitos funcionan.
+- El campo **`Deuda arrastrada`** del bloque `[SDD-Check]` (ver `../AGENTS.md`) lista lo diferido en cada entrega y MUST re-explicitarse en las siguientes hasta resolverse. Es el mecanismo anti-cascada mas directo: convierte el pendiente en un artefacto obligatorio y grep-able en lugar de depender de que alguien lo recuerde. Distingue deuda de producto (se resuelve rapido) de deuda de tooling/entorno (persiste, señal de alarma leve). Derivado del experimento B-06 (`../experimentos/RESULTADO-EXPERIMENTO-B6.md`, hallazgo 2 y propuesta 1), que lo identifico como "el instrumento que mas claramente previene la cascada encubierta" en el proyecto testigo.
 
 ## SDD vs Cascada: Comparativa
 
@@ -99,7 +99,7 @@ La cadencia correcta es una variable del proyecto, no un estandar fijo. SHOULD a
 
 ### Aclaracion: invertir la jerarquia no es anticipar el conocimiento
 
-Un SDD **generativo** —donde la spec es el artefacto primario que genera el codigo y el codigo es "ultima milla" regenerable (la "Power Inversion"; ver `software/ANALISIS-SPEC-KIT.md` [R10])— se confunde a veces con Big Design Up Front. No lo es. La inversion afecta la **jerarquia** (la spec manda sobre el codigo), no el **momento** en que se adquiere el conocimiento.
+Un SDD **generativo** —donde la spec es el artefacto primario que genera el codigo y el codigo es "ultima milla" regenerable (la "Power Inversion"; ver `../software/ANALISIS-SPEC-KIT.md` [R10])— se confunde a veces con Big Design Up Front. No lo es. La inversion afecta la **jerarquia** (la spec manda sobre el codigo), no el **momento** en que se adquiere el conocimiento.
 
 - Un SDD generativo sigue siendo iterativo: incorpora feedback bidireccional (la realidad de produccion -> evolucion de la spec), descompone el alcance en slices incrementales y usa marcadores de incertidumbre (`[NEEDS CLARIFICATION]`) en vez de suposiciones [R03][R10].
 - Lo que exige no es conocer **todo el producto** por adelantado, sino que el conocimiento **disponible para cada slice** este explicito y desambiguado en la spec antes de generar ese slice. Es "spec completa por slice", no "spec completa del producto".
@@ -111,7 +111,7 @@ Corolario practico: al evaluar un enfoque SDD, separar dos preguntas que suelen 
 
 ### Linea A (docs e investigacion)
 
-El riesgo de cascada es alto cuando el marco teorico se define al inicio y no se actualiza con los resultados de los experimentos. El circuito de aprendizaje primario es: hipotesis en `LINEAS-INVESTIGACION.md` -> experimento en `experimentos/` -> resultado -> revision de la hipotesis y sus specs derivadas.
+El riesgo de cascada es alto cuando el marco teorico se define al inicio y no se actualiza con los resultados de los experimentos. El circuito de aprendizaje primario es: hipotesis en `LINEAS-INVESTIGACION.md` -> experimento en `../experimentos/` -> resultado -> revision de la hipotesis y sus specs derivadas.
 
 ### Linea B (software)
 
@@ -122,7 +122,7 @@ El riesgo de cascada es alto en specs de API o contratos que se congelan tras la
 - Al menos un SSOT activo fue modificado en las ultimas 2 semanas en un proyecto en curso.
 - Los experimentos cerrados derivaron en actualizaciones de `LINEAS-INVESTIGACION.md`.
 - El campo `excluye` de alguna spec fue refinado desde su creacion (indica que el alcance fue puesto a prueba).
-- Hay entradas en `historial/sdd.md` con frecuencia consistente con la cadencia declarada.
+- Hay entradas en `../historial/sdd.md` con frecuencia consistente con la cadencia declarada.
 - Las specs que superan la ventana de inactividad sin cambio tienen justificacion explícita (proyecto pausado, conocimiento estable confirmado).
 - La `Deuda arrastrada` de cada entrega se re-explicita hasta resolverse, no se abandona en silencio entre iteraciones (B-06 verifico esta señal en el testigo: deuda re-declarada en las 4 iteraciones del corte).
 

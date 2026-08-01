@@ -40,7 +40,7 @@ Razón: **todo el ciclo de vida del corpus es pre-git**. El repo se inicializó 
 
 ## Reglas críticas de medición (por qué el diseño es así)
 
-1. **`N/A` no es `0`.** Cuando una métrica cuenta ocurrencias de una sección o convención que sólo una de las dos anatomías contempla (`FR-`/`SC-`, ausentes en casero; `[NEEDS CLARIFICATION]`, ídem), el brazo sin la convención MUST registrarse como **`N/A`** y MUST NOT entrar a promedio ni ratio. Reportarlo como `0` convierte una asimetría de anatomía en un valor medido y produce una tautología a favor del tratamiento. Precedente: `PRUEBA-REGENERABILIDAD-B7.md` §3.6-bis descartó dos ítems de `R5` por esta razón. Anti-patrón general en `../06-BACKLOG-INVESTIGACION-FUTURA.md` §Prioridad alta 6.
+1. **`N/A` no es `0`.** Cuando una métrica cuenta ocurrencias de una sección o convención que sólo una de las dos anatomías contempla (`FR-`/`SC-`, ausentes en casero; `[NEEDS CLARIFICATION]`, ídem), el brazo sin la convención MUST registrarse como **`N/A`** y MUST NOT entrar a promedio ni ratio. Reportarlo como `0` convierte una asimetría de anatomía en un valor medido y produce una tautología a favor del tratamiento. Precedente: `PRUEBA-REGENERABILIDAD-B7.md` §3.6-bis descartó dos ítems de `R5` por esta razón. Anti-patrón general en `../agenda/BACKLOG-INVESTIGACION.md` §Prioridad alta 6.
 
 2. **El *Coverage mapping* MUST NOT ser el instrumento de `H1`: es el tratamiento.** Sólo el brazo híbrido lo tiene. Medir cobertura leyendo la tabla que un solo brazo posee es la misma falacia del punto 1. El numerador se establece con un mapeo requisito a verificador construido con **la misma regla en los dos brazos**.
 
@@ -236,7 +236,7 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
 - Runbook de la métrica primaria, hermano de este: `PRUEBA-REGENERABILIDAD-B7.md`
 - Resultado de la métrica primaria: `RESULTADO-EXPERIMENTO-B7.md`
 - Hueco C1 (cobertura) y C3: `../software/ANALISIS-SPEC-KIT.md`
-- Anti-patrones del marco: `../06-BACKLOG-INVESTIGACION-FUTURA.md`
+- Anti-patrones del marco: `../agenda/BACKLOG-INVESTIGACION.md`
 - Plantillas: `../templates/EXPERIMENTO.md`, `../templates/RESULTADO-EXPERIMENTO.md`
 
 ---

@@ -27,8 +27,8 @@ La IA hizo barata la *generación* y cara la *verificación, la coherencia y la 
 
 ## Escenarios — Línea A (docs e investigación)
 
-- **Afirmaciones sin fuente verificable.** SDD obliga a citar `[Rxx]` en afirmaciones críticas (umbral en `docs-y-investigacion/NECESIDADES-Y-METRICAS.md`).
-- **Contradicciones entre documentos.** La separación SSOT/derivados evita duplicar y contradecir; meta de 0 contradicciones por release documental (`docs-y-investigacion/NECESIDADES-Y-METRICAS.md`).
+- **Afirmaciones sin fuente verificable.** SDD obliga a citar `[Rxx]` en afirmaciones críticas (umbral en `../docs-y-investigacion/NECESIDADES-Y-METRICAS.md`).
+- **Contradicciones entre documentos.** La separación SSOT/derivados evita duplicar y contradecir; meta de 0 contradicciones por release documental (`../docs-y-investigacion/NECESIDADES-Y-METRICAS.md`).
 - **Deriva narrativa al crecer el uso de IA.** Sube el riesgo de error factual; la prioridad pasa de producir más texto a mejorar verificabilidad y coherencia (`ESTADISTICAS-TENDENCIAS-EVOLUCION.md`).
 - **Alcance difuso por documento.** La spec con `Incluye/Excluye` delimita qué entra y qué no antes de escribir.
 

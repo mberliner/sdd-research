@@ -26,7 +26,7 @@ Division de trabajo: `CONSTITUTION.md` declara **que nunca cede** (invariante; c
 - **Alcance de un documento: un solo lugar (regla operativa del Principio I).** Los campos `proposito`, `incluye`, `excluye` y `validacion` MUST vivir unicamente en este registro. Ningun otro documento los reproduce ni los parafrasea:
   - `00-INDEX.md` responde *donde esta cada archivo* (ruta de lectura y ubicacion), no *que contiene cada doc* ni *quien es SSOT de que tema* — esa tabla vive aca, acoplada a la regla de propagacion. Su tabla de estructura MUST declarar rol (`SSOT` / `derivado` / `operativo`), no proposito.
   - El encabezado de un documento MAY llevar **una** linea de identidad para quien lo abre suelto; MUST NOT enumerar `incluye`/`excluye` ni criterios de validacion.
-  - Motivo: el 2026-07-31 se midio la divergencia real — 11 filas de `00-INDEX.md` repetian el `proposito` del registro y 5 ya habian derivado (perdiendo, entre otras cosas, la procedencia de `ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
+  - Motivo: el 2026-07-31 se midio la divergencia real — 11 filas de `00-INDEX.md` repetian el `proposito` del registro y 5 ya habian derivado (perdiendo, entre otras cosas, la procedencia de `historial/ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
   - Migracion: los encabezados de documentos preexistentes SHOULD limpiarse de forma oportunista al tocarlos, no en una reescritura masiva.
 - Ortografía: el contenido en español MUST usar ortografía correcta con tildes y signos (acentos, "ñ", apertura de interrogación/exclamación). Aplica a documentos nuevos y a todo documento que se edite. Excepciones: identificadores técnicos, rutas, nombres de archivo y claves de los bloques normativos (ej. campos del `[SDD-Check]` y nombres de campo de spec como `validacion`, `proposito`) MUST conservarse sin tildes por estabilidad grep-able. Los documentos preexistentes sin tildes SHOULD migrarse de forma oportunista al tocarlos, no en una reescritura masiva.
 
@@ -73,19 +73,19 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Linea | Concepto | SSOT | Quien referencia |
 |------|----------|------|------------------|
 | Comun | Principios no-negociables de la investigacion | `CONSTITUTION.md` | `AGENTS.md`, `SPECS_REGISTRY.md`, `00-INDEX.md`, `README.md` |
-| Comun | Mejoras al metodo SDD del repositorio | `MEJORAS-METODO.md` | `06-BACKLOG-INVESTIGACION-FUTURA.md`, `historial/sdd.md` |
-| Comun | Modelo dual SDD | `MARCO-COMPARATIVO-DOS-LINEAS.md` | `README.md`, `00-INDEX.md`, planes de linea |
-| Comun | SDD adaptativo y circuitos de aprendizaje | `SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
+| Comun | Mejoras al metodo SDD del repositorio | `agenda/MEJORAS-METODO.md` | `agenda/BACKLOG-INVESTIGACION.md`, `historial/sdd.md` |
+| Comun | Modelo dual SDD | `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` | `README.md`, `00-INDEX.md`, planes de linea |
+| Comun | SDD adaptativo y circuitos de aprendizaje | `comun/SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
-| Comun | Frameworks/proyectos lideres | `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | `LINEAS-INVESTIGACION.md` de ambas lineas |
-| Comun | Tendencias y estadistica | `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `06-BACKLOG`, `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
-| Comun | Escenarios que justifican SDD | `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `README.md`, `00-INDEX.md`, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
-| Comun | Implementacion pragmatica sin CI | `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | `PLAN-PRUEBAS.md` de ambas lineas |
+| Comun | Frameworks/proyectos lideres | `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | `LINEAS-INVESTIGACION.md` de ambas lineas |
+| Comun | Tendencias y estadistica | `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `BACKLOG-INVESTIGACION`, `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
+| Comun | Escenarios que justifican SDD | `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `README.md`, `00-INDEX.md`, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
+| Comun | Implementacion pragmatica sin CI | `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | `PLAN-PRUEBAS.md` de ambas lineas |
 | Docs/Investigacion | Agenda linea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea A |
-| Docs/Investigacion | Necesidades, metricas y riesgos linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
+| Docs/Investigacion | Necesidades, metricas y riesgos linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental linea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `experimentos/` de linea A al cerrar |
 | Software | Agenda linea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea B |
-| Software | Necesidades, metricas y riesgos linea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea B, `MARCO-COMPARATIVO-DOS-LINEAS.md` |
+| Software | Necesidades, metricas y riesgos linea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea B, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Software | Plan experimental linea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (disenos y resultados B-06/B-07) |
 | Software | Protocolo de medicion de B-07 (el «como») | `experimentos/PRUEBA-REGENERABILIDAD-B7.md` (metrica primaria) y `experimentos/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
 
@@ -144,8 +144,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] la tabla de estructura declara rol, no proposito
   - [ ] sin duplicacion de SSOT
 
-### MARCO-COMPARATIVO-DOS-LINEAS.md
-- `path`: `MARCO-COMPARATIVO-DOS-LINEAS.md`
+### comun/MARCO-COMPARATIVO-DOS-LINEAS.md
+- `path`: `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`
 - `proposito`: SSOT de diferencias entre linea A y linea B.
 - `ssot_level`: `SSOT`
 - `incluye`:
@@ -154,16 +154,16 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - punteros al SSOT donde vive el detalle de cada linea
 - `excluye`:
   - necesidades operativas, metricas concretas, umbrales y riesgos por linea — viven en `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` y `software/NECESIDADES-Y-METRICAS.md`
-  - modos de fallo y escenarios por linea — viven en `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
-  - frameworks y herramientas concretas por linea — viven en `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
+  - modos de fallo y escenarios por linea — viven en `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
+  - frameworks y herramientas concretas por linea — viven en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
   - resultados de experimentos concretos
 - `validacion`:
   - [ ] separacion explicita A/B
   - [ ] nombra la familia de metricas de cada linea, no las metricas — esas se referencian
   - [ ] cada eje de la tabla contrasta las dos lineas; ninguno describe una sola
 
-### ESCENARIOS-QUE-JUSTIFICAN-SDD.md
-- `path`: `ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
+### comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md
+- `path`: `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`
 - `proposito`: SSOT del catálogo de problemas y escenarios (modos de fallo) que justifican adoptar SDD hoy.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
@@ -172,16 +172,16 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - escenarios por línea A, línea B y transversales
   - mapa escenario → eje SDD que lo mitiga
 - `excluye`:
-  - cifras cuantitativas (viven en `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` — referencia)
-  - dinámica de cascada/feedback loops (vive en `SDD-ADAPTATIVO-VS-CASCADA.md` — referencia)
+  - cifras cuantitativas (viven en `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` — referencia)
+  - dinámica de cascada/feedback loops (vive en `comun/SDD-ADAPTATIVO-VS-CASCADA.md` — referencia)
 - `validacion`:
   - [ ] cada afirmación externa tiene `[Rxx]`
   - [ ] no duplica cifras de `ESTADISTICAS` ni el tratamiento de cascada de `SDD-ADAPTATIVO` — referencia
   - [ ] escenarios separados por línea A / B / transversal
   - [ ] no contradice SSOTs activos
 
-### PROYECTOS-LIDERES-Y-FRAMEWORKS.md
-- `path`: `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
+### comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md
+- `path`: `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
 - `proposito`: SSOT de frameworks y proyectos de referencia.
 - `ssot_level`: `SSOT`
 - `incluye`:
@@ -192,8 +192,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] cada bloque enlaza [Rxx]
 
-### ESTADISTICAS-TENDENCIAS-EVOLUCION.md
-- `path`: `ESTADISTICAS-TENDENCIAS-EVOLUCION.md`
+### comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md
+- `path`: `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md`
 - `proposito`: SSOT de datos cuantitativos y tendencias.
 - `ssot_level`: `SSOT`
 - `incluye`:
@@ -205,8 +205,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] cifras con fuente [Rxx]
   - [ ] fecha de consulta indicada
 
-### IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md
-- `path`: `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`
+### comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md
+- `path`: `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`
 - `proposito`: SSOT de adopcion pragmatica en contexto sin CI.
 - `ssot_level`: `SSOT`
 - `incluye`:
@@ -251,7 +251,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - umbrales iniciales sugeridos
   - riesgos de la linea y su mitigacion
 - `excluye`:
-  - el contraste con la linea B — vive en `MARCO-COMPARATIVO-DOS-LINEAS.md`
+  - el contraste con la linea B — vive en `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`
 - `validacion`:
   - [ ] metrica con definicion
   - [ ] umbral inicial definido
@@ -282,7 +282,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - metricas tecnicas con definicion y su relacion con DORA
   - riesgos de la linea y su mitigacion
 - `excluye`:
-  - el contraste con la linea A — vive en `MARCO-COMPARATIVO-DOS-LINEAS.md`
+  - el contraste con la linea A — vive en `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`
 - `validacion`:
   - [ ] metricas DORA y requisitos
   - [ ] riesgos y mitigaciones
@@ -316,7 +316,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] el criterio de exito se enuncia solo contra metricas que la propia prueba produce, con comprobacion de satisfacibilidad
   - [ ] `RESULTADO-EXPERIMENTO.md` incluye la seccion «Propagacion» con el grep de deuda declarada y la tabla de triaje (obligatoria desde 2026-07-29)
   - [ ] `EXPERIMENTO.md` incluye «Documentos que esperan este resultado»; su contraparte en el cierre es «Propagacion»
-  - [ ] la deuda no resuelta migra a `06-BACKLOG-INVESTIGACION-FUTURA.md` antes de cerrar, no queda atada al siguiente cierre
+  - [ ] la deuda no resuelta migra a `agenda/BACKLOG-INVESTIGACION.md` antes de cerrar, no queda atada al siguiente cierre
 
 ### SPECS_REGISTRY.md
 - `path`: `SPECS_REGISTRY.md`
@@ -359,8 +359,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no duplica contenido — solo importa `AGENTS.md`
   - [ ] linea `@AGENTS.md` presente
 
-### 06-BACKLOG-INVESTIGACION-FUTURA.md
-- `path`: `06-BACKLOG-INVESTIGACION-FUTURA.md`
+### agenda/BACKLOG-INVESTIGACION.md
+- `path`: `agenda/BACKLOG-INVESTIGACION.md`
 - `proposito`: backlog priorizado de **preguntas abiertas** de investigacion para ambas lineas A y B — se cierran con evidencia, no con una edicion.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -369,38 +369,38 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - anti-patrones y hallazgos metodologicos que abren preguntas nuevas
   - criterio de priorizacion
 - `excluye`:
-  - cambios al metodo del repositorio (protocolo, registro, constitucion, templates, tooling) — viven en `MEJORAS-METODO.md`, aprobados o propuestos
+  - cambios al metodo del repositorio (protocolo, registro, constitucion, templates, tooling) — viven en `agenda/MEJORAS-METODO.md`, aprobados o propuestos
   - resultados de experimentos (viven en `experimentos/`)
 - `validacion`:
   - [ ] items tienen prioridad asignada
   - [ ] criterio de priorizacion presente
-  - [ ] ningun item es una tarea de metodo con decision tomada — esos migran a `MEJORAS-METODO.md`
+  - [ ] ningun item es una tarea de metodo con decision tomada — esos migran a `agenda/MEJORAS-METODO.md`
   - [ ] los items con contraparte de metodo la referencian por ID (`M-NN`)
 
-### MEJORAS-METODO.md
-- `path`: `MEJORAS-METODO.md`
+### agenda/MEJORAS-METODO.md
+- `path`: `agenda/MEJORAS-METODO.md`
 - `proposito`: backlog de cambios al **metodo** SDD del repositorio (protocolo, registro, constitucion, templates, tooling de verificacion), con prioridad, origen y estado.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
-  - criterio de separacion respecto de `06-BACKLOG-INVESTIGACION-FUTURA.md` (operativa del Principio VI)
+  - criterio de separacion respecto de `agenda/BACKLOG-INVESTIGACION.md` (operativa del Principio VI)
   - tabla de estado: ID `M-NN`, prioridad, estado (`Propuesta`/`Aprobada`/`Hecha`/`Descartada`), origen, destino
   - detalle por mejora: que resuelve, de donde se porta, requisitos de diseño y reservas
 - `excluye`:
-  - preguntas de investigacion — viven en `06-BACKLOG-INVESTIGACION-FUTURA.md`
+  - preguntas de investigacion — viven en `agenda/BACKLOG-INVESTIGACION.md`
   - el registro cronologico de lo ya aplicado — vive en `historial/sdd.md`
-  - el analisis historico cerrado de 2026-03-01 — vive en `ROADMAP-MEJORAS-SDD.md` (cerrado, no se reabre)
+  - el analisis historico cerrado de 2026-03-01 — vive en `historial/ROADMAP-MEJORAS-SDD.md` (cerrado, no se reabre)
 - `validacion`:
   - [ ] cada item tiene ID, prioridad, estado y destino
   - [ ] cada item declara su origen (testigo, referencia `[Rxx]`, fase del historial)
   - [ ] los items `Hecha` referencian la fase de `historial/sdd.md` que los cerro
   - [ ] no duplica preguntas de investigacion — referencia por seccion
 
-### ROADMAP-MEJORAS-SDD.md
-- `path`: `ROADMAP-MEJORAS-SDD.md`
+### historial/ROADMAP-MEJORAS-SDD.md
+- `path`: `historial/ROADMAP-MEJORAS-SDD.md`
 - `proposito`: analisis comparativo de mejoras SDD identificadas desde el proyecto "Transformacion AI-Native Org".
 - `ssot_level`: `operativo`
-- `estado`: `Activo` como **registro historico cerrado** (2026-06-01): documenta el analisis de 2026-03-01 y no recibe items nuevos. Las mejoras de metodo vivas van a `MEJORAS-METODO.md`.
+- `estado`: `Activo` como **registro historico cerrado** (2026-06-01): documenta el analisis de 2026-03-01 y no recibe items nuevos. Las mejoras de metodo vivas van a `agenda/MEJORAS-METODO.md`.
 - `owner`: proyecto SDD
 - `validacion`:
   - [ ] mejoras tienen prioridad y archivo destino identificado
@@ -408,8 +408,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] el aviso de cierre y de temporalidad del contenido en presente sigue visible al inicio
   - [ ] no se agregaron items posteriores a 2026-06-01
 
-### SDD-ADAPTATIVO-VS-CASCADA.md
-- `path`: `SDD-ADAPTATIVO-VS-CASCADA.md`
+### comun/SDD-ADAPTATIVO-VS-CASCADA.md
+- `path`: `comun/SDD-ADAPTATIVO-VS-CASCADA.md`
 - `proposito`: SSOT del anti-patron "cascada encubierta" en SDD y del diseño de circuitos de aprendizaje para mantener specs vivas y adaptativas.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
@@ -420,9 +420,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - señales de salud del circuito de aprendizaje
   - implicaciones por linea A y B
 - `excluye`:
-  - implementacion de herramientas CI (ver `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`)
+  - implementacion de herramientas CI (ver `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`)
   - resultados de experimentos concretos
-  - comparativa de frameworks o proyectos lideres (ver `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - comparativa de frameworks o proyectos lideres (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
 - `validacion`:
   - [ ] anti-patron "cascada encubierta" definido con criterio observable
   - [ ] al menos un mecanismo de feedback loop con cadencia sugerida
@@ -441,9 +441,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - principios de arquitectura de conocimiento
   - secuencia de inicio dia a dia
 - `excluye`:
-  - comparativa de frameworks (ver `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - comparativa de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
   - metricas y experimentos (ver `docs-y-investigacion/PLAN-PRUEBAS.md`)
-  - implementacion sin CI (ver `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`)
+  - implementacion sin CI (ver `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`)
 - `validacion`:
   - [ ] cubre los 5 documentos fundacionales con campos minimos
   - [ ] secuencia de inicio es accionable sin conocimiento previo del repo
@@ -460,7 +460,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - conclusiones accionables para Linea B
 - `excluye`:
   - desarrollo de la transferencia a Linea A (diferido a backlog)
-  - estadistica de adopcion del framework (ver `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - estadistica de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
   - duplicacion del catalogo de frameworks (referencia, no copia)
 - `validacion`:
   - [ ] version analizada anclada en `REFERENCIAS.md` [R10]
@@ -480,7 +480,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - re-analisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`, SSOT del que deriva)
   - resultados del experimento B-07 — cerrado 2026-07-28, viven en `experimentos/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
-  - duplicacion del catalogo de frameworks (referencia `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, no copia)
+  - duplicacion del catalogo de frameworks (referencia `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, no copia)
 - `validacion`:
   - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
   - [ ] caracteriza al testigo desde sus artefactos reales, no por inferencia
@@ -523,7 +523,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - síntesis de la discusión externa autoritativa con [Rxx]
 - `excluye`:
   - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`, SSOT del que deriva)
-  - estadística de adopción de frameworks (ver `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - estadística de adopción de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
   - duplicación del mapeo Spec Kit vs. protocolo (referencia `ANALISIS-SPEC-KIT.md`, no copia)
 - `validacion`:
   - [ ] cada afirmación externa tiene referencia [Rxx]
@@ -563,9 +563,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - distincion comportamiento observado vs. deseado (characterization tests)
   - conexion con experimento Linea B
 - `excluye`:
-  - transferencia a Linea A (diferido a `06-BACKLOG-INVESTIGACION-FUTURA.md`)
+  - transferencia a Linea A (diferido a `agenda/BACKLOG-INVESTIGACION.md`)
   - re-analisis del flujo de Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`)
-  - duplicacion del catalogo de frameworks (referencia `PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - duplicacion del catalogo de frameworks (referencia `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
 - `validacion`:
   - [ ] cada afirmacion externa tiene `[Rxx]`
   - [ ] distingue comportamiento observado de deseado

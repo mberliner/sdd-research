@@ -2,13 +2,13 @@
 
 Fecha: 2026-05-24.
 Fuente: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]. Clon local vendored en `../fuentes-externas/spec-kit/`.
-Alcance: Linea B (software). La transferencia de conceptos a Linea A (docs/investigacion) queda diferida — ver `../06-BACKLOG-INVESTIGACION-FUTURA.md`.
+Alcance: Linea B (software). La transferencia de conceptos a Linea A (docs/investigacion) queda diferida — ver `../agenda/BACKLOG-INVESTIGACION.md`.
 
 ---
 
 ## Contexto
 
-Spec Kit ya estaba catalogado como framework de referencia en `../PROYECTOS-LIDERES-Y-FRAMEWORKS.md` [R10], pero solo a nivel de mencion. Este documento analiza el repositorio real para extraer su metodologia operativa, mapearla contra nuestro protocolo SDD (`../AGENTS.md`, `../SPECS_REGISTRY.md`) y derivar conclusiones accionables para Linea B.
+Spec Kit ya estaba catalogado como framework de referencia en `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` [R10], pero solo a nivel de mencion. Este documento analiza el repositorio real para extraer su metodologia operativa, mapearla contra nuestro protocolo SDD (`../AGENTS.md`, `../SPECS_REGISTRY.md`) y derivar conclusiones accionables para Linea B.
 
 Spec Kit es un toolkit open-source de GitHub que materializa SDD mediante una CLI (`specify`) y un conjunto de comandos slash para 30+ agentes de IA. Es **Linea-B-nativo**: todas sus plantillas (`spec`, `plan`, `tasks`, `constitution`, `checklist`) son centradas en software (data-model, contracts, API endpoints, tech stack). No ofrece soporte nativo para documentos de analisis o conocimiento.
 
@@ -22,7 +22,7 @@ El documento de filosofia (`../fuentes-externas/spec-kit/spec-driven.md`) plante
 - Depurar = corregir la spec o el plan que genero codigo incorrecto.
 - Pivotar = regenerar desde la spec, no reescribir a mano.
 
-Esta tesis es mas radical que nuestra posicion actual. Nuestro proyecto trata la spec como **mejor representacion actual del conocimiento** (ver `../SDD-ADAPTATIVO-VS-CASCADA.md`), no necesariamente como generador automatico del entregable. La diferencia se discute en Conclusiones.
+Esta tesis es mas radical que nuestra posicion actual. Nuestro proyecto trata la spec como **mejor representacion actual del conocimiento** (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`), no necesariamente como generador automatico del entregable. La diferencia se discute en Conclusiones.
 
 ---
 
@@ -82,7 +82,7 @@ Esto refuerza la lectura de C4 (mas abajo): el valor no esta en *tener* una cons
 | Manejo de ambiguedad | `[NEEDS CLARIFICATION]` + `/speckit.clarify` (<=5 preguntas) | "MUST preguntar al usuario si la spec tiene ambiguedad" (`../AGENTS.md`, seccion Disambiguacion) |
 | Validacion de consistencia | `/speckit.analyze`: duplicacion, ambiguedad, gaps de cobertura, conflictos | Bloque `[SDD-Check]` por entrega + checks post-generacion (`../AGENTS.md`) |
 | Trazabilidad requisito->tarea | Coverage mapping FR/SC -> task IDs | Regla de propagacion SSOT -> derivados (`../SPECS_REGISTRY.md`) |
-| Circuito de aprendizaje | "Bidirectional Feedback": metricas/incidentes -> spec | Circuitos de aprendizaje y disparadores por tiempo/evento/anomalia (`../SDD-ADAPTATIVO-VS-CASCADA.md`) |
+| Circuito de aprendizaje | "Bidirectional Feedback": metricas/incidentes -> spec | Circuitos de aprendizaje y disparadores por tiempo/evento/anomalia (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`) |
 | Registro de specs | Carpeta `specs/[###-feature]/` por feature | `SPECS_REGISTRY.md` central por documento |
 | Personalizacion | presets / extensions | niveles de profundidad de spec y `ssot_level` (`../SPECS_REGISTRY.md`) |
 
@@ -110,7 +110,7 @@ Nuestro protocolo dice "MUST preguntar al usuario", pero no tiene un marcador es
 
 ### C3. La "Power Inversion" es una posicion mas fuerte que la nuestra — y es una tension a investigar
 
-Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, trata la spec como representacion del conocimiento, no como generador automatico. Esta no es una deficiencia: es una decision deliberada para contexto sin CI (`../IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`). Pero plantea una pregunta de investigacion: hasta que punto conviene mover el entregable hacia "regenerable desde spec" vs. "editado a mano con spec como guia". Conecta con el backlog "umbral de control manual a automatizado".
+Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, trata la spec como representacion del conocimiento, no como generador automatico. Esta no es una deficiencia: es una decision deliberada para contexto sin CI (`../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`). Pero plantea una pregunta de investigacion: hasta que punto conviene mover el entregable hacia "regenerable desde spec" vs. "editado a mano con spec como guia". Conecta con el backlog "umbral de control manual a automatizado".
 
 ### C4. Constitution Check confirma el valor de un gate de autoridad explicito
 
@@ -126,7 +126,7 @@ El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno)
 
 ## Transferencia a Linea A (diferida)
 
-Spec Kit no tiene funcion nativa para documentos de analisis/conocimiento. Los unicos conceptos transferibles a Linea A son `/speckit.checklist` ("unit tests for English": valida completitud y claridad de requisitos en prosa) y el modelo de presets/extensions como via de adaptacion. Esta transferencia se desarrollara solo si Linea B avanza y aporta claridad — registrada como item de backlog en `../06-BACKLOG-INVESTIGACION-FUTURA.md`.
+Spec Kit no tiene funcion nativa para documentos de analisis/conocimiento. Los unicos conceptos transferibles a Linea A son `/speckit.checklist` ("unit tests for English": valida completitud y claridad de requisitos en prosa) y el modelo de presets/extensions como via de adaptacion. Esta transferencia se desarrollara solo si Linea B avanza y aporta claridad — registrada como item de backlog en `../agenda/BACKLOG-INVESTIGACION.md`.
 
 ---
 
@@ -134,7 +134,7 @@ Spec Kit no tiene funcion nativa para documentos de analisis/conocimiento. Los u
 - Spec leida: SI (spec propuesta y registrada en SPECS_REGISTRY.md para este doc)
 - Incluye/Excluye verificado: SI (foco Linea B; Linea A explicitamente diferida)
 - Validaciones aplicadas: refs internas verificadas; cifras/afirmaciones externas con [R04][R09][R10]; sin emoticones; fechas YYYY-MM-DD; no duplica SSOT (referencia PROYECTOS-LIDERES, SDD-ADAPTATIVO, CLAUDE, SPECS_REGISTRY)
-- SSOT afectado: ninguno (doc operativo). Enriquece entrada en PROYECTOS-LIDERES-Y-FRAMEWORKS.md (SSOT) por separado
+- SSOT afectado: ninguno (doc operativo). Enriquece entrada en ../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md (SSOT) por separado
 - Derivados a revisar: ninguno
 - Riesgos/reservas: analisis basado en snapshot v0.8.13; conclusiones C1-C2 son candidatas a mejora, no cambios aprobados de protocolo
 

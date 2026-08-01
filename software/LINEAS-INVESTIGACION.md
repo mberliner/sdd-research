@@ -29,7 +29,7 @@ Preguntas:
 - Que mecanismo de actualizacion de spec tras falla de test es menos costoso en equipos pequeños?
 - Que diferencia hay en tasa de regresion entre proyectos que actualizan la spec vs los que solo actualizan el codigo?
 
-Base: circuitos de aprendizaje SDD — ver `SDD-ADAPTATIVO-VS-CASCADA.md`. Evidencia de feedback loops en entrega: [R09].
+Base: circuitos de aprendizaje SDD — ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`. Evidencia de feedback loops en entrega: [R09].
 
 ## B5. Gobernanza de cambios
 Hipotesis: ADR + politica de versionado + reglas de compatibilidad disminuyen incidentes por cambios mayores.
@@ -43,7 +43,7 @@ Hipotesis: adoptar la anatomia de spec de GitHub Spec Kit (User Story priorizada
 Preguntas:
 - ~~Cuanto mejora la regenerabilidad (reconstruir el codigo desde la spec sola con minimos errores) vs. specs casero?~~ **RESPONDIDA (2026-07-28) — la mejora no aparecio.** Ver `Estado` abajo.
 - El coverage mapping elimina los "requisitos sin derivado" (hueco C1 de `ANALISIS-SPEC-KIT.md`)? **ABIERTA.**
-- `[NEEDS CLARIFICATION]` + Given/When/Then reducen revisiones reactivas de spec durante implementacion? **NO RESPONDIBLE TAL COMO ESTA PLANTEADA (2026-07-29).** H2 fue **degradada a descriptiva**: el ratio upfront/reactivo no es computable (`[NEEDS CLARIFICATION]` no existe en la anatomia casero — es `N/A`, no `0`) y su variable de salida esta confundida con el tratamiento (una practica documental altera la visibilidad de su propio resultado; sin git en la ventana del corpus no hay fuente independiente). Queda la lectura **cualitativa**: *que* tuvo que agregar cada brazo despues. Ver `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` §Hipotesis H2 y el anti-patron en `../06-BACKLOG-INVESTIGACION-FUTURA.md` §Prioridad alta 6.
+- `[NEEDS CLARIFICATION]` + Given/When/Then reducen revisiones reactivas de spec durante implementacion? **NO RESPONDIBLE TAL COMO ESTA PLANTEADA (2026-07-29).** H2 fue **degradada a descriptiva**: el ratio upfront/reactivo no es computable (`[NEEDS CLARIFICATION]` no existe en la anatomia casero — es `N/A`, no `0`) y su variable de salida esta confundida con el tratamiento (una practica documental altera la visibilidad de su propio resultado; sin git en la ventana del corpus no hay fuente independiente). Queda la lectura **cualitativa**: *que* tuvo que agregar cada brazo despues. Ver `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` §Hipotesis H2 y el anti-patron en `../agenda/BACKLOG-INVESTIGACION.md` §Prioridad alta 6.
 
 Estado (2026-07-28): la **componente de regenerabilidad** se midio y cerro en **"ajustar / no concluyente"** — en la unica feature que discrimino (F013) el formato **casero** supero al hibrido en R1, R2 y R5, y F001 empato en las cinco metricas; H4 no queda sostenida **ni refutada** (formato confundido con procedencia autentica/traducida, y una sola ronda de reparacion lleva las 4 celdas a 100%). Las otras dos preguntas dependen del **corpus observacional**, que **no se midio**. Resultado: `../experimentos/RESULTADO-EXPERIMENTO-B7.md`; estado del experimento: `PLAN-PRUEBAS.md` §B-07.
 

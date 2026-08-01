@@ -7,7 +7,7 @@
 - Sujeto: `agent-test-suite` (proyecto testigo, ver `../software/PLAN-PRUEBAS.md`)
 - Corte de datos: estado del testigo al 2026-05-24 (specs/, SPECS_REGISTRY.md, historial/sdd.md)
 
-> **Nota (2026-06-01):** al corte, `../SDD-ADAPTATIVO-VS-CASCADA.md` usaba un umbral de inactividad de **30 dias absolutos**. El hallazgo 3 de abajo motivo su reformulacion a un criterio **relativo** (2-3 iteraciones), aplicada despues (ver Fase 3 en `../historial/sdd.md`). Las menciones a "30 dias" reflejan el umbral vigente al corte.
+> **Nota (2026-06-01):** al corte, `../comun/SDD-ADAPTATIVO-VS-CASCADA.md` usaba un umbral de inactividad de **30 dias absolutos**. El hallazgo 3 de abajo motivo su reformulacion a un criterio **relativo** (2-3 iteraciones), aplicada despues (ver Fase 3 en `../historial/sdd.md`). Las menciones a "30 dias" reflejan el umbral vigente al corte.
 
 ## Resultado cuantitativo
 
@@ -26,7 +26,7 @@ Dos lecturas (se reportan ambas por rigor):
   - Añade `SPEC-003`: absorbio el caso "indeterminado" tras el smoke de Iter 2, que revelo que el agente responde "flow has started" en vez de clasificar (entrada historial "Iter 2 follow-up").
 
 ### Metricas secundarias
-- **Antiguedad de drafts vs. umbral 30 dias** (`../SDD-ADAPTATIVO-VS-CASCADA.md`): ningun draft supera 30 dias. NO INFORMATIVO: el proyecto tiene ~2-3 dias (Iter 0-3 todas el 2026-05-22). El umbral absoluto no discrimina a esta velocidad.
+- **Antiguedad de drafts vs. umbral 30 dias** (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`): ningun draft supera 30 dias. NO INFORMATIVO: el proyecto tiene ~2-3 dias (Iter 0-3 todas el 2026-05-22). El umbral absoluto no discrimina a esta velocidad.
 - **Tasa de resolucion/re-explicitacion de deuda arrastrada**: la deuda se re-explicita en las 4 iteraciones, nunca se abandona en silencio.
   - Resuelta: smoke real (Iter 2 follow-up, el usuario lo corrio), integracion del adapter al dashboard (Iter 3).
   - Persistente pero transparente: `mypy --strict`, `lint-imports`, `pre-commit install` — arrastradas Iter 0→1→2→3 por falta de instalacion en el entorno, re-declaradas cada vez.
@@ -38,7 +38,7 @@ Dos lecturas (se reportan ambas por rigor):
 ### Hallazgos
 1. **Circuito de aprendizaje ACTIVO (caso positivo).** La evidencia cualitativa es contundente: las specs se ajustan a la ejecucion en horas, no se congelan. Casos: SPEC-002 (e2e→revision), SPEC-000-naming (implementacion→allowlist), SPEC-003 (observacion de runtime→semantica "indeterminado"), y el "Pivot post-Iter-0" que reordeno todo el registry tras una aclaracion del usuario.
 2. **Anti-cascada por transparencia de deuda.** El mecanismo "Deuda arrastrada" del `historial/sdd.md` del testigo es el instrumento que mas claramente previene la cascada encubierta: hace explicito lo diferido en cada cierre de iteracion y lo re-declara hasta resolverlo. Nuestro marco no tiene este artefacto formalizado.
-3. **El umbral de 30 dias es inadecuado para proyectos de alta velocidad.** El testigo itera en horas; un umbral absoluto de 30 dias nunca se gatillaria aunque hubiera congelamiento. Confirma empiricamente la nota de `../SDD-ADAPTATIVO-VS-CASCADA.md`: "la cadencia correcta es una variable del proyecto, no un estandar fijo".
+3. **El umbral de 30 dias es inadecuado para proyectos de alta velocidad.** El testigo itera en horas; un umbral absoluto de 30 dias nunca se gatillaria aunque hubiera congelamiento. Confirma empiricamente la nota de `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`: "la cadencia correcta es una variable del proyecto, no un estandar fijo".
 4. **Distincion deuda de producto vs. deuda de tooling.** La de producto (funcionalidad/scope) se resuelve rapido; la de entorno (mypy/lint-imports/pre-commit) persiste — transparente, pero acumulandose. Es una señal de alarma leve, no una cascada.
 
 ### Incidentes
@@ -50,7 +50,7 @@ Dos lecturas (se reportan ambas por rigor):
 
 ## Cambios al marco SDD (propuestas, NO aplicadas)
 1. **Formalizar "Deuda arrastrada" como artefacto del marco.** Incorporar una seccion de deuda explicita por iteracion en `templates/RESULTADO-EXPERIMENTO.md` y/o en el bloque `[SDD-Check]`, espejando la practica del testigo. Decision que habilita: prevenir abandono silencioso de pendientes (anti-cascada).
-2. **Reformular el umbral de cascada como relativo a la velocidad del proyecto.** Reemplazar "30 dias absolutos" en `SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT) por un criterio relativo (ej. N iteraciones sin tocar una spec activa, o multiplo de la cadencia de iteracion observada). Es un cambio a un SSOT → requiere revisar derivados y aprobacion del usuario.
+2. **Reformular el umbral de cascada como relativo a la velocidad del proyecto.** Reemplazar "30 dias absolutos" en `../comun/SDD-ADAPTATIVO-VS-CASCADA.md` (SSOT) por un criterio relativo (ej. N iteraciones sin tocar una spec activa, o multiplo de la cadencia de iteracion observada). Es un cambio a un SSOT → requiere revisar derivados y aprobacion del usuario.
 
 ## Evidencia adjunta
 - `historial/sdd.md` del testigo: Iter 0, Pivot post-Iter-0, Iter 1, Iter 2, Iter 2 follow-up (smoke real), Iter 3, snapshot de cierre.

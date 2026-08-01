@@ -10,16 +10,16 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 2. [CONSTITUTION.md](./CONSTITUTION.md) — principios no-negociables (leer antes de proponer un doc o un cambio de método)
 3. [AGENTS.md](./AGENTS.md) — protocolo para asistentes IA (`CLAUDE.md` lo importa)
 4. [SPECS_REGISTRY.md](./SPECS_REGISTRY.md) — alcance y validación por documento, tabla SSOT y reglas de propagación
-5. [MARCO-COMPARATIVO-DOS-LINEAS.md](./MARCO-COMPARATIVO-DOS-LINEAS.md)
-6. [SDD-ADAPTATIVO-VS-CASCADA.md](./SDD-ADAPTATIVO-VS-CASCADA.md)
-7. [ESCENARIOS-QUE-JUSTIFICAN-SDD.md](./ESCENARIOS-QUE-JUSTIFICAN-SDD.md)
-8. [ESTADISTICAS-TENDENCIAS-EVOLUCION.md](./ESTADISTICAS-TENDENCIAS-EVOLUCION.md)
-9. [PROYECTOS-LIDERES-Y-FRAMEWORKS.md](./PROYECTOS-LIDERES-Y-FRAMEWORKS.md)
-10. [IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md](./IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md)
+5. [comun/MARCO-COMPARATIVO-DOS-LINEAS.md](comun/MARCO-COMPARATIVO-DOS-LINEAS.md)
+6. [comun/SDD-ADAPTATIVO-VS-CASCADA.md](comun/SDD-ADAPTATIVO-VS-CASCADA.md)
+7. [comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md](comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md)
+8. [comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md](comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md)
+9. [comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md](comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md)
+10. [comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md](comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md)
 11. [docs-y-investigacion/00-INDEX.md](./docs-y-investigacion/00-INDEX.md) — línea A
 12. [software/00-INDEX.md](./software/00-INDEX.md) — línea B
-13. [06-BACKLOG-INVESTIGACION-FUTURA.md](./06-BACKLOG-INVESTIGACION-FUTURA.md) — preguntas abiertas
-14. [MEJORAS-METODO.md](./MEJORAS-METODO.md) — mejoras al método, en curso
+13. [agenda/BACKLOG-INVESTIGACION.md](agenda/BACKLOG-INVESTIGACION.md) — preguntas abiertas
+14. [agenda/MEJORAS-METODO.md](agenda/MEJORAS-METODO.md) — mejoras al método, en curso
 15. [REFERENCIAS.md](./REFERENCIAS.md)
 
 ## Estructura del proyecto
@@ -32,16 +32,16 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 | `CLAUDE.md` | operativo — adaptador de Claude Code (`@AGENTS.md`) |
 | `README.md` | operativo — entrada al proyecto |
 | `00-INDEX.md` | operativo — este índice |
-| `MARCO-COMPARATIVO-DOS-LINEAS.md` | SSOT |
-| `SDD-ADAPTATIVO-VS-CASCADA.md` | SSOT |
-| `ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | SSOT |
-| `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | SSOT |
-| `PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | SSOT |
-| `IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | SSOT |
+| `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` | SSOT |
+| `comun/SDD-ADAPTATIVO-VS-CASCADA.md` | SSOT |
+| `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | SSOT |
+| `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | SSOT |
+| `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | SSOT |
+| `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` | SSOT |
 | `REFERENCIAS.md` | SSOT — catálogo `[Rxx]` |
-| `06-BACKLOG-INVESTIGACION-FUTURA.md` | operativo — preguntas abiertas de investigación |
-| `MEJORAS-METODO.md` | operativo — mejoras al método del repo (`M-NN`) |
-| `ROADMAP-MEJORAS-SDD.md` | operativo — registro histórico cerrado (2026-06-01) |
+| `agenda/BACKLOG-INVESTIGACION.md` | operativo — preguntas abiertas de investigación |
+| `agenda/MEJORAS-METODO.md` | operativo — mejoras al método del repo (`M-NN`) |
+| `historial/ROADMAP-MEJORAS-SDD.md` | operativo — registro histórico cerrado (2026-06-01) |
 | `docs-y-investigacion/` | línea A — SSOTs de agenda, métricas y plan experimental |
 | `software/` | línea B — SSOTs de agenda, métricas y plan experimental; derivados de análisis |
 | `experimentos/` | diseños, runbooks y resultados de experimentos |

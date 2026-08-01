@@ -8,7 +8,7 @@
 
 Repositorio de investigación sobre Spec-Driven Development en dos líneas paralelas —
 `docs-y-investigacion/` (línea A) y `software/` (línea B); la diferencia entre ambas es
-SSOT de `MARCO-COMPARATIVO-DOS-LINEAS.md`. Hay git desde 2026-07-31, pero **no hay CI ni
+SSOT de `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`. Hay git desde 2026-07-31, pero **no hay CI ni
 verificación determinista**: todo check de este protocolo es humano y a pedido.
 
 ## Antes de cualquier cambio

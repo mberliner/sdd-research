@@ -12,7 +12,7 @@
 
 ## Mejora priorizada para docs e investigacion
 - Cobertura de specs en documentos criticos.
-- Bloque de salida obligatorio del asistente por entrega. Su definicion y sus campos son SSOT de `AGENTS.md` (bloque `[SDD-Check]`); aca solo se prioriza adoptarlo, no se enumera.
+- Bloque de salida obligatorio del asistente por entrega. Su definicion y sus campos son SSOT de `../AGENTS.md` (bloque `[SDD-Check]`); aca solo se prioriza adoptarlo, no se enumera.
 - Revision mensual liviana de vigencia, contradicciones y placeholders.
 
 ## Mejora priorizada para software
