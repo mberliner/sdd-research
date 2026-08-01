@@ -104,7 +104,7 @@ Los resultados van en `experimentos/`. Los runbooks de método de ese directorio
 ```bash
 ./tools/check_docs.py                                                # backstop determinista (Linux/Mac; Windows: py -3 tools\check_docs.py)
 rg --files                                                           # listar contenido rastreado
-rg "\[R[0-9]{2}\]" *.md docs-y-investigacion/*.md software/*.md     # inspeccionar uso de referencias
+rg "\[R[0-9]{2}\]" -g '*.md'                                         # inspeccionar uso de referencias
 rg -n "NEEDS CLARIFICATION|TODO|FIXME" .                             # pendientes y ambigüedades abiertas
 sed -n '1,120p' SPECS_REGISTRY.md                                    # reglas globales y precedencia
 git log --oneline                                                    # historial de cambios versionados
