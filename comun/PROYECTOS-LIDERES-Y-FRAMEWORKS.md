@@ -25,6 +25,12 @@
 - Analisis detallado y mapeo contra nuestro protocolo: `../software/ANALISIS-SPEC-KIT.md`.
 - Fuente: [R10].
 
+### Superpowers (obra/superpowers)
+
+- Tipo: metodología SDD empaquetada como skills componibles para agentes de codificación, servida a múltiples asistentes desde un set único. Flujo: `brainstorming` (elicitar la spec por diálogo, con gate duro que prohíbe escribir código antes de la aprobación) → `writing-plans` → `subagent-driven-development` (un subagente fresco por tarea, más revisión por tarea y revisión final de rama).
+- Valor: tercera implementación de SDD independiente de Spec Kit y del proyecto testigo, que converge en gate de autoridad, lenguaje normativo y verificación con evidencia antes de declarar completitud. Diverge en un punto de interés: no regenera el código desde la spec (*spec-anchored*, no *spec-as-source* [R30]), de modo que la posición intermedia queda documentada en producción. Practica evaluación conductual de sus propios documentos con subagentes frescos.
+- Fuente: [R37].
+
 ### OpenAPI Initiative
 - Tipo: contract-first para APIs.
 - Valor: contrato compartido entre equipos, tooling amplio.
