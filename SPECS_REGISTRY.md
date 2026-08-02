@@ -497,19 +497,47 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiones marcadas como candidatas vs. cambios aprobados
   - [ ] no duplica SSOT — referencia
 
+### software/ANALISIS-OPENSPEC.md
+- `path`: `software/ANALISIS-OPENSPEC.md`
+- `proposito`: analisis de la metodologia de OpenSpec [R38] y su relacion con nuestra investigacion SDD en Linea B, con foco en su rasgo sin equivalente en las otras fuentes: la instruccion de metodo servida por herramienta bajo demanda en vez de leida de un documento.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, con la evidencia de fechas que lo sostiene y sus limites
+  - sintesis del flujo de trabajo (comandos, artefactos, separacion spec vigente / delta)
+  - mapeo OpenSpec vs. protocolo SDD del proyecto, sobre el instrumento v1 de ocho filas fijado el 2026-05-24
+  - conclusiones accionables para Linea B, marcadas como lectura, candidatas o aprobadas
+- `excluye`:
+  - la lectura cruzada de los cuatro casos — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
+  - estadistica de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - re-analisis del flujo de Spec Kit (vive en `software/ANALISIS-SPEC-KIT.md`) ni de Superpowers (vive en `software/ANALISIS-SUPERPOWERS.md`)
+  - duplicacion del catalogo de frameworks (referencia, no copia)
+- `validacion`:
+  - [ ] version analizada anclada en `REFERENCIAS.md` [R38]
+  - [ ] la procedencia esta declarada antes de la lectura, con evidencia verificable y con sus limites explicitos
+  - [ ] todo rasgo citado declara su archivo de origen en el clon vendored o el comando que lo expone
+  - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medicion, y eso queda dicho
+  - [ ] sus comparaciones contra otros frameworks se tratan como posicionamiento comercial, no como insumo del mapeo
+  - [ ] el mapeo corre sobre el instrumento v1 sin agregar ni redefinir filas
+  - [ ] mapeo no contradice `AGENTS.md` ni este registro
+  - [ ] conclusiones marcadas como lectura, candidatas o cambios aprobados
+  - [ ] no duplica SSOT — referencia
+
 ### software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre tres casos (Spec Kit, Superpowers y el proyecto testigo) con un instrumento comun.
+- `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre cuatro casos (Spec Kit, Superpowers, OpenSpec y el proyecto testigo) con un instrumento comun.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
-  - el instrumento de lectura y su procedencia (las ocho filas fijadas el 2026-05-24, anteriores a la incorporacion de la tercera implementacion)
-  - veredicto por fila (converge / parcial / diverge) sobre los tres casos, con las divergencias reportadas con el mismo peso que las convergencias
+  - el instrumento de lectura y su procedencia (las ocho filas fijadas el 2026-05-24, anteriores a la incorporacion de la tercera y la cuarta implementacion)
+  - el conteo por linajes y la procedencia declarada de cada caso, incluidos los limites de cada declaracion
+  - veredicto por fila (converge / parcial / diverge) sobre los cuatro casos, con las divergencias reportadas con el mismo peso que las convergencias
+  - las dimensiones observadas que el instrumento v1 no cubre, registradas sin veredicto
   - la caracterizacion del testigo sobre ese instrumento, derivada de sus artefactos reales
   - que se puede y que no se puede inferir de la convergencia observada
   - el procedimiento de incorporacion de un caso nuevo: filtro de linaje, tratamiento de las dimensiones que el instrumento no cubre, y regla de versionado del instrumento
 - `excluye`:
-  - la caracterizacion individual de cada implementacion (vive en `software/ANALISIS-SPEC-KIT.md` y `software/ANALISIS-SUPERPOWERS.md`; se referencia, no se copia)
+  - la caracterizacion individual de cada implementacion (vive en `software/ANALISIS-SPEC-KIT.md`, `software/ANALISIS-SUPERPOWERS.md` y `software/ANALISIS-OPENSPEC.md`; se referencia, no se copia)
   - la comparacion pareada Spec Kit vs. testigo en cinco dimensiones (vive en `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
   - decisiones de adopcion (viven en `agenda/MEJORAS-METODO.md`)
   - estadistica de adopcion de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
