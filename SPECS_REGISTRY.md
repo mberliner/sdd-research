@@ -507,14 +507,16 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - veredicto por fila (converge / parcial / diverge) sobre los tres casos, con las divergencias reportadas con el mismo peso que las convergencias
   - la caracterizacion del testigo sobre ese instrumento, derivada de sus artefactos reales
   - que se puede y que no se puede inferir de la convergencia observada
+  - el procedimiento de incorporacion de un caso nuevo: filtro de linaje, tratamiento de las dimensiones que el instrumento no cubre, y regla de versionado del instrumento
 - `excluye`:
   - la caracterizacion individual de cada implementacion (vive en `software/ANALISIS-SPEC-KIT.md` y `software/ANALISIS-SUPERPOWERS.md`; se referencia, no se copia)
   - la comparacion pareada Spec Kit vs. testigo en cinco dimensiones (vive en `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
   - decisiones de adopcion (viven en `agenda/MEJORAS-METODO.md`)
   - estadistica de adopcion de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
 - `validacion`:
-  - [ ] el instrumento es anterior a la incorporacion del tercer caso y se declara asi
-  - [ ] ninguna fila se agrega ni se redefine despues de leer los casos
+  - [ ] el instrumento declara su version y su fecha, y es anterior a los casos que lee
+  - [ ] ninguna fila se agrega ni se redefine despues de leer los casos: ampliar el instrumento MUST abrir version nueva y re-correr todos los casos
+  - [ ] todo caso incorporado declara su procedencia antes de contarse como linaje
   - [ ] las divergencias estan reportadas con el mismo detalle que las convergencias
   - [ ] declara explicitamente que la convergencia de diseño es evidencia de consenso, no de eficacia
   - [ ] la caracterizacion del testigo sale de sus artefactos reales, no de copiar `COMPARATIVA-SPECKIT-VS-TESTIGO.md`

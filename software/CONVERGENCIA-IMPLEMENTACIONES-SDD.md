@@ -22,7 +22,7 @@ El segundo es de archivo. El tema "qué es invariante entre implementaciones" es
 
 ## El instrumento y su procedencia
 
-Se usan las ocho filas del mapeo de `ANALISIS-SPEC-KIT.md`, fijadas el **2026-05-24**, más de un año antes de que Superpowers se incorporara al análisis. Esto importa: con libertad para elegir qué comparar, la convergencia se fabrica. El instrumento es anterior a dos de los tres casos y no se le agregó ni se le redefinió ninguna fila después de leerlos.
+**Instrumento v1** — las ocho filas del mapeo de `ANALISIS-SPEC-KIT.md`, fijadas el **2026-05-24**, más de un año antes de que Superpowers se incorporara al análisis. Esto importa: con libertad para elegir qué comparar, la convergencia se fabrica. El instrumento es anterior a dos de los tres casos y no se le agregó ni se le redefinió ninguna fila después de leerlos.
 
 Las divergencias se reportan con el mismo detalle que las convergencias. Un relevamiento que solo cuenta coincidencias no mide convergencia: la busca.
 
@@ -80,12 +80,36 @@ Este documento propone el eje, no lo cierra: se apoya en tres casos y la asignac
 
 ---
 
+## Cómo se incorpora un caso nuevo
+
+Este documento está hecho para crecer, y el modo de hacerlo crecer es donde se pierde la honestidad si no está escrito. Tres reglas.
+
+### 1. Primero la procedencia, después la lectura
+
+MUST — todo caso nuevo declara su procedencia antes de contarse. La pregunta no es qué tiene, sino **si lo inventó o lo heredó**: ¿cita, forkea o deriva de alguno de los casos ya presentes?
+
+Un método que adopta la anatomía de otro **no agrega un linaje, agrega una copia**, y sumarlo como punto de convergencia repite el error que este documento corrigió en la fila 3. Puede tener interés por otros motivos —madurez, adopción, ergonomía— y entonces su lugar es `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` o un análisis individual propio, no una columna acá.
+
+El corolario incomoda y por eso conviene tenerlo escrito: **la mayoría de los métodos SDD nuevos no van a sumar linaje**, porque el campo converge por difusión desde pocos orígenes. Un documento de convergencia que crece sin filtro mide popularidad, no invariancia.
+
+### 2. Las dimensiones fuera del instrumento se registran, no se puntúan
+
+Si un caso nuevo hace algo que ninguna de las ocho filas contempla, MUST NOT agregarse una fila para alojarlo: una fila fabricada a medida del caso que la motiva garantiza que ese caso destaque en ella. La observación se registra fuera de la tabla, visible y sin veredicto, hasta que se decida si merece instrumento nuevo.
+
+### 3. Ampliar el instrumento abre versión, y obliga a re-correr todo
+
+MUST — si una dimensión registrada demuestra importar, se fija un **instrumento v2** fechado y se re-corren **todos** los casos contra él, declarando la versión en cada lectura. MUST NOT ampliarse la v1 en caliente: leer unos casos con ocho filas y otros con nueve produce una tabla que no compara nada.
+
+Es el mismo régimen que el proyecto aplica a los experimentos sellados —enmienda fechada y motivada, nunca edición silenciosa (Principio V)—, trasladado a un instrumento de análisis. La diferencia con un experimento es que acá el costo de re-correr es leer documentos, no producir datos: es caro en atención, barato en todo lo demás.
+
+---
+
 [SDD-Check]
 - Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc; alta en la tabla SSOT)
 - Incluye/Excluye verificado: SI - no reproduce la caracterizacion individual de ningun caso (referencia a `ANALISIS-SPEC-KIT.md` y `ANALISIS-SUPERPOWERS.md`), no reproduce la comparacion pareada de cinco dimensiones, y no toma decisiones de adopcion
 - Validaciones aplicadas: instrumento declarado con su fecha de origen (2026-05-24), anterior a dos de los tres casos; ninguna fila agregada ni redefinida despues de leer los casos; divergencias reportadas con el mismo detalle que las convergencias; caracterizacion del testigo derivada de sus artefactos reales al HEAD `6b0d0d7` (17 specs, 12 con `MUST`, 7 con `[NEEDS CLARIFICATION]`, 49 ocurrencias de `Deuda arrastrada`, `check_traceability.py`), no copiada de la comparativa; encuadre «estandar de referencia» declarado como no heredado; refs internas verificadas; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: este documento pasa a ser SSOT del tema; `software/ANALISIS-SPEC-KIT.md` deja de sostener la afirmacion de convergencia y la referencia
 - Derivados a revisar: `software/ANALISIS-SPEC-KIT.md` (afirmacion de convergencia e inferencia hacia B6, corregidas en la misma entrega); `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` (su marco de dos ejes queda incompleto ante el tercer caso; se le añade puntero, no se reescribe su sintesis)
-- Cobertura: completa - las ocho filas tienen veredicto, y cada afirmacion de invariancia declara sobre cuantos linajes se cuenta
-- Deuda arrastrada: el tercer eje queda propuesto y sin cerrar, apoyado en tres casos y en lectura de artefactos, no en medicion; `software/LINEAS-INVESTIGACION.md` B6 conserva su enunciado original, que este documento acota pero no reescribe; la inconsistencia de `deriva_de` detectada en el registro es `M-13`, ajena a este doc
+- Cobertura: completa - las ocho filas tienen veredicto, cada afirmacion de invariancia declara sobre cuantos linajes se cuenta, y el procedimiento de incorporacion cubre los tres casos que lo tensionan (caso heredado, dimension fuera del instrumento, ampliacion del instrumento). Ampliacion 2026-08-02: seccion «Como se incorpora un caso nuevo» e instrumento etiquetado v1, con enmienda del `incluye` y la `validacion` de la spec en la misma entrega
+- Deuda arrastrada: Kiro y Tessl, nombrados en [R20] y aun sin pasar por el filtro de procedencia de la seccion nueva, son los dos candidatos conocidos y no estan dados de alta en ningun backlog; el tercer eje queda propuesto y sin cerrar, apoyado en tres casos y en lectura de artefactos, no en medicion; `software/LINEAS-INVESTIGACION.md` B6 conserva su enunciado original, que este documento acota pero no reescribe; la inconsistencia de `deriva_de` detectada en el registro es `M-13`, ajena a este doc
 - Riesgos/reservas: dos de los tres casos se caracterizan desde snapshots vendored, no desde correr los sistemas; el tercero es un repositorio propio, con el sesgo de confirmacion de B-06 ya declarado; el conteo por linajes reduce a tres puntos lo que a primera vista parecian cuatro, y con tres puntos ninguna afirmacion de invariancia es fuerte
