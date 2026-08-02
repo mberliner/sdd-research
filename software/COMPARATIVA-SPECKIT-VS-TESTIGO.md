@@ -121,6 +121,8 @@ Spec Kit es el **estandar de referencia**: completo, ejecutable y portable, pero
 
 ### Dos ejes independientes (evitar comparar en un solo eje)
 
+> **Nota 2026-08-02.** Un tercer caso —Superpowers [R37]— no entra limpio en estos dos ejes: es débil en regenerabilidad y corre su circuito de feedback sobre los documentos de método, no sobre las specs. `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` propone por eso un tercer eje (sobre qué objeto corre el aprendizaje). La síntesis pareada de abajo sigue válida para los dos casos que compara; no se reescribe.
+
 La comparacion se aclara separando dos preguntas que suelen mezclarse (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`, "Aclaracion: invertir la jerarquia no es anticipar el conocimiento"):
 
 - **Eje 1 — regenerabilidad** ("¿la spec genera el codigo?"): Spec Kit apuesta fuerte (Power Inversion, codigo regenerable); el testigo no regenera, reconcilia. Es el eje que midio **B-07**: cerrado el 2026-07-28 en "ajustar / no concluyente", **sin ventaja del hibrido** (ver `../experimentos/RESULTADO-EXPERIMENTO-B7.md`).

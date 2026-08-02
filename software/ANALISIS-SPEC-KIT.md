@@ -86,7 +86,9 @@ Esto refuerza la lectura de C4 (mas abajo): el valor no esta en *tener* una cons
 | Registro de specs | Carpeta `specs/[###-feature]/` por feature | `SPECS_REGISTRY.md` central por documento |
 | Personalizacion | presets / extensions | niveles de profundidad de spec y `ssot_level` (`../SPECS_REGISTRY.md`) |
 
-La convergencia es alta: ambos llegan independientemente a lenguaje normativo, gate de autoridad, manejo explicito de ambiguedad y validacion de consistencia como proceso continuo (no gate unico). Esto refuerza nuestra hipotesis **B6** (specs como circuito de aprendizaje, ver `LINEAS-INVESTIGACION.md`).
+Hay coincidencias notables entre las dos columnas, pero **este documento no es el lugar donde se juzga la convergencia**: leer un mapeo pareado como evidencia de invariancia sobreestima lo que un solo par puede mostrar. El veredicto sobre qué elementos son invariantes entre implementaciones independientes, contado por linajes y con las divergencias al mismo peso, vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (SSOT del tema desde 2026-08-02).
+
+> **Corrección 2026-08-02.** Hasta esta fecha el párrafo afirmaba que la convergencia era alta y que eso reforzaba la hipótesis **B6**. Ambas partes quedaron acotadas al leer un tercer caso independiente [R37]: el manejo de ambigüedad por marcador resultó **difusión desde un solo origen**, no convergencia independiente, y la inferencia hacia B6 no se sostiene —B6 afirma un mecanismo causal, y el acuerdo entre frameworks es evidencia de consenso, no de eficacia. Detalle en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
 
 ---
 

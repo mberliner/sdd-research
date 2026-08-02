@@ -84,6 +84,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Agenda linea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea A |
 | Docs/Investigacion | Necesidades, metricas y riesgos linea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental linea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `experimentos/` de linea A al cerrar |
+| Software | Invariantes del metodo SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
 | Software | Agenda linea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` linea B |
 | Software | Necesidades, metricas y riesgos linea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` linea B, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Software | Plan experimental linea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de linea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (disenos y resultados B-06/B-07) |
@@ -463,12 +464,61 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - conclusiones accionables para Linea B
 - `excluye`:
   - desarrollo de la transferencia a Linea A (diferido a backlog)
+  - el veredicto de convergencia entre implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT desde 2026-08-02; aca se referencia
   - estadistica de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
   - duplicacion del catalogo de frameworks (referencia, no copia)
 - `validacion`:
   - [ ] version analizada anclada en `REFERENCIAS.md` [R10]
   - [ ] mapeo no contradice `AGENTS.md` ni `SPECS_REGISTRY.md`
   - [ ] conclusiones marcadas como candidatas vs. cambios aprobados
+  - [ ] no duplica SSOT — referencia
+
+### software/ANALISIS-SUPERPOWERS.md
+- `path`: `software/ANALISIS-SUPERPOWERS.md`
+- `proposito`: analisis de la metodologia de Superpowers [R37] y su relacion con nuestra investigacion SDD en Linea B, con foco en los dos aportes que Spec Kit no tiene: la evaluacion conductual de documentacion y la posicion spec-anchored.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - sintesis del flujo de trabajo (skills, artefactos, gates)
+  - mapeo Superpowers vs. protocolo SDD del proyecto, sobre el instrumento de ocho filas fijado el 2026-05-24
+  - el metodo de evaluacion conductual de documentacion y su portabilidad a este repo
+  - conclusiones accionables para Linea B, marcadas como candidatas o aprobadas
+- `excluye`:
+  - la lectura cruzada de las tres implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
+  - el diseño del experimento derivado — vive en `experimentos/` cuando exista
+  - estadistica de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+  - re-analisis del flujo de Spec Kit (vive en `software/ANALISIS-SPEC-KIT.md`)
+  - duplicacion del catalogo de frameworks (referencia, no copia)
+- `validacion`:
+  - [ ] version analizada anclada en `REFERENCIAS.md` [R37]
+  - [ ] toda cifra de la fuente es verificable en el clon vendored, con su archivo de origen declarado
+  - [ ] los evals de la fuente se presentan como precedente de metodo, nunca como evidencia de efectividad
+  - [ ] mapeo no contradice `AGENTS.md` ni este registro
+  - [ ] conclusiones marcadas como candidatas vs. cambios aprobados
+  - [ ] no duplica SSOT — referencia
+
+### software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md
+- `path`: `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
+- `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre tres casos (Spec Kit, Superpowers y el proyecto testigo) con un instrumento comun.
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `incluye`:
+  - el instrumento de lectura y su procedencia (las ocho filas fijadas el 2026-05-24, anteriores a la incorporacion de la tercera implementacion)
+  - veredicto por fila (converge / parcial / diverge) sobre los tres casos, con las divergencias reportadas con el mismo peso que las convergencias
+  - la caracterizacion del testigo sobre ese instrumento, derivada de sus artefactos reales
+  - que se puede y que no se puede inferir de la convergencia observada
+- `excluye`:
+  - la caracterizacion individual de cada implementacion (vive en `software/ANALISIS-SPEC-KIT.md` y `software/ANALISIS-SUPERPOWERS.md`; se referencia, no se copia)
+  - la comparacion pareada Spec Kit vs. testigo en cinco dimensiones (vive en `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
+  - decisiones de adopcion (viven en `agenda/MEJORAS-METODO.md`)
+  - estadistica de adopcion de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+- `validacion`:
+  - [ ] el instrumento es anterior a la incorporacion del tercer caso y se declara asi
+  - [ ] ninguna fila se agrega ni se redefine despues de leer los casos
+  - [ ] las divergencias estan reportadas con el mismo detalle que las convergencias
+  - [ ] declara explicitamente que la convergencia de diseño es evidencia de consenso, no de eficacia
+  - [ ] la caracterizacion del testigo sale de sus artefactos reales, no de copiar `COMPARATIVA-SPECKIT-VS-TESTIGO.md`
+  - [ ] declara que no hereda el encuadre «Spec Kit es el estandar de referencia» de la comparacion pareada
   - [ ] no duplica SSOT — referencia
 
 ### software/COMPARATIVA-SPECKIT-VS-TESTIGO.md
