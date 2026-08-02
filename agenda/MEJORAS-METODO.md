@@ -30,6 +30,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
 | M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
+| M-13 | `deriva_de` apunta a documentos que no son SSOT | media | Propuesta | relevamiento 2026-08-02 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 
 ---
 
@@ -107,6 +108,19 @@ Un backtick sin barra es una mención por nombre, no una ruta, y no se verifica.
 Se agregó un cuarto caso durante la implementación: una ruta relativa que **sale de la raíz** apunta a un repositorio hermano y tampoco se verifica.
 
 **Hecha el 2026-07-31** (Fase 12). Encontró en su primera corrida una ruta que la propia Fase 11 había roto sin darse cuenta: `agenda/BACKLOG-INVESTIGACION.md` citaba `../investigaIA/...`, correcto mientras el archivo vivía en la raíz y falso al bajarlo un nivel. El barrido de referencias de la Fase 11 no podía verlo porque solo reescribía nombres de archivos movidos. De paso se corrigió `check_links`, que no ignoraba bloques ni spans de código y marcaba como roto cualquier ejemplo de sintaxis markdown citado en un documento.
+
+## M-13 — `deriva_de` apunta a documentos que no son SSOT
+
+El registro define `derivado` como "sintetiza un SSOT" y `deriva_de` como "el archivo **SSOT** de origen". En la práctica, de las declaraciones vigentes de `deriva_de`, varias apuntan a documentos que no son SSOT: tres a `../software/ANALISIS-SPEC-KIT.md`, declarado `operativo`, y una —`../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`— a `../software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, que es a su vez `derivado`, o sea un derivado de un derivado.
+
+El backstop no lo vio nunca porque `check_deriva` verifica solo que el destino **exista** y que la cadena no tenga ciclos, no el `ssot_level` del destino. Detectado al decidir la naturaleza de `../software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (2026-08-02), que por esta razón se registró como SSOT propio en vez de sumar un caso más.
+
+Dos salidas posibles, y la decisión es cuál antes de tocar nada:
+
+1. **Ajustar la definición al uso**: `deriva_de` pasa a significar "documento del que este sintetiza", sin exigir que sea SSOT. Es lo que el repositorio hace hoy; el costo es que la trazabilidad de propagación deja de garantizar que la cadena termine en un SSOT.
+2. **Ajustar el uso a la definición**: reclasificar los cuatro casos, lo que probablemente implique promover `ANALISIS-SPEC-KIT.md` a SSOT de algún tema o cambiar el `ssot_level` de sus derivados.
+
+En cualquiera de las dos, el check correspondiente se agrega al backstop; hoy la regla no está verificada por nada. Emparentada con `M-11`, que también toca coherencia del registro contra sí mismo.
 
 ## M-11 — Validar la tabla SSOT
 
