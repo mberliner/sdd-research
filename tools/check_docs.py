@@ -254,6 +254,8 @@ def resolve_ref(rel: str, ref: str) -> tuple[str, bool]:
     segmento que es directorio de este repo, contra la raiz; cualquier otro primer
     segmento pertenece a otro repositorio y no se verifica.
     """
+    if "fuentes-externas" in ref.split("/"):
+        return ref, False
     if ref.startswith(("./", "../")):
         resolved = os.path.normpath(os.path.join(os.path.dirname(rel), ref))
         # Un `../` que sale de la raiz apunta a un repo hermano: no es nuestro.
@@ -430,7 +432,37 @@ def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
             rep.warn("emoji", rel, f"emoticones presentes: {' '.join(hits)}")
 
 
+def check_ssot_table(rep: Report, specs: dict, ssot_rows: list) -> None:
+    """Validar que los paths en la tabla SSOT existan y tengan spec (M-11)."""
+    for concepto, paths in ssot_rows:
+        for path in paths:
+            if not (ROOT / path).exists():
+                rep.error("ssot-table", REGISTRY, f"path en tabla SSOT no existe en disco; corregir path o crear archivo: {path}")
+            elif path not in specs:
+                rep.error("ssot-table", REGISTRY, f"path en tabla SSOT no tiene spec registrada; crear entrada en SPECS_REGISTRY.md: {path}")
+
+
+def check_file_hygiene(rep: Report, all_docs: list[str]) -> None:
+    """Higiene de archivo: sin CRLF, sin BOM, y con newline final (M-12)."""
+    for rel in all_docs:
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        with open(path, "rb") as f:
+            content = f.read()
+        if not content:
+            continue
+        if b"\r\n" in content:
+            rep.error("higiene", rel, "tiene finales de linea CRLF; convertir a LF")
+        if content.startswith(b"\xef\xbb\xbf"):
+            rep.error("higiene", rel, "tiene BOM (Byte Order Mark); guardar como UTF-8 sin BOM")
+        if not content.endswith(b"\n"):
+            rep.error("higiene", rel, "no termina en salto de linea; agregar newline al final")
+
+
 def main() -> int:
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--strict", action="store_true", help="los WARN tambien fallan")
     ap.add_argument("--quiet", action="store_true", help="solo el resumen")
@@ -451,6 +483,8 @@ def main() -> int:
     check_normative_block(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
     check_no_emoji(rep, all_docs)
+    check_ssot_table(rep, specs, parse_ssot_table())
+    check_file_hygiene(rep, all_docs)
 
     if not args.quiet:
         for severity, check, where, msg in sorted(rep.items, key=lambda i: (i[0] != "ERROR", i[1], i[2])):
