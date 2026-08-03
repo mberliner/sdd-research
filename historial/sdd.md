@@ -4,6 +4,28 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Fase 13 — Higiene de archivo y validación de SSOTs, M-11 y M-12 (2026-08-03) — COMPLETADA
+
+**Acción**: implementar la verificación mecánica de la higiene de los archivos (fines de línea, BOM y saltos de línea finales) y la validación cruzada de la tabla de SSOT contra las existencias en el disco y las declaraciones en el registro.
+
+### Qué se agregó
+Dos funciones de verificación (`check_file_hygiene` y `check_ssot_table`) integradas al script base `tools/check_docs.py`:
+- **`higiene` (ERROR)**: Valida la ausencia de firmas BOM invisibles (requiere UTF-8 puro), prohíbe el uso de CRLF (para uniformidad en el control de cambios de git independientemente de la plataforma) y requiere que todo archivo con contenido termine con un salto de línea limpio (`\n`). Cada validación emite mensajes resolubles y accionables.
+- **`ssot-table` (ERROR)**: Protege la cadena de SSOT, validando que todo documento declarado como central (`SSOT`) en la tabla exista físicamente en su ruta y cuente con su especificación en `SPECS_REGISTRY.md`. 
+- Se realizó una mejora de plataforma cruzada en el `main()` de `check_docs.py` para garantizar que la salida estándar use `UTF-8` en entornos donde la consola de Windows utiliza `cp1252`, e instruir a la resolución de referencias saltarse paths a `fuentes-externas/` que causan falsos positivos en el sistema operativo.
+
+### Cómo se validaron y qué encontraron
+Durante la primera ejecución, casi la totalidad del repositorio (45 archivos) emitió alarmas de `ERROR [higiene]... tiene finales de linea CRLF`.
+Para reparar el problema sin recurrir a modificaciones manuales propensas al error y dejar el proyecto saneado, se empleó un comando que reemplazó masivamente todo `\r\n` por `\n` en los archivos marcados por el script.
+
+En la segunda ejecución luego del proceso de saneado, los verificadores retornaron un paso exitoso: `44 documentos, 40 specs — 0 ERROR, 1 WARN` confirmando la validez del instrumento y la nueva sanidad del proyecto.
+
+### Deuda abierta
+- **El script base sigue careciendo de test automatizados y funcionales.** Se planteó explícitamente agregar `pytest` a su desarrollo o un comando en la bandera `--selftest`, pero por economía en esta fase se optó por respetar su alcance y postergar esta iniciativa como ticket nuevo.
+- M-05, M-08 y M-13 siguen abiertas como prioridades medias y bajas.
+
+---
+
 ## Fase 12 — El backstop aprende a ver duplicación y rutas, M-09 y M-10 (2026-07-31) — COMPLETADA
 
 **Acción**: cerrar los dos huecos que la Fase 11 dejó documentados. Los dos casos serios de duplicación que esa fase corrigió habían pasado los ocho checks existentes sin ruido, y `check_links` solo miraba links markdown mientras el repositorio referencia sobre todo con backticks.

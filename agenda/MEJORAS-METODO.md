@@ -28,8 +28,8 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `normative-block`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
-| M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
-| M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | Aprobada (diferida) | Fase 11 | `../tools/check_docs.py` |
+| M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
+| M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-13 | `deriva_de` apunta a documentos que no son SSOT | media | Propuesta | relevamiento 2026-08-02 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 
 ---
@@ -124,8 +124,8 @@ En cualquiera de las dos, el check correspondiente se agrega al backstop; hoy la
 
 ## M-11 — Validar la tabla SSOT
 
-Hoy la tabla SSOT no se verifica en absoluto: ni que sus paths existan en disco, ni que coincidan con un `path` registrado. Los paths de la Fase 11 se actualizaron a mano y un olvido habría pasado limpio. Diferida a la iteración siguiente de M-09/M-10.
+Hoy la tabla SSOT se verifica mecánicamente: `check_docs.py` asegura que sus paths existan en disco y que coincidan con un `path` registrado. Implementada junto con M-12 en la Fase 13.
 
 ## M-12 — Higiene de archivo
 
-CRLF mezclado, BOM y ausencia de newline final. Origen concreto: en la Fase 11 un barrido de referencias convirtió CRLF a LF en `../docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`, único archivo del repo con ese final de línea, inflando su diff de 3 a 418 líneas. Se detectó por el diffstat, no por el backstop. Diferida junto con M-11.
+CRLF mezclado, BOM y ausencia de newline final. Origen concreto: en la Fase 11 un barrido de referencias convirtió CRLF a LF en `../docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`, único archivo del repo con ese final de línea, inflando su diff de 3 a 418 líneas. Se detectó por el diffstat, no por el backstop. Implementada en la Fase 13: `check_docs.py` ahora fuerza `LF`, prohíbe `BOM` y requiere newline final. El repositorio fue convertido masivamente a `LF`.
