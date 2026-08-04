@@ -30,7 +30,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
-| M-13 | `deriva_de` apunta a documentos que no son SSOT | media | Propuesta | relevamiento 2026-08-02 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
+| M-13 | `deriva_de` apunta a documentos que no son SSOT | media | **Hecha** (2026-08-03) | relevamiento 2026-08-02, completado 2026-08-03 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 
 ---
 
@@ -111,16 +111,9 @@ Se agregó un cuarto caso durante la implementación: una ruta relativa que **sa
 
 ## M-13 — `deriva_de` apunta a documentos que no son SSOT
 
-El registro define `derivado` como "sintetiza un SSOT" y `deriva_de` como "el archivo **SSOT** de origen". En la práctica, de las declaraciones vigentes de `deriva_de`, varias apuntan a documentos que no son SSOT: tres a `../software/ANALISIS-SPEC-KIT.md`, declarado `operativo`, y una —`../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`— a `../software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, que es a su vez `derivado`, o sea un derivado de un derivado.
+**Hecha el 2026-08-03.** Relevamiento completo, remediación y cierre — detalle en `../historial/sdd.md`. Emparentada con `M-11`, que también toca coherencia del registro contra sí mismo.
 
-El backstop no lo vio nunca porque `check_deriva` verifica solo que el destino **exista** y que la cadena no tenga ciclos, no el `ssot_level` del destino. Detectado al decidir la naturaleza de `../software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (2026-08-02), que por esta razón se registró como SSOT propio en vez de sumar un caso más.
-
-Dos salidas posibles, y la decisión es cuál antes de tocar nada:
-
-1. **Ajustar la definición al uso**: `deriva_de` pasa a significar "documento del que este sintetiza", sin exigir que sea SSOT. Es lo que el repositorio hace hoy; el costo es que la trazabilidad de propagación deja de garantizar que la cadena termine en un SSOT.
-2. **Ajustar el uso a la definición**: reclasificar los cuatro casos, lo que probablemente implique promover `ANALISIS-SPEC-KIT.md` a SSOT de algún tema o cambiar el `ssot_level` de sus derivados.
-
-En cualquiera de las dos, el check correspondiente se agrega al backstop; hoy la regla no está verificada por nada. Emparentada con `M-11`, que también toca coherencia del registro contra sí mismo.
+Resumen: de 7 specs `derivado` vigentes, 6 violaban la definición literal en tres patrones (destino `operativo`, derivado-de-derivado, destino sin entrada) y 1 (`RELACION-SPEC-VS-EPICA.md`) resultó ser un error de modelado distinto — relación forzada, no síntesis real — remediado quitándole `deriva_de`. Los 6 restantes se resolvieron combinando: `deriva_de` ahora permite cadena (origen `SSOT` o `derivado`, nunca `operativo` ni sin registrar); `ANALISIS-SPEC-KIT.md` promovido a `SSOT`; `EXPERIMENTO-B7-formato-hibrido.md` dado de alta en el registro con entrada mínima. `check_docs.py` valida la regla nueva.
 
 ## M-11 — Validar la tabla SSOT
 

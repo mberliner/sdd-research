@@ -210,6 +210,17 @@ def check_spec_fields(rep: Report, specs: dict) -> None:
                 rep.error("spec-fields", path, f"deriva_de apunta a `{origen}`, que no existe")
             elif origen == path:
                 rep.error("spec-fields", path, "deriva_de apunta al propio documento (ciclo)")
+            elif origen not in specs:
+                rep.error("spec-fields", path, f"deriva_de apunta a `{origen}`, que no tiene spec registrada")
+            else:
+                origen_level = specs[origen].get("ssot_level", "").strip("`")
+                if origen_level not in ("SSOT", "derivado"):
+                    rep.error(
+                        "spec-fields",
+                        path,
+                        f"deriva_de apunta a `{origen}` con ssot_level `{origen_level or '(vacio)'}` "
+                        "(MUST ser SSOT o derivado)",
+                    )
         if "proposito" not in fields:
             rep.warn("spec-fields", path, "spec sin campo proposito")
 

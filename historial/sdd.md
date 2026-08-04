@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-13 — `deriva_de` apunta a documentos que no son SSOT (2026-08-03) — COMPLETADA
+
+**Acción**: relevamiento completo de las 7 specs vigentes con `ssot_level: derivado` (disparado al decidir la naturaleza de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` el 2026-08-02), y resolución combinando reclasificación de origen, alta de spec faltante y una regla nueva sobre `deriva_de`.
+
+### Qué se encontró
+Las 7 specs `derivado` vigentes violaban la definición literal ("`deriva_de` apunta al SSOT de origen") en tres patrones: (1) destino declarado `operativo` — `COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `RELACION-FR-VS-SC-Y-COBERTURA.md`, ambos apuntando a `ANALISIS-SPEC-KIT.md`; (2) derivado-de-derivado — `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` → `COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `PREREG-B7.md` → `PRUEBA-REGENERABILIDAD-B7.md`; (3) destino sin entrada en el registro — `PRUEBA-REGENERABILIDAD-B7.md` y `PRUEBA-OBSERVACIONAL-B7.md`, ambos apuntando a `EXPERIMENTO-B7-formato-hibrido.md`, exento de spec por generarse desde template.
+
+Un octavo caso (`RELACION-SPEC-VS-EPICA.md` → `ANALISIS-SPEC-KIT.md`) resultó ser un error de modelado distinto: a diferencia de los otros, su contenido no sintetiza `ANALISIS-SPEC-KIT.md` — es un análisis paralelo con evidencia externa propia, forzado a "derivar" de algo con lo que no tiene relación real. Se corrigió aparte, quitándole `deriva_de` y dejándolo `operativo` independiente, antes de decidir la regla general.
+
+### Qué se cambió
+- `SPECS_REGISTRY.md` §Campo ssot_level: `deriva_de` ya no exige que el origen sea `SSOT` — MUST ser `SSOT` o `derivado` (permite cadena de más de un salto), nunca `operativo` ni un documento sin entrada. Se documentó el criterio para distinguir cadena legítima (cada eslabón declara una faceta distinta: qué/cómo/valores) de mal modelado (forzar una relación para evitar clasificar el rol real).
+- `SPECS_REGISTRY.md` §Docs excluidos: excepción nueva — un `EXPERIMENTO-*.md` citado como `deriva_de` por otro documento MUST tener entrada mínima en el registro (conserva la exención de `incluye`/`excluye` detallados).
+- `software/ANALISIS-SPEC-KIT.md` reclasificado de `operativo` a `SSOT` (resuelve 2 de los 7 casos) y sumado a la Tabla SSOT.
+- Alta de `experimentos/EXPERIMENTO-B7-formato-hibrido.md` en el registro, `ssot_level: SSOT`, entrada mínima por la excepción nueva (resuelve otros 2 casos) y sumado a la Tabla SSOT.
+- Los 2 casos de derivado-de-derivado quedan cubiertos por la regla de cadena, sin tocar sus specs.
+- `tools/check_docs.py`: `check_spec_fields` ahora valida que el destino de `deriva_de` tenga spec registrada y `ssot_level` en `{SSOT, derivado}`, no solo que exista en disco y no cicle.
+
+### Cómo se validó
+`python tools/check_docs.py` — `44 documentos, 41 specs — 0 ERROR, 1 WARN` (el WARN es el de emoticones de `PREREG-B7.md`, preexistente y sin relación — M-08).
+
+### Deuda abierta
+- M-05 y M-08 siguen abiertas como prioridades baja y media.
+- La excepción de entrada mínima para `EXPERIMENTO-*.md` es puntual (M-13); si aparecen más casos de documentos exentos de spec citados como origen, revisar si conviene generalizarla en vez de repetirla caso a caso.
+
+---
+
 ## Fase 13 — Higiene de archivo y validación de SSOTs, M-11 y M-12 (2026-08-03) — COMPLETADA
 
 **Acción**: implementar la verificación mecánica de la higiene de los archivos (fines de línea, BOM y saltos de línea finales) y la validación cruzada de la tabla de SSOT contra las existencias en el disco y las declaraciones en el registro.
