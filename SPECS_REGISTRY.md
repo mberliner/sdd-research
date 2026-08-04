@@ -24,7 +24,7 @@ División de trabajo: `CONSTITUTION.md` declara **qué nunca cede** (invariante;
 - Fechas en formato YYYY-MM-DD.
 - No duplicar contenido entre SSOTs: referenciar, no repetir.
 - **Alcance de un documento: un solo lugar (regla operativa del Principio I).** Los campos `proposito`, `incluye`, `excluye` y `validacion` MUST vivir únicamente en este registro. Ningún otro documento los reproduce ni los parafrasea:
-  - `00-INDEX.md` responde *dónde está cada archivo* (ruta de lectura y ubicación), no *qué contiene cada doc* ni *quién es SSOT de qué tema* — esa tabla vive acá, acoplada a la regla de propagación. Su tabla de estructura MUST declarar rol (`SSOT` / `derivado` / `operativo`), no propósito.
+  - Todo `00-INDEX.md` (raíz o de línea) responde *dónde está cada archivo* (ruta de lectura y ubicación), no *qué contiene cada doc*. Solo el `00-INDEX.md` de raíz declara además *quién es SSOT de qué tema*, en su tabla de rol (`SSOT` / `derivado` / `operativo`) — spec propia, tabla chica y estable (ver sección `00-INDEX.md` de este registro). `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md` MUST NOT reproducir esa clasificación ni `estado` — su contenido es más grande y rota más, y ya se desincronizó una vez (M-14); ver su spec propia.
   - El encabezado de un documento MAY llevar **una** línea de identidad para quien lo abre suelto; MUST NOT enumerar `incluye`/`excluye` ni criterios de validación.
   - Motivo: el 2026-07-31 se midió la divergencia real — 11 filas de `00-INDEX.md` repetían el `proposito` del registro y 5 ya habían derivado (perdiendo, entre otras cosas, la procedencia de `historial/ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
   - Migración: los encabezados de documentos preexistentes SHOULD limpiarse de forma oportunista al tocarlos, no en una reescritura masiva.
@@ -311,11 +311,13 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - el `proposito` de cada documento listado — vive en este registro; junto a cada link va a lo sumo un puntero breve de que tipo de contenido es, no una síntesis de que dice
   - el campo `estado` de cada documento listado — vive en este registro; anotarlo aca crea una segunda fuente que puede desincronizarse (motivo: `software/00-INDEX.md` quedo con "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` cuando el registro ya declaraba `Activo`, detectado 2026-08-03, M-14)
+  - el campo `ssot_level`/rol (`SSOT`/`derivado`/`operativo`) de cada documento listado — vive en la tabla SSOT y en el campo `ssot_level` de este registro; mismo riesgo de desincronizacion que `estado` (ver `Detalle` del Principio I en `CONSTITUTION.md`)
 - `validacion`:
   - [ ] links vigentes
   - [ ] direccionan a SSOT de su línea
   - [ ] las descripciones junto a cada link no parafrasean el `proposito` registrado del documento enlazado
   - [ ] ningún link anota `estado`
+  - [ ] ningún link ni tabla anota `ssot_level`/rol
 
 ### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md
 - `path`: `templates/EXPERIMENTO.md`

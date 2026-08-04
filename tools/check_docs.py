@@ -385,6 +385,35 @@ def check_references(rep: Report, all_docs: list[str]) -> None:
                 rep.error("referencias", rel, f"cita [{r}] sin entrada en {REFERENCIAS}")
 
 
+def check_excluded_fields_in_tables(rep: Report, specs: dict, all_docs: list[str]) -> None:
+    """Un doc no reproduce en tabla un campo que su propia spec excluye (M-14 y su correccion).
+
+    Generico: no hardcodea que documento aplica. Lee los `excluye_items` de cada
+    spec, busca nombres de campo citados en backticks (ej. `estado`, `ssot_level`)
+    y, si son `estado` o `ssot_level`, verifica que ninguna celda de tabla del
+    documento sea un valor valido de ese campo (VALID_ESTADO / VALID_SSOT_LEVEL).
+    """
+    for path, fields in specs.items():
+        if path not in all_docs:
+            continue
+        excluded = {
+            token
+            for item in fields.get("excluye_items", [])
+            for token in re.findall(r"`([a-z_]+)`", item)
+        }
+        checks = [f for f in ("estado", "ssot_level") if f in excluded]
+        if not checks:
+            continue
+        for n, line in enumerate(read(path).splitlines(), 1):
+            if not line.strip().startswith("|"):
+                continue
+            for cell in (c.strip().strip("*") for c in line.strip().strip("|").split("|")):
+                if "estado" in checks and cell in VALID_ESTADO:
+                    rep.error("excluded-field", f"{path}:{n}", f"tabla anota `estado` ({cell}); excluido por su propia spec")
+                if "ssot_level" in checks and cell in VALID_SSOT_LEVEL:
+                    rep.error("excluded-field", f"{path}:{n}", f"tabla anota `ssot_level`/rol ({cell}); excluido por su propia spec")
+
+
 def check_scope_single_home(rep: Report, all_docs: list[str]) -> None:
     """El alcance (campos de spec) vive solo en el registro (regla del Principio I)."""
     for rel in all_docs:
@@ -490,6 +519,7 @@ def main() -> int:
     check_backtick_paths(rep, all_docs)
     check_references(rep, all_docs)
     check_scope_single_home(rep, all_docs)
+    check_excluded_fields_in_tables(rep, specs, all_docs)
     check_ssot_collision(rep, specs, parse_ssot_table())
     check_normative_block(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
