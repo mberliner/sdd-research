@@ -308,9 +308,14 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `path`: `software/00-INDEX.md`
 - `proposito`: indice de navegacion de su linea — pregunta central, gobernanza aplicable y lectura sugerida.
 - `ssot_level`: `operativo`
+- `excluye`:
+  - el `proposito` de cada documento listado — vive en este registro; junto a cada link va a lo sumo un puntero breve de que tipo de contenido es, no una sintesis de que dice
+  - el campo `estado` de cada documento listado — vive en este registro; anotarlo aca crea una segunda fuente que puede desincronizarse (motivo: `software/00-INDEX.md` quedo con "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` cuando el registro ya declaraba `Activo`, detectado 2026-08-03, M-14)
 - `validacion`:
   - [ ] links vigentes
   - [ ] direccionan a SSOT de su linea
+  - [ ] las descripciones junto a cada link no parafrasean el `proposito` registrado del documento enlazado
+  - [ ] ningun link anota `estado`
 
 ### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md
 - `path`: `templates/EXPERIMENTO.md`

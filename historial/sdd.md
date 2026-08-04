@@ -4,6 +4,26 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-14 — Índices de línea duplicaban `proposito`/`estado` fuera del registro (2026-08-03) — COMPLETADA
+
+**Acción**: auditoría de coherencia (usuario + asistente) sobre la tabla SSOT y las specs, disparada por revisión manual del proyecto.
+
+### Qué se encontró
+`software/00-INDEX.md` anotaba "Estado: Borrador" junto al link a `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, mientras `SPECS_REGISTRY.md` declara `estado: Activo` para ese documento desde el 2026-06-06 (vía confirmada y ejecutada). Contradicción directa entre un índice operativo y su SSOT. Causa raíz: la spec de `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md` no prohibía explícitamente parafrasear `proposito` ni anotar `estado` junto a cada link — a diferencia de la regla ya vigente para el `00-INDEX.md` de raíz, que exige tabla de rol en vez de propósito. Las descripciones de `software/00-INDEX.md` §Análisis de frameworks también parafraseaban de cerca el `proposito` registrado de cada documento enlazado (ej. `ANALISIS-SPEC-KIT.md`).
+
+### Qué se cambió
+- `SPECS_REGISTRY.md`: spec de `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md` suma `excluye` (ni `proposito` parafraseado ni `estado` anotado junto a cada link — ambos viven solo en el registro) y dos ítems de `validacion` que lo verifican.
+- `software/00-INDEX.md`: descripciones de §Análisis de frameworks y §Análisis temáticos recortadas a punteros breves (qué tipo de contenido es, no qué dice); quitadas las dos anotaciones de `Estado` (`DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` y `SDD-EN-LEGACY-Y-BROWNFIELD.md`).
+- `docs-y-investigacion/00-INDEX.md` no requirió cambios de contenido — ya era una lista sin descripciones ni estado.
+
+### Cómo se validó
+`python tools/check_docs.py` — `44 documentos, 41 specs — 0 ERROR, 1 WARN` (el WARN es el de emoticones de `PREREG-B7.md`, preexistente y sin relación — M-08).
+
+### Deuda abierta
+- M-05 y M-08 siguen abiertas como prioridades baja.
+
+---
+
 ## M-13 — `deriva_de` apunta a documentos que no son SSOT (2026-08-03) — COMPLETADA
 
 **Acción**: relevamiento completo de las 7 specs vigentes con `ssot_level: derivado` (disparado al decidir la naturaleza de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` el 2026-08-02), y resolución combinando reclasificación de origen, alta de spec faltante y una regla nueva sobre `deriva_de`.

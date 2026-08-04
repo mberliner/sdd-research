@@ -31,6 +31,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-13 | `deriva_de` apunta a documentos que no son SSOT | media | **Hecha** (2026-08-03) | relevamiento 2026-08-02, completado 2026-08-03 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
+| M-14 | Índices de línea duplicaban `proposito`/`estado` fuera del registro | media | **Hecha** (2026-08-03) | auditoría de coherencia 2026-08-03 | `../SPECS_REGISTRY.md` + `../software/00-INDEX.md` |
 
 ---
 
@@ -114,6 +115,12 @@ Se agregó un cuarto caso durante la implementación: una ruta relativa que **sa
 **Hecha el 2026-08-03.** Relevamiento completo, remediación y cierre — detalle en `../historial/sdd.md`. Emparentada con `M-11`, que también toca coherencia del registro contra sí mismo.
 
 Resumen: de 7 specs `derivado` vigentes, 6 violaban la definición literal en tres patrones (destino `operativo`, derivado-de-derivado, destino sin entrada) y 1 (`RELACION-SPEC-VS-EPICA.md`) resultó ser un error de modelado distinto — relación forzada, no síntesis real — remediado quitándole `deriva_de`. Los 6 restantes se resolvieron combinando: `deriva_de` ahora permite cadena (origen `SSOT` o `derivado`, nunca `operativo` ni sin registrar); `ANALISIS-SPEC-KIT.md` promovido a `SSOT`; `EXPERIMENTO-B7-formato-hibrido.md` dado de alta en el registro con entrada mínima. `check_docs.py` valida la regla nueva.
+
+## M-14 — Índices de línea duplicaban `proposito`/`estado`
+
+**Hecha el 2026-08-03.** Una auditoría de coherencia encontró que `software/00-INDEX.md` anotaba "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` mientras el registro ya declaraba `estado: Activo` desde el 2026-06-06 — contradicción directa entre el índice y su SSOT. Causa raíz: la spec de `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md` (`../SPECS_REGISTRY.md`) no prohibía explícitamente que las descripciones junto a cada link parafrasearan el `proposito` registrado ni que anotaran `estado`, a diferencia de la regla ya vigente para el `00-INDEX.md` de raíz.
+
+Se corrigió: `SPECS_REGISTRY.md` suma `excluye`/`validacion` explícitos para ambos índices de línea (sin parafraseo de `proposito`, sin anotación de `estado`); `software/00-INDEX.md` se recortó a punteros breves y se quitaron las dos anotaciones de `Estado`. `docs-y-investigacion/00-INDEX.md` ya cumplía (lista sin descripciones ni estado) y no requirió cambios de contenido.
 
 ## M-11 — Validar la tabla SSOT
 
