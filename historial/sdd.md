@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Incorporación de sdd-first al corpus como caso del propio linaje (2026-08-15) — COMPLETADA
+
+**Acción**: alta de una fuente nueva en `fuentes-externas/` (enlace `sdd-first`, agregado por el usuario) y su análisis con el mismo instrumento que Spec Kit, Superpowers y OpenSpec.
+
+### Qué se encontró
+sdd-first ([R39], commit `ebfbd67`) **no pasa el filtro de procedencia** de `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: es del mismo autor, generaliza el tooling del testigo (`check_traceability.py`, `sdd_gate.py`, `check_constitution.py` son los scripts que M-01 y M-02 registran con origen «testigo») y arrastra vocabulario nacido acá (`[SDD-Check]`, el par `hibrido`/`casero` de B-07, la forma de principio de `CONSTITUTION.md`) más la difusión desde Spec Kit ya declarada (`analyze`, `clarify`). No suma linaje y el conteo sigue en cuatro. Su valor es otro: es el único caso donde este método está ejecutado por código de punta a punta, incluidos mecanismos que acá son prosa y uno que acá ya falló — la prioridad alta #4 del backlog (gate fail-open silencioso durante todo B-07) está pagada allá en ingeniería.
+
+Hallazgo con consecuencia inmediata: el chequeo de **mtime** que M-02 daba por diseño se implementó en esa fuente y falló en las dos direcciones (bloqueó flujo legítimo, y un `touch` lo satisfacía). Implementar M-02 como estaba escrito era repetir un error ya pagado.
+
+### Qué se cambió
+- `REFERENCIAS.md`: alta de [R39], con versión anclada, naturaleza declarada (repositorio propio, no fuente externa; MUST NOT contarse como linaje ni citarse como evidencia) y reserva de vendorizado (el enlace apunta a un directorio de trabajo vivo, no a un snapshot).
+- `software/ANALISIS-SDD-FIRST.md`: documento nuevo, con la procedencia resuelta antes de la lectura, el mapeo sobre el instrumento v1 sin filas nuevas y seis conclusiones marcadas como lectura o candidata (ninguna aprobada).
+- `SPECS_REGISTRY.md`: spec del documento nuevo, con validación explícita de que ninguna coincidencia se presente como convergencia.
+- `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia que registra el caso como **No** — primer rechazo escrito de la regla 1, anotado para que el corolario «la mayoría de los métodos nuevos no suman linaje» sea verificable. Ningún veredicto por fila cambia.
+- `agenda/MEJORAS-METODO.md`: M-02 incorpora la corrección de diseño (mtime descartado, criterio de contenido en su lugar, tres modos de falla adicionales); alta de M-15, M-16 y M-17 en estado `Propuesta`.
+- `software/00-INDEX.md`: puntero al análisis nuevo.
+
+### Cómo se validó
+`python tools/check_docs.py` — 0 ERROR (ver corrida al cierre de la iteración).
+
+### Deuda abierta
+- M-15, M-16 y M-17 quedan en `Propuesta`, sin aprobación del usuario.
+- Por qué el kit dejó caer `[NEEDS CLARIFICATION]` no está declarado en la fuente y el análisis no lo resuelve.
+- La deuda previa de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sigue intacta: Kiro sin leer, dimensión «cómo llega el método al agente» sin veredicto, corpus observacional de OpenSpec sin dar de alta.
+
+---
+
 ## M-14 — Índices de línea duplicaban `proposito`/`estado` fuera del registro (2026-08-03) — COMPLETADA
 
 **Acción**: auditoría de coherencia (usuario + asistente) sobre la tabla SSOT y las specs, disparada por revisión manual del proyecto.

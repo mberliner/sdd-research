@@ -36,6 +36,9 @@ Las divergencias se reportan con el mismo detalle que las convergencias. Un rele
 | Superpowers [R37] | No cita, forkea ni deriva de los demás; ausentes los marcadores de difusión conocidos | Sí |
 | OpenSpec [R38] | Primer commit 2025-08-05, dieciséis días **anterior** al primer commit del repositorio de Spec Kit (2025-08-21); menciona a Spec Kit y a Kiro solo para diferenciarse comercialmente; ausentes los tres marcadores de difusión conocidos. Detalle y límites en `ANALISIS-OPENSPEC.md` | Sí, respecto de Spec Kit |
 | Testigo + este repo | El testigo deriva de este repositorio, con sesgo de confirmación declarado en B-06 | Sí, como un solo linaje |
+| sdd-first [R39] | Mismo autor; generaliza el tooling del testigo y arrastra vocabulario nacido acá (`[SDD-Check]`, el par `hibrido`/`casero` de B-07, la forma de principio de `../CONSTITUTION.md`) más la difusión desde Spec Kit ya declarada (`analyze`, `clarify`) | **No** — cae dentro del linaje «Testigo + este repo». Detalle en `ANALISIS-SDD-FIRST.md` |
+
+**El filtro ejercido sobre un caso que no pasa (2026-08-15).** sdd-first es el primer caso al que la regla 1 se le aplica y lo rechaza. Se lo registra acá, y no en silencio, porque el corolario de esa regla —la mayoría de los métodos SDD nuevos no van a sumar linaje— solo es verificable si los rechazos quedan escritos junto a las aceptaciones. El conteo sigue siendo de cuatro linajes y ningún veredicto por fila cambia.
 
 **Límite del filtro.** La independencia de OpenSpec está establecida frente a Spec Kit por fechas verificables, no frente a Kiro, anunciado el 2025-07-14 y ausente del corpus. La notación `WHEN/THEN` compartida desciende de Gherkin [R07], ancestro común anterior a los cuatro, y por eso no cuenta como derivación entre casos. Mientras Kiro no se lea, la cuarta columna se sostiene sobre una independencia parcialmente verificada, y toda afirmación de invariancia que dependa **solo** de sumar OpenSpec MUST leerse con esa reserva.
 

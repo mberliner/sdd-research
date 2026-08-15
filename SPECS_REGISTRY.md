@@ -533,6 +533,32 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados
   - [ ] no duplica SSOT — referencia
 
+### software/ANALISIS-SDD-FIRST.md
+- `path`: `software/ANALISIS-SDD-FIRST.md`
+- `proposito`: analisis de sdd-first [R39] como caso **del propio linaje** — el metodo de este repositorio llevado a codigo ejecutable en un kit instalable — con foco en que mecanismos de ese kit son portables a un repositorio documental y cuales no.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, con la evidencia que lo sostiene y su consecuencia: no suma linaje
+  - sintesis del andamiaje (capas de enforcement, artefactos generados desde config, skills multi-asistente, actualizacion de derivados)
+  - mapeo sdd-first vs. protocolo SDD del proyecto, sobre el instrumento v1 de ocho filas fijado el 2026-05-24
+  - conclusiónes accionables para Linea B y para el metodo del repositorio, marcadas como lectura, candidatas o aprobadas
+- `excluye`:
+  - la lectura cruzada de los casos de convergencia — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
+  - las decisiónes de adopcion — viven en `agenda/MEJORAS-METODO.md`
+  - re-análisis del flujo de Spec Kit, Superpowers u OpenSpec (viven en sus analisis respectivos)
+  - estadística de adopcion de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+- `validacion`:
+  - [ ] versión analizada anclada en `REFERENCIAS.md` [R39], con commit y estado del arbol
+  - [ ] la procedencia esta declarada antes de la lectura y concluye explicitamente que la fuente NO suma linaje
+  - [ ] ninguna coincidencia con el metodo de este repositorio se presenta como convergencia
+  - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medición, y eso queda dicho
+  - [ ] todo rasgo citado declara su archivo de origen en el clon vendored o el comando que lo expone
+  - [ ] el mapeo corre sobre el instrumento v1 sin agregar ni redefinir filas
+  - [ ] mapeo no contradice `AGENTS.md` ni este registro
+  - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados
+  - [ ] no duplica SSOT — referencia
+
 ### software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
 - `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre cuatro casos (Spec Kit, Superpowers, OpenSpec y el proyecto testigo) con un instrumento comun.
