@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-18 — Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto (2026-08-15) — COMPLETADA
+
+**Acción**: check nuevo en el backstop más enmienda constitucional de patch (v0.2.0 → v0.2.1), aprobada por el usuario al elegir esta mejora sobre el resto del backlog.
+
+### Qué se encontró
+M-15 había cerrado el mismo día dejando cuatro principios con `Verificador: ninguno`, y el de VII venía con su propio diagnóstico escrito: el marcador `[NEEDS CLARIFICATION]` es grep-able desde que se adoptó de Spec Kit [R10], el registro declara `estado` por documento desde el principio, y nadie había cruzado las dos cosas. `AGENTS.md` §Disambiguación obliga a resolver el marcador antes de considerar el documento `Activo`; hasta acá solo se verificaba la mitad barata —que el marcador se pudiera encontrar—, no la que importa.
+
+### Qué se cambió
+- `tools/check_docs.py`: check `clarificacion` (ERROR). Un documento cuya spec declara `Activo` —incluido el default de no escribir el campo— no puede conservar un marcador con su pregunta escrita. Los bloques de código se ignoran; los spans inline **no**, porque un marcador vivo entre backticks sigue abierto.
+- `CONSTITUTION.md` v0.2.1: Principio VII pasa de `ninguno` a `clarificacion`, con la nota de qué mitad del principio queda sin cubrir; «Límite honesto» actualizado a cuatro de siete.
+- `AGENTS.md`: las dos afirmaciones sobre lo que cubre el backstop.
+- `agenda/MEJORAS-METODO.md`: M-18 dada de alta y cerrada; el párrafo de resultado de M-15 lleva una nota de actualización en vez de reescribirse.
+
+### Calibración, que fue el trabajo real
+El corpus menciona la convención en unos treinta lugares y no tiene ni un marcador vivo, así que el riesgo entero del check era el falso positivo. El discriminante elegido es la pregunta: un marcador trae `:` y texto propio; las menciones traen elipsis o el metavariable entre ángulos. Se verificó sobre las ocho formas con `:` presentes en el árbol, todas placeholders.
+
+### Cómo se validó
+Cinco deformaciones deliberadas, cada una probando una decisión de diseño distinta: marcador vivo en documento `Activo` (detectado), el mismo entre backticks (detectado — los backticks no eximen), marcador dentro de un bloque de código (no detectado, es ejemplo citado), marcador vivo en un documento `Borrador` (no detectado, ahí es legítimo), y el check renombrado en el script (detectado por `constitucion`, que es el lazo de M-15 cerrándose sobre la declaración nueva). Árbol restaurado y `python3 tools/check_docs.py` → `45 documentos, 42 specs — 0 ERROR, 1 WARN` (el WARN es M-08, preexistente).
+
+### Deuda abierta
+- **Hueco conocido y declarado**: los documentos exentos de spec (`EXPERIMENTO-*`, `RESULTADO-EXPERIMENTO-*`) no tienen `estado` que consultar y quedan fuera, justo donde los marcadores reales más aparecen. Cerrarlo exige decidir antes qué significa `Activo` para un documento exento — pregunta sobre el registro, no sobre el check.
+- El check no observa el caso en que se interpretó en silencio y nunca hubo marcador. Es la mitad que `agenda/BACKLOG-INVESTIGACION.md` prioridad alta #8 propone medir sobre conducta.
+- Quedan III, V y VI sin verificador. El más accionable sigue siendo III (M-16), bloqueado por la decisión de si el backstop puede depender de git.
+
+---
+
 ## M-15 — Cada principio declara un verificador ejecutable, o declara que no tiene (2026-08-15) — COMPLETADA
 
 **Acción**: enmienda constitucional (v0.1.0 → v0.2.0) más un check nuevo, aprobada por el usuario tras el análisis de sdd-first.

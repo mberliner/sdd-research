@@ -35,6 +35,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-15 | Cada principio declara un verificador ejecutable, o declara que no tiene | alta | **Hecha** (2026-08-15) | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C1) | `../CONSTITUTION.md` + `../tools/check_docs.py` |
 | M-16 | Verificar `Derivados a revisar` contra el disco y la tabla SSOT | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C2) | `../tools/check_docs.py` |
 | M-17 | Portar el modelo de skills multi-asistente desde una fuente única | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C5) | contraparte de M-03 |
+| M-18 | Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto | alta | **Hecha** (2026-08-15) | resultado de M-15: Principio VII sin verificador | `../tools/check_docs.py` + `../CONSTITUTION.md` |
 
 ---
 
@@ -147,6 +148,8 @@ Origen: sdd-first [R39] declara ese vínculo en el config y verifica que el paso
 
 Resultado de la primera pasada, que es el dato que la mejora buscaba: **tres de los siete principios tienen verificador**, y solo uno de forma sustantiva. I (SSOT único) y II (trazabilidad a fuente) quedan parciales —el check confirma que la `[Rxx]` citada existe, no que la afirmación esté citada—; IV (documento autorado, spec registrada) es el único bien cubierto. III, V, VI y VII declaran `ninguno`: la propagación bidireccional es M-16, el sellado experimental es una promesa sobre el orden entre pensar y ver que nada mecánico observa, el criterio método/contenido quedó pendiente al cerrar M-01, y nada verifica que un `[NEEDS CLARIFICATION]` se resuelva antes de declarar activo un documento.
 
+Actualización 2026-08-15: el último de esos cuatro dejó de ser cierto el mismo día — VII pasó a tener verificador con `M-18`, que salió directamente de leer este párrafo. El conteo vigente es **cuatro de siete**; quedan III, V y VI.
+
 Efecto colateral saldado: `../AGENTS.md` afirmaba que no había verificación determinista, lo que era falso desde M-01. Corregido en la misma entrega — es parte de M-07, que sigue abierta por `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`.
 
 Validación: el check se probó en rojo antes de escribir el campo (7 ERROR, uno por principio) y contra dos deformaciones deliberadas —un check inexistente y un campo renombrado—, ambas detectadas; el árbol se restauró y quedó en 0 ERROR.
@@ -164,3 +167,18 @@ Reserva antes de aprobarla: en un repo documental el vínculo requisito→verifi
 Contraparte concreta de M-03, que declara la incoherencia (investigamos SDD multi-asistente y el tooling es Claude-only) pero no el mecanismo. sdd-first sirve siete skills a cuatro asistentes desde una fuente única: playbook agnóstico como SSOT del contenido, `SKILL.md` fuente como wrapper, y adaptadores generados y committeados con cabecera «NO EDITAR A MANO». Sin symlinks a propósito: se degradan en Windows sin Developer Mode. Detalle en `../fuentes-externas/sdd-first/docs/SKILLS-MULTITOOL.md`; lectura en `../software/ANALISIS-SDD-FIRST.md` C5.
 
 Reserva: portarlo trae un generador en Python, dependencia que hoy solo tiene `check_docs.py`. Decidir M-03 primero — sin playbooks que servir, no hay nada que generar.
+
+## M-18 — Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto
+
+Origen: el resultado de M-15, que dejó al Principio VII declarando `Verificador: ninguno` con esta frase — «el marcador es grep-able, pero nada verifica que se haya resuelto antes de declarar un documento activo». Las dos piezas necesarias ya existían por separado: el marcador es grep-able desde que se adoptó de Spec Kit [R10], y el registro ya declara `estado` por documento. La mejora es cruzarlas.
+
+**Hecha el 2026-08-15.** `../tools/check_docs.py` suma el check `clarificacion` (ERROR): un documento cuya spec declara `Activo` —incluido el default, que es no escribir el campo— no puede conservar un marcador con su pregunta escrita. `../CONSTITUTION.md` v0.2.1 lo declara en el Principio VII.
+
+Dos límites, declarados en el propio check y elegidos contra un corpus que discute la convención en unos treinta lugares sin tener un solo marcador vivo:
+
+1. **Marcador vs. mención.** Cuenta como marcador lo que trae `:` y una pregunta propia; la elipsis y el metavariable entre ángulos son como este repositorio cita el instrumento cuando habla de él. Los backticks **no** eximen a propósito: un marcador vivo escrito entre backticks sigue estando abierto.
+2. **Hueco conocido: los documentos exentos de spec.** `EXPERIMENTO-*` y `RESULTADO-EXPERIMENTO-*` no tienen `estado` que consultar, y la obligación del protocolo está enunciada contra ese campo — así que quedan fuera justo donde los marcadores reales más aparecen (`../experimentos/PRUEBA-REGENERABILIDAD-B7.md` llegó a tener cuatro). Cerrarlo exige decidir antes qué significa `Activo` para un documento exento, que es una pregunta sobre el registro y no sobre el check.
+
+Lo que el check **no** cubre del principio: el caso en que el asistente interpretó en silencio y nunca hubo marcador. Eso sigue sin observador mecánico, y es la mitad que la contraparte de investigación mide sobre conducta (`BACKLOG-INVESTIGACION.md` prioridad alta #8).
+
+Validación: verde sobre el árbol actual sin un solo falso positivo entre las menciones existentes, y cinco deformaciones deliberadas con el comportamiento esperado — marcador vivo en documento `Activo` y el mismo entre backticks, ambos detectados; marcador dentro de un bloque de código y marcador en un documento `Borrador`, ninguno detectado; y el check renombrado en el script, detectado por `constitucion`, que es el lazo de M-15 cerrándose sobre la declaración nueva. Árbol restaurado y 0 ERROR.

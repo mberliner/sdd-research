@@ -9,7 +9,7 @@
 Repositorio de investigación sobre Spec-Driven Development en dos líneas paralelas —
 `docs-y-investigacion/` (línea A) y `software/` (línea B); la diferencia entre ambas es
 SSOT de `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`. Hay git desde 2026-07-31 y **no hay CI**: la única
-verificación determinista es `tools/check_docs.py`, que corre a pedido y cubre tres de los siete
+verificación determinista es `tools/check_docs.py`, que corre a pedido y cubre cuatro de los siete
 principios (`CONSTITUTION.md`, campo `Verificador:`). Todo lo demás de este protocolo es humano.
 
 ## Antes de cualquier cambio
@@ -62,7 +62,7 @@ MUST — toda entrega cierra con este bloque:
 
 ## Al cerrar una iteración
 
-1. Corré el backstop `tools/check_docs.py` con el intérprete de Python del entorno (`python`, `python3` o `py -3` según la plataforma; requiere 3.8+) y dejá el resultado en verde (0 ERROR). Cubre la parte mecánica de los checks de arriba: cobertura de spec, links markdown y rutas escritas en backticks, `[Rxx]`, campos de spec, alcance en un solo lugar, cadena de precedencia y que cada principio de la constitución declare un `Verificador:` que exista. **Verifica presencia y forma, no adecuación** — que un doc tenga spec no dice que la spec lo describa bien; eso sigue siendo tuyo. Dos checks emiten WARN como señal para que la mires, no como veredicto: `ssot-collision` (dos specs que se declaran dueñas del mismo tema) y `normative-block` (la definición de un bloque normativo reproducida fuera de su SSOT). Un WARN de esos MUST revisarse antes de entregar: o se corrige la duplicación, o se explica por qué no lo es.
+1. Corré el backstop `tools/check_docs.py` con el intérprete de Python del entorno (`python`, `python3` o `py -3` según la plataforma; requiere 3.8+) y dejá el resultado en verde (0 ERROR). Cubre la parte mecánica de los checks de arriba: cobertura de spec, links markdown y rutas escritas en backticks, `[Rxx]`, campos de spec, alcance en un solo lugar, cadena de precedencia, que cada principio de la constitución declare un `Verificador:` que exista, y que ningún documento `Activo` conserve un `[NEEDS CLARIFICATION]` abierto. **Verifica presencia y forma, no adecuación** — que un doc tenga spec no dice que la spec lo describa bien; eso sigue siendo tuyo. Dos checks emiten WARN como señal para que la mires, no como veredicto: `ssot-collision` (dos specs que se declaran dueñas del mismo tema) y `normative-block` (la definición de un bloque normativo reproducida fuera de su SSOT). Un WARN de esos MUST revisarse antes de entregar: o se corrige la duplicación, o se explica por qué no lo es.
 2. Actualizá `SPECS_REGISTRY.md` si cambió el alcance, el estado o la lista de documentos.
 3. Si el cambio es de **método** (protocolo, registro, templates, constitución): agregá una entrada **al principio** de `historial/sdd.md` — más reciente arriba — con fecha, acción, cambios, cómo se validó y deuda abierta (Principio VI).
 4. Si enmendaste `CONSTITUTION.md`: seguí su procedimiento de enmienda completo (versión, historial, propagación, verificación).

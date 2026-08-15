@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -19,8 +19,14 @@ principio de CONSTITUTION.md declara en `Verificador:` que checks lo cubren —o
 `ninguno`— y el check falla si nombra uno que este script no emite. Los ids
 validos se derivan de la fuente, no de una lista aparte que volveria a poder
 divergir. Verifica que el verificador EXISTA, no que ALCANCE: al 2026-08-15
-cubre tres de los siete principios, y los otros cuatro declaran `ninguno` a
+cubre cuatro de los siete principios, y los otros tres declaran `ninguno` a
 proposito.
+
+El check `clarificacion` (M-18) es el verificador del Principio VII: ningun
+documento que el registro declara `Activo` conserva un `[NEEDS CLARIFICATION]`
+abierto. Tiene dos limites declarados en su propio docstring —la forma que
+distingue marcador de mencion, y los documentos exentos de spec, que no tienen
+`estado` que consultar— y el segundo es un hueco conocido, no un descuido.
 
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
@@ -87,6 +93,12 @@ BACKTICK_PATH = re.compile(r"^[\w./-]+\.md$")
 # Un id de check tal como se pasa a `rep.error()` / `rep.warn()`: el primer
 # argumento literal, que en las llamadas multi-linea cae en el renglon siguiente.
 CHECK_ID_CALL = re.compile(r"rep\.(?:error|warn)\(\s*\n?\s*\"([a-z-]+)\"")
+
+# Marcador de ambiguedad abierta (M-18). La convencion vive en AGENTS.md
+# §Disambiguacion: `[NEEDS CLARIFICATION: <pregunta>]`. Lo que distingue un
+# marcador vivo de una mencion a la convencion es la pregunta: sin `:` y sin
+# texto propio, es prosa que habla del instrumento.
+CLARIFICACION = re.compile(r"\[NEEDS\s+CLARIFICATION\s*:([^\]]*)\]")
 
 # Encabezado de principio en la constitucion: `### VII. Titulo`.
 PRINCIPIO = re.compile(r"^###\s+([IVXLC]+)\.\s+(.+)$")
@@ -570,6 +582,62 @@ def check_constitucion(rep: Report) -> None:
                 )
 
 
+def es_placeholder(payload: str) -> bool:
+    """La pregunta del marcador es un relleno de la convencion, no una duda real.
+
+    Cubre las dos formas en que este repositorio cita el marcador cuando habla de
+    el: la elipsis (`[NEEDS CLARIFICATION: ...]`) y el metavariable entre angulos
+    (`[NEEDS CLARIFICATION: <pregunta>]`).
+    """
+    texto = payload.strip()
+    if not texto.strip(". …"):
+        return True
+    return texto.startswith("<") and texto.endswith(">")
+
+
+def check_clarificacion(rep: Report, specs: dict, all_docs: list[str]) -> None:
+    """Ningun documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto (M-18).
+
+    Verificador del Principio VII. `AGENTS.md` §Disambiguacion permite marcar
+    incertidumbre puntual en un borrador y obliga a resolverla antes de considerar
+    el documento `Activo`; hasta ahora nada verificaba la segunda mitad, que es la
+    que importa. `Borrador` es justamente donde el marcador es legitimo, asi que
+    solo se mira lo que el registro declara vigente — recordando que `estado`
+    ausente significa `Activo` por default (`SPECS_REGISTRY.md` §Campo `estado`).
+
+    Dos limites declarados, ambos por el mismo motivo de no producir falsos
+    positivos sobre un corpus que discute la convencion en 30 lugares:
+
+    1. Un marcador sin `:` y sin pregunta propia no cuenta. Es como se cita el
+       instrumento en prosa; un marcador vivo trae la duda escrita al lado.
+    2. Los documentos exentos de spec (`experimentos/EXPERIMENTO-*`,
+       `RESULTADO-EXPERIMENTO-*`) quedan fuera: no tienen `estado` que consultar,
+       y la obligacion del protocolo esta enunciada contra ese campo. Es el hueco
+       conocido de este check, y es donde los marcadores reales mas aparecen.
+
+    Los bloques de codigo se ignoran: ahi el marcador es ejemplo citado, igual
+    que en `check_links`. Los spans inline NO se ignoran a proposito — un
+    marcador vivo escrito entre backticks sigue siendo un marcador vivo.
+    """
+    for rel in all_docs:
+        fields = specs.get(rel)
+        if fields is None:
+            continue
+        estado = re.match(r"`?([A-Za-z\u00f1\u00e1\u00e9\u00ed\u00f3\u00fa]+)`?", fields.get("estado", "") or "")
+        if estado and estado.group(1) != "Activo":
+            continue
+        for n, line in enumerate(strip_code_fences(read(rel).splitlines()), 1):
+            for m in CLARIFICACION.finditer(line):
+                if es_placeholder(m.group(1)):
+                    continue
+                rep.error(
+                    "clarificacion",
+                    f"{rel}:{n}",
+                    "documento Activo con `[NEEDS CLARIFICATION]` sin resolver: "
+                    f"«{m.group(1).strip()}»",
+                )
+
+
 def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
     """Regla global: sin emoticones en documentos de contenido."""
     for rel in all_docs:
@@ -630,6 +698,7 @@ def main() -> int:
     check_normative_block(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
     check_constitucion(rep)
+    check_clarificacion(rep, specs, all_docs)
     check_no_emoji(rep, all_docs)
     check_ssot_table(rep, specs, parse_ssot_table())
     check_file_hygiene(rep, all_docs)

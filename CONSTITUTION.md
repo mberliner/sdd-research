@@ -1,6 +1,6 @@
 # Constitución del proyecto
 
-**Versión:** 0.2.0 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-15
+**Versión:** 0.2.1 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-15
 
 ## Preámbulo
 
@@ -64,7 +64,7 @@ Los cambios al método SDD de este repositorio —protocolo del asistente, regis
 Ante ambigüedad de una spec o de una solicitud, el asistente pregunta; no elige una lectura y sigue. La incertidumbre puntual que no bloquea el resto del trabajo se marca en el borrador de forma grep-able y se resuelve antes de considerar el documento activo. Una solicitud que contradice una spec detiene el trabajo y se explicita: no se procede ni se proponen alternativas sin aprobación.
 
 - **Enforcement:** secciones «Disambiguación» y «Excepciones» de `AGENTS.md`.
-- **Verificador:** `ninguno` — el marcador `[NEEDS CLARIFICATION]` es grep-able, pero nada verifica que se haya resuelto antes de declarar un documento activo.
+- **Verificador:** `clarificacion` de `tools/check_docs.py` — falla si un documento que el registro declara `Activo` conserva un marcador con su pregunta escrita. Cubre la mitad enunciable del principio: que la incertidumbre marcada se resuelva. Que el asistente haya preguntado en vez de interpretar —el caso en que nunca hubo marcador— no lo observa nada.
 - **Detalle:** `AGENTS.md`.
 
 ## Governance
@@ -77,4 +77,4 @@ Ante ambigüedad de una spec o de una solicitud, el asistente pregunta; no elige
   2. Registrar el cambio en `historial/sdd.md` (qué principio, por qué).
   3. Revisar los SSOTs referenciados por el principio afectado y propagar.
   4. Verificar que ningún documento activo contradiga el principio nuevo o modificado.
-- **Límite honesto:** el repositorio no tiene CI, y la verificación determinista que existe —`tools/check_docs.py`, que corre a pedido— cubre **tres de los siete** principios: I y II de forma parcial, IV de forma sustantiva. Los otros cuatro declaran `Verificador: ninguno` y su cumplimiento depende enteramente de que una persona lo mire. Ningún verificador, además, juzga **adecuación**: que un documento tenga spec registrada no dice que la spec lo describa bien. Un principio puede violarse sin que nada lo detecte, y el campo `Verificador:` existe para que se sepa cuál.
+- **Límite honesto:** el repositorio no tiene CI, y la verificación determinista que existe —`tools/check_docs.py`, que corre a pedido— cubre **cuatro de los siete** principios: I, II y VII de forma parcial, IV de forma sustantiva. Los otros tres declaran `Verificador: ninguno` y su cumplimiento depende enteramente de que una persona lo mire. Ningún verificador, además, juzga **adecuación**: que un documento tenga spec registrada no dice que la spec lo describa bien. Un principio puede violarse sin que nada lo detecte, y el campo `Verificador:` existe para que se sepa cuál.
