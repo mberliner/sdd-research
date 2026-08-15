@@ -1,0 +1,54 @@
+#!/bin/sh
+# Gate de commit del repositorio SDD (M-19): corre el backstop determinista y
+# bloquea el commit si hay ERROR.
+#
+# FAIL-CLOSED POR DISENO. Si no encuentra interprete de Python, este hook NO deja
+# pasar el commit. Es la correccion directa del modo de falla documentado en
+# agenda/BACKLOG-INVESTIGACION.md prioridad alta #4: el gate del proyecto testigo
+# terminaba en `[ -f "$PYBIN" ] || exit 0`, resolvia su interprete contra un
+# `.venv` no versionado, y en los cuatro workspaces de B-07 salio 0 sin correr
+# nada. El enforcement estuvo caido en silencio todo el experimento, y fallo
+# abierto justo en el entorno menos preparado: el clon limpio.
+#
+# Versionado en el arbol y activado con `core.hooksPath`, no copiado a
+# .git/hooks/, para que el gate no dependa de un artefacto no versionado. Que
+# este cableado lo verifica el check `gate` del propio backstop.
+#
+# Instalar:  git config core.hooksPath tools/githooks
+#
+# Dos limites declarados:
+#   1. Verifica el ARBOL DE TRABAJO, no el indice. Un commit parcial (`git add -p`)
+#      puede pasar el gate con el arbol en verde y dejar el indice en rojo. No se
+#      hace stash/restore a proposito: sdd-first pago ese ciclo con falsos
+#      bloqueos (ver agenda/MEJORAS-METODO.md M-02).
+#   2. `git commit --no-verify` lo saltea. Es una decision explicita del operador,
+#      equivalente a la excepcion de AGENTS.md §Excepciones; el check `gate` deja
+#      visible despues si el gate esta cableado, pero no puede impedir el bypass.
+
+set -u
+
+ROOT=$(git rev-parse --show-toplevel) || exit 1
+cd "$ROOT" || exit 1
+
+PYRUN=""
+for c in python3 python py; do
+    if command -v "$c" >/dev/null 2>&1; then
+        if [ "$c" = "py" ]; then PYRUN="py -3"; else PYRUN="$c"; fi
+        break
+    fi
+done
+
+if [ -z "$PYRUN" ]; then
+    echo "pre-commit: no se encontro interprete de Python (python3 / python / py)." >&2
+    echo "  El backstop no pudo correr, asi que el commit se BLOQUEA (fail-closed)." >&2
+    echo "  Instalar Python 3.8+, o asumir el riesgo explicitamente: git commit --no-verify" >&2
+    exit 1
+fi
+
+# shellcheck disable=SC2086
+$PYRUN tools/check_docs.py --staged || {
+    echo "" >&2
+    echo "pre-commit: el backstop reporto ERROR; commit bloqueado." >&2
+    echo "  Corregir y reintentar, o asumir el riesgo: git commit --no-verify" >&2
+    exit 1
+}

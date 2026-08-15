@@ -4,6 +4,36 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-19 — Cablear el backstop al commit, fail-closed y versionado (2026-08-15) — COMPLETADA
+
+**Acción**: gate de commit versionado más un check nuevo y una corrección de dos documentos, aprobada por el usuario junto con M-20. Cierra también M-07.
+
+### Qué se encontró
+El repositorio investiga gates que fallan abierto —`agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4, nacido del hallazgo de B-07— y su propia verificación fallaba abierta por diseño: `tools/check_docs.py` existía desde M-01 y corría **solo si alguien se acordaba**. Nada distinguía un commit verificado de uno que nadie miró.
+
+El cableado estaba anotado como pendiente desde M-01 con una dependencia declarada: «requiere decidir M-02 primero». La dependencia resultó **falsa**, y verlo fue la mitad del trabajo. Correr el backstop al commit es la capa 2 del enforcement de tres capas (verificar la salida); el gate de autoría `.sdd/current-doc` de M-02 es la capa 3 (autorizar la entrada). La capa 2 no necesita saber qué spec gobierna la edición. Además cubre por sí sola uno de los tres modos de falla que el análisis de sdd-first ya había documentado: la escritura por `Bash`, que escapa a todo hook `PreToolUse` y solo se atrapa al commit.
+
+### Qué se cambió
+- `tools/githooks/pre-commit`: gate versionado, activado con `git config core.hooksPath tools/githooks`. Corre `check_docs.py --staged` y bloquea el commit si hay ERROR. Tres decisiones, cada una contra un modo de falla observado: fail-closed en la resolución del intérprete, versionado en el árbol en vez de copiado a `.git/hooks/`, y heartbeat propio.
+- `tools/check_docs.py`: check `gate` (ERROR). Verifica que el hook exista, que `core.hooksPath` lo apunte y que tenga permiso de ejecución — las tres formas de quedar desconectado sin aviso.
+- `CONSTITUTION.md`: «Límite honesto» declara que el backstop ahora corre en cada commit, y lo que el gate igual no puede — el bypass explícito del operador.
+- `AGENTS.md`: deja de decir que la verificación corre solo a pedido; el comando de instalación del gate en §Comandos útiles.
+- `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`: la premisa «sin CI» sigue siendo cierta, pero se aclara que **sin CI dejó de significar sin verificación automática**. Con eso cierra M-07.
+
+### Cómo se validó
+- **`gate` en rojo antes de instalar.** La primera corrida, con el hook ya escrito y `core.hooksPath` sin configurar, dio `1 ERROR` con el comando de instalación en el mensaje. Tras configurarlo, verde. Es el caso del clon fresco, que es donde el gate del testigo fallaba abierto.
+- **Fail-closed del hook.** Con el `PATH` conteniendo git pero ningún intérprete de Python, el hook sale 1 en vez de dejar pasar el commit — la línea exacta que en el testigo era `exit 0`.
+
+Árbol final: `45 documentos, 42 specs — 0 ERROR, 1 WARN` (el WARN es M-08, preexistente).
+
+### Deuda abierta
+- **El gate se saltea con el flag de bypass de git**, que es la excepción de `AGENTS.md` §Excepciones ejercida a mano. Nada lo detecta ni puede detectarlo desde adentro del hook; lo que sí se detecta es la desconexión (`gate`). Un `pre-push` o un CI serían el siguiente escalón, y su criterio ya está escrito en `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`.
+- **El gate verifica el árbol de trabajo, no el índice.** Un commit parcial puede pasar en verde con el índice en rojo. No se hizo stash/restore a propósito: es el ciclo con el que sdd-first se ganó falsos bloqueos.
+- **`core.hooksPath` es config local, no versionada.** El gate se versiona; su activación no. Por eso existe el check `gate`, que convierte «no instalado» en ERROR visible en vez de silencio.
+- El check `gate` no tiene regresión automatizada, igual que los de M-15, M-18 y M-20: cuarto ritual manual consecutivo, y el candidato natural a darse de alta como mejora propia.
+
+---
+
 ## M-20 — Verificador ejecutable para el Principio VI (2026-08-15) — COMPLETADA
 
 **Acción**: check nuevo más enmienda constitucional de patch (v0.2.1 → v0.2.2), aprobada por el usuario al elegir esta mejora junto con M-19.

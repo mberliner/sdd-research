@@ -2,7 +2,7 @@
 
 ## Contexto de partida
 - Equipo trabaja principalmente con asistentes IA sobre Markdown.
-- No hay pipeline CI instalado para validacion automatica.
+- No hay pipeline CI instalado para validacion automatica. Sigue siendo cierto al 2026-08-15, pero **sin CI ya no significa sin verificacion automatica**: hay git desde 2026-07-31 y un backstop local que corre en cada commit (`../tools/check_docs.py` mas el gate `../tools/githooks/pre-commit`). El escalon que falta es el remoto —nada verifica lo que se empuja—, y el criterio para darlo esta abajo.
 - Se busca valor inmediato con baja friccion operativa.
 
 ## Decisiones de enfoque

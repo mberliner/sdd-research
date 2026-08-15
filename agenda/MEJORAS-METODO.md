@@ -24,7 +24,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
 | M-05 | Limpiar encabezados que restatan su alcance | baja | Aprobada | regla de alcance, Fase 8 | docs varios, oportunística |
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
-| M-07 | Revisar la premisa "sin CI" tras el versionado | baja | Aprobada | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
+| M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `normative-block`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
@@ -36,6 +36,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-16 | Verificar `Derivados a revisar` contra el disco y la tabla SSOT | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C2) | `../tools/check_docs.py` |
 | M-17 | Portar el modelo de skills multi-asistente desde una fuente única | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C5) | contraparte de M-03 |
 | M-18 | Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto | alta | **Hecha** (2026-08-15) | resultado de M-15: Principio VII sin verificador | `../tools/check_docs.py` + `../CONSTITUTION.md` |
+| M-19 | Cablear el backstop al commit, fail-closed y versionado | alta | **Hecha** (2026-08-15) | pendiente de M-01; `BACKLOG-INVESTIGACION.md` alta #4 | `../tools/githooks/pre-commit` + check `gate` |
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 
 ---
@@ -52,7 +53,7 @@ Contraparte de investigación: `BACKLOG-INVESTIGACION` exploratoria «evaluació
 
 Pendiente evaluado y no hecho: cablearlo a `pre-commit` (requiere decidir M-02 primero) y un check del criterio de separación método/investigación, que hoy nada verifica.
 
-**El segundo pendiente se cerró el 2026-08-15 como M-20**: el check del criterio método/investigación resultó ser el `Verificador: ninguno` del Principio VI. El primero —cablear el backstop al commit— sigue anotado acá.
+**Ambos pendientes se cerraron el 2026-08-15 como M-19 y M-20**, y con ellos la dependencia declarada arriba, que resultó falsa: correr el backstop al commit es la capa 2 del enforcement (verificar la salida) y el gate de autoría `.sdd/current-doc` es la capa 3 (autorizar la entrada). La capa 2 no necesita saber qué spec gobierna la edición, así que no dependía de decidir M-02. Ver M-19.
 
 ## M-02 — Gate de autoría documental
 
@@ -85,6 +86,8 @@ Clasificar cada afirmación como *confirmada* (evidencia directa), *inferida* (p
 ## M-07 — Revisar la premisa "sin CI"
 
 `../AGENTS.md` e `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` describen un contexto sin CI. Sigue siendo cierto, pero desde 2026-07-31 hay git, y eso habilita `pre-commit` como sustrato tool-agnóstico para M-01 y M-02. Revisar ambos documentos cuando esas mejoras se implementen, no antes.
+
+**Hecha el 2026-08-15**, junto con M-19. `../AGENTS.md` deja de decir que la verificación corre solo a pedido, y `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` distingue lo que seguía siendo cierto de lo que ya no: no hay CI, pero **sin CI dejó de significar sin verificación automática**. El escalón que falta es el remoto, y su criterio ya estaba escrito en ese documento.
 
 ## M-08 — Emoticones en `PREREG-B7.md`
 
@@ -186,12 +189,26 @@ Lo que el check **no** cubre del principio: el caso en que el asistente interpre
 
 Validación: verde sobre el árbol actual sin un solo falso positivo entre las menciones existentes, y cinco deformaciones deliberadas con el comportamiento esperado — marcador vivo en documento `Activo` y el mismo entre backticks, ambos detectados; marcador dentro de un bloque de código y marcador en un documento `Borrador`, ninguno detectado; y el check renombrado en el script, detectado por `constitucion`, que es el lazo de M-15 cerrándose sobre la declaración nueva. Árbol restaurado y 0 ERROR.
 
+## M-19 — Cablear el backstop al commit, fail-closed y versionado
+
+La incoherencia más cara del repositorio: investiga gates que fallan abierto (`BACKLOG-INVESTIGACION.md` prioridad alta #4, hallazgo de B-07) y su propia verificación fallaba abierta por diseño — `check_docs.py` corría solo si alguien se acordaba, así que nada distinguía un commit verificado de uno que nadie miró.
+
+**Hecha el 2026-08-15.** `../tools/githooks/pre-commit`, versionado en el árbol y activado con `git config core.hooksPath tools/githooks`, corre el backstop en modo `--staged` y bloquea el commit si hay ERROR. Tres decisiones de diseño, cada una contra un modo de falla ya observado:
+
+1. **Fail-closed en la resolución del intérprete.** Si no encuentra `python3`/`python`/`py`, bloquea. El gate del testigo terminaba en `[ -f "$PYBIN" ] || exit 0` y resolvía contra un `.venv` no versionado: en los cuatro workspaces de B-07 salió 0 sin correr nada.
+2. **Versionado, no copiado a `.git/hooks/`.** `core.hooksPath` apunta al árbol, así que el gate se versiona con el repositorio en vez de vivir en un directorio que ningún clon trae.
+3. **Heartbeat propio: el check `gate`.** Verifica que el hook exista, que `core.hooksPath` lo apunte y que tenga permiso de ejecución — las tres formas de quedar desconectado sin aviso. Un clon fresco sin instalar da ERROR, que es la respuesta correcta: el enforcement no está.
+
+Dos límites, ambos declarados en el propio hook: verifica el **árbol de trabajo, no el índice** (un `git add -p` puede pasar el gate con el índice en rojo; no se hace stash/restore a propósito, que es el ciclo con el que sdd-first se ganó falsos bloqueos), y el flag de bypass de git lo saltea, que es la excepción de `../AGENTS.md` §Excepciones ejercida por el operador. Nada detecta el bypass; el check `gate` detecta la desconexión.
+
+Contraparte de investigación: `BACKLOG-INVESTIGACION.md` alta #4 pedía «cómo detectar que un gate está caído (heartbeat / self-test)». El check `gate` es una respuesta parcial y ejecutada, no la cierra: detecta el gate desconectado, no el gate presente que no verifica lo que dice verificar.
+
 ## M-20 — Verificador del Principio VI
 
 El Principio VI declaraba `Verificador: ninguno` con el diagnóstico escrito desde M-01: «un check del criterio de separación método/investigación quedó pendiente y sigue sin darse de alta». `../AGENTS.md` §Al cerrar una iteración obliga desde siempre a asentar el cambio de método en el historial, más reciente arriba, y nada lo miraba.
 
 **Hecha el 2026-08-15.** Check `metodo-historial` (ERROR): si el commit toca método —`AGENTS.md`, `CONSTITUTION.md`, `SPECS_REGISTRY.md`, `CLAUDE.md`, `templates/`, `tools/`— entonces `../historial/sdd.md` MUST traer una entrada nueva y MUST quedar arriba. `agenda/` no dispara a propósito: proponer una mejora no es adoptarla, y el historial asienta adopciones. `tools/` sí dispara, porque cambiar el verificador de un principio es cambiar el método tanto como cambiar el principio.
 
-Decisión que la mejora tuvo que tomar y estaba pendiente: **el backstop puede depender de git**, en un modo opcional que degrada. El check corre solo con `--staged`, es decir con contexto de commit; en un árbol sin git no dice nada y el principio vuelve a no tener verificador. Era la pregunta que M-18 dejó abierta al declarar M-16 «bloqueada por la decisión de si el backstop puede depender de git», y con esto M-16 se desbloquea.
+Decisión que la mejora tuvo que tomar y estaba pendiente: **el backstop puede depender de git**, en un modo opcional que degrada. El check corre solo con `--staged`, que es lo que invoca el gate de M-19; en un árbol sin git no dice nada y el principio vuelve a no tener verificador. Era la pregunta que M-18 dejó abierta al declarar M-16 «bloqueada por la decisión de si el backstop puede depender de git», y con esto M-16 se desbloquea.
 
 Límite del mismo tipo que el resto del script: verifica que la entrada exista y quede arriba, no que **clasifique bien**. Que un cambio sea método y no hallazgo, y la dirección simétrica del principio —que un hallazgo no mueva el método sin decisión explícita y fechada— siguen siendo juicio humano.

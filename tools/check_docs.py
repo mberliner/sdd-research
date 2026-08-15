@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-20).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -19,7 +19,7 @@ principio de CONSTITUTION.md declara en `Verificador:` que checks lo cubren —o
 `ninguno`— y el check falla si nombra uno que este script no emite. Los ids
 validos se derivan de la fuente, no de una lista aparte que volveria a poder
 divergir. Verifica que el verificador EXISTA, no que ALCANCE: al 2026-08-15
-cubre cinco de los siete principios, y los otros dos declaran `ninguno` a
+cubre cuatro de los siete principios, y los otros tres declaran `ninguno` a
 proposito.
 
 El check `clarificacion` (M-18) es el verificador del Principio VII: ningun
@@ -28,10 +28,17 @@ abierto. Tiene dos limites declarados en su propio docstring —la forma que
 distingue marcador de mencion, y los documentos exentos de spec, que no tienen
 `estado` que consultar— y el segundo es un hueco conocido, no un descuido.
 
+El check `gate` (M-19) es el heartbeat del propio enforcement: verifica que el
+hook versionado `tools/githooks/pre-commit` exista, sea ejecutable y este
+cableado por `core.hooksPath`. Sin el, este script sigue siendo lo que fue hasta
+el 2026-08-15 —una verificacion que corre solo si alguien se acuerda—, que es
+exactamente el modo de falla que el repositorio investiga (BACKLOG prioridad
+alta #4). No puede detectar un `--no-verify`; si que el gate esta desconectado.
+
 El check `metodo-historial` (M-20) es el verificador del Principio VI y el unico
-que depende de git: solo corre en modo `--staged`, es decir con contexto de
-commit. Verifica que un commit que toca metodo asiente una entrada nueva y
-arriba en `historial/sdd.md`. Fuera de ese modo no dice nada, a proposito: el
+que depende de git: solo corre en modo `--staged`, con el contexto de commit que
+el gate le da. Verifica que un commit que toca metodo asiente una entrada nueva
+y arriba en `historial/sdd.md`. Fuera de ese modo no dice nada, a proposito: el
 backstop sigue siendo utilizable en un arbol sin git.
 
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
@@ -63,6 +70,10 @@ REFERENCIAS = "REFERENCIAS.md"
 PROTOCOLO = "AGENTS.md"
 CONSTITUCION = "CONSTITUTION.md"
 HISTORIAL = "historial/sdd.md"
+
+# Gate de commit versionado (M-19): ruta del hook y valor esperado de core.hooksPath.
+HOOKS_DIR = "tools/githooks"
+GATE = f"{HOOKS_DIR}/pre-commit"
 
 # Piezas que son METODO (M-20). La enumeracion sale literal del Principio VI
 # —«protocolo del asistente, registro de specs, templates, esta constitucion»—
@@ -680,6 +691,37 @@ def git(*args: str) -> str | None:
     return out.stdout.decode("utf-8", errors="replace").strip()
 
 
+def check_gate(rep: Report) -> None:
+    """El gate de commit esta instalado y puede correr (M-19).
+
+    Heartbeat del enforcement, en la linea de lo que `agenda/BACKLOG-INVESTIGACION.md`
+    prioridad alta #4 pide: un gate caido no se anuncia solo. Verifica las tres
+    formas en que este gate puede estar desconectado sin que nadie lo note —el
+    hook no existe, `core.hooksPath` no lo apunta, o el archivo no es ejecutable
+    y git lo ignora en silencio.
+
+    Limite: no observa `git commit --no-verify`, que es un bypass deliberado del
+    operador y queda cubierto por `AGENTS.md` §Excepciones. Verifica que el gate
+    este cableado, no que se haya usado.
+    """
+    if not (ROOT / ".git").exists():
+        return  # sin git no hay gate posible; el resto del backstop sigue valiendo
+    hook = ROOT / GATE
+    if not hook.exists():
+        rep.error("gate", GATE, "el gate versionado no existe en el arbol; el backstop no corre al commit")
+        return
+    configurado = git("config", "--get", "core.hooksPath")
+    if configurado != HOOKS_DIR:
+        rep.error(
+            "gate",
+            ".git/config",
+            f"core.hooksPath es `{configurado or '(no configurado)'}`, no `{HOOKS_DIR}`: "
+            f"el gate no corre. Instalar con `git config core.hooksPath {HOOKS_DIR}`",
+        )
+    if os.name != "nt" and not os.access(hook, os.X_OK):
+        rep.error("gate", GATE, "sin permiso de ejecucion; git lo saltea sin avisar. Corregir con `chmod +x`")
+
+
 def es_metodo(path: str) -> bool:
     return path in METODO_FILES or path.startswith(METODO_DIRS)
 
@@ -784,7 +826,7 @@ def main() -> int:
     ap.add_argument(
         "--staged",
         action="store_true",
-        help="suma los checks que necesitan contexto de commit",
+        help="suma los checks que necesitan contexto de commit (lo usa el gate pre-commit)",
     )
     args = ap.parse_args()
 
@@ -820,6 +862,7 @@ def main() -> int:
     check_no_emoji(rep, all_docs)
     check_ssot_table(rep, specs, parse_ssot_table())
     check_file_hygiene(rep, all_docs)
+    check_gate(rep)
     check_metodo_historial(rep, staged)
 
     if not args.quiet:
