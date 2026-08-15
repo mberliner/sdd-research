@@ -36,6 +36,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-16 | Verificar `Derivados a revisar` contra el disco y la tabla SSOT | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C2) | `../tools/check_docs.py` |
 | M-17 | Portar el modelo de skills multi-asistente desde una fuente única | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C5) | contraparte de M-03 |
 | M-18 | Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto | alta | **Hecha** (2026-08-15) | resultado de M-15: Principio VII sin verificador | `../tools/check_docs.py` + `../CONSTITUTION.md` |
+| M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 
 ---
 
@@ -50,6 +51,8 @@ Contraparte de investigación: `BACKLOG-INVESTIGACION` exploratoria «evaluació
 **Hecha el 2026-07-31** (`../tools/check_docs.py`, Fase 10). Ocho checks, dos severidades, sin dependencias externas. Primera corrida sobre 41 documentos: 6 ERROR, de los cuales **2 eran deriva real** (`ANALISIS-SPEC-KIT.md` C4 y `../templates/RESULTADO-EXPERIMENTO.md`, ambos describiendo la precedencia sin la constitución, un día después de haberla creado) y 4 falsos positivos que obligaron a afinar la heurística. Queda 1 WARN vivo a propósito: los emoticones de `PREREG-B7.md`, que son M-08.
 
 Pendiente evaluado y no hecho: cablearlo a `pre-commit` (requiere decidir M-02 primero) y un check del criterio de separación método/investigación, que hoy nada verifica.
+
+**El segundo pendiente se cerró el 2026-08-15 como M-20**: el check del criterio método/investigación resultó ser el `Verificador: ninguno` del Principio VI. El primero —cablear el backstop al commit— sigue anotado acá.
 
 ## M-02 — Gate de autoría documental
 
@@ -182,3 +185,13 @@ Dos límites, declarados en el propio check y elegidos contra un corpus que disc
 Lo que el check **no** cubre del principio: el caso en que el asistente interpretó en silencio y nunca hubo marcador. Eso sigue sin observador mecánico, y es la mitad que la contraparte de investigación mide sobre conducta (`BACKLOG-INVESTIGACION.md` prioridad alta #8).
 
 Validación: verde sobre el árbol actual sin un solo falso positivo entre las menciones existentes, y cinco deformaciones deliberadas con el comportamiento esperado — marcador vivo en documento `Activo` y el mismo entre backticks, ambos detectados; marcador dentro de un bloque de código y marcador en un documento `Borrador`, ninguno detectado; y el check renombrado en el script, detectado por `constitucion`, que es el lazo de M-15 cerrándose sobre la declaración nueva. Árbol restaurado y 0 ERROR.
+
+## M-20 — Verificador del Principio VI
+
+El Principio VI declaraba `Verificador: ninguno` con el diagnóstico escrito desde M-01: «un check del criterio de separación método/investigación quedó pendiente y sigue sin darse de alta». `../AGENTS.md` §Al cerrar una iteración obliga desde siempre a asentar el cambio de método en el historial, más reciente arriba, y nada lo miraba.
+
+**Hecha el 2026-08-15.** Check `metodo-historial` (ERROR): si el commit toca método —`AGENTS.md`, `CONSTITUTION.md`, `SPECS_REGISTRY.md`, `CLAUDE.md`, `templates/`, `tools/`— entonces `../historial/sdd.md` MUST traer una entrada nueva y MUST quedar arriba. `agenda/` no dispara a propósito: proponer una mejora no es adoptarla, y el historial asienta adopciones. `tools/` sí dispara, porque cambiar el verificador de un principio es cambiar el método tanto como cambiar el principio.
+
+Decisión que la mejora tuvo que tomar y estaba pendiente: **el backstop puede depender de git**, en un modo opcional que degrada. El check corre solo con `--staged`, es decir con contexto de commit; en un árbol sin git no dice nada y el principio vuelve a no tener verificador. Era la pregunta que M-18 dejó abierta al declarar M-16 «bloqueada por la decisión de si el backstop puede depender de git», y con esto M-16 se desbloquea.
+
+Límite del mismo tipo que el resto del script: verifica que la entrada exista y quede arriba, no que **clasifique bien**. Que un cambio sea método y no hallazgo, y la dirección simétrica del principio —que un hallazgo no mueva el método sin decisión explícita y fechada— siguen siendo juicio humano.

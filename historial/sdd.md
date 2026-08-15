@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-20 — Verificador ejecutable para el Principio VI (2026-08-15) — COMPLETADA
+
+**Acción**: check nuevo más enmienda constitucional de patch (v0.2.1 → v0.2.2), aprobada por el usuario al elegir esta mejora junto con M-19.
+
+### Qué se encontró
+El segundo pendiente que M-01 dejó anotado —«un check del criterio de separación método/investigación, que hoy nada verifica»— era el `Verificador: ninguno` del Principio VI, y de los tres principios que seguían sin verificador era el único mecanizable. `AGENTS.md` §Al cerrar una iteración obliga desde siempre a asentar el cambio de método en el historial, más reciente arriba, y nada lo miraba: la separación método/contenido dependía enteramente de que el autor se acordara, que es justo lo que un principio no puede permitirse.
+
+### Qué se cambió
+- `tools/check_docs.py`: check `metodo-historial` (ERROR) y modo `--staged`. Si el commit toca método —`AGENTS.md`, `CONSTITUTION.md`, `SPECS_REGISTRY.md`, `CLAUDE.md`, `templates/`, `tools/`— entonces el historial MUST traer una entrada nueva y MUST quedar arriba. `agenda/` no dispara a propósito: proponer una mejora no es adoptarla, y el historial asienta adopciones. `tools/` sí dispara, porque cambiar el verificador de un principio es cambiar el método tanto como cambiar el principio.
+- `CONSTITUTION.md` v0.2.2: Principio VI pasa de `ninguno` a `metodo-historial`, con la nota de qué mitad queda sin cubrir; «Límite honesto» actualizado a cinco de siete.
+
+### La decisión que había que tomar
+M-18 dejó escrito que M-16 estaba «bloqueada por la decisión de si el backstop puede depender de git». La respuesta que M-20 fija: **puede, en un modo opcional que degrada**. `--staged` suma los checks con contexto de commit; sin git el script sigue corriendo entero salvo esos, y el principio vuelve a no tener verificador — lo cual queda declarado en su propio campo `Verificador:` en vez de ser una sorpresa. Con eso **M-16 se desbloquea**.
+
+### Cómo se validó
+Tres deformaciones deliberadas sobre el índice, una por decisión de diseño: con `tools/check_docs.py` en el índice y el historial fuera, falla nombrando los archivos de método tocados; con el historial en el índice pero sin encabezado de entrada nuevo, falla distinto; con la entrada agregada al final en vez de arriba, falla por posición y cita cuál sigue siendo la primera. Árbol restaurado y 0 ERROR.
+
+### Deuda abierta
+- El check verifica que la entrada exista y quede arriba, **no que clasifique bien**. Que un cambio sea método y no hallazgo, y la dirección simétrica del principio —que un hallazgo no mueva el método sin decisión explícita y fechada—, siguen siendo juicio humano.
+- Quedan **III y V** sin verificador. III (M-16) ya no está bloqueada. V —el sellado experimental— es una promesa sobre el orden entre pensar y ver, y sigue sin observador mecánico posible.
+
+---
+
 ## M-18 — Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto (2026-08-15) — COMPLETADA
 
 **Acción**: check nuevo en el backstop más enmienda constitucional de patch (v0.2.0 → v0.2.1), aprobada por el usuario al elegir esta mejora sobre el resto del backlog.

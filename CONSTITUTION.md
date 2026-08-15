@@ -1,6 +1,6 @@
 # Constitución del proyecto
 
-**Versión:** 0.2.1 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-15
+**Versión:** 0.2.2 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-15
 
 ## Preámbulo
 
@@ -56,7 +56,7 @@ Un experimento se pre-registra antes de producir su dato: hipótesis, definició
 Los cambios al método SDD de este repositorio —protocolo del asistente, registro de specs, templates, esta constitución— no son hallazgos de investigación y no se registran como tales: se rigen por esta constitución y se asientan en el historial. Simétricamente, un hallazgo de investigación no modifica el método por sí solo: lo propone, y la adopción es una decisión explícita y fechada.
 
 - **Enforcement:** entrada obligatoria en el historial al cambiar método; revisión de post-generación.
-- **Verificador:** `ninguno` — un check del criterio de separación método/investigación quedó pendiente al cerrar `M-01` y sigue sin darse de alta.
+- **Verificador:** `metodo-historial` de `tools/check_docs.py` — corre solo con contexto de commit (modo `--staged`) y falla si un commit que toca método no asienta una entrada nueva, y arriba, en el historial. Cubre la mitad enunciable del principio; que el cambio esté **bien clasificado** como método y no como hallazgo, y la dirección simétrica —que un hallazgo no mueva el método sin decisión explícita y fechada—, siguen siendo humanas. En un árbol sin git el principio vuelve a no tener verificador.
 - **Detalle:** `historial/sdd.md`, `historial/ROADMAP-MEJORAS-SDD.md`.
 
 ### VII. Preguntar antes que interpretar
@@ -77,4 +77,4 @@ Ante ambigüedad de una spec o de una solicitud, el asistente pregunta; no elige
   2. Registrar el cambio en `historial/sdd.md` (qué principio, por qué).
   3. Revisar los SSOTs referenciados por el principio afectado y propagar.
   4. Verificar que ningún documento activo contradiga el principio nuevo o modificado.
-- **Límite honesto:** el repositorio no tiene CI, y la verificación determinista que existe —`tools/check_docs.py`, que corre a pedido— cubre **cuatro de los siete** principios: I, II y VII de forma parcial, IV de forma sustantiva. Los otros tres declaran `Verificador: ninguno` y su cumplimiento depende enteramente de que una persona lo mire. Ningún verificador, además, juzga **adecuación**: que un documento tenga spec registrada no dice que la spec lo describa bien. Un principio puede violarse sin que nada lo detecte, y el campo `Verificador:` existe para que se sepa cuál.
+- **Límite honesto:** el repositorio no tiene CI, y la verificación determinista que existe —`tools/check_docs.py`, que corre a pedido— cubre **cinco de los siete** principios: I, II, VI y VII de forma parcial, IV de forma sustantiva. Los otros dos declaran `Verificador: ninguno` y su cumplimiento depende enteramente de que una persona lo mire. Ningún verificador, además, juzga **adecuación**: que un documento tenga spec registrada no dice que la spec lo describa bien. Un principio puede violarse sin que nada lo detecte, y el campo `Verificador:` existe para que se sepa cuál.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-20).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -19,7 +19,7 @@ principio de CONSTITUTION.md declara en `Verificador:` que checks lo cubren —o
 `ninguno`— y el check falla si nombra uno que este script no emite. Los ids
 validos se derivan de la fuente, no de una lista aparte que volveria a poder
 divergir. Verifica que el verificador EXISTA, no que ALCANCE: al 2026-08-15
-cubre cuatro de los siete principios, y los otros tres declaran `ninguno` a
+cubre cinco de los siete principios, y los otros dos declaran `ninguno` a
 proposito.
 
 El check `clarificacion` (M-18) es el verificador del Principio VII: ningun
@@ -28,12 +28,19 @@ abierto. Tiene dos limites declarados en su propio docstring —la forma que
 distingue marcador de mencion, y los documentos exentos de spec, que no tienen
 `estado` que consultar— y el segundo es un hueco conocido, no un descuido.
 
+El check `metodo-historial` (M-20) es el verificador del Principio VI y el unico
+que depende de git: solo corre en modo `--staged`, es decir con contexto de
+commit. Verifica que un commit que toca metodo asiente una entrada nueva y
+arriba en `historial/sdd.md`. Fuera de ese modo no dice nada, a proposito: el
+backstop sigue siendo utilizable en un arbol sin git.
+
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
 
     <interprete> tools/check_docs.py            # ERROR y WARN, sale 1 si hay ERROR
     <interprete> tools/check_docs.py --strict   # WARN tambien hace salir 1
     <interprete> tools/check_docs.py --quiet    # solo el resumen
+    <interprete> tools/check_docs.py --staged   # suma los checks con contexto de commit
 
 Sin dependencias externas: stdlib de Python 3.8+. Las rutas se resuelven contra
 la raiz del repo, no contra el directorio de trabajo, asi que puede invocarse
@@ -45,6 +52,7 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import subprocess
 import sys
 import unicodedata
 from pathlib import Path
@@ -54,6 +62,16 @@ REGISTRY = "SPECS_REGISTRY.md"
 REFERENCIAS = "REFERENCIAS.md"
 PROTOCOLO = "AGENTS.md"
 CONSTITUCION = "CONSTITUTION.md"
+HISTORIAL = "historial/sdd.md"
+
+# Piezas que son METODO (M-20). La enumeracion sale literal del Principio VI
+# —«protocolo del asistente, registro de specs, templates, esta constitucion»—
+# mas `tools/`, porque un check ES metodo: cambiar el verificador de un principio
+# cambia el metodo tanto como cambiar el principio. `agenda/` queda afuera a
+# proposito: proponer una mejora todavia no es adoptarla, y el historial asienta
+# adopciones. `historial/` tampoco dispara: es el destino, no el origen.
+METODO_FILES = frozenset({PROTOCOLO, CONSTITUCION, REGISTRY, "CLAUDE.md"})
+METODO_DIRS = ("templates/", "tools/")
 
 # Directorios que nunca se auditan: material fuente externo y tooling.
 SKIP_DIRS = ("fuentes-externas", "tools", ".git")
@@ -105,6 +123,9 @@ PRINCIPIO = re.compile(r"^###\s+([IVXLC]+)\.\s+(.+)$")
 
 # Campo que declara con que se verifica un principio (M-15).
 VERIFICADOR = re.compile(r"^-\s+\*\*Verificador:\*\*\s*(.+)$")
+
+# Encabezado de entrada del historial: `## <titulo> (AAAA-MM-DD) — ESTADO` (M-20).
+ENTRADA_HISTORIAL = re.compile(r"^##\s+.*\(\d{4}-\d{2}-\d{2}\)")
 
 STOPWORDS = frozenset(
     "de del la el los las un una y o en por para con que su sus al es son no"
@@ -638,6 +659,86 @@ def check_clarificacion(rep: Report, specs: dict, all_docs: list[str]) -> None:
                 )
 
 
+def git(*args: str) -> str | None:
+    """Salida de un comando git, o None si git no esta o el comando fallo.
+
+    Ningun check trata None como «todo bien»: quien lo llama decide, y en modo
+    `--staged` decide fallar. Es la misma regla que gobierna el hook.
+    """
+    try:
+        out = subprocess.run(
+            ["git", *args],
+            cwd=str(ROOT),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except (OSError, ValueError):
+        return None
+    if out.returncode != 0:
+        return None
+    return out.stdout.decode("utf-8", errors="replace").strip()
+
+
+def es_metodo(path: str) -> bool:
+    return path in METODO_FILES or path.startswith(METODO_DIRS)
+
+
+def check_metodo_historial(rep: Report, staged: list[str] | None) -> None:
+    """Un commit que cambia metodo asienta una entrada nueva en el historial (M-20).
+
+    Verificador del Principio VI. `AGENTS.md` §Al cerrar una iteracion lo obliga
+    desde siempre —entrada al principio, mas reciente arriba— y hasta ahora nada
+    lo miraba: la separacion metodo/contenido dependia enteramente de que el autor
+    se acordara, que es justo lo que el principio no puede permitirse.
+
+    Solo corre con contexto de commit (`--staged`), asi que el backstop sigue
+    funcionando en un arbol sin git; ahi este principio vuelve a no tener
+    verificador, y esa es la respuesta a la pregunta que M-18 dejo abierta sobre
+    si el backstop puede depender de git: puede, en un modo opcional que degrada.
+
+    Limite, del mismo tipo que el resto del script: verifica que la entrada
+    exista y quede arriba, no que CLASIFIQUE bien. Que un cambio sea metodo y no
+    hallazgo —y la direccion simetrica del principio, que un hallazgo no mueva el
+    metodo sin decision explicita y fechada— sigue siendo juicio humano.
+    """
+    if staged is None:
+        return
+    tocados = sorted(p for p in staged if es_metodo(p))
+    if not tocados:
+        return
+    muestra = ", ".join(f"`{p}`" for p in tocados[:3]) + (f" (+{len(tocados) - 3})" if len(tocados) > 3 else "")
+    if HISTORIAL not in staged:
+        rep.error(
+            "metodo-historial",
+            HISTORIAL,
+            f"el commit cambia metodo ({muestra}) sin entrada en el historial (Principio VI)",
+        )
+        return
+
+    diff = git("diff", "--cached", "--unified=0", "--", HISTORIAL)
+    if diff is None:
+        rep.error("metodo-historial", HISTORIAL, "no se pudo leer el diff staged del historial")
+        return
+    agregadas = [ln[1:] for ln in diff.splitlines() if ln.startswith("+") and not ln.startswith("+++")]
+    if not any(ENTRADA_HISTORIAL.match(ln) for ln in agregadas):
+        rep.error(
+            "metodo-historial",
+            HISTORIAL,
+            f"el commit cambia metodo ({muestra}) y toca el historial, pero no agrega una "
+            "entrada nueva (`## <titulo> (AAAA-MM-DD)`)",
+        )
+        return
+    primera = next((ln for ln in read(HISTORIAL).splitlines() if ENTRADA_HISTORIAL.match(ln)), None)
+    if primera is not None and primera not in agregadas:
+        rep.error(
+            "metodo-historial",
+            HISTORIAL,
+            "la entrada nueva no quedo al principio del historial (mas reciente arriba); "
+            f"la primera sigue siendo: {primera.lstrip('# ').strip()}",
+        )
+
+
 def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
     """Regla global: sin emoticones en documentos de contenido."""
     for rel in all_docs:
@@ -680,11 +781,28 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--strict", action="store_true", help="los WARN tambien fallan")
     ap.add_argument("--quiet", action="store_true", help="solo el resumen")
+    ap.add_argument(
+        "--staged",
+        action="store_true",
+        help="suma los checks que necesitan contexto de commit",
+    )
     args = ap.parse_args()
 
     rep = Report()
     all_docs = docs()
     specs = parse_registry()
+
+    staged: list[str] | None = None
+    if args.staged:
+        listado = git("diff", "--cached", "--name-only", "--diff-filter=ACMR")
+        if listado is None:
+            # Fail-closed: se pidio el modo commit y no hay contexto de commit.
+            # Salir en verde aca seria el mismo `exit 0` silencioso que este gate
+            # existe para no repetir.
+            rep.error("metodo-historial", "(git)", "se pidio `--staged` pero git no devolvio el indice")
+            staged = []
+        else:
+            staged = [ln for ln in listado.splitlines() if ln]
 
     check_spec_coverage(rep, specs, all_docs)
     check_spec_fields(rep, specs)
@@ -702,6 +820,7 @@ def main() -> int:
     check_no_emoji(rep, all_docs)
     check_ssot_table(rep, specs, parse_ssot_table())
     check_file_hygiene(rep, all_docs)
+    check_metodo_historial(rep, staged)
 
     if not args.quiet:
         for severity, check, where, msg in sorted(rep.items, key=lambda i: (i[0] != "ERROR", i[1], i[2])):
