@@ -32,7 +32,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-13 | `deriva_de` apunta a documentos que no son SSOT | media | **Hecha** (2026-08-03) | relevamiento 2026-08-02, completado 2026-08-03 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-14 | Índices de línea duplicaban `proposito`/`estado` fuera del registro | media | **Hecha** (2026-08-03) | auditoría de coherencia 2026-08-03 | `../SPECS_REGISTRY.md` + `../software/00-INDEX.md` |
-| M-15 | Cada principio declara un verificador ejecutable, o declara que no tiene | alta | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C1) | `../CONSTITUTION.md` + `../tools/check_docs.py` |
+| M-15 | Cada principio declara un verificador ejecutable, o declara que no tiene | alta | **Hecha** (2026-08-15) | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C1) | `../CONSTITUTION.md` + `../tools/check_docs.py` |
 | M-16 | Verificar `Derivados a revisar` contra el disco y la tabla SSOT | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C2) | `../tools/check_docs.py` |
 | M-17 | Portar el modelo de skills multi-asistente desde una fuente única | media | Propuesta | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C5) | contraparte de M-03 |
 
@@ -142,6 +142,14 @@ Los siete principios de `../CONSTITUTION.md` declaran `Enforcement:` y los siete
 Propuesta: que cada principio nombre el check de `check_docs.py` que lo cubre, o `ninguno` cuando nada lo cubra, y que `check_docs.py` verifique que los nombrados existen. Lo que produce no es enforcement universal —un repositorio documental sin CI no puede mecanizar «no formular una hipótesis después de ver el resultado»— sino **visibilidad de qué principio tiene mecanismo y cuál depende de que alguien se acuerde**.
 
 Origen: sdd-first [R39] declara ese vínculo en el config y verifica que el paso esté cableado y haya corrido; su SPEC-020 nació justamente al descubrir que un principio nuevo obtenía «enforcement decorativo» sin aviso (`../software/ANALISIS-SDD-FIRST.md` C1). Contraparte de investigación: `BACKLOG-INVESTIGACION.md` prioridad alta #4 (gates que fallan abierto) y #3 (umbral de control manual a automatizado).
+
+**Hecha el 2026-08-15.** `../CONSTITUTION.md` v0.2.0: cada principio suma un campo `Verificador:` con los checks que lo cubren o `ninguno`, y una nota de alcance cuando la cobertura es parcial. `../tools/check_docs.py` suma el check `constitucion`, que falla si un principio no declara el campo, si declara `ninguno` y checks a la vez, o si nombra un check que el script no emite. Los ids válidos **se derivan de la propia fuente** del script y no de una lista mantenida a mano: una lista habría reintroducido, un nivel más arriba, la misma deriva que el check existe para detectar.
+
+Resultado de la primera pasada, que es el dato que la mejora buscaba: **tres de los siete principios tienen verificador**, y solo uno de forma sustantiva. I (SSOT único) y II (trazabilidad a fuente) quedan parciales —el check confirma que la `[Rxx]` citada existe, no que la afirmación esté citada—; IV (documento autorado, spec registrada) es el único bien cubierto. III, V, VI y VII declaran `ninguno`: la propagación bidireccional es M-16, el sellado experimental es una promesa sobre el orden entre pensar y ver que nada mecánico observa, el criterio método/contenido quedó pendiente al cerrar M-01, y nada verifica que un `[NEEDS CLARIFICATION]` se resuelva antes de declarar activo un documento.
+
+Efecto colateral saldado: `../AGENTS.md` afirmaba que no había verificación determinista, lo que era falso desde M-01. Corregido en la misma entrega — es parte de M-07, que sigue abierta por `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`.
+
+Validación: el check se probó en rojo antes de escribir el campo (7 ERROR, uno por principio) y contra dos deformaciones deliberadas —un check inexistente y un campo renombrado—, ambas detectadas; el árbol se restauró y quedó en 0 ERROR.
 
 ## M-16 — Verificar `Derivados a revisar` contra el disco y la tabla SSOT
 

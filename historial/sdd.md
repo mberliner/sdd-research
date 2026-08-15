@@ -4,6 +4,35 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-15 — Cada principio declara un verificador ejecutable, o declara que no tiene (2026-08-15) — COMPLETADA
+
+**Acción**: enmienda constitucional (v0.1.0 → v0.2.0) más un check nuevo, aprobada por el usuario tras el análisis de sdd-first.
+
+### Qué se encontró
+Los siete principios declaraban `Enforcement:` y los siete nombraban prosa: «revisión editorial», «checks de post-generación de `AGENTS.md`», «campo `validacion` de cada spec». `tools/check_docs.py` existía desde M-01 y cubría parte de eso, pero ningún principio lo nombraba: nada distinguía un principio con mecanismo de uno que depende de que alguien se acuerde. Origen del patrón: sdd-first [R39] SPEC-020, que nació al descubrir que declarar un principio nuevo producía «enforcement decorativo» sin aviso (`software/ANALISIS-SDD-FIRST.md`, C1).
+
+Además, `AGENTS.md` afirmaba que el repositorio no tenía verificación determinista — falso desde el 2026-07-31 y en contradicción con su propia §Al cerrar una iteración, que obliga a correr el backstop.
+
+### Qué se cambió
+- `CONSTITUTION.md` v0.2.0: campo `Verificador:` en los siete principios, con nota de alcance cuando la cobertura es parcial; §Alcance del preámbulo lo declara; «Límite honesto» reescrito con el estado real (tres de siete cubiertos, ninguno juzga adecuación) en vez de la afirmación global anterior.
+- `tools/check_docs.py`: check `constitucion` (ERROR) — falla si un principio no declara el campo, si declara `ninguno` y checks a la vez, o si nombra un check que el script no emite. Los ids válidos se derivan de la fuente del propio script; solo se leen como declaración los nombres anteriores al em dash, para que la nota de alcance sea prosa libre.
+- `AGENTS.md`: premisa corregida y el nuevo check agregado a lo que cubre el backstop.
+- `SPECS_REGISTRY.md`: la spec de `CONSTITUTION.md` incorpora el campo en `incluye` y un ítem de `validacion`.
+- `agenda/MEJORAS-METODO.md`: M-15 pasa a **Hecha**, con el resultado de la primera pasada.
+
+### Resultado, que es el dato que la mejora buscaba
+**Tres de siete principios tienen verificador, uno solo de forma sustantiva.** I y II quedan parciales; IV es el único bien cubierto. III, V, VI y VII declaran `ninguno`. El campo no mecaniza nada nuevo: hace visible qué parte del método se sostiene sola y cuál no.
+
+### Cómo se validó
+Se corrió el check en rojo antes de escribir el campo (7 ERROR, uno por principio) y contra dos deformaciones deliberadas —un check inexistente y el campo renombrado—, ambas detectadas. Árbol restaurado y `python3 tools/check_docs.py` → `45 documentos, 42 specs — 0 ERROR, 1 WARN` (el WARN es M-08, preexistente).
+
+### Deuda abierta
+- Cuatro principios sin verificador. El más accionable es III, que es M-16.
+- M-07 avanza pero no cierra: `AGENTS.md` quedó corregido, `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` sigue pendiente.
+- El check verifica que el verificador **exista**, no que **alcance**: que `spec-coverage` baste para sostener el Principio IV sigue siendo juicio humano.
+
+---
+
 ## Incorporación de sdd-first al corpus como caso del propio linaje (2026-08-15) — COMPLETADA
 
 **Acción**: alta de una fuente nueva en `fuentes-externas/` (enlace `sdd-first`, agregado por el usuario) y su análisis con el mismo instrumento que Spec Kit, Superpowers y OpenSpec.

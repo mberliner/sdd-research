@@ -102,7 +102,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `owner`: proyecto SDD
 - `incluye`:
   - preambulo: que es, como se usa, alcance y que NO es
-  - principios, cada uno con invariante autocontenido + `Enforcement` + `Detalle` (SSOT donde vive el detalle operativo)
+  - principios, cada uno con invariante autocontenido + `Enforcement` + `Verificador` + `Detalle` (SSOT donde vive el detalle operativo)
   - governance: precedencia de fuentes, versionado semver, fase pre-1.0, procedimiento de enmienda, limite honesto del enforcement
 - `excluye`:
   - convenciones de forma (fechas, ortografia, nomenclatura) — viven en este registro
@@ -111,6 +111,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] cada principio declara un invariante autocontenido, sin duplicar el detalle que referencia
   - [ ] cada principio tiene `Enforcement` y `Detalle` con SSOT existente
+  - [ ] cada principio declara `Verificador` con checks que `tools/check_docs.py` emite, o `ninguno` (verificado por el check `constitucion`)
   - [ ] versión, fecha de ratificacion y de ultima enmienda presentes y coherentes con `historial/sdd.md`
   - [ ] la precedencia declarada coincide con la de este registro y la de `AGENTS.md`
   - [ ] ningún documento activo contradice un principio vigente

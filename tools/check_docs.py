@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -13,6 +13,14 @@ humano los mire. Rozan el limite de arriba a proposito, pero no lo cruzan: no
 afirman que haya duplicacion, solo que dos documentos se declaran dueños del
 mismo tema. Ambos se validaron reproduciendo los dos casos reales que la Fase 11
 corrigio, corriendolos contra el arbol anterior a esa fase.
+
+El check `constitucion` (M-15) cierra el lazo sobre este mismo script: cada
+principio de CONSTITUTION.md declara en `Verificador:` que checks lo cubren —o
+`ninguno`— y el check falla si nombra uno que este script no emite. Los ids
+validos se derivan de la fuente, no de una lista aparte que volveria a poder
+divergir. Verifica que el verificador EXISTA, no que ALCANCE: al 2026-08-15
+cubre tres de los siete principios, y los otros cuatro declaran `ninguno` a
+proposito.
 
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
@@ -39,6 +47,7 @@ ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = "SPECS_REGISTRY.md"
 REFERENCIAS = "REFERENCIAS.md"
 PROTOCOLO = "AGENTS.md"
+CONSTITUCION = "CONSTITUTION.md"
 
 # Directorios que nunca se auditan: material fuente externo y tooling.
 SKIP_DIRS = ("fuentes-externas", "tools", ".git")
@@ -74,6 +83,16 @@ CODE_SPAN = re.compile(r"`([^`\n]+)`")
 
 # Una ruta escrita en backticks: sin espacios, sin comodines, terminada en .md.
 BACKTICK_PATH = re.compile(r"^[\w./-]+\.md$")
+
+# Un id de check tal como se pasa a `rep.error()` / `rep.warn()`: el primer
+# argumento literal, que en las llamadas multi-linea cae en el renglon siguiente.
+CHECK_ID_CALL = re.compile(r"rep\.(?:error|warn)\(\s*\n?\s*\"([a-z-]+)\"")
+
+# Encabezado de principio en la constitucion: `### VII. Titulo`.
+PRINCIPIO = re.compile(r"^###\s+([IVXLC]+)\.\s+(.+)$")
+
+# Campo que declara con que se verifica un principio (M-15).
+VERIFICADOR = re.compile(r"^-\s+\*\*Verificador:\*\*\s*(.+)$")
 
 STOPWORDS = frozenset(
     "de del la el los las un una y o en por para con que su sus al es son no"
@@ -464,6 +483,93 @@ def check_precedence(rep: Report, all_docs: list[str]) -> None:
                 )
 
 
+def emitted_check_ids() -> set[str]:
+    """Los ids de check que este script realmente emite, leidos de su propia fuente.
+
+    Se derivan en vez de mantenerse en una lista aparte a proposito: una lista a
+    mano habria vuelto a introducir, un nivel mas arriba, la misma deriva que
+    `constitucion` existe para detectar — un nombre declarado que ya no
+    corresponde a nada que corra.
+    """
+    return set(CHECK_ID_CALL.findall(Path(__file__).read_text(encoding="utf-8")))
+
+
+def check_constitucion(rep: Report) -> None:
+    """Cada principio declara `Verificador:` con checks existentes o `ninguno` (M-15).
+
+    Portado de sdd-first [R39] (`software/ANALISIS-SDD-FIRST.md`, C1), donde el
+    principio declara el paso de pipeline que lo activa y el pipeline verifica
+    que ese paso este cableado. Lo que produce no es enforcement universal —hay
+    principios que un repositorio documental no puede mecanizar— sino
+    visibilidad de cual tiene mecanismo y cual depende de que alguien se acuerde.
+
+    Limite, en la linea del resto del script: verifica que el verificador
+    declarado EXISTA, no que ALCANCE para sostener el principio. Que
+    `spec-coverage` baste para «documento autorado, spec registrada» es juicio
+    humano y queda fuera.
+    """
+    ids = emitted_check_ids()
+    if len(ids) < 10:
+        rep.error(
+            "constitucion",
+            "tools/check_docs.py",
+            f"solo se derivaron {len(ids)} ids de check de la fuente; revisar CHECK_ID_CALL",
+        )
+        return
+
+    lines = read(CONSTITUCION).splitlines()
+    principios: list[tuple[str, int, str | None]] = []
+    titulo, inicio, valor = "", 0, None
+    for n, line in enumerate(lines, start=1):
+        m = PRINCIPIO.match(line)
+        if m:
+            if titulo:
+                principios.append((titulo, inicio, valor))
+            titulo, inicio, valor = f"{m.group(1)}. {m.group(2)}", n, None
+            continue
+        if line.startswith("## ") and titulo:
+            principios.append((titulo, inicio, valor))
+            titulo, valor = "", None
+            continue
+        m = VERIFICADOR.match(line)
+        if m and titulo:
+            valor = m.group(1).strip()
+    if titulo:
+        principios.append((titulo, inicio, valor))
+
+    if not principios:
+        rep.error("constitucion", CONSTITUCION, "no se encontro ningun principio (`### N. Titulo`)")
+        return
+
+    for titulo, n, valor in principios:
+        where = f"{CONSTITUCION}:{n}"
+        if valor is None:
+            rep.error("constitucion", where, f"principio «{titulo}» no declara `Verificador:`")
+            continue
+        # Solo el segmento anterior al em dash declara; lo que sigue es la nota
+        # de alcance, prosa libre donde un backtick no nombra un check.
+        declaracion = valor.split("—")[0]
+        nombrados = [n for n in re.findall(r"`([a-z-]+)`", declaracion) if n != "ninguno"]
+        declara_ninguno = re.search(r"\bninguno\b", declaracion, re.IGNORECASE) is not None
+        if nombrados and declara_ninguno:
+            rep.error("constitucion", where, f"principio «{titulo}» declara `ninguno` y checks a la vez")
+            continue
+        if not nombrados and not declara_ninguno:
+            rep.error(
+                "constitucion",
+                where,
+                f"principio «{titulo}»: `Verificador:` no nombra ningun check ni declara `ninguno`",
+            )
+            continue
+        for nombre in nombrados:
+            if nombre not in ids:
+                rep.error(
+                    "constitucion",
+                    where,
+                    f"principio «{titulo}» declara el check `{nombre}`, que este script no emite",
+                )
+
+
 def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
     """Regla global: sin emoticones en documentos de contenido."""
     for rel in all_docs:
@@ -523,6 +629,7 @@ def main() -> int:
     check_ssot_collision(rep, specs, parse_ssot_table())
     check_normative_block(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
+    check_constitucion(rep)
     check_no_emoji(rep, all_docs)
     check_ssot_table(rep, specs, parse_ssot_table())
     check_file_hygiene(rep, all_docs)
