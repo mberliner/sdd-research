@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## A-04 pasada 1 — alta del experimento y del runbook (2026-08-15) — COMPLETADA
+
+**Accion**: alta de dos documentos en `experimentos/`, dos specs y dos filas SSOT en `SPECS_REGISTRY.md`, seccion nueva en `docs-y-investigacion/PLAN-PRUEBAS.md`, tres items del backlog marcados en ejecucion, cinco items de deuda migrados al backlog, y M-21 propuesta.
+
+### Que se encontro
+El backlog tenia la pregunta dada de alta desde el 2026-08-02 —alta #8, si el protocolo cambia la conducta del agente— y nunca se habia corrido. La mitad automatica del metodo tiene rastro de que se paga sola (M-01 encontro dos derivas reales en su primera corrida; M-09, M-10, M-13 y M-14 encontraron mas). La mitad ceremonial no tiene un solo dato a favor.
+
+### Que cambio
+Se ejecuto la **pasada 1**: solo el piso de ruido del instrumento, sin brazo tratamiento, que es lo que exige el backlog alta #7 desde B-07. El brazo control es inconstruible dentro de este repositorio —`CLAUDE.md` hace `@AGENTS.md`, y borrar los documentos daria otro repo, no el mismo repo sin protocolo—, asi que corrio sobre fixture sintetico en el repo de datos hermano `../experimentosdd-a4/`, con el precedente de `experimentosdd-b7/`.
+
+Veredicto: **NO APTO por techo**. El brazo control dio 12/12, sobre dos versiones del fixture y tres escalones de modelo. Detalle y evidencia en `experimentos/RESULTADO-EXPERIMENTO-A4.md`.
+
+### Como se valido
+`./tools/check_docs.py` en verde. Los tres checks de «Propagacion» corridos con su salida, no de memoria. La prediccion fechada se escribio antes del primer rep y se contrasto despues: acerto el modo de falla (techo, no piso) y fallo el veredicto. La unica enmienda al diseño esta fechada y declarada **pre-dato**.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Lo que se asienta aca es el alta de documentos y specs —cambio de registro, Principio VI—. El **hallazgo** vive en el resultado del experimento y no toca el metodo: la pasada 1 no evalua `H1` y no habilita ninguna afirmacion sobre si el protocolo funciona.
+
+### Deuda abierta
+Cinco items migrados a `agenda/BACKLOG-INVESTIGACION.md` (#9 a #13): que hace cara a una conducta para un agente moderno, si el techo es de un harness o de todos, `H1` sin evaluar, la regla de puntuacion sin ejercitar, y el regimen de permisos sin terminal. Mas M-21: `metodo-historial` sobre-dispara en altas de contenido del registro — esta misma entrada es un caso, y se acepta la friccion en vez de aflojar un verificador recien entregado.
+
+---
+
 ## M-19 — Cablear el backstop al commit, fail-closed y versionado (2026-08-15) — COMPLETADA
 
 **Acción**: gate de commit versionado más un check nuevo y una corrección de dos documentos, aprobada por el usuario junto con M-20. Cierra también M-07.

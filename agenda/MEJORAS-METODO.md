@@ -38,6 +38,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-18 | Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto | alta | **Hecha** (2026-08-15) | resultado de M-15: Principio VII sin verificador | `../tools/check_docs.py` + `../CONSTITUTION.md` |
 | M-19 | Cablear el backstop al commit, fail-closed y versionado | alta | **Hecha** (2026-08-15) | pendiente de M-01; `BACKLOG-INVESTIGACION.md` alta #4 | `../tools/githooks/pre-commit` + check `gate` |
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
+| M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 
 ---
 
@@ -212,3 +213,13 @@ El Principio VI declaraba `Verificador: ninguno` con el diagnóstico escrito des
 Decisión que la mejora tuvo que tomar y estaba pendiente: **el backstop puede depender de git**, en un modo opcional que degrada. El check corre solo con `--staged`, que es lo que invoca el gate de M-19; en un árbol sin git no dice nada y el principio vuelve a no tener verificador. Era la pregunta que M-18 dejó abierta al declarar M-16 «bloqueada por la decisión de si el backstop puede depender de git», y con esto M-16 se desbloquea.
 
 Límite del mismo tipo que el resto del script: verifica que la entrada exista y quede arriba, no que **clasifique bien**. Que un cambio sea método y no hallazgo, y la dirección simétrica del principio —que un hallazgo no mueva el método sin decisión explícita y fechada— siguen siendo juicio humano.
+
+## M-21 — `metodo-historial` sobre-dispara en altas de contenido del registro
+
+Observado el 2026-08-15 al dar de alta A-04: registrar dos specs nuevas en `../SPECS_REGISTRY.md` disparó la exigencia de entrada de historial, aunque la entrega **sólo agrega contenido registrado** y no cambia ninguna regla del registro.
+
+El check es fiel al texto: el Principio VI nombra literalmente «registro de specs» entre las piezas de método. El que está grueso es el texto, no el verificador.
+
+**Recomendación: no ajustar el check todavía.** Aflojar un verificador recién entregado para que la tarea siguiente sea más cómoda, sin un dato que lo justifique, es exactamente la clase de deriva que el proyecto existe para no cometer. Si en tres o cuatro entregas el falso positivo se repite, ahí hay caso — y la distinción a implementar sería entre cambiar las **reglas** del registro (método) y agregar **entradas** al registro (contenido), que no es trivial de decidir por diff.
+
+Costo actual: una entrada de historial de más por alta de spec. Barato. Se acepta la fricción y se cuenta.

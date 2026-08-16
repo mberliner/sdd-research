@@ -24,6 +24,23 @@ Bloque obligatorio: el `[SDD-Check]` definido en `../AGENTS.md`, que es su SSOT.
 Metrica primaria:
 - Variabilidad entre asistentes en la misma tarea.
 
+Deslinde con A-04: A-02 mide variabilidad **entre asistentes**; A-04 mide **efecto
+sobre conducta** con un solo modelo.
+
+## Experimento A-04
+Objetivo: medir si el protocolo del asistente cambia la **conducta** del agente.
+
+Diseño, hipótesis y criterio: `../experimentos/EXPERIMENTO-A4-protocolo-conducta.md`.
+Protocolo de medición: `../experimentos/PRUEBA-PISO-RUIDO-A4.md`.
+
+Alcance de la pasada 1 (ejecutada 2026-08-15): **sólo el piso de ruido del
+instrumento**. El brazo tratamiento no se corre. Es lo que exige el backlog alta
+#7 desde B-07: correr el brazo control dos veces antes de reportar ninguna brecha.
+
+Deslinde con A-02: A-02 mide variabilidad **entre asistentes** del `[SDD-Check]`;
+A-04 mide **efecto sobre conducta** con un solo modelo. Sin este deslinde los dos
+experimentos se declararían dueños del mismo tema.
+
 ## Experimento A-03
 Objetivo: medir trazabilidad de evidencia.
 

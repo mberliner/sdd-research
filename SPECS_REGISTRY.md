@@ -85,6 +85,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Agenda línea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea A |
 | Docs/Investigacion | Necesidades, métricas y riesgos línea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental línea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `experimentos/` de línea A al cerrar |
+| Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
+| Docs/Investigacion | Protocolo de medición del piso de ruido de A-04 (el «como») | `experimentos/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
 | Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
 | Software | Analisis de la metodologia GitHub Spec Kit | `software/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
 | Software | Agenda línea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea B |
@@ -690,6 +692,40 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] distingue comportamiento observado de deseado
   - [ ] no contradice `AGENTS.md` ni `SPECS_REGISTRY.md`
   - [ ] no duplica SSOT — referencia
+
+### experimentos/EXPERIMENTO-A4-protocolo-conducta.md
+- `path`: `experimentos/EXPERIMENTO-A4-protocolo-conducta.md`
+- `proposito`: SSOT del **que** de A-04 — hipotesis, metricas, diseño y criterio de exito del experimento sobre si el protocolo del asistente cambia la conducta del agente.
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `validacion`:
+  - [ ] entrada minima por excepción de §Docs excluidos (M-13): generado desde `templates/EXPERIMENTO.md`, exento de `incluye`/`excluye` detallados; esta entrada existe solo para servir de origen verificable a `deriva_de`
+  - [ ] cambios de hipótesis, métricas o criterio de éxito disparan revision de su derivado (`PRUEBA-PISO-RUIDO-A4.md`)
+
+### experimentos/PRUEBA-PISO-RUIDO-A4.md
+- `path`: `experimentos/PRUEBA-PISO-RUIDO-A4.md`
+- `proposito`: runbook de la **pasada 1** de A-04 — protocolo paso a paso para medir el piso de ruido del instrumento bajo el brazo control, antes de evaluar ninguna brecha. Es SSOT del **como**, no del que.
+- `ssot_level`: `derivado`
+- `deriva_de`: `experimentos/EXPERIMENTO-A4-protocolo-conducta.md`
+- `owner`: proyecto SDD
+- `incluye`:
+  - glosario, eleccion de instrumento y regla de lectura entre harnesses
+  - escalera de modelo pre-registrada, con sus enmiendas fechadas y clasificadas pre/post dato
+  - descripcion del fixture, opciones forzadas y regla PASS con sus dos condiciones
+  - regimen de permisos y el criterio que distingue degradacion de aborto
+  - protocolo por fases (0 a 4), roles y regimen de sellado
+- `excluye`:
+  - hipótesis, métricas y criterio de éxito (viven en `EXPERIMENTO-A4-protocolo-conducta.md`, su SSOT — referencia, no copia)
+  - los resultados y veredictos (viven en `RESULTADO-EXPERIMENTO-A4.md`)
+  - el valor verdadero del fixture, la regla de puntuación completa y el detalle del régimen de permisos (viven en el repo de datos `experimentosdd-a4/`)
+  - datos, logs, transcripts y salidas de corrida (viven en el repo de datos `experimentosdd-a4/`, fuera de este repo)
+- `validacion`:
+  - [ ] sección «Definicion operacional» presente y completa en su SSOT, no duplicada aca
+  - [ ] toda enmienda esta fechada, motivada, y declara si se tomó antes o después de existir el dato afectado
+  - [ ] la regla PASS se define sobre vocabulario que no aparece en `AGENTS.md` (test del backlog alta #6)
+  - [ ] las cinco sondas bloqueantes declaran que verifican y que pasa si fallan
+  - [ ] no redefine hipótesis ni criterio — referencia a su SSOT
+  - [ ] el techo de conclusión declarado —la pasada mide el instrumento, no el objeto— no se excede
 
 ### experimentos/EXPERIMENTO-B7-formato-hibrido.md
 - `path`: `experimentos/EXPERIMENTO-B7-formato-hibrido.md`
