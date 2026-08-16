@@ -192,6 +192,11 @@ Repo de datos hermano `../../experimentosdd-a4/`, dos commits:
 1. Migrar los cinco ítems de deuda a `../agenda/BACKLOG-INVESTIGACION.md` con
    fecha y origen, **antes** de dar la pasada por cerrada.
 2. Decidir entre rediseñar la conducta medida o correr la 1b con el diseño actual
-   para separar «techo de `agy`» de «techo de cualquier harness».
-3. No tocar el instrumento construido: aislamiento, régimen de permisos, sondas y
+   para separar «techo de `agy`» de «techo de cualquier harness». Los dos caminos,
+   con su obstáculo concreto y el candidato de rediseño, quedaron escritos en
+   `../agenda/BACKLOG-INVESTIGACION.md` #9 y #10.
+3. Considerar la versión barata de la pregunta que originó A-04, que esta pasada
+   dejó intacta: medir la mitad ceremonial sobre las entregas reales del repo, que
+   ya existen y están fechadas (`../agenda/BACKLOG-INVESTIGACION.md` #14).
+4. No tocar el instrumento construido: aislamiento, régimen de permisos, sondas y
    regla son reutilizables tal como están.
