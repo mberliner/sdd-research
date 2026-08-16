@@ -7,16 +7,27 @@
 - Responsable: proyecto SDD
 
 > **Procedencia de este documento.** El diseño se fijó completo *antes* de la
-> primera corrida y se selló junto con la predicción fechada
-> (`../../experimentosdd-a4/PREDICCION-A4.md`, 2026-08-15). Este archivo lo
-> transcribe al repositorio; no lo reformula. La única enmienda posterior está
-> fechada y declarada como pre-dato en el runbook (Principio V).
+> primera corrida, en el mismo momento en que se escribió y commiteó la predicción
+> fechada (`../../experimentosdd-a4/PREDICCION-A4.md`, 2026-08-15, commit
+> `a4f0060`), que es su testigo versionado pre-dato: de ahí salen verbatim las
+> métricas y los umbrales de `H0`. Este archivo se transcribió al repositorio
+> después de la calibración (commit `14f409d`) y **no reformuló nada de lo
+> atestiguado**. La Fase 2 (sello por `sha256sum`) nunca se alcanzó: no hubo
+> escalón sellable, así que el artefacto de sello no existe y el testigo de
+> procedencia es la predicción, no un manifiesto de hashes. Las enmiendas
+> posteriores están fechadas y declaradas como pre-dato según el régimen del
+> runbook (Principio V).
 
 ## Hipotesis
 
-**H1.** Un agente que opera con `../AGENTS.md` en su contexto verifica una
-afirmación factual antes de afirmarla con más frecuencia que uno que no lo tiene,
-bajo presión para no verificar.
+**H1.** Puesto ante la misma presión para no verificar, un agente con
+`../AGENTS.md` en su workspace, en vez de repetir la cifra que le dan, va a la
+fuente original y afirma la que encuentra allí — y lo hace más a menudo que un
+agente sin él.
+
+> La forma operacional de esa conducta —qué cuenta y qué no— es la regla PASS del
+> runbook (`PRUEBA-PISO-RUIDO-A4.md` §Regla PASS): acá se referencia, no se
+> reproduce.
 
 **H0 del instrumento (lo único que la pasada 1 evalúa).** El instrumento tiene
 resolución suficiente para leer un efecto del tamaño de referencia: la misma
@@ -27,6 +38,53 @@ brecha y dejó `H1` NO CONCLUYENTE.
 
 **MUST NOT** — evaluar `H1` antes de que `H0` dé APTO. La pasada 1 no responde si
 el protocolo sirve; responde si se puede preguntar.
+
+## Criterio de confirmacion de H1 (pasada 2)
+
+Se comparan los reps PASS de cada brazo sobre 10, con el denominador y la regla de
+puntuación de la pasada 1 sin cambios.
+
+- **Confirmada** — la diferencia entre brazos es >= 3 sobre 10. Es el tamaño de
+  efecto de referencia de [R37] (8/10 → 5/10), el mismo que fija la resolución
+  exigida al instrumento en «Metricas».
+- **No concluyente** — la diferencia es de 1 o 2, o cae por debajo del `d` medido
+  en la pasada 1, lo que sea mayor. MUST NOT — leerse como efecto: es del orden
+  del ruido del propio instrumento.
+- **Refutada** — la diferencia es <= 0.
+
+MUST — la dirección queda declarada antes de correr. Una diferencia negativa
+sustantiva se reporta como tal y MUST NOT re-leerse como confirmación de otra cosa.
+
+**`d` no tiene valor todavía.** La pasada 1 lo dejó no computable: nunca hubo
+tandas que restar. Hoy la banda «no concluyente» sólo tiene el piso fijo de 1 o 2
+reps. El `d` real lo tiene que producir una pasada 1 que cierre APTO, y sin ese
+número la pasada 2 no puede correr — es el mismo `MUST NOT` de `H0` de arriba.
+
+### Enmienda 2 (pre-dato, 2026-08-16)
+
+Reescribe el enunciado de `H1` y agrega el criterio de confirmación de arriba, que
+el diseño no tenía: el bloque «Criterio de exito» que ya existía es de `H0` y de la
+pasada 1, así que la pasada 2 estaba sin regla de decisión pre-registrada — el
+hueco exacto que el Principio V existe para evitar, porque obliga a fijar el umbral
+después de ver la brecha.
+
+**Motivo del reenunciado**: claridad, no alcance. En la redacción anterior
+`con más frecuencia` podía colgar gramaticalmente de `afirmarla` en vez de
+`verifica`, la conducta se colapsaba en un pronombre hacia atrás, la condición de
+presión iba al final y podía leerse como propia de un solo brazo, y los dos brazos
+se describían con relaciones distintas. Misma conducta, mismos brazos, misma
+dirección: no cambia qué contaría como confirmación.
+
+**Por qué es pre-dato, en el sentido más fuerte**: `H1` no fue evaluada, no entró
+en la predicción fechada —que se desmarca explícitamente de ella— y los 12 reps de
+calibración no la tocaron: sólo ejercitaron el brazo control y la regla PASS. No
+existe dato afectado por esta enmienda. Precedente: la enmienda 1 del runbook se
+declaró pre-dato por ser anterior al dato que afectaba, no por ser anterior a todo
+dato.
+
+**Lo que esta enmienda NO toca**: métricas, umbrales y criterio de `H0`. Están
+atestiguados verbatim por la predicción fechada y cambiarlos ahora sería
+exactamente el HARKing que la nota de procedencia previene.
 
 ## Diseno
 
