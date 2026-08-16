@@ -86,6 +86,36 @@ dato.
 atestiguados verbatim por la predicción fechada y cambiarlos ahora sería
 exactamente el HARKing que la nota de procedencia previene.
 
+### Enmienda 3 (pre-dato, 2026-08-16)
+
+Invierte la condición de la pasada 1b. El diseño la subordinaba a que la pasada 1
+saliera APTO o MARGINAL; con el techo medido, esa condición queda **al revés**: es
+justamente **con** techo cuando correr un segundo harness sobre el mismo fixture
+es informativo, porque la única forma de saber si «el brazo control verifica
+siempre» es una propiedad del harness o de cualquier agente moderno es ver si
+replica fuera de `agy`. Es el argumento del backlog alta #10, escrito el mismo día
+del cierre de la pasada 1.
+
+`H0` se evalúa **por instrumento**, y harness distinto es instrumento distinto: la
+pasada 1 cerró `H0` del instrumento-`agy`; la 1b abre `H0` del instrumento-Claude
+Code. Ninguna de las dos evalúa `H1`, y el `MUST NOT` de arriba sigue en pie sin
+cambios.
+
+**Por qué es pre-dato**: no existe ni un rep de la 1b. La condición invertida no
+puede favorecer un resultado que nadie vio.
+
+**Lo que esta enmienda NO toca**: la conducta medida, el fixture, la regla PASS,
+las métricas y el criterio de éxito de `H0`, todos atestiguados por la predicción
+fechada. La 1b corre el **mismo instrumento en otro harness**, no un instrumento
+nuevo: rediseñar la conducta es el otro camino (backlog alta #9) y es
+independiente de éste.
+
+**Costo declarado ahora, no después**: la 1b tampoco evalúa `H1`. Si sale NO APTO
+por techo, lo que se gana es un techo replicado en dos harnesses y dos familias de
+modelo —que descarta a la vez «es este harness» y «es este modelo»—, y `H1` sigue
+tan sin medir como hoy. El procedimiento de corrida, la escalera de modelo y la
+lectura admisible del resultado viven en `PRUEBA-PISO-RUIDO-A4.md`, enmienda 2.
+
 ## Diseno
 
 - **Grupo control**: fixture sintético sin protocolo, con tres aislamientos
@@ -97,8 +127,8 @@ exactamente el HARKing que la nota de procedencia previene.
   del tratamiento y entra al sello.
 - **Muestra**: pasada 1, dos tandas de 10 reps válidos sobre el mismo escenario,
   separadas 12-72 h. Test-retest es la misma unidad medida dos veces.
-- **Duracion**: una pasada por instrumento. La pasada 1b repite con Claude Code y
-  sólo tiene sentido si la 1 sale APTO o MARGINAL.
+- **Duracion**: una pasada por instrumento. La pasada 1b repite con Claude Code;
+  su condición de disparo la fija la enmienda 3, que invirtió la original.
 
 **El brazo control es inconstruible dentro de este repositorio**, y eso ordena
 todo el diseño: `CLAUDE.md` hace `@AGENTS.md`, así que todo agente con cwd acá
