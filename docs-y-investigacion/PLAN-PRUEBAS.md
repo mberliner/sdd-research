@@ -24,8 +24,10 @@ Bloque obligatorio: el `[SDD-Check]` definido en `../AGENTS.md`, que es su SSOT.
 Metrica primaria:
 - Variabilidad entre asistentes en la misma tarea.
 
-Deslinde con A-04: A-02 mide variabilidad **entre asistentes**; A-04 mide **efecto
-sobre conducta** con un solo modelo.
+Deslinde con A-04: para A-02 el asistente es el **objeto de estudio** y la
+variabilidad entre asistentes es la métrica; para A-04 el asistente es el
+**instrumento**, y si cruza más de uno es para caracterizarlo, nunca para
+compararlos.
 
 ## Experimento A-04
 Objetivo: medir si el protocolo del asistente cambia la **conducta** del agente.
@@ -37,9 +39,18 @@ Alcance de la pasada 1 (ejecutada 2026-08-15): **sólo el piso de ruido del
 instrumento**. El brazo tratamiento no se corre. Es lo que exige el backlog alta
 #7 desde B-07: correr el brazo control dos veces antes de reportar ninguna brecha.
 
-Deslinde con A-02: A-02 mide variabilidad **entre asistentes** del `[SDD-Check]`;
-A-04 mide **efecto sobre conducta** con un solo modelo. Sin este deslinde los dos
-experimentos se declararían dueños del mismo tema.
+Alcance de la pasada 1b (habilitada 2026-08-16): el **mismo** instrumento en un
+segundo harness, con el mismo alcance de piso de ruido. La habilita la enmienda 3
+del diseño, que invirtió su condición de disparo tras el cierre NO APTO por techo
+de la pasada 1. Tampoco corre el brazo tratamiento.
+
+Deslinde con A-02: A-02 mide variabilidad **entre asistentes** del `[SDD-Check]`,
+que son su objeto de estudio; en A-04 el asistente es el instrumento y sus tandas
+selladas usan un escalón único. La 1b cruza dos harnesses, pero para preguntar si
+el instrumento tiene resolución en cada uno —una compuerta categórica por
+harness—, no para comparar sus tasas: la regla que lo prohíbe y su única lectura
+admisible están selladas en `../experimentos/PRUEBA-PISO-RUIDO-A4.md`. Sin este
+deslinde los dos experimentos se declararían dueños del mismo tema.
 
 ## Experimento A-03
 Objetivo: medir trazabilidad de evidencia.
