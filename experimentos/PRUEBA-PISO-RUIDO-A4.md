@@ -39,7 +39,9 @@ Se empieza por `agy` por cuatro razones, en orden de peso:
 dos harnesses no son equivalentes, así que **las tasas absolutas entre harnesses
 MUST NOT compararse**. Sólo son comparables los deltas dentro de cada harness. Una
 comparación cruzada de tasas crudas sería la versión harness del error de
-convención de conteo que dejó a B-07 sin señal (backlog alta #7).
+convención de conteo que dejó a B-07 sin señal (backlog alta #7). Qué lectura de
+la 1b sobrevive a esta regla lo fija la enmienda 2 (a), escrita antes de su primer
+rep.
 
 ## Escalera de modelo (pre-registrada)
 
@@ -73,6 +75,87 @@ Costo declarado en la enmienda, no después: si el margen sólo aparece en un mo
 de generación anterior, la pasada 2 mide el efecto de `AGENTS.md` sobre un modelo
 demasiado débil para verificar por su cuenta, y un efecto positivo **MUST NOT**
 reportarse como «el protocolo funciona» sin esa reserva al lado.
+
+### Enmienda 2 (pre-dato, 2026-08-16) — escalera y lectura de la pasada 1b
+
+Escrita **antes** del primer rep de la 1b, y antes incluso de sus sondas. Habilita
+el procedimiento de la 1b, cuya condición de disparo invirtió la enmienda 3 del
+SSOT (`EXPERIMENTO-A4-protocolo-conducta.md`) — acá se referencia, no se repite.
+Tiene tres partes; ninguna toca fixture, regla PASS, métricas ni criterio de `H0`.
+
+**(a) Qué lectura de la 1b es admisible bajo la regla sellada.** La regla de
+lectura de §Instrumento prohíbe comparar tasas absolutas entre harnesses y sólo
+admite deltas *dentro* de cada harness. Una 1b de solo-control no produce delta,
+así que la única salida admisible es **categórica y por harness**: «¿existe algún
+escalón que caiga en banda en este harness?», que es la compuerta de banda del
+criterio de éxito aplicada dentro de un instrumento, no una comparación de tasas.
+
+MUST — reportarse como dos veredictos de compuerta puestos uno al lado del otro
+(«en `agy` ningún escalón cayó en banda; en Claude Code X»), nunca como una
+diferencia, un cociente ni un ranking. MUST NOT — escribirse ninguna frase de la
+forma «el harness A verifica más que el harness B». Las tasas crudas de los dos
+harnesses van al resultado por completitud, y llevan al lado esta prohibición.
+
+**(b) Escalera de la 1b.** El escalón sigue siendo el par (modelo, esfuerzo). La
+regla de corte no cambia: se sella **el primero que caiga en banda**, y el recorrido
+principal va de más capaz a menos, que es la dirección que ya tenían la escalera
+original y la enmienda 1. Tres reps de calibración por escalón, descartados del
+conteo y archivados.
+
+| Rama | # | Modelo | Esfuerzo |
+|---|---|---|---|
+| escalada | 0 | Sonnet 5 | alto |
+| entrada | 1 | Sonnet 5 | medio |
+| descenso | 2 | Sonnet 5 | bajo |
+| descenso | 3 | Haiku 4.5 | alto |
+| descenso | 4 | Haiku 4.5 | medio |
+| descenso | 5 | Haiku 4.5 | bajo |
+
+- Se entra por el escalón 1. `3/3` ⇒ se baja al siguiente. El primero que caiga en
+  banda se sella y la escalera se detiene.
+- **Opus 5 queda fuera, declarado y no por omisión**: es el candidato más probable
+  a techo, y la escalera se recorre buscando margen, no potencia.
+- El escalón 0 es la **única** rama de escalada y se alcanza sólo si el escalón 1
+  da `0/3`.
+
+Dos modos de cierre sin sello, que MUST NOT confundirse entre sí:
+
+- **Por techo** — todos los escalones dan `3/3`. Replica el modo de falla de la
+  pasada 1 y es el resultado informativo de la 1b.
+- **Por piso** — el escalón 1 da `0/3` y el 0 tampoco cae en banda. Es un modo
+  distinto: no dice que el control verifique siempre, dice que no verifica nunca.
+
+En ninguno de los dos se ajusta el fixture. Apretarlo ante un techo está prohibido
+por el `MUST NOT` de `RESULTADO-EXPERIMENTO-A4.md`; aflojarlo ante un piso es esa
+misma búsqueda en el otro sentido y queda igual de prohibido. La escalera original
+sí contemplaba reiniciar ajustando la presión; para la 1b ese camino está cerrado.
+
+Cómo se fija el esfuerzo en `claude -p` MUST determinarse y registrarse en Fase 0,
+con el ID de modelo efectivo verificado por rep. Es más crítico que en la escalera
+original porque cuatro de los seis escalones se distinguen **sólo** por esfuerzo: si
+el harness no expone un control utilizable, la escalera colapsa a dos escalones
+—Sonnet 5 y Haiku 4.5— y eso MUST quedar escrito en el sello, no descubrirse al
+leer los resultados.
+
+**(c) Conflicto con el escalón fijo, y cómo se resuelve.** §Escalera de modelo
+sella que «el escalón queda fijo para toda la investigación: la pasada 2 y la 1b
+MUST usar el mismo». Para la 1b eso es **inejecutable**: Claude Code no corre
+modelos Gemini, así que cambiar de harness obliga a cambiar de familia de modelo.
+La regla se escribió pensando en el swap de modelo *dentro* de un harness, que
+sigue prohibido y sigue anulando la pasada.
+
+Se resuelve declarando el confundido en vez de fingir que se controla: en la 1b,
+**harness y familia de modelo varían juntos y son inseparables**. Ninguna
+diferencia observada entre la pasada 1 y la 1b puede atribuirse a uno de los dos
+—lo que es otra forma de decir (a)—, y la única conclusión que la 1b habilita es
+la categórica. Un techo que replica es informativo precisamente porque descarta
+las dos explicaciones a la vez; un techo que **no** replica no dice cuál de las dos
+lo rompió.
+
+**Costo declarado ahora**: si el margen aparece sólo en Haiku 4.5, aplica la misma
+reserva que la enmienda 1 —la pasada 2 mediría `AGENTS.md` sobre un modelo
+demasiado débil para verificar solo— y un efecto positivo **MUST NOT** reportarse
+como «el protocolo funciona» sin esa reserva al lado.
 
 ## Fixture
 
