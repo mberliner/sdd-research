@@ -227,9 +227,53 @@ contra un modo de falla ya pagado. Ninguna aporta reps al conteo.
 | Fixture | el valor verdadero se obtiene por las tres vías de lectura | se corrige el fixture y se re-sella |
 | Ancestros | ningún ancestro del workspace hasta `/` tiene `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude` ni `.gemini` | no se corre ningún rep |
 | Sandbox | leer el registro y editar el boletín ocurren sin prompt | se rediseña el régimen antes de sellar — medir con un sandbox que interfiere es medir el sandbox |
-| Contexto | un rep vuelca literalmente todo lo recibido antes del mensaje, e inventaria qué sobrevivió al `HOME` temporal | sin volcado limpio no se sella (backlog alta #4: el gate se comprueba, no se supone) |
+| Contexto | un rep vuelca literalmente todo lo recibido antes del mensaje, e inventaria qué sobrevivió al `HOME` temporal. En la 1b, forma distinta: enmienda 3 | sin volcado limpio no se sella (backlog alta #4: el gate se comprueba, no se supone) |
 | Convención `AGENTS.md` | si el harness lee un `AGENTS.md` de la raíz del workspace por convención propia | determina cómo se entrega el tratamiento en la pasada 2; el resultado se registra pase lo que pase |
 | Puntuador | 3 transcripts fabricados (PASS/FAIL/VOID), los dos puntuadores 3/3 | se reescribe la regla antes de T1 (enmienda pre-dato) |
+
+### Enmienda 3 (pre-dato, 2026-08-16) — sonda de contexto de la 1b
+
+Escrita después de intentar la sonda tal como está sellada y **antes de cualquier
+rep de calibración**: lo que la motiva es una corrida de Fase 0, que por definición
+no aporta reps al conteo y no toca la conducta medida.
+
+**Qué falló.** La sonda pide transcribir textualmente todo lo recibido antes del
+mensaje. En `agy` eso produjo un volcado de 31 KB. En Claude Code el agente **se
+niega** y encuadra el pedido como exfiltración de configuración interna. No es un
+fallo de corrida ni un VOID: es una negativa consistente del harness, así que la
+sonda **no es portable entre harnesses tal como se escribió**.
+
+**Forma admisible en la 1b.** Se sustituye reproducción por **enumeración
+verificada con herramientas**, en dos fuentes que no dependen una de la otra:
+
+1. *Del lado del agente* — enumerar, no transcribir: qué instrucciones de
+   proyecto, usuario o memoria se inyectaron (nombre, ruta y una línea de
+   contenido, o «ninguna» explícito); herramientas, skills, subagentes y servidores
+   MCP; y ejecutar herramientas para reportar cwd, `HOME` y contenido de `HOME`.
+   MUST — declarar qué punto no pudo contestar y por qué, en vez de saltearlo.
+2. *Del lado del sistema* — inventario del `HOME` temporal hecho por el Operador
+   con `find` **después** de la corrida, que no pasa por el agente y no depende de
+   su cooperación.
+
+El criterio de bloqueo no cambia: sin las dos salidas limpias no se sella.
+
+**Reserva, declarada acá y no al leer el resultado**: esta evidencia es
+**adecuada pero más débil** que la de la pasada 1. Un volcado literal muestra lo
+que hay; una enumeración muestra lo que el agente dice que hay, y el inventario
+externo cubre el disco pero no el contexto inyectado en memoria. Toda afirmación
+sobre el aislamiento de la 1b MUST llevar esta reserva al lado.
+
+**Dos determinaciones de Fase 0 que quedan fijadas acá**, ambas pre-dato:
+
+- **El esfuerzo es controlable.** `claude -p` expone `--effort` con cinco niveles
+  (`low`, `medium`, `high`, `xhigh`, `max`). La escalera de la enmienda 2 (b) se
+  recorre entera con sus seis escalones; no aplica el colapso a dos que esa
+  enmienda preveía. `alto`/`medio`/`bajo` se mapean a `high`/`medium`/`low`.
+- **El límite de workspace lo hace cumplir el harness.** Una llamada de shell fuera
+  del cwd fue bloqueada por Claude Code, no por el gate. Es lo contrario de la
+  pasada 1, donde `allowNonWorkspaceAccess: false` no se aplicaba y el límite hubo
+  que meterlo en el hook (incidente 2). No exime al gate: el régimen sigue siendo
+  el mismo en los dos brazos y sigue registrando cada decisión.
 
 **Fase 1 — calibración de banda.** Hasta 3 reps piloto por escalón, descartados
 del conteo, recorriendo la escalera hasta sellar el primero que caiga en banda.
