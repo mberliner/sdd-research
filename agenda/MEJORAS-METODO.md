@@ -39,6 +39,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-19 | Cablear el backstop al commit, fail-closed y versionado | alta | **Hecha** (2026-08-15) | pendiente de M-01; `BACKLOG-INVESTIGACION.md` alta #4 | `../tools/githooks/pre-commit` + check `gate` |
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
+| M-22 | Verificar en tiempo de corrida el entorno que el sello declara | alta | Propuesta (2026-08-19) | desviación observada en T2 de la pasada 1b de A-04 | scripts de preparación de rep de experimentos futuros |
 
 ---
 
@@ -223,3 +224,20 @@ El check es fiel al texto: el Principio VI nombra literalmente «registro de spe
 **Recomendación: no ajustar el check todavía.** Aflojar un verificador recién entregado para que la tarea siguiente sea más cómoda, sin un dato que lo justifique, es exactamente la clase de deriva que el proyecto existe para no cometer. Si en tres o cuatro entregas el falso positivo se repite, ahí hay caso — y la distinción a implementar sería entre cambiar las **reglas** del registro (método) y agregar **entradas** al registro (contenido), que no es trivial de decidir por diff.
 
 Costo actual: una entrada de historial de más por alta de spec. Barato. Se acepta la fricción y se cuenta.
+
+## M-22 — Verificar en tiempo de corrida el entorno que el sello declara
+
+Un runbook de experimento sella el entorno en un artefacto —en A-04, `ENTORNO-1B.md` fija «Claude Code 2.1.233»— y después nada lo mira. El sello es una **declaración**, no un verificador: se escribe una vez, antes de la primera tanda, y ningún paso posterior comprueba que la corrida siguiente siga ocurriendo bajo eso.
+
+Origen: la pasada 1b de A-04. T1 corrió el 2026-08-16 bajo 2.1.233, como el sello declara. T2 corrió el 2026-08-19 bajo 2.1.234 en sus reps 01-06 y bajo **2.1.235** en los reps 07-10: la CLI se auto-actualizó entre tandas y otra vez a mitad de tanda. Ningún rep de T2 corrió bajo el entorno sellado, y la desviación se descubrió recién al preparar la Fase 4 —tres días después— porque el barajado obligó a mirar los campos del transcript que delatan la tanda. Detalle en `../../experimentosdd-a4/T2-1B.md`.
+
+Lo que hace al caso instructivo es la asimetría con lo que **sí** estaba verificado. El script de preparación de cada rep comprueba hashes del fixture, ausencia de configuración de asistente en el workspace y auditoría de ancestros, y aborta ante cualquiera de las tres. La versión del harness era igual de sellada y no tenía check, así que el único componente del sello que podía cambiar solo —porque se actualiza sin intervención— era justo el que nadie miraba.
+
+Forma de la mejora: el script de preparación lee la versión efectiva del harness y aborta si no coincide con la que el entorno sellado declara. Tres líneas, en el mismo lugar donde ya vive el chequeo de hashes del fixture. Habría abortado T2 en el rep 01, con la pasada todavía dentro de la ventana de 12-72 h y con 2.1.233 aún instalable.
+
+Dos reservas antes de darla por diseñada:
+
+1. **Qué componentes del entorno entran.** La versión del harness es la que se movió acá, pero el mismo argumento aplica a cualquier cosa que el entorno declare y pueda cambiar sin intervención. Enumerar de más convierte el check en fuente de falsos bloqueos; enumerar de menos lo deja donde está hoy. El criterio candidato es «lo que el artefacto de entorno declara explícitamente», que tiene la virtud de no necesitar una lista aparte.
+2. **Qué hacer cuando el check dispara.** Abortar el rep es lo correcto para un rep suelto; para una tanda a mitad de camino la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script. El check debe **detener y explicitar**, no elegir.
+
+Contraparte de investigación: es un caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
