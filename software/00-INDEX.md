@@ -17,9 +17,9 @@ Como aplicar SDD para convertir especificaciones en software confiable, verifica
 - [ANALISIS-SUPERPOWERS.md](./ANALISIS-SUPERPOWERS.md) — análisis de Superpowers. Fuente vendored en [../fuentes-externas/superpowers/](../fuentes-externas/superpowers/).
 - [ANALISIS-OPENSPEC.md](./ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente vendored en [../fuentes-externas/OpenSpec/](../fuentes-externas/OpenSpec/).
 - [ANALISIS-SDD-FIRST.md](./ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente vendored en [../fuentes-externas/sdd-first/](../fuentes-externas/sdd-first/).
-- [CONVERGENCIA-IMPLEMENTACIONES-SDD.md](./CONVERGENCIA-IMPLEMENTACIONES-SDD.md) — SSOT de convergencia entre implementaciones de SDD, leído sobre los tres análisis de arriba y el testigo.
-- [COMPARATIVA-SPECKIT-VS-TESTIGO.md](./COMPARATIVA-SPECKIT-VS-TESTIGO.md) — comparación Spec Kit vs. proyecto testigo. Deriva de ANALISIS-SPEC-KIT.md.
-- [DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md](./DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md) — decisión adoptar vs. portar Spec Kit. Deriva de COMPARATIVA-SPECKIT-VS-TESTIGO.md.
+- [CONVERGENCIA-IMPLEMENTACIONES-SDD.md](./CONVERGENCIA-IMPLEMENTACIONES-SDD.md) — convergencia entre implementaciones de SDD, leído sobre los tres análisis de arriba y el testigo.
+- [COMPARATIVA-SPECKIT-VS-TESTIGO.md](./COMPARATIVA-SPECKIT-VS-TESTIGO.md) — comparación Spec Kit vs. proyecto testigo.
+- [DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md](./DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md) — decisión adoptar vs. portar Spec Kit.
 - [RELACION-SPEC-VS-EPICA.md](./RELACION-SPEC-VS-EPICA.md) — spec vs. épica/historia de usuario.
 - [RELACION-FR-VS-SC-Y-COBERTURA.md](./RELACION-FR-VS-SC-Y-COBERTURA.md) — relación FR vs. SC y cobertura.
 

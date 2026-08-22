@@ -40,6 +40,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-22 | Verificar en tiempo de corrida el entorno que el sello declara | alta | Propuesta (2026-08-19) | desviación observada en T2 de la pasada 1b de A-04 | scripts de preparación de rep de experimentos futuros |
+| M-23 | Extender `check_excluded_fields_in_tables` a listas, no solo tablas | baja | Propuesta (2026-08-22) | auditoría de índices de línea | `../tools/check_docs.py` |
 
 ---
 
@@ -241,3 +242,11 @@ Dos reservas antes de darla por diseñada:
 2. **Qué hacer cuando el check dispara.** Abortar el rep es lo correcto para un rep suelto; para una tanda a mitad de camino la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script. El check debe **detener y explicitar**, no elegir.
 
 Contraparte de investigación: es un caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
+
+## M-23 — Extender `check_excluded_fields_in_tables` a listas
+
+El check (`M-09`) solo escanea líneas que empiezan con `|` — filas de tabla markdown. `../software/00-INDEX.md` reproducía el rol (`ssot_level`) de tres documentos en una lista con guiones (`- [link] — SSOT de...`, `- [link] — ... Deriva de X.`), forma que la spec de ese índice prohíbe igual que una tabla, pero que el check no reconoce por no ser tabla.
+
+Detectado el 2026-08-22 en una auditoría de los tres `00-INDEX.md` contra `../SPECS_REGISTRY.md`: cobertura de specs completa (0 archivo sin registrar, 0 spec sin archivo), pero esta anotación de rol en prosa pasó los checks existentes sin ruido — mismo patrón que motivó `M-09` (duplicación de SSOT no detectada por los checks de entonces). Corregido a mano en la misma auditoría.
+
+Forma de la mejora: generalizar el escaneo de `check_excluded_fields_in_tables` a cualquier línea de contenido (no solo `|...|`), buscando los valores válidos de `estado`/`ssot_level` como palabra completa cerca de un link, no solo dentro de celdas de tabla. Riesgo a evitar: falsos positivos con menciones legítimas de la palabra "SSOT" fuera de una anotación de rol (por ejemplo, en prosa explicativa).
