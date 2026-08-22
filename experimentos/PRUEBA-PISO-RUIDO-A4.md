@@ -1,6 +1,8 @@
 # Prueba de piso de ruido A-04 — runbook
 
-Protocolo de medición de la pasada 1 de A-04: el **cómo**. Hipótesis, métricas y
+Protocolo de medición de las pasadas 1 y 1b de A-04: el **cómo**. La 1b corre el
+mismo protocolo en otro harness y lo que le es propio vive en las enmiendas 2 y 3,
+fechadas y pre-dato. Hipótesis, métricas y
 criterio de éxito viven en `EXPERIMENTO-A4-protocolo-conducta.md`, su SSOT — acá
 se referencian, no se copian. Los resultados viven en
 `RESULTADO-EXPERIMENTO-A4.md`. Los datos, logs y salidas de corrida viven en el

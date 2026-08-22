@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## A-04 pasada 1b — ampliacion de alcance del runbook al segundo harness (2026-08-22) — COMPLETADA
+
+**Accion**: ampliacion del alcance de una spec registrada y de su fila SSOT en `SPECS_REGISTRY.md`, mas la propagacion documental del cierre de la pasada 1b a cinco documentos.
+
+### Que se encontro
+La spec de `experimentos/PRUEBA-PISO-RUIDO-A4.md` y su fila en la tabla SSOT lo declaraban «runbook de la **pasada 1**». Desde la enmienda 2 (2026-08-16) ese mismo runbook gobierna tambien la pasada 1b, que corrio entera bajo el: escalera propia, lectura admisible entre harnesses y confundido harness/familia-de-modelo viven en sus enmiendas 2 y 3. El registro quedo atras del documento que gobierna — la clase de deriva que el registro existe para no tener.
+
+### Que cambio
+- `SPECS_REGISTRY.md`: `proposito` de la spec de `PRUEBA-PISO-RUIDO-A4.md` y su fila de la tabla SSOT pasan a declarar las **pasadas 1 y 1b**, con la aclaracion de que lo propio de la 1b vive en las enmiendas.
+- `experimentos/PRUEBA-PISO-RUIDO-A4.md`: encabezado alineado con el alcance real.
+- `experimentos/RESULTADO-EXPERIMENTO-A4.md`: reestructurado para alojar las dos pasadas bajo un titulo comun, sin tocar el contenido datado de la pasada 1 — sus secciones bajan un nivel y nada mas.
+
+### Como se valido
+`./tools/check_docs.py` en verde (0 ERROR; el unico WARN es el de emoticones de `PREREG-B7.md`, que es M-08 y esta vivo a proposito). El gate de commit fue el que **encontro** esta entrada: bloqueo el primer intento del cierre por `metodo-historial`, contra un `[SDD-Check]` que habia clasificado el cambio de registro como no-metodo. Es el segundo caso registrado de un verificador corrigiendo un juicio del asistente sobre su propio cambio.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Lo que se asienta aca es el cambio de **alcance declarado** de una spec — Principio VI. El **hallazgo** de la pasada 1b —techo replicado, veredicto NO APTO por banda— vive en `experimentos/RESULTADO-EXPERIMENTO-A4.md` y no toca el metodo: la 1b no evalua `H1` y no habilita ninguna afirmacion sobre si el protocolo funciona.
+
+### Deuda abierta
+Tres items nuevos migrados desde el cierre: `agenda/BACKLOG-INVESTIGACION.md` #16 (la calibracion no tiene resolucion para la compuerta que decide), mas el `d` comprometido por deriva de version y la reserva de aislamiento de la 1b, que quedan declarados en la deuda del resultado. La contraparte de metodo del primero ya estaba dada de alta como M-22, sin implementar.
+
+---
+
 ## A-04 pasada 1 — alta del experimento y del runbook (2026-08-15) — COMPLETADA
 
 **Accion**: alta de dos documentos en `experimentos/`, dos specs y dos filas SSOT en `SPECS_REGISTRY.md`, seccion nueva en `docs-y-investigacion/PLAN-PRUEBAS.md`, tres items del backlog marcados en ejecucion, cinco items de deuda migrados al backlog, y M-21 propuesta.

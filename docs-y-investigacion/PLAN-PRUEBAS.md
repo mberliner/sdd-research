@@ -39,10 +39,15 @@ Alcance de la pasada 1 (ejecutada 2026-08-15): **sólo el piso de ruido del
 instrumento**. El brazo tratamiento no se corre. Es lo que exige el backlog alta
 #7 desde B-07: correr el brazo control dos veces antes de reportar ninguna brecha.
 
-Alcance de la pasada 1b (habilitada 2026-08-16): el **mismo** instrumento en un
-segundo harness, con el mismo alcance de piso de ruido. La habilita la enmienda 3
-del diseño, que invirtió su condición de disparo tras el cierre NO APTO por techo
-de la pasada 1. Tampoco corre el brazo tratamiento.
+Alcance de la pasada 1b (habilitada 2026-08-16, ejecutada y cerrada 2026-08-22):
+el **mismo** instrumento en un segundo harness, con el mismo alcance de piso de
+ruido. La habilita la enmienda 3 del diseño, que invirtió su condición de disparo
+tras el cierre NO APTO por techo de la pasada 1. Tampoco corrió el brazo
+tratamiento. Cerró **NO APTO por banda, rota por arriba** (`k1 = 10`, `k2 = 9`
+sobre 10): el techo replicó. Las dos compuertas quedan una al lado de la otra —en
+ninguno de los dos harnesses hubo un escalón que cayera en banda a resolución de
+tanda—, que es la única lectura que la regla sellada admite. `H1` sigue sin
+evaluar.
 
 Deslinde con A-02: A-02 mide variabilidad **entre asistentes** del `[SDD-Check]`,
 que son su objeto de estudio; en A-04 el asistente es el instrumento y sus tandas

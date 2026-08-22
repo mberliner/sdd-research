@@ -60,6 +60,15 @@ tandas que restar. Hoy la banda «no concluyente» sólo tiene el piso fijo de 1
 reps. El `d` real lo tiene que producir una pasada 1 que cierre APTO, y sin ese
 número la pasada 2 no puede correr — es el mismo `MUST NOT` de `H0` de arriba.
 
+> **Actualización 2026-08-22, tras la pasada 1b.** La 1b sí produjo dos tandas y
+> por lo tanto un número: `d = 1`. **No sirve para esto.** Por dos razones
+> independientes, las dos declaradas en `RESULTADO-EXPERIMENTO-A4.md`: la 1b cerró
+> NO APTO por banda, y un `d` cerca de 0 en el borde superior es justo lo que
+> «Metricas» prohíbe leer como aptitud; y el estimador quedó confundido con un
+> cambio de versión del harness entre tandas, así que ya no mide lo que fue
+> definido para medir. La frase de arriba sigue vigente sin cambios: hace falta una
+> pasada que cierre APTO, y todavía no la hay.
+
 ### Enmienda 2 (pre-dato, 2026-08-16)
 
 Reescribe el enunciado de `H1` y agrega el criterio de confirmación de arriba, que
@@ -115,6 +124,10 @@ por techo, lo que se gana es un techo replicado en dos harnesses y dos familias 
 modelo —que descarta a la vez «es este harness» y «es este modelo»—, y `H1` sigue
 tan sin medir como hoy. El procedimiento de corrida, la escalera de modelo y la
 lectura admisible del resultado viven en `PRUEBA-PISO-RUIDO-A4.md`, enmienda 2.
+
+> **Es lo que pasó** (cierre 2026-08-22): la 1b salió NO APTO por techo, se cobró
+> el costo declarado acá y se ganó exactamente lo que este párrafo anticipaba, ni
+> más. Veredicto y lectura en `RESULTADO-EXPERIMENTO-A4.md` §Pasada 1b.
 
 ## Diseno
 

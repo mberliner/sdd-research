@@ -86,7 +86,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Necesidades, métricas y riesgos línea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental línea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `experimentos/` de línea A al cerrar |
 | Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
-| Docs/Investigacion | Protocolo de medición del piso de ruido de A-04 (el «como») | `experimentos/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
+| Docs/Investigacion | Protocolo de medición del piso de ruido de A-04, pasadas 1 y 1b (el «como») | `experimentos/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
 | Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
 | Software | Analisis de la metodologia GitHub Spec Kit | `software/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
 | Software | Agenda línea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea B |
@@ -704,7 +704,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### experimentos/PRUEBA-PISO-RUIDO-A4.md
 - `path`: `experimentos/PRUEBA-PISO-RUIDO-A4.md`
-- `proposito`: runbook de la **pasada 1** de A-04 — protocolo paso a paso para medir el piso de ruido del instrumento bajo el brazo control, antes de evaluar ninguna brecha. Es SSOT del **como**, no del que.
+- `proposito`: runbook de las **pasadas 1 y 1b** de A-04 — protocolo paso a paso para medir el piso de ruido del instrumento bajo el brazo control, antes de evaluar ninguna brecha. Es SSOT del **como**, no del que. La 1b es el mismo protocolo en un segundo harness: lo que le es propio vive en las enmiendas 2 y 3.
 - `ssot_level`: `derivado`
 - `deriva_de`: `experimentos/EXPERIMENTO-A4-protocolo-conducta.md`
 - `owner`: proyecto SDD
