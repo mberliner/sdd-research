@@ -59,7 +59,7 @@ MUST — toda entrega cierra con este bloque:
 ```
 
 - `Cobertura` espeja el *coverage mapping* de `/speckit.analyze` [R10]: declara si todo requisito o afirmación del cambio queda respaldado por un derivado/tarea, o lista los huecos. Convención adoptada de GitHub Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`, C1).
-- `Deuda arrastrada` lista lo diferido; MUST re-explicitarse en entregas siguientes hasta resolverse (anti-cascada). Derivado del experimento B-06 (`experimentos/RESULTADO-EXPERIMENTO-B6.md`).
+- `Deuda arrastrada` lista lo diferido; MUST re-explicitarse en entregas siguientes hasta resolverse (anti-cascada). Derivado del experimento B-06 (`experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`).
 
 ## Al cerrar una iteración
 

@@ -56,7 +56,7 @@ Código operativo corto (se usa en el cuerpo) + nombre descriptivo formal.
 ### Salidas
 - `OUT-<RUN>` — código regenerado por cada run.
 - `SCORE-<RUN>` — planilla R1-R4 por run.
-- `RESULTADO-EXPERIMENTO-B7.md` — consolidación final (usa `../templates/RESULTADO-EXPERIMENTO.md`).
+- `RESULTADO-EXPERIMENTO-B7.md` — consolidación final (usa `../../templates/RESULTADO-EXPERIMENTO.md`).
 
 ### Ambientes (ubicaciones físicas)
 - `ENV-REF` (**X**) — proyecto completo, **read-only**. Fuente de specs auténticas, fronteras y tests.
@@ -294,8 +294,8 @@ MUST — correr **después** de registrar R1 (§3.2), para no contaminarlo. Por 
   - **Efecto en R5:** los ítems 1 y 4 de `PREREG §5.1` cambian de significado — el 1 pasa a medir declaración **voluntaria** (no navegación del gate) y el 4 queda **degenerado** (retirado, §3.6-bis).
   - **Alcance acotado:** la condición es **idéntica en las 4 celdas** (ningún ws tiene `.venv`) → el **contraste intra-feature** (efecto-formato, señal primaria) **no se invalida**. Interactúa con la reserva de asimetría `.sdd/current-spec` ya registrada (en F001 el placeholder existe y es trackeado → hay *affordance* para declarar; en F013 está ausente y gitignored → sin affordance **y** sin gate que obligue), que pesa solo en el cruce F001↔F013.
   - **MUST — no se corrige retroactivamente:** montar `.venv` y re-correr rompería el `OUT` one-shot que fijó R1. Se declara como reserva y se considera **condición del experimento**, no defecto de una celda.
-  - **Hallazgo transferible (no de B-07):** un gate de gobernanza que depende de un intérprete opcional y **sale 0** al no encontrarlo es un **agujero de enforcement silencioso** — falla abierto justo en el entorno menos preparado. Registrado en `../agenda/BACKLOG-INVESTIGACION.md`.
-- **4.5** Consolidar en `RESULTADO-EXPERIMENTO-B7.md` usando `../templates/RESULTADO-EXPERIMENTO.md`.
+  - **Hallazgo transferible (no de B-07):** un gate de gobernanza que depende de un intérprete opcional y **sale 0** al no encontrarlo es un **agujero de enforcement silencioso** — falla abierto justo en el entorno menos preparado. Registrado en `../../agenda/BACKLOG-INVESTIGACION.md`.
+- **4.5** Consolidar en `RESULTADO-EXPERIMENTO-B7.md` usando `../../templates/RESULTADO-EXPERIMENTO.md`.
 
 ---
 
@@ -324,8 +324,8 @@ Diferencia residual: ambos cortes son **sustracción por `Reconstructor`**; difi
 - Experimento y métricas (SSOT): `EXPERIMENTO-B7-formato-hibrido.md`.
 - **Inputs congelados (constantes, PROMPT de regeneración, fronteras, R2/R4, tests): `PREREG-B7.md`** — lo que la Fase 0.7 sella en `b7/prereg-vN`.
 - Estrategia de medición y frontera in-spec: ídem, §"Estrategia de medición de la regenerabilidad".
-- Base metodológica externa: tarea aislada + configuración fija [R33]; frontera de contexto y DIR/reimplementación (base de R4) [R34]; Power Inversion / regenerabilidad como test de gobernanza [R35]; taxonomía spec-first/anchored/as-source [R30] (`../REFERENCIAS.md`).
-- Template de cierre: `../templates/RESULTADO-EXPERIMENTO.md`.
+- Base metodológica externa: tarea aislada + configuración fija [R33]; frontera de contexto y DIR/reimplementación (base de R4) [R34]; Power Inversion / regenerabilidad como test de gobernanza [R35]; taxonomía spec-first/anchored/as-source [R30] (`../../REFERENCIAS.md`).
+- Template de cierre: `../../templates/RESULTADO-EXPERIMENTO.md`.
 
 ---
 

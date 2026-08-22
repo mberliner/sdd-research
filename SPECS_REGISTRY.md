@@ -28,6 +28,7 @@ División de trabajo: `CONSTITUTION.md` declara **qué nunca cede** (invariante;
   - El encabezado de un documento MAY llevar **una** línea de identidad para quien lo abre suelto; MUST NOT enumerar `incluye`/`excluye` ni criterios de validación.
   - Motivo: el 2026-07-31 se midió la divergencia real — 11 filas de `00-INDEX.md` repetían el `proposito` del registro y 5 ya habían derivado (perdiendo, entre otras cosas, la procedencia de `historial/ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
   - Migración: los encabezados de documentos preexistentes SHOULD limpiarse de forma oportunista al tocarlos, no en una reescritura masiva.
+- **Un experimento, una carpeta (desde 2026-08-22).** Todo documento de `experimentos/` MUST vivir en una subcarpeta por experimento, nombrada `<id en minúscula sin guión><guión><nombre corto>` — `a04-conducta-agente`, `b06-circuito-testigo`, `b07-formato-hibrido`. El nombre corto sale del título del documento de diseño, no se inventa. Un experimento nuevo abre su carpeta desde su primer documento. Motivo: `experimentos/` mezclaba diez archivos de tres experimentos en un solo plano y la pertenencia sólo se leía del sufijo del nombre. La carpeta **no** cambia qué necesita spec: la exención de §Docs excluidos sigue atada al prefijo del nombre de archivo (`EXPERIMENTO-*`, `RESULTADO-EXPERIMENTO-*`), así que un documento autorado no queda exento por estar dentro de una carpeta de experimento.
 - Ortografía: el contenido en español MUST usar ortografía correcta con tildes y signos (acentos, "ñ", apertura de interrogación/exclamación). Aplica a documentos nuevos y a todo documento que se edite. Excepciones: identificadores técnicos, rutas, nombres de archivo y claves de los bloques normativos (ej. campos del `[SDD-Check]` y nombres de campo de spec como `validacion`, `proposito`) MUST conservarse sin tildes por estabilidad grep-able. Los documentos preexistentes sin tildes SHOULD migrarse de forma oportunista al tocarlos, no en una reescritura masiva.
 
 ## Campo ssot_level
@@ -35,7 +36,7 @@ División de trabajo: `CONSTITUTION.md` declara **qué nunca cede** (invariante;
 - `derivado`: sintetiza un origen verificable. MUST incluir campo `deriva_de` apuntando a ese origen.
 - `operativo`: guía, índice o plantilla.
 
-Campo `deriva_de`: en specs con `ssot_level: derivado`, indica el archivo de origen. Habilita trazabilidad de propagación. El origen MUST tener spec registrada en este documento con `ssot_level: SSOT` o `ssot_level: derivado` — nunca `operativo` ni un documento sin entrada. Se permite derivado-de-derivado (cadena de más de un salto) cuando cada eslabón sintetiza una faceta distinta de su origen y lo declara explícitamente en `proposito` (p. ej. que/como/valores); no se permite para evitar clasificar un documento como su verdadero rol. Ejemplo vigente: `experimentos/EXPERIMENTO-B7-formato-hibrido.md` (que) -> `experimentos/PRUEBA-REGENERABILIDAD-B7.md` (como) -> `experimentos/PREREG-B7.md` (valores). Motivo del cambio: relevamiento de M-13 (`agenda/MEJORAS-METODO.md`), que encontró cadenas legitimas de más de un salto ya en uso y ningún caso de más de dos.
+Campo `deriva_de`: en specs con `ssot_level: derivado`, indica el archivo de origen. Habilita trazabilidad de propagación. El origen MUST tener spec registrada en este documento con `ssot_level: SSOT` o `ssot_level: derivado` — nunca `operativo` ni un documento sin entrada. Se permite derivado-de-derivado (cadena de más de un salto) cuando cada eslabón sintetiza una faceta distinta de su origen y lo declara explícitamente en `proposito` (p. ej. que/como/valores); no se permite para evitar clasificar un documento como su verdadero rol. Ejemplo vigente: `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` (que) -> `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md` (como) -> `experimentos/b07-formato-hibrido/PREREG-B7.md` (valores). Motivo del cambio: relevamiento de M-13 (`agenda/MEJORAS-METODO.md`), que encontró cadenas legitimas de más de un salto ya en uso y ningún caso de más de dos.
 
 Regla de propagación:
 - Si cambia un SSOT, sus derivados MUST revisarse y el resultado SHOULD registrarse en la entrega.
@@ -65,7 +66,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - Notas de sesion sin estructura formal
 - Contenido en `experimentos/` **generado desde templates** (los templates si tienen spec): diseños de experimento (`EXPERIMENTO-*.md`) y resultados (`RESULTADO-EXPERIMENTO-*.md`). La exención es de **spec propia**, no de **propagación**: cerrar un experimento MUST disparar la revisión de la sección «Regla de propagación».
   - **Los runbooks de método NO están exentos (aclarado 2026-07-30).** Un runbook (`PRUEBA-*.md`) vive en `experimentos/` pero **no deriva de ningún template**: es un documento autorado de protocolo de medición, con definición operacional, roles y fases. Al no ser generado desde template, la exención de arriba no lo alcanza y MUST tener spec registrada. Hueco detectado el 2026-07-30: los dos runbooks de B-07 estaban sin spec y se venian modificando, contra la regla global «todo cambio documental MUST mapearse a una spec registrada». Criterio para clasificar un `.md` de `experimentos/`: ¿su estructura la fija un template del proyecto? Exento. ¿La fija su autor? Necesita spec.
-  - **Excepcion dentro de la excepción (aclarado 2026-08-03, M-13): un `EXPERIMENTO-*.md` citado como `deriva_de` por otro documento MUST tener entrada minima** (`path`, `proposito`, `ssot_level: SSOT`, `owner`, `validacion`) en este registro, aunque conserve la exención de `incluye`/`excluye` detallados. Motivo: `deriva_de` MUST apuntar a un origen con `ssot_level` verificable (ver §Campo ssot_level); un documento sin entrada no lo tiene, aunque el resto del repositorio lo trate en prosa como SSOT. La exención de spec **detallada** para plantillas de experimento se mantiene; lo que deja de existir es la exención de **entrada** cuando ese documento funciona como origen de otro.
+  - **Excepcion dentro de la excepción (aclarado 2026-08-03, M-13; extendida a `RESULTADO-EXPERIMENTO-*.md` el 2026-08-22): un documento exento citado como `deriva_de` por otro documento MUST tener entrada minima** (`path`, `proposito`, `ssot_level: SSOT`, `owner`, `validacion`) en este registro, aunque conserve la exención de `incluye`/`excluye` detallados. Motivo: `deriva_de` MUST apuntar a un origen con `ssot_level` verificable (ver §Campo ssot_level); un documento sin entrada no lo tiene, aunque el resto del repositorio lo trate en prosa como SSOT. La exención de spec **detallada** para plantillas de experimento se mantiene; lo que deja de existir es la exención de **entrada** cuando ese documento funciona como origen de otro.
 - Codigo de verificacion en `tools/`: no es pieza documental autorada (Principio IV habla de documentos). Su contrato de uso se declara en `AGENTS.md` §Al cerrar una iteracion; lo que verifica y lo que MUST NOT pretender verificar vive en su docstring.
 - Repositorios externos clonados (vendored) en `fuentes-externas/` — material fuente de referencia, no autorado por el proyecto. La versión analizada se ancla en `REFERENCIAS.md`; el análisis propio si tiene spec (ver `software/ANALISIS-SPEC-KIT.md`).
 
@@ -85,15 +86,15 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Agenda línea A | `docs-y-investigacion/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea A |
 | Docs/Investigacion | Necesidades, métricas y riesgos línea A | `docs-y-investigacion/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea A, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Docs/Investigacion | Plan experimental línea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `experimentos/` de línea A al cerrar |
-| Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
-| Docs/Investigacion | Protocolo de medición del piso de ruido de A-04, pasadas 1 y 1b (el «como») | `experimentos/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
+| Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
+| Docs/Investigacion | Protocolo de medición del piso de ruido de A-04, pasadas 1 y 1b (el «como») | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
 | Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
 | Software | Analisis de la metodologia GitHub Spec Kit | `software/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
 | Software | Agenda línea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea B |
 | Software | Necesidades, métricas y riesgos línea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea B, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Software | Plan experimental línea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (diseños y resultados B-06/B-07) |
-| Software | Hipotesis, métricas y criterio de éxito de B-07 (el «que») | `experimentos/EXPERIMENTO-B7-formato-hibrido.md` | `experimentos/PRUEBA-REGENERABILIDAD-B7.md`, `experimentos/PRUEBA-OBSERVACIONAL-B7.md` |
-| Software | Protocolo de medición de B-07 (el «como») | `experimentos/PRUEBA-REGENERABILIDAD-B7.md` (métrica primaria) y `experimentos/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
+| Software | Hipotesis, métricas y criterio de éxito de B-07 (el «que») | `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` | `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`, `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md` |
+| Software | Protocolo de medición de B-07 (el «como») | `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md` (métrica primaria) y `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
 
 ## Specs registradas (MVP)
 
@@ -329,7 +330,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `ssot_level`: `operativo`
 - `validacion`:
   - [ ] campos minimos para ejecutar y cerrar experimentos
-  - [ ] `EXPERIMENTO.md` incluye la sección «Definicion operacional» (obligatoria desde 2026-07-28, ver `experimentos/RESULTADO-EXPERIMENTO-B7.md` Hallazgo 7)
+  - [ ] `EXPERIMENTO.md` incluye la sección «Definicion operacional» (obligatoria desde 2026-07-28, ver `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` Hallazgo 7)
   - [ ] el criterio de éxito se enuncia solo contra métricas que la propia prueba produce, con comprobacion de satisfacibilidad
   - [ ] `RESULTADO-EXPERIMENTO.md` incluye la sección «Propagacion» con el grep de deuda declarada y la tabla de triaje (obligatoria desde 2026-07-29)
   - [ ] `EXPERIMENTO.md` incluye «Documentos que esperan este resultado»; su contraparte en el cierre es «Propagacion»
@@ -601,7 +602,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - síntesis de la relación entre ambos y su conexion con B-06/B-07
 - `excluye`:
   - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`, SSOT del que deriva)
-  - resultados del experimento B-07 — cerrado 2026-07-28, viven en `experimentos/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
+  - resultados del experimento B-07 — cerrado 2026-07-28, viven en `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
   - duplicacion del catalogo de frameworks (referencia `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, no copia)
 - `validacion`:
   - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
@@ -624,7 +625,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - re-comparación descriptiva de 5 dimensiones (vive en `COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
   - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`)
-  - resultados de B-07 — cerrado 2026-07-28, viven en `experimentos/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
+  - resultados de B-07 — cerrado 2026-07-28, viven en `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
 - `validacion`:
   - [ ] no duplica las 5 dimensiones de COMPARATIVA — referencia
   - [ ] versión de Spec Kit anclada en [R10]
@@ -693,8 +694,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no contradice `AGENTS.md` ni `SPECS_REGISTRY.md`
   - [ ] no duplica SSOT — referencia
 
-### experimentos/EXPERIMENTO-A4-protocolo-conducta.md
-- `path`: `experimentos/EXPERIMENTO-A4-protocolo-conducta.md`
+### experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md
+- `path`: `experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md`
 - `proposito`: SSOT del **que** de A-04 — hipotesis, metricas, diseño y criterio de exito del experimento sobre si el protocolo del asistente cambia la conducta del agente.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
@@ -702,11 +703,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] entrada minima por excepción de §Docs excluidos (M-13): generado desde `templates/EXPERIMENTO.md`, exento de `incluye`/`excluye` detallados; esta entrada existe solo para servir de origen verificable a `deriva_de`
   - [ ] cambios de hipótesis, métricas o criterio de éxito disparan revision de su derivado (`PRUEBA-PISO-RUIDO-A4.md`)
 
-### experimentos/PRUEBA-PISO-RUIDO-A4.md
-- `path`: `experimentos/PRUEBA-PISO-RUIDO-A4.md`
+### experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md
+- `path`: `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`
 - `proposito`: runbook de las **pasadas 1 y 1b** de A-04 — protocolo paso a paso para medir el piso de ruido del instrumento bajo el brazo control, antes de evaluar ninguna brecha. Es SSOT del **como**, no del que. La 1b es el mismo protocolo en un segundo harness: lo que le es propio vive en las enmiendas 2 y 3.
 - `ssot_level`: `derivado`
-- `deriva_de`: `experimentos/EXPERIMENTO-A4-protocolo-conducta.md`
+- `deriva_de`: `experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md`
 - `owner`: proyecto SDD
 - `incluye`:
   - glosario, eleccion de instrumento y regla de lectura entre harnesses
@@ -727,8 +728,39 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no redefine hipótesis ni criterio — referencia a su SSOT
   - [ ] el techo de conclusión declarado —la pasada mide el instrumento, no el objeto— no se excede
 
-### experimentos/EXPERIMENTO-B7-formato-hibrido.md
-- `path`: `experimentos/EXPERIMENTO-B7-formato-hibrido.md`
+### experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md
+- `path`: `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`
+- `proposito`: resultados y veredictos de A-04 — pasada 1 (`agy`) y pasada 1b (Claude Code), cada una con su criterio evaluado, su propagacion y su deuda.
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `validacion`:
+  - [ ] entrada minima por excepción de §Docs excluidos (M-13, extendida a resultados el 2026-08-22): generado desde `templates/RESULTADO-EXPERIMENTO.md`, exento de `incluye`/`excluye` detallados; esta entrada existe solo para servir de origen verificable a `deriva_de`
+  - [ ] cambios en cifras, veredictos o reservas disparan revision de su derivado (`RESUMEN-EJECUTIVO.md`)
+
+### experimentos/a04-conducta-agente/RESUMEN-EJECUTIVO.md
+- `path`: `experimentos/a04-conducta-agente/RESUMEN-EJECUTIVO.md`
+- `proposito`: reencuadre del cierre de A-04 para un publico que no trabaja en el proyecto — objetivo, las dos preguntas, alcance, resultado y caminos abiertos, sin terminologia de instrumento. No resume el resultado: lo cuenta de otro modo, con analogias y un orden propios, para un lector con otra pregunta.
+- `ssot_level`: `derivado`
+- `deriva_de`: `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`
+- `owner`: proyecto SDD
+- `incluye`:
+  - la escena del fixture contada como situacion, con las dos cifras enfrentadas
+  - las dos rondas con sus conteos y el veredicto en lenguaje llano
+  - la explicacion del techo y el caso que fallo, con su cita
+  - lo que se gano igual y los tres caminos, con cual esta cerrado y por que
+- `excluye`:
+  - toda **afirmacion** nueva: cifra, veredicto, reserva o consecuencia que no este en su SSOT. Si contradice al resultado, manda el resultado
+  - el detalle de instrumento, corrida y evidencia (viven en el SSOT y en el repo de datos `experimentosdd-a4/`)
+  - **No excluye las explicaciones propias.** La analogia, el orden del relato y la eleccion de que contar son aporte de este documento y son su razon de existir. La linea esta entre afirmar algo nuevo —prohibido— y explicar de otro modo lo ya afirmado —que es el encargo—.
+- `validacion`:
+  - [ ] ninguna afirmacion ausente de `RESULTADO-EXPERIMENTO-A4.md`; las explicaciones propias no cuentan como afirmacion
+  - [ ] todo cambio de cifra, veredicto o reserva en el resultado dispara revision de este documento
+  - [ ] sin terminologia de instrumento: banda, VOID, tanda, escalon, rep, harness, fixture, piso de ruido
+  - [ ] declara explicitamente que A-04 no evaluo si el manual funciona
+  - [ ] MUST NOT citarse como fuente en ningun otro documento. **El motivo no es que duplique** —reencuadrar para otro publico es lo que `ssot_level: derivado` licencia, y casi ninguna frase es compartida— sino que **pierde precision a proposito**: nombra a los harnesses «asistente A» y «asistente B», omite las reservas y simplifica el veredicto. Citarlo propagaria esa perdida como si fuera el dato
+
+### experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md
+- `path`: `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`
 - `proposito`: SSOT del **que** de B-07 — hipotesis (H1-H4), metricas, diseño y criterio de exito del experimento de formato de spec hibrido vs. baseline casero.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
@@ -736,11 +768,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] entrada minima por excepción de §Docs excluidos (M-13): generado desde `templates/EXPERIMENTO.md`, exento de `incluye`/`excluye` detallados; esta entrada existe solo para servir de origen verificable a `deriva_de`
   - [ ] cambios de hipótesis, métricas o criterio de éxito disparan revision de sus derivados (`PRUEBA-REGENERABILIDAD-B7.md`, `PRUEBA-OBSERVACIONAL-B7.md`)
 
-### experimentos/PRUEBA-REGENERABILIDAD-B7.md
-- `path`: `experimentos/PRUEBA-REGENERABILIDAD-B7.md`
+### experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md
+- `path`: `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`
 - `proposito`: runbook de la **metrica primaria** de B-07 — protocolo paso a paso para medir la regenerabilidad en el diseño 2x2 por traduccion. Es SSOT del **como**, no del que.
 - `ssot_level`: `derivado`
-- `deriva_de`: `experimentos/EXPERIMENTO-B7-formato-hibrido.md`
+- `deriva_de`: `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`
 - `owner`: proyecto SDD
 - `incluye`:
   - definición operacional de `R1`-`R6` con sus variantes (estricta/refinada, granularidad de test/requisito)
@@ -759,11 +791,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] toda cifra citada del artefacto es verificable en el corte declarado, no en el texto vigente
   - [ ] el techo de conclusión declarado no se excede
 
-### experimentos/PREREG-B7.md
-- `path`: `experimentos/PREREG-B7.md`
+### experimentos/b07-formato-hibrido/PREREG-B7.md
+- `path`: `experimentos/b07-formato-hibrido/PREREG-B7.md`
 - `proposito`: pre-registro de B-07 — fija y congela los **valores** de entrada de la prueba de regenerabilidad (constantes, PROMPT, fronteras in-spec, mapeo de tests) que la Fase 0.7 sella como tag. Es SSOT de los inputs, no del que ni del como.
 - `ssot_level`: `derivado`
-- `deriva_de`: `experimentos/PRUEBA-REGENERABILIDAD-B7.md`
+- `deriva_de`: `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`
 - `estado`: `Activo`
 - `owner`: proyecto SDD
 - `incluye`:
@@ -782,11 +814,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no redefine hipótesis, métricas ni procedimiento — referencia a sus SSOT
   - [ ] alta de spec el 2026-07-31: documento sellado, la spec describe lo que ya existe y MUST NOT usarse para reescribirlo
 
-### experimentos/PRUEBA-OBSERVACIONAL-B7.md
-- `path`: `experimentos/PRUEBA-OBSERVACIONAL-B7.md`
+### experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md
+- `path`: `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md`
 - `proposito`: runbook del **corpus observacional** de B-07 — protocolo paso a paso para medir `H1` (cobertura) y `H3` (fronteras) sobre las 7 specs de los dos brazos. Es SSOT del **como**; hermano del runbook de la metrica primaria.
 - `ssot_level`: `derivado`
-- `deriva_de`: `experimentos/EXPERIMENTO-B7-formato-hibrido.md`
+- `deriva_de`: `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`
 - `owner`: proyecto SDD
 - `incluye`:
   - glosario de brazos, corte observacional y tiers de evidencia

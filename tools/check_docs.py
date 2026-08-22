@@ -96,9 +96,15 @@ REPO_DIRS = frozenset(
 
 # Exentos de spec propia por generarse desde un template del proyecto
 # (SPECS_REGISTRY.md, seccion "Docs excluidos del registro").
+#
+# El segmento intermedio es la carpeta por experimento (`a04-conducta-agente`,
+# `b07-formato-hibrido`, ...), obligatoria desde 2026-08-22. La exencion sigue
+# atada al prefijo del nombre de archivo, no a la carpeta: un documento autorado
+# que viva dentro de una carpeta de experimento —un runbook `PRUEBA-*`, un
+# resumen— no queda exento por estar ahi.
 EXEMPT_PATTERNS = (
-    re.compile(r"^experimentos/EXPERIMENTO-[^/]+\.md$"),
-    re.compile(r"^experimentos/RESULTADO-EXPERIMENTO-[^/]+\.md$"),
+    re.compile(r"^experimentos/[^/]+/EXPERIMENTO-[^/]+\.md$"),
+    re.compile(r"^experimentos/[^/]+/RESULTADO-EXPERIMENTO-[^/]+\.md$"),
 )
 
 VALID_SSOT_LEVEL = {"SSOT", "derivado", "operativo"}
@@ -642,7 +648,7 @@ def check_clarificacion(rep: Report, specs: dict, all_docs: list[str]) -> None:
 
     1. Un marcador sin `:` y sin pregunta propia no cuenta. Es como se cita el
        instrumento en prosa; un marcador vivo trae la duda escrita al lado.
-    2. Los documentos exentos de spec (`experimentos/EXPERIMENTO-*`,
+    2. Los documentos exentos de spec (`experimentos/<exp>/EXPERIMENTO-*`,
        `RESULTADO-EXPERIMENTO-*`) quedan fuera: no tienen `estado` que consultar,
        y la obligacion del protocolo esta enunciada contra ese campo. Es el hueco
        conocido de este check, y es donde los marcadores reales mas aparecen.

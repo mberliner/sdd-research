@@ -101,7 +101,7 @@ Hay coincidencias notables entre las dos columnas, pero **este documento no es e
 > pero ya no por falta de datos. El motivo medido es que la **direccion de `H1` depende de la convencion de
 > conteo** y que el **piso de ruido del instrumento es de 5 a 8 veces la brecha** buscada. Consecuencia
 > para C1: el *coverage mapping* se conserva por su valor de metodo y MUST NOT presentarse como practica
-> con superioridad de cobertura medida. Ver `../experimentos/RESULTADO-EXPERIMENTO-B7.md` §Resultado del
+> con superioridad de cobertura medida. Ver `../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` §Resultado del
 > criterio (b).
 
 Spec Kit independientemente disenó un comando de consistencia cruzada read-only cuyas pasadas de deteccion (duplicacion, ambiguedad, subespecificacion, conflicto con constitution, gaps de cobertura, inconsistencia) son casi un superconjunto de nuestros checks post-generacion. Esto sugiere que nuestro `[SDD-Check]` esta en el camino correcto, pero es mas debil en **coverage mapping** (mapear cada requisito a su tarea/derivado). Mejora candidata: anadir a `[SDD-Check]` una linea de cobertura "requisitos sin derivado/tarea asociada".

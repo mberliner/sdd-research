@@ -29,7 +29,7 @@ SHOULD — cada documento listado debe declarar la espera en su propio `Deuda ar
 
 ## Definicion operacional
 
-> Sección obligatoria. Origen: `experimentos/RESULTADO-EXPERIMENTO-B7.md`, Hallazgo 7 — B-07 fijó *qué* medir pero no *cómo*, y acumuló ocho enmiendas post-hoc al runbook. Toda decisión que quede acá sin responder se decidirá **después de ver los datos**, que es cuando ya no es neutral.
+> Sección obligatoria. Origen: `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`, Hallazgo 7 — B-07 fijó *qué* medir pero no *cómo*, y acumuló ocho enmiendas post-hoc al runbook. Toda decisión que quede acá sin responder se decidirá **después de ver los datos**, que es cuando ya no es neutral.
 
 Por cada métrica declarada arriba, MUST responderse antes de la primera corrida:
 

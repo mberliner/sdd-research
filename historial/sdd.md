@@ -4,23 +4,48 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Una carpeta por experimento, mas el alta del resumen no tecnico de A-04 (2026-08-22) — COMPLETADA
+
+**Accion**: reorganizacion de `experimentos/` en subcarpetas por experimento, regla nueva en `SPECS_REGISTRY.md`, dos patrones de `tools/check_docs.py` actualizados, extension de la excepcion M-13 a los resultados, y alta de un documento autorado con su spec aprobada.
+
+### Que se encontro
+`experimentos/` tenia diez archivos de tres experimentos distintos en un solo plano, y la pertenencia de cada uno solo se leia del sufijo de su nombre (`-A4`, `-B6`, `-B7`). Con A-04 cerrando su segunda pasada y sumando documentos, el plano dejaba de escalar.
+
+### Que cambio
+- **Estructura**: `experimentos/a04-conducta-agente/`, `experimentos/b06-circuito-testigo/`, `experimentos/b07-formato-hibrido/`. Los nombres de archivo se conservan; el nombre corto de cada carpeta sale del titulo de su documento de diseño y no se inventa. Movidos con `git mv`, asi que el historial de cada archivo se conserva.
+- **Regla**: §Reglas globales del registro fija la convencion —`<id en minuscula sin guion><guion><nombre corto>`— y aclara que la carpeta **no** cambia que necesita spec: la exencion sigue atada al prefijo del nombre de archivo.
+- **Verificador**: los dos patrones de exencion de `check_docs.py` admiten el segmento de carpeta intermedio, con el limite anotado en el codigo.
+- **Rutas**: 31 rutas de spec, 83 menciones en 18 archivos, y todos los enlaces relativos de los diez documentos movidos, que ganaron un nivel de profundidad.
+- **Alta**: `experimentos/a04-conducta-agente/RESUMEN-EJECUTIVO.md`, reencuadre del cierre de A-04 para un publico que no trabaja en el proyecto, con spec propuesta y **aprobada antes de escribirlo** (Principio IV). Entra como `derivado` de `RESULTADO-EXPERIMENTO-A4.md`, con la obligacion de resincronizar declarada en los dos extremos. Su spec separa explicitamente **afirmacion** nueva —prohibida— de **explicacion** nueva —analogias, orden del relato, que se elige contar—, que es lo que el documento aporta.
+
+### Como se valido
+`./tools/check_docs.py` en verde (0 ERROR; el unico WARN es el de emoticones de `PREREG-B7.md`, que es M-08 y esta vivo a proposito). El backstop fue quien encontro el hueco de diseño del alta: `deriva_de` MUST apuntar a un origen con spec registrada, y los resultados estan exentos por generarse desde template, asi que la referencia quedaba colgada. Es exactamente el caso que M-13 ya habia resuelto para los diseños; se extendio esa misma excepcion a los resultados y se dio de alta la entrada minima de `RESULTADO-EXPERIMENTO-A4.md`.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Se cambio donde viven los documentos, una regla del registro, un verificador y el alta de una spec. Nada de esto toca ningun dato ni ninguna conclusion de A-04, B-06 ni B-07 — los diez documentos movidos no cambiaron una sola afirmacion.
+
+### Deuda abierta
+Si aparecen mas documentos de divulgacion, conviene decidir si son una clase con su propia regla en el registro —que documentos admiten reencuadre para otro publico, y con que obligacion de resincronizar— en vez de una spec por caso.
+
+---
+
 ## A-04 pasada 1b — ampliacion de alcance del runbook al segundo harness (2026-08-22) — COMPLETADA
 
 **Accion**: ampliacion del alcance de una spec registrada y de su fila SSOT en `SPECS_REGISTRY.md`, mas la propagacion documental del cierre de la pasada 1b a cinco documentos.
 
 ### Que se encontro
-La spec de `experimentos/PRUEBA-PISO-RUIDO-A4.md` y su fila en la tabla SSOT lo declaraban «runbook de la **pasada 1**». Desde la enmienda 2 (2026-08-16) ese mismo runbook gobierna tambien la pasada 1b, que corrio entera bajo el: escalera propia, lectura admisible entre harnesses y confundido harness/familia-de-modelo viven en sus enmiendas 2 y 3. El registro quedo atras del documento que gobierna — la clase de deriva que el registro existe para no tener.
+La spec de `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` y su fila en la tabla SSOT lo declaraban «runbook de la **pasada 1**». Desde la enmienda 2 (2026-08-16) ese mismo runbook gobierna tambien la pasada 1b, que corrio entera bajo el: escalera propia, lectura admisible entre harnesses y confundido harness/familia-de-modelo viven en sus enmiendas 2 y 3. El registro quedo atras del documento que gobierna — la clase de deriva que el registro existe para no tener.
 
 ### Que cambio
 - `SPECS_REGISTRY.md`: `proposito` de la spec de `PRUEBA-PISO-RUIDO-A4.md` y su fila de la tabla SSOT pasan a declarar las **pasadas 1 y 1b**, con la aclaracion de que lo propio de la 1b vive en las enmiendas.
-- `experimentos/PRUEBA-PISO-RUIDO-A4.md`: encabezado alineado con el alcance real.
-- `experimentos/RESULTADO-EXPERIMENTO-A4.md`: reestructurado para alojar las dos pasadas bajo un titulo comun, sin tocar el contenido datado de la pasada 1 — sus secciones bajan un nivel y nada mas.
+- `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`: encabezado alineado con el alcance real.
+- `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`: reestructurado para alojar las dos pasadas bajo un titulo comun, sin tocar el contenido datado de la pasada 1 — sus secciones bajan un nivel y nada mas.
 
 ### Como se valido
 `./tools/check_docs.py` en verde (0 ERROR; el unico WARN es el de emoticones de `PREREG-B7.md`, que es M-08 y esta vivo a proposito). El gate de commit fue el que **encontro** esta entrada: bloqueo el primer intento del cierre por `metodo-historial`, contra un `[SDD-Check]` que habia clasificado el cambio de registro como no-metodo. Es el segundo caso registrado de un verificador corrigiendo un juicio del asistente sobre su propio cambio.
 
 ### Por que esto es entrada de metodo y no hallazgo de investigacion
-Lo que se asienta aca es el cambio de **alcance declarado** de una spec — Principio VI. El **hallazgo** de la pasada 1b —techo replicado, veredicto NO APTO por banda— vive en `experimentos/RESULTADO-EXPERIMENTO-A4.md` y no toca el metodo: la 1b no evalua `H1` y no habilita ninguna afirmacion sobre si el protocolo funciona.
+Lo que se asienta aca es el cambio de **alcance declarado** de una spec — Principio VI. El **hallazgo** de la pasada 1b —techo replicado, veredicto NO APTO por banda— vive en `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md` y no toca el metodo: la 1b no evalua `H1` y no habilita ninguna afirmacion sobre si el protocolo funciona.
 
 ### Deuda abierta
 Tres items nuevos migrados desde el cierre: `agenda/BACKLOG-INVESTIGACION.md` #16 (la calibracion no tiene resolucion para la compuerta que decide), mas el `d` comprometido por deriva de version y la reserva de aislamiento de la 1b, que quedan declarados en la deuda del resultado. La contraparte de metodo del primero ya estaba dada de alta como M-22, sin implementar.
@@ -37,7 +62,7 @@ El backlog tenia la pregunta dada de alta desde el 2026-08-02 —alta #8, si el 
 ### Que cambio
 Se ejecuto la **pasada 1**: solo el piso de ruido del instrumento, sin brazo tratamiento, que es lo que exige el backlog alta #7 desde B-07. El brazo control es inconstruible dentro de este repositorio —`CLAUDE.md` hace `@AGENTS.md`, y borrar los documentos daria otro repo, no el mismo repo sin protocolo—, asi que corrio sobre fixture sintetico en el repo de datos hermano `../experimentosdd-a4/`, con el precedente de `experimentosdd-b7/`.
 
-Veredicto: **NO APTO por techo**. El brazo control dio 12/12, sobre dos versiones del fixture y tres escalones de modelo. Detalle y evidencia en `experimentos/RESULTADO-EXPERIMENTO-A4.md`.
+Veredicto: **NO APTO por techo**. El brazo control dio 12/12, sobre dos versiones del fixture y tres escalones de modelo. Detalle y evidencia en `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`.
 
 ### Como se valido
 `./tools/check_docs.py` en verde. Los tres checks de «Propagacion» corridos con su salida, no de memoria. La prediccion fechada se escribio antes del primer rep y se contrasto despues: acerto el modo de falla (techo, no piso) y fallo el veredicto. La unica enmienda al diseño esta fechada y declarada **pre-dato**.
@@ -218,7 +243,7 @@ Un octavo caso (`RELACION-SPEC-VS-EPICA.md` → `ANALISIS-SPEC-KIT.md`) resultó
 - `SPECS_REGISTRY.md` §Campo ssot_level: `deriva_de` ya no exige que el origen sea `SSOT` — MUST ser `SSOT` o `derivado` (permite cadena de más de un salto), nunca `operativo` ni un documento sin entrada. Se documentó el criterio para distinguir cadena legítima (cada eslabón declara una faceta distinta: qué/cómo/valores) de mal modelado (forzar una relación para evitar clasificar el rol real).
 - `SPECS_REGISTRY.md` §Docs excluidos: excepción nueva — un `EXPERIMENTO-*.md` citado como `deriva_de` por otro documento MUST tener entrada mínima en el registro (conserva la exención de `incluye`/`excluye` detallados).
 - `software/ANALISIS-SPEC-KIT.md` reclasificado de `operativo` a `SSOT` (resuelve 2 de los 7 casos) y sumado a la Tabla SSOT.
-- Alta de `experimentos/EXPERIMENTO-B7-formato-hibrido.md` en el registro, `ssot_level: SSOT`, entrada mínima por la excepción nueva (resuelve otros 2 casos) y sumado a la Tabla SSOT.
+- Alta de `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` en el registro, `ssot_level: SSOT`, entrada mínima por la excepción nueva (resuelve otros 2 casos) y sumado a la Tabla SSOT.
 - Los 2 casos de derivado-de-derivado quedan cubiertos por la regla de cadena, sin tocar sus specs.
 - `tools/check_docs.py`: `check_spec_fields` ahora valida que el destino de `deriva_de` tenga spec registrada y `ssot_level` en `{SSOT, derivado}`, no solo que exista en disco y no cicle.
 
@@ -320,7 +345,7 @@ Límite heredado y declarado en el propio docstring: **verifica presencia y form
 ### Qué encontró la primera corrida
 41 documentos, 6 ERROR y 22 WARN. Desglose honesto:
 - **2 ERROR eran deriva real**, ambos de la misma clase y ambos de un día de antigüedad: `software/ANALISIS-SPEC-KIT.md` C4 decía «nuestra precedencia `SPECS_REGISTRY.md`» y `templates/RESULTADO-EXPERIMENTO.md` decía «Es precedencia 1» sobre el registro, que desde la Fase 8 es precedencia 2. Los dos documentos habían sido revisados a mano el mismo día, dentro de la propagación de la Fase 8, y los dos se escaparon.
-- **1 ERROR era un hueco anterior**: `experimentos/PREREG-B7.md` sin spec registrada. Es un pre-registro autorado, no generado desde template, así que la exención de `experimentos/` no lo alcanza — el mismo criterio que el 2026-07-30 obligó a registrar los runbooks. Se le escribió spec (`derivado` de `PRUEBA-REGENERABILIDAD-B7.md`), con la advertencia explícita de que describe un documento sellado y MUST NOT usarse para reescribirlo.
+- **1 ERROR era un hueco anterior**: `experimentos/b07-formato-hibrido/PREREG-B7.md` sin spec registrada. Es un pre-registro autorado, no generado desde template, así que la exención de `experimentos/` no lo alcanza — el mismo criterio que el 2026-07-30 obligó a registrar los runbooks. Se le escribió spec (`derivado` de `PRUEBA-REGENERABILIDAD-B7.md`), con la advertencia explícita de que describe un documento sellado y MUST NOT usarse para reescribirlo.
 - **3 ERROR eran falsos positivos** del check de precedencia: disparaba dentro de bloques de código, no reconocía «esta constitución» escrito en prosa, y usaba una ventana que no miraba hacia atrás. Corregido: se ignoran los fences, se acepta la palabra además del nombre de archivo, y la ventana va de −4 a +12 líneas.
 - **20 WARN eran ruido de diseño**: «spec sin campo `owner`» en casi todas. En un repo de un solo equipo, escribir 25 veces el mismo owner es ruido; se declaró en el registro que `owner` ausente significa `proyecto SDD` y se quitó el check. Los 2 WARN restantes (specs sin `proposito` en bloques que declaran dos paths) se corrigieron escribiendo el campo.
 
@@ -406,7 +431,7 @@ Links internos: 0 rotos antes y después. Cadena de precedencia coherente en los
 Aplicar el criterio (a) a la prueba ya ejecutada **reproduce el veredicto existente** (H4 no sostenida, F001 no concluyente, techo "no atribuible"): lo que cambia es que el criterio pasa de **no evaluable en bloque** a **evaluable**. Confirmado empíricamente que **ningún check de propagación basta solo**: los 4 archivos que devolvió el check 3 estaban ya cubiertos o justificados, y los 5 realmente afectados por estos cambios **no aparecen en el check 3**.
 
 ### Deuda abierta
-- **Camino crítico para cerrar B-07 integralmente**: reescribir `experimentos/PRUEBA-OBSERVACIONAL-B7.md` como runbook real (le faltan «Definicion operacional» y Fase 0 sellada; su corte debe fijarse en `3f1ed33` porque el ciclo de vida del corpus es **pre-git**) → **medir `H1` y `H3`** → cerrar con los dos veredictos.
+- **Camino crítico para cerrar B-07 integralmente**: reescribir `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md` como runbook real (le faltan «Definicion operacional» y Fase 0 sellada; su corte debe fijarse en `3f1ed33` porque el ciclo de vida del corpus es **pre-git**) → **medir `H1` y `H3`** → cerrar con los dos veredictos.
 - `R6` sin recorrido guionado pre-registrado; 4 requisitos de UI de `SPEC-013` sin dato.
 - Desambiguar formato vs. procedencia (Hallazgo 2) **requiere corrida nueva**: es otro experimento, no una tarea de cierre.
 - La reserva de método queda declarada: el criterio (a) se redactó conociendo los resultados; gobierna réplicas y no reabre el veredicto.
@@ -442,7 +467,7 @@ Prueba en seco de los tres checks contra el cierre real de B-07: reproducen exac
 
 ## Fase 5 — Ejecución y cierre de B-07 (prueba de regenerabilidad) (2026-07-11 → 2026-07-28) — COMPLETADA
 
-**Acción**: ejecución completa del runbook `experimentos/PRUEBA-REGENERABILIDAD-B7.md` sobre el proyecto testigo, en un directorio de trabajo externo al repo (`/datum1/Descargas/Claudio/experimentosdd-b7/`, bitácora append-only propia). Cierre en `experimentos/RESULTADO-EXPERIMENTO-B7.md`.
+**Acción**: ejecución completa del runbook `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md` sobre el proyecto testigo, en un directorio de trabajo externo al repo (`/datum1/Descargas/Claudio/experimentosdd-b7/`, bitácora append-only propia). Cierre en `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`.
 
 ### Qué se ejecutó
 - **Fase 0** — pre-registro sellado en el tag `b7/prereg-v1`; 4 specs del 2×2 (2 auténticas + 2 traducidas spec→spec por un `Traductor` independiente); `SELLO-CIEGO` generado y custodiado por el usuario, nunca visible para el orquestador.
@@ -457,7 +482,7 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 ### Cambios al sistema SDD aplicados a raíz del experimento
 - **`templates/EXPERIMENTO.md`**: sección **«Definicion operacional» obligatoria** (denominador, aislamiento, validación del instrumento, granularidad, admisibilidad de reconciliaciones, regla de agregación, tratamiento del empate, independencia entre métricas, quién mide) y **«Criterio de exito» reforzado** con comprobación de satisfacibilidad. Origen: el pre-registro de B-07 fijaba *qué* medir pero no *cómo*, y acumuló **ocho enmiendas post-hoc** al runbook.
 - **`SPECS_REGISTRY.md`**: la spec de los templates incorpora esos dos checks; se agregaron los campos `path` faltantes en las dos entradas combinadas (templates e índices de línea), que los hacían invisibles a cualquier verificación mecánica de cobertura.
-- **`software/PLAN-PRUEBAS.md`** y **`experimentos/EXPERIMENTO-B7-formato-hibrido.md`**: estado de B-07 sincronizado (de "pre-registrado" a métrica primaria cerrada), con la distinción explícita entre la prueba de regenerabilidad (cerrada) y el corpus observacional de secundarias (sin medir).
+- **`software/PLAN-PRUEBAS.md`** y **`experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`**: estado de B-07 sincronizado (de "pre-registrado" a métrica primaria cerrada), con la distinción explícita entre la prueba de regenerabilidad (cerrada) y el corpus observacional de secundarias (sin medir).
 
 ### Deuda abierta
 - **Reformular el Criterio de éxito de B-07** en `EXPERIMENTO-B7-formato-hibrido.md` (SSOT): resultó **no evaluable** — no define agregación y su cláusula "≥2 secundarias" mezcla las del corpus observacional con las de la prueba. Nota fechada ya inscrita en el doc; la reformulación **requiere decisión del usuario**.
@@ -473,11 +498,11 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 ### Veredicto: las cuatro siguen siendo relevantes; ninguna cita requirió corrección
 - **[R25] Reversa** (`arXiv-2605.18684v1/`): el uso en `software/SDD-EN-LEGACY-Y-BROWNFIELD.md` (existe trabajo formal en retro-specs legacy para agentes) es fiel y modesto. Anotada su naturaleza en `REFERENCIAS.md`: caso exploratorio único COBOL→Go incompleto (9/11 tareas; sin paridad final ni cutover), sin comparación controlada — no citar como evidencia de efectividad.
 - **[R30] Piskala** (`arXiv-2602.00180v1/`): technical report de autor único, no peer-reviewed. Las tres citas en `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` (intent drift, contrato multi-agente, regeneración reduce divergencia) están respaldadas textualmente. Anotado: su cifra "hasta 50 % menos errores" viene de secundarias — no usar como dato primario. Bonus para B-07: taxonomía spec-first/spec-anchored/**spec-as-source** (la regenerabilidad primaria de B-07 es su nivel spec-as-source).
-- **[R33] Rosa et al.** (`arXiv-2601.03878v1/`): confirmado todo lo citado en `experimentos/EXPERIMENTO-B7-formato-hibrido.md` (tarea aislada between-subjects, endpoint/prompts/parámetros fijos, métricas, TaskId como blocking factor). Precisión anotada: es protocolo Stage 1 **sin resultados aún**; el modelo se elegirá open-weight en ejecución.
+- **[R33] Rosa et al.** (`arXiv-2601.03878v1/`): confirmado todo lo citado en `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` (tarea aislada between-subjects, endpoint/prompts/parámetros fijos, métricas, TaskId como blocking factor). Precisión anotada: es protocolo Stage 1 **sin resultados aún**; el modelo se elegirá open-weight en ejecución.
 - **[R34] RepoExec** (`arXiv-2406.11927v4/`): confirmado literal en abstract ("smaller context sizes can be misleading", 18 modelos, pretrained vs instruction-tuned, DIR). Autor primero corregido: Le Hai et al. (no Nguyen). Hallazgo adicional anotado: correlación pass@1↔DIR y riesgo de reimplementar dependencias en vez de invocarlas.
 
 ### Actualizaciones en positivo aplicadas (aprobadas por el usuario)
-- `experimentos/EXPERIMENTO-B7-formato-hibrido.md`: (1) H4 encuadrada en la taxonomía spec-first/spec-anchored/spec-as-source [R30] — la regenerabilidad primaria es el test operativo del nivel spec-as-source, lo que da escala graduada al resultado; (2) métrica **R4 nueva** (invocación vs. reimplementación de contratos de la frontera in-spec, análogo del DIR [R34]) — captura el modo de fallo "verde en R1, limpio en R2, pero mal integrado al sistema"; (3) precisión de fidelidad: [R33] fija endpoint/prompts/parámetros (no seed; modelo a elegir en ejecución; Stage 1 sin resultados).
+- `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`: (1) H4 encuadrada en la taxonomía spec-first/spec-anchored/spec-as-source [R30] — la regenerabilidad primaria es el test operativo del nivel spec-as-source, lo que da escala graduada al resultado; (2) métrica **R4 nueva** (invocación vs. reimplementación de contratos de la frontera in-spec, análogo del DIR [R34]) — captura el modo de fallo "verde en R1, limpio en R2, pero mal integrado al sistema"; (3) precisión de fidelidad: [R33] fija endpoint/prompts/parámetros (no seed; modelo a elegir en ejecución; Stage 1 sin resultados).
 - `../agenda/BACKLOG-INVESTIGACION.md`: sección nueva "Enriquecimientos diferidos desde verificación de fuentes R25/R30" (regla de rigor mínimo y pitfalls de [R30]; modelo confirmado/inferido/gap de [R25] como convención candidata de Línea A).
 
 ---
@@ -525,7 +550,7 @@ Las cifras de [R28] son de fuente divulgativa (secundaria); marcadas como tales 
 
 ### Archivos creados
 - `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` — comparacion en 5 dimensiones (derivado de `ANALISIS-SPEC-KIT.md`); enlazada desde `software/00-INDEX.md`.
-- `experimentos/EXPERIMENTO-B7-formato-hibrido.md` — pre-registro del experimento de formato hibrido (Spec Kit vs. casero) sobre el testigo.
+- `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` — pre-registro del experimento de formato hibrido (Spec Kit vs. casero) sobre el testigo.
 
 ### Archivos modificados
 - `CLAUDE.md`: campos `Cobertura` y `Deuda arrastrada` en el bloque `[SDD-Check]`; convencion `[NEEDS CLARIFICATION]`.
@@ -570,7 +595,7 @@ Convergencia alta entre Spec Kit y nuestro protocolo (lenguaje normativo, gate d
 **Decision: proyecto testigo oficial de Linea B.**
 Se designa `agent-test-suite` (`../../../test_circuito_intents/agent_test_suite/`) como sujeto experimental. Es un proyecto Python real que adopto nuestra variante SDD (derivada de este proyecto). Razon: este repo es meta/docs y no puede ejecutar su propio Plan de Pruebas (metricas DORA, defectos) — `experimentos/` estaba vacio por falta de sujeto. Registrado en `software/PLAN-PRUEBAS.md`.
 
-**Primer experimento ejecutado y cerrado (observacional):** `experimentos/EXPERIMENTO-B6-circuito-testigo.md` + `experimentos/RESULTADO-EXPERIMENTO-B6.md`. Veredicto: hipotesis B6 SOSTENIDA en este caso (circuito de aprendizaje activo). Metrica primaria 40% (estricta) / 60% (amplia) de specs activas revisadas tras ejecucion; deuda arrastrada re-explicitada sin abandono; `[SDD-Check]` en 100% de iteraciones. Caveats: muestra minima (estudio de caso), sesgo de confirmacion (el testigo derivo su SDD de este proyecto), umbral de 30 dias no informativo a esta velocidad. Dos mejoras candidatas al marco propio surgidas del experimento (ver "Decision pendiente").
+**Primer experimento ejecutado y cerrado (observacional):** `experimentos/b06-circuito-testigo/EXPERIMENTO-B6-circuito-testigo.md` + `experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`. Veredicto: hipotesis B6 SOSTENIDA en este caso (circuito de aprendizaje activo). Metrica primaria 40% (estricta) / 60% (amplia) de specs activas revisadas tras ejecucion; deuda arrastrada re-explicitada sin abandono; `[SDD-Check]` en 100% de iteraciones. Caveats: muestra minima (estudio de caso), sesgo de confirmacion (el testigo derivo su SDD de este proyecto), umbral de 30 dias no informativo a esta velocidad. Dos mejoras candidatas al marco propio surgidas del experimento (ver "Decision pendiente").
 
 **Decision pendiente (del usuario):** _[RESUELTA en Fase 3, 2026-06-01: ambas propuestas fueron aprobadas y aplicadas.]_ dos propuestas de cambio al marco SDD derivadas de B-06:
 1. Formalizar "Deuda arrastrada" como artefacto del marco (template de resultado y/o `[SDD-Check]`).
@@ -579,7 +604,7 @@ Se designa `agent-test-suite` (`../../../test_circuito_intents/agent_test_suite/
 ### Archivos modificados/creados (continuacion)
 - `CLAUDE.md` (modificado): Bloque 1.
 - `software/PLAN-PRUEBAS.md` (modificado): seccion "Proyecto testigo" + experimento B-06.
-- `experimentos/EXPERIMENTO-B6-circuito-testigo.md` (creado): diseno del experimento (excluido del registry — generado desde template).
+- `experimentos/b06-circuito-testigo/EXPERIMENTO-B6-circuito-testigo.md` (creado): diseno del experimento (excluido del registry — generado desde template).
 
 ---
 

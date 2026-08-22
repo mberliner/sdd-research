@@ -32,8 +32,8 @@ compararlos.
 ## Experimento A-04
 Objetivo: medir si el protocolo del asistente cambia la **conducta** del agente.
 
-Diseño, hipótesis y criterio: `../experimentos/EXPERIMENTO-A4-protocolo-conducta.md`.
-Protocolo de medición: `../experimentos/PRUEBA-PISO-RUIDO-A4.md`.
+Diseño, hipótesis y criterio: `../experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md`.
+Protocolo de medición: `../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`.
 
 Alcance de la pasada 1 (ejecutada 2026-08-15): **sólo el piso de ruido del
 instrumento**. El brazo tratamiento no se corre. Es lo que exige el backlog alta
@@ -54,7 +54,7 @@ que son su objeto de estudio; en A-04 el asistente es el instrumento y sus tanda
 selladas usan un escalón único. La 1b cruza dos harnesses, pero para preguntar si
 el instrumento tiene resolución en cada uno —una compuerta categórica por
 harness—, no para comparar sus tasas: la regla que lo prohíbe y su única lectura
-admisible están selladas en `../experimentos/PRUEBA-PISO-RUIDO-A4.md`. Sin este
+admisible están selladas en `../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`. Sin este
 deslinde los dos experimentos se declararían dueños del mismo tema.
 
 ## Experimento A-03

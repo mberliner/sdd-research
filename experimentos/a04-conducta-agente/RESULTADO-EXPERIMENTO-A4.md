@@ -6,6 +6,10 @@ Dos pasadas, dos instrumentos, un solo criterio de éxito. La **pasada 1** midi�
 que son dos veredictos puestos uno al lado del otro, no uno promediado. Ninguna
 de las dos evalúa `H1`, y las dos cerraron **NO APTO por techo**.
 
+> **Derivado.** `RESUMEN-EJECUTIVO.md` traduce este cierre para lectores que no
+> trabajan en el proyecto. Es derivado, no fuente: todo cambio de cifra, veredicto
+> o reserva en este documento MUST disparar su revisión.
+
 ## Pasada 1 — instrumento `agy` (cierre 2026-08-15)
 
 ### Metadata
@@ -105,7 +109,7 @@ supone.**
    el fixture en `$HOME`, `/app`, `/code`, `/workspace` y `/home/runner`, acumuló
    50 denegaciones y entregó sin hacer nada.
 
-Detalle en `../../experimentosdd-a4/entorno/REGIMEN-DE-PERMISOS.md`.
+Detalle en `../../../experimentosdd-a4/entorno/REGIMEN-DE-PERMISOS.md`.
 
 #### Limitación sellada, no resuelta
 
@@ -141,7 +145,7 @@ nuevas. Todas altas de esta misma entrega, ninguna vencida.
 
 **Check 2 — el SSOT dueño de la hipótesis, y sus derivados**: el SSOT es
 `EXPERIMENTO-A4-protocolo-conducta.md`; según la tabla SSOT lo referencian
-`PRUEBA-PISO-RUIDO-A4.md` y `../docs-y-investigacion/PLAN-PRUEBAS.md`. Los dos se
+`PRUEBA-PISO-RUIDO-A4.md` y `../../docs-y-investigacion/PLAN-PRUEBAS.md`. Los dos se
 sincronizaron en esta entrega, el SSOT primero.
 
 **Check 3 — quién declaró estar esperando**
@@ -153,18 +157,18 @@ lista seis: la divergencia es de calendario, no un hueco.
 
 | documento | que afirmaba | estado nuevo | hecho |
 |---|---|---|---|
-| `../SPECS_REGISTRY.md` | nada sobre A-04 | dos specs y dos filas SSOT | sincronizado |
+| `../../SPECS_REGISTRY.md` | nada sobre A-04 | dos specs y dos filas SSOT | sincronizado |
 | `EXPERIMENTO-A4-protocolo-conducta.md` | — (alta) | SSOT del «que» | sincronizado, antes que su derivado |
 | `PRUEBA-PISO-RUIDO-A4.md` | — (alta) | runbook con la enmienda 1 fechada | sincronizado |
-| `../docs-y-investigacion/PLAN-PRUEBAS.md` | tres experimentos, sin A-04 | A-04 con alcance de la pasada 1 y deslinde con A-02 | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` alta #8, #7, #5 | preguntas abiertas | marcadas en ejecución, apuntando acá | sincronizado |
-| `../CONSTITUTION.md` | enforcement humano y a pedido, sin declarar si produce efecto | sin cambio | no aplica: la pasada 1 no evalúa `H1`, así que nada de lo que afirma quedó falso |
-| `../AGENTS.md` | que el protocolo rige la ejecución diaria | sin cambio | no aplica: mismo motivo. El hallazgo 5 lo **refuerza** (su premisa cross-asistente quedó comprobada), no lo contradice |
-| `../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 | medía variabilidad entre asistentes | deslinde con A-04 declarado también de su lado | sincronizado |
+| `../../docs-y-investigacion/PLAN-PRUEBAS.md` | tres experimentos, sin A-04 | A-04 con alcance de la pasada 1 y deslinde con A-02 | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` alta #8, #7, #5 | preguntas abiertas | marcadas en ejecución, apuntando acá | sincronizado |
+| `../../CONSTITUTION.md` | enforcement humano y a pedido, sin declarar si produce efecto | sin cambio | no aplica: la pasada 1 no evalúa `H1`, así que nada de lo que afirma quedó falso |
+| `../../AGENTS.md` | que el protocolo rige la ejecución diaria | sin cambio | no aplica: mismo motivo. El hallazgo 5 lo **refuerza** (su premisa cross-asistente quedó comprobada), no lo contradice |
+| `../../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 | medía variabilidad entre asistentes | deslinde con A-04 declarado también de su lado | sincronizado |
 
 ### Evidencia adjunta
 
-Repo de datos hermano `../../experimentosdd-a4/`, dos commits:
+Repo de datos hermano `../../../experimentosdd-a4/`, dos commits:
 
 - `CALIBRACION-A4.md` — las cuatro tandas, la enmienda 1 y los tres descartes.
 - `PREDICCION-A4.md` — predicción fechada, escrita antes del primer rep.
@@ -197,15 +201,15 @@ Repo de datos hermano `../../experimentosdd-a4/`, dos commits:
 
 ### Proximos pasos
 
-1. Migrar los cinco ítems de deuda a `../agenda/BACKLOG-INVESTIGACION.md` con
+1. Migrar los cinco ítems de deuda a `../../agenda/BACKLOG-INVESTIGACION.md` con
    fecha y origen, **antes** de dar la pasada por cerrada.
 2. Decidir entre rediseñar la conducta medida o correr la 1b con el diseño actual
    para separar «techo de `agy`» de «techo de cualquier harness». Los dos caminos,
    con su obstáculo concreto y el candidato de rediseño, quedaron escritos en
-   `../agenda/BACKLOG-INVESTIGACION.md` #9 y #10.
+   `../../agenda/BACKLOG-INVESTIGACION.md` #9 y #10.
 3. Considerar la versión barata de la pregunta que originó A-04, que esta pasada
    dejó intacta: medir la mitad ceremonial sobre las entregas reales del repo, que
-   ya existen y están fechadas (`../agenda/BACKLOG-INVESTIGACION.md` #14).
+   ya existen y están fechadas (`../../agenda/BACKLOG-INVESTIGACION.md` #14).
 4. No tocar el instrumento construido: aislamiento, régimen de permisos, sondas y
    regla son reutilizables tal como están.
 
@@ -284,7 +288,7 @@ Lo que el techo replicado sí habilita, y es lo que la enmienda 3 declaró de
 antemano como única ganancia posible: descarta a la vez «es este harness» y «es
 este modelo». Un techo que replica es informativo precisamente porque tumba las
 dos explicaciones juntas; uno que no replicara no diría cuál de las dos lo rompió.
-Cierra `../agenda/BACKLOG-INVESTIGACION.md` #10.
+Cierra `../../agenda/BACKLOG-INVESTIGACION.md` #10.
 
 **2. La calibración dijo que había margen y las tandas la desmintieron.** Es el
 hallazgo de método de esta pasada. La escalera se recorre con 3 reps por escalón y
@@ -304,7 +308,7 @@ estimación de una misma tasa […] no se reconcilia nada»), junto con la aritm
 de que `k2` tendría que ser 6 o menos para salvar la banda. Y el diseño no tenía
 forma de actuar sobre la tensión aunque la viera: después del primer rep no hay
 edición del sello, que es exactamente la regla que impide convertir una calibración
-desmentida en una búsqueda. Migrado a `../agenda/BACKLOG-INVESTIGACION.md` #16.
+desmentida en una búsqueda. Migrado a `../../agenda/BACKLOG-INVESTIGACION.md` #16.
 
 **3. Apareció margen, y mide una unidad.** `CC-T2-07` es el único no-PASS de los 20
 —y el segundo de todo A-04, contando los 12 reps de `agy` y los 9 de calibración de
@@ -324,7 +328,7 @@ cumplieron (V) sin excepción, incluido el que falló. La conducta cara no es ir
 registro —el harness la regala en los dos instrumentos— sino **mantener** el valor
 verificado contra la presión de autoridad, tiempo y costo hundido. Es la predicción
 9 de la pasada 1b, que acertó, y es la evidencia más directa a favor del candidato
-de respuesta que `../agenda/BACKLOG-INVESTIGACION.md` #9 dejó anotado sin medir: la
+de respuesta que `../../agenda/BACKLOG-INVESTIGACION.md` #9 dejó anotado sin medir: la
 conducta cara no es *leer*, es *notar* —y acá, *sostener*— que hay algo que
 chequear.
 
@@ -394,7 +398,7 @@ permitidos se mantuvo idéntico en los dos de todos modos —el régimen MUST se
 mismo en los dos brazos y no depender de una garantía del producto que no
 controlamos— y el resultado es **0 VOID en 12 reps con `agy` y 0 VOID en 20 con
 Claude Code**. Es la evidencia más fuerte disponible para
-`../agenda/BACKLOG-INVESTIGACION.md` #5 de que la propiedad que importa no es **qué**
+`../../agenda/BACKLOG-INVESTIGACION.md` #5 de que la propiedad que importa no es **qué**
 se deniega sino **cómo**.
 
 #### Incidentes
@@ -428,7 +432,7 @@ se intuye, y la objeción es legítima; queda escrita en vez de implícita. Lo
 verificable es que se tomó antes de la puntuación formal, que es el único dato que
 todavía podía mover los `k`.
 
-*Lección de método*, derivada a `../agenda/MEJORAS-METODO.md` **M-22**: el script de
+*Lección de método*, derivada a `../../agenda/MEJORAS-METODO.md` **M-22**: el script de
 preparación de rep verifica hashes del fixture, ausencia de configuración de
 asistente y auditoría de ancestros, y aborta ante cualquiera de las tres; la versión
 del harness era igual de sellada y no tenía check, así que el único componente del
@@ -475,7 +479,7 @@ dos instrumentos y no de la conducta, que es justo lo que la réplica vuelve
 inverosímil.
 
 Lo único que queda abierto es **cambiar qué conducta se mide**
-(`../agenda/BACKLOG-INVESTIGACION.md` #9), y la frontera que ese ítem declara sigue
+(`../../agenda/BACKLOG-INVESTIGACION.md` #9), y la frontera que ese ítem declara sigue
 en pie: derivar el escenario de una hipótesis sobre qué vuelve cara a una conducta
 es legítimo; ajustar el escenario después de ver una tasa es búsqueda.
 
@@ -498,7 +502,7 @@ propagación.
 
 **Check 2 — el SSOT dueño de la hipótesis, y sus derivados**: el SSOT es
 `EXPERIMENTO-A4-protocolo-conducta.md`; según la tabla SSOT lo referencian
-`PRUEBA-PISO-RUIDO-A4.md` y `../docs-y-investigacion/PLAN-PRUEBAS.md`. Los tres se
+`PRUEBA-PISO-RUIDO-A4.md` y `../../docs-y-investigacion/PLAN-PRUEBAS.md`. Los tres se
 sincronizaron en esta entrega, **el SSOT primero**.
 
 **Check 3 — quién declaró estar esperando**
@@ -514,22 +518,22 @@ la espera como deuda. Los tres del barrido ancho entran a la tabla.
 |---|---|---|---|
 | `EXPERIMENTO-A4-protocolo-conducta.md` | que `d` no tiene valor todavía porque nunca hubo tandas que restar; que la 1b, si sale NO APTO por techo, deja `H1` sin medir | la 1b produjo `d = 1` y **no sirve**: borde superior y estimador confundido. El costo declarado en la enmienda 3 se cobró tal cual | sincronizado, antes que sus derivados |
 | `PRUEBA-PISO-RUIDO-A4.md` | «protocolo de medición de la pasada 1» | protocolo de las pasadas 1 y 1b; lo propio de la 1b vive en las enmiendas 2 y 3 | sincronizado |
-| `../SPECS_REGISTRY.md` | runbook «de la pasada 1», en la fila SSOT y en el `proposito` de su spec | las dos pasadas, en los dos lugares | sincronizado |
-| `../docs-y-investigacion/PLAN-PRUEBAS.md` | pasada 1b «habilitada 2026-08-16», sin veredicto | ejecutada y cerrada NO APTO por banda; las dos compuertas una al lado de la otra | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #10 | pregunta abierta: ¿el techo es de un harness o de todos? | **respondida**: de los dos. Con lo que la respuesta costó declarado al lado | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #12 | regla de puntuación sin ejercitar | **cerrada**, con la reserva de que 19 de 20 reps son casos fáciles | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #13 | limitación sellada: no hay terminal | **reencuadrada**: en la 1b sí hay, así que pasa a ser diferencia de entorno entre pasadas | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #5, #7, #8 | «en ejecución: A-04 pasada 1» | estado real tras las dos pasadas, con lo que cada uno ganó y lo que sigue abierto | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #9, #11 | deudas abiertas de la pasada 1 | reforzadas: #9 es el único camino que queda, #11 sigue sin respuesta | sincronizado |
-| `../agenda/BACKLOG-INVESTIGACION.md` #16 | — (alta) | resolución de la calibración frente a la compuerta que decide | sincronizado |
-| `../agenda/MEJORAS-METODO.md` M-22 | verificar en corrida el entorno que el sello declara, propuesta 2026-08-19 | sin cambio | no aplica: se dio de alta con el incidente que lo originó, antes de este cierre, y sigue vigente sin corrección |
-| `../CONSTITUTION.md` | enforcement humano y a pedido, sin declarar si produce efecto | sin cambio | no aplica: la 1b no evalúa `H1`, así que nada de lo que afirma quedó falso |
-| `../AGENTS.md` | que el protocolo rige la ejecución diaria | sin cambio | no aplica: mismo motivo |
-| `../historial/sdd.md` | historial de cambios de método | entrada nueva por la ampliación de alcance de la spec del runbook | sincronizado. **Corrección**: el triaje inicial lo dio por «no aplica», razonando que un cierre de experimento es hallazgo y no método. Es falso en la parte que toca `SPECS_REGISTRY.md`: cambiar el alcance declarado de una spec **es** método (Principio VI). Lo encontró el gate de commit, que bloqueó la primera entrega. El hallazgo de la 1b sigue sin ser método; el cambio de registro sí lo es |
+| `../../SPECS_REGISTRY.md` | runbook «de la pasada 1», en la fila SSOT y en el `proposito` de su spec | las dos pasadas, en los dos lugares | sincronizado |
+| `../../docs-y-investigacion/PLAN-PRUEBAS.md` | pasada 1b «habilitada 2026-08-16», sin veredicto | ejecutada y cerrada NO APTO por banda; las dos compuertas una al lado de la otra | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #10 | pregunta abierta: ¿el techo es de un harness o de todos? | **respondida**: de los dos. Con lo que la respuesta costó declarado al lado | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #12 | regla de puntuación sin ejercitar | **cerrada**, con la reserva de que 19 de 20 reps son casos fáciles | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #13 | limitación sellada: no hay terminal | **reencuadrada**: en la 1b sí hay, así que pasa a ser diferencia de entorno entre pasadas | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #5, #7, #8 | «en ejecución: A-04 pasada 1» | estado real tras las dos pasadas, con lo que cada uno ganó y lo que sigue abierto | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #9, #11 | deudas abiertas de la pasada 1 | reforzadas: #9 es el único camino que queda, #11 sigue sin respuesta | sincronizado |
+| `../../agenda/BACKLOG-INVESTIGACION.md` #16 | — (alta) | resolución de la calibración frente a la compuerta que decide | sincronizado |
+| `../../agenda/MEJORAS-METODO.md` M-22 | verificar en corrida el entorno que el sello declara, propuesta 2026-08-19 | sin cambio | no aplica: se dio de alta con el incidente que lo originó, antes de este cierre, y sigue vigente sin corrección |
+| `../../CONSTITUTION.md` | enforcement humano y a pedido, sin declarar si produce efecto | sin cambio | no aplica: la 1b no evalúa `H1`, así que nada de lo que afirma quedó falso |
+| `../../AGENTS.md` | que el protocolo rige la ejecución diaria | sin cambio | no aplica: mismo motivo |
+| `../../historial/sdd.md` | historial de cambios de método | entrada nueva por la ampliación de alcance de la spec del runbook | sincronizado. **Corrección**: el triaje inicial lo dio por «no aplica», razonando que un cierre de experimento es hallazgo y no método. Es falso en la parte que toca `SPECS_REGISTRY.md`: cambiar el alcance declarado de una spec **es** método (Principio VI). Lo encontró el gate de commit, que bloqueó la primera entrega. El hallazgo de la 1b sigue sin ser método; el cambio de registro sí lo es |
 
 ### Evidencia adjunta
 
-Repo de datos hermano `../../experimentosdd-a4/`, artefactos propios de la 1b:
+Repo de datos hermano `../../../experimentosdd-a4/`, artefactos propios de la 1b:
 
 - `SELLO-1B.txt` — `sha256sum` de los ocho artefactos, commit `7d74431`.
 - `PREDICCION-1B.md` — las nueve predicciones fechadas, anteriores al primer rep.
@@ -551,22 +555,22 @@ Repo de datos hermano `../../experimentosdd-a4/`, artefactos propios de la 1b:
 
 - **`H1` sin evaluar** — *arrastrado* (de la pasada 1). Dos pasadas construyeron y
   validaron instrumento; ninguna midió si el protocolo cambia conducta.
-  `../agenda/BACKLOG-INVESTIGACION.md` #11.
+  `../../agenda/BACKLOG-INVESTIGACION.md` #11.
 - **La conducta medida necesita rediseño** — *arrastrado*, y ahora es el único
-  camino abierto hacia `H1`. `../agenda/BACKLOG-INVESTIGACION.md` #9.
+  camino abierto hacia `H1`. `../../agenda/BACKLOG-INVESTIGACION.md` #9.
 - **¿El techo es de `agy` o de cualquier harness moderno?** — *resuelto*. De los dos.
-  `../agenda/BACKLOG-INVESTIGACION.md` #10.
+  `../../agenda/BACKLOG-INVESTIGACION.md` #10.
 - **Puntuadores sin ejercitar** — *resuelto*, con la reserva de los casos fáciles.
-  `../agenda/BACKLOG-INVESTIGACION.md` #12.
+  `../../agenda/BACKLOG-INVESTIGACION.md` #12.
 - **La terminal no está disponible en el régimen sellado** — *resuelto para la 1b*,
   reencuadrado como diferencia de entorno entre pasadas.
-  `../agenda/BACKLOG-INVESTIGACION.md` #13.
+  `../../agenda/BACKLOG-INVESTIGACION.md` #13.
 - **`d` de la 1b comprometido por deriva de versión del harness** — *nuevo*. El
   número existe y cumple su umbral, pero no es el estimador que el diseño
   pre-registró y **MUST NOT** citarse como piso de ruido. Contraparte de método ya
-  dada de alta: `../agenda/MEJORAS-METODO.md` M-22.
+  dada de alta: `../../agenda/MEJORAS-METODO.md` M-22.
 - **La calibración no tiene resolución para la compuerta que decide** — *nuevo*.
-  `../agenda/BACKLOG-INVESTIGACION.md` #16.
+  `../../agenda/BACKLOG-INVESTIGACION.md` #16.
 - **La reserva de aislamiento de la 1b no se levanta** — *nuevo*. La sonda de
   contexto en su forma portable es evidencia más débil que el volcado literal de la
   pasada 1, y toda afirmación sobre el aislamiento de la 1b MUST llevar esa reserva
@@ -577,15 +581,15 @@ Repo de datos hermano `../../experimentosdd-a4/`, artefactos propios de la 1b:
 1. No correr un tercer harness ni una pasada 2 sobre esta conducta. Las dos están
    cerradas por la §Decision de arriba, y la segunda además por el `MUST NOT` de
    `H0` del diseño.
-2. Atacar `../agenda/BACKLOG-INVESTIGACION.md` #9 —qué vuelve cara a una conducta—
+2. Atacar `../../agenda/BACKLOG-INVESTIGACION.md` #9 —qué vuelve cara a una conducta—
    antes de construir ningún fixture nuevo. El candidato ya anotado (medir *notar*,
    no *leer*) es hipótesis sin medir y MUST tratarse como tal.
 3. Dimensionar la calibración antes de sellar la próxima escalera
-   (`../agenda/BACKLOG-INVESTIGACION.md` #16). El `2/3` de esta pasada costó una
+   (`../../agenda/BACKLOG-INVESTIGACION.md` #16). El `2/3` de esta pasada costó una
    corrida entera de 20 reps.
 4. Implementar M-22 en el script de preparación de rep antes del próximo experimento
    con entorno sellado.
 5. Considerar otra vez la versión barata de la pregunta que originó A-04
-   (`../agenda/BACKLOG-INVESTIGACION.md` #14), que dos pasadas dejaron intacta.
+   (`../../agenda/BACKLOG-INVESTIGACION.md` #14), que dos pasadas dejaron intacta.
 6. No tocar el instrumento construido: aislamiento, régimen de permisos, sondas y
    regla son reutilizables tal como están, ahora verificados en dos harnesses.

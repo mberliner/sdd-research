@@ -8,7 +8,7 @@
 
 > **Procedencia de este documento.** El diseño se fijó completo *antes* de la
 > primera corrida, en el mismo momento en que se escribió y commiteó la predicción
-> fechada (`../../experimentosdd-a4/PREDICCION-A4.md`, 2026-08-15, commit
+> fechada (`../../../experimentosdd-a4/PREDICCION-A4.md`, 2026-08-15, commit
 > `a4f0060`), que es su testigo versionado pre-dato: de ahí salen verbatim las
 > métricas y los umbrales de `H0`. Este archivo se transcribió al repositorio
 > después de la calibración (commit `14f409d`) y **no reformuló nada de lo
@@ -21,7 +21,7 @@
 ## Hipotesis
 
 **H1.** Puesto ante la misma presión para no verificar, un agente con
-`../AGENTS.md` en su workspace, en vez de repetir la cifra que le dan, va a la
+`../../AGENTS.md` en su workspace, en vez de repetir la cifra que le dan, va a la
 fuente original y afirma la que encuentra allí — y lo hace más a menudo que un
 agente sin él.
 
@@ -149,7 +149,7 @@ recibe el protocolo por inyección del harness; y aunque se quitara, puede leer
 `AGENTS.md`, `CONSTITUTION.md` y `SPECS_REGISTRY.md` del disco. Borrarlos no daría
 «el mismo repo sin protocolo» sino otro repo — y el repo real contiene el diseño
 de este mismo experimento y su regla PASS/FAIL. Por eso corre sobre fixture
-sintético en el repo de datos hermano `../../experimentosdd-a4/` (precedente:
+sintético en el repo de datos hermano `../../../experimentosdd-a4/` (precedente:
 `experimentosdd-b7/`).
 
 **Conducta medida: verificar una afirmación factual antes de afirmarla.** Se
@@ -173,12 +173,12 @@ La compuerta de banda pesa **igual que `d`** y no es un adorno: en ambos bordes
 
 | documento | que afirma hoy | que lo cambiaria |
 |---|---|---|
-| `../CONSTITUTION.md` | que el enforcement del método es humano y a pedido, sin declarar si produce efecto | un veredicto sobre si el efecto es medible |
-| `../AGENTS.md` | que el protocolo rige la ejecución diaria | evidencia de que su mitad ceremonial no cambia conducta |
-| `../agenda/BACKLOG-INVESTIGACION.md` alta #8 | que la pregunta está abierta y es abordable con el procedimiento de [R37] | esta pasada, que la ejecuta por primera vez |
-| `../agenda/BACKLOG-INVESTIGACION.md` alta #7 | que hay que medir el piso de ruido antes de reportar brecha | el piso de ruido efectivamente medido, o la constatación de que no se puede medir |
-| `../agenda/BACKLOG-INVESTIGACION.md` alta #5 | que el régimen de permisos puede dominar la varianza | un régimen de permisos con VOID contado contra umbral |
-| `../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 | que mide variabilidad **entre asistentes** del `[SDD-Check]` | nada: el deslinde con A-04 es explícito y se declara en ambos |
+| `../../CONSTITUTION.md` | que el enforcement del método es humano y a pedido, sin declarar si produce efecto | un veredicto sobre si el efecto es medible |
+| `../../AGENTS.md` | que el protocolo rige la ejecución diaria | evidencia de que su mitad ceremonial no cambia conducta |
+| `../../agenda/BACKLOG-INVESTIGACION.md` alta #8 | que la pregunta está abierta y es abordable con el procedimiento de [R37] | esta pasada, que la ejecuta por primera vez |
+| `../../agenda/BACKLOG-INVESTIGACION.md` alta #7 | que hay que medir el piso de ruido antes de reportar brecha | el piso de ruido efectivamente medido, o la constatación de que no se puede medir |
+| `../../agenda/BACKLOG-INVESTIGACION.md` alta #5 | que el régimen de permisos puede dominar la varianza | un régimen de permisos con VOID contado contra umbral |
+| `../../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 | que mide variabilidad **entre asistentes** del `[SDD-Check]` | nada: el deslinde con A-04 es explícito y se declara en ambos |
 
 ## Definicion operacional
 
@@ -241,7 +241,7 @@ repositorio real será inferencia, no medición.
 
 ## Plan de captura de datos
 
-Todo el material de corrida vive en `../../experimentosdd-a4/`, fuera de este
+Todo el material de corrida vive en `../../../experimentosdd-a4/`, fuera de este
 repositorio: fixture y hashes, plantilla del prompt, regla de puntuación,
 inventario del `HOME` temporal, scripts del Custodio, artefacto de entorno con la
 salida de las sondas, valor verdadero, predicción fechada y sello. El protocolo
@@ -251,7 +251,7 @@ paso a paso —fases, roles, VOID, umbrales y régimen de enmiendas— vive en
 ## Referencias
 
 - [R37] — **sólo el procedimiento, nunca sus resultados**; los evals de la fuente
-  son internos y autoreportados, y `../REFERENCIAS.md` ya lo declara. De ahí
+  son internos y autoreportados, y `../../REFERENCIAS.md` ya lo declara. De ahí
   vienen el ciclo RED→GREEN sobre escenarios de presión, la regla «sin salidas
   fáciles» y el tamaño de efecto de referencia (8/10 → 5/10, corroborado en dos
   familias de modelos), que es lo que fija el umbral de resolución exigido.

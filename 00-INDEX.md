@@ -34,7 +34,7 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 | `agenda/` | operativo — los dos backlogs vivos (filas 13 y 14) |
 | `docs-y-investigacion/` | línea A — SSOTs de agenda, métricas y plan experimental |
 | `software/` | línea B — SSOTs de agenda, métricas y plan experimental; derivados de análisis |
-| `experimentos/` | diseños, runbooks y resultados de experimentos |
+| `experimentos/<id>-<nombre>/` | diseños, runbooks y resultados, una carpeta por experimento |
 | `templates/` | operativo — plantillas de experimento y de cierre |
 | `historial/` | operativo — log evolutivo de fases y cambios de método; incluye `ROADMAP-MEJORAS-SDD.md`, registro histórico cerrado (2026-06-01) |
 | `tools/` | verificación determinista del repositorio (`check_docs.py`) |

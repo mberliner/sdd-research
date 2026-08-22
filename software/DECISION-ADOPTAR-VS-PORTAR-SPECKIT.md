@@ -3,7 +3,7 @@
 Fecha: 2026-06-06.
 Deriva de: `COMPARATIVA-SPECKIT-VS-TESTIGO.md` (comparacion descriptiva en 5 dimensiones).
 Fuentes: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]; clone vendored en `../fuentes-externas/spec-kit/`; artefactos reales del testigo `evaluador-flujo-intent` (ex `agent-test-suite`; `../../../test_circuito_intents/evaluador-flujo-intent/`).
-Alcance: Linea B (software). Estado: Activo (via B confirmada y ejecutada en el testigo, 2026-06-06; ver seccion 9). Actualizado 2026-06-21: ver §9.1 — el testigo adopto git+CI y universalizo el SDD a cualquier asistente IA, lo que corrige dos supuestos de este doc. Actualizado 2026-07-09: ver §9.2 — pipeline 9→14 pasos con bootstrap de hooks auto-reparable + cobertura con umbral, constitucion v0.6.0 (Principio VI), y SPEC-013 (primer adaptador de plataforma alternativa) implementada. Actualizado 2026-07-29: ver §9.3 — **cierra el paso 5 de §8**, B-07 (Eje 1, regenerabilidad) medido y cerrado el 2026-07-28. Actualizado 2026-07-31: **B-07 cerrado integralmente** — su corpus observacional se midio y el criterio (b) quedo resuelto (`H1` NO CONCLUYENTE, `H3` no consistente con la hipotesis). La decision de B-07 es **AJUSTAR**, coherente con la via B ya confirmada en este doc: las convenciones de Spec Kit en uso se conservan **por su valor de metodo, no por evidencia medida de superioridad**, y asi MUST enunciarse. Ver `../experimentos/RESULTADO-EXPERIMENTO-B7.md` §Resultado del criterio (b).
+Alcance: Linea B (software). Estado: Activo (via B confirmada y ejecutada en el testigo, 2026-06-06; ver seccion 9). Actualizado 2026-06-21: ver §9.1 — el testigo adopto git+CI y universalizo el SDD a cualquier asistente IA, lo que corrige dos supuestos de este doc. Actualizado 2026-07-09: ver §9.2 — pipeline 9→14 pasos con bootstrap de hooks auto-reparable + cobertura con umbral, constitucion v0.6.0 (Principio VI), y SPEC-013 (primer adaptador de plataforma alternativa) implementada. Actualizado 2026-07-29: ver §9.3 — **cierra el paso 5 de §8**, B-07 (Eje 1, regenerabilidad) medido y cerrado el 2026-07-28. Actualizado 2026-07-31: **B-07 cerrado integralmente** — su corpus observacional se midio y el criterio (b) quedo resuelto (`H1` NO CONCLUYENTE, `H3` no consistente con la hipotesis). La decision de B-07 es **AJUSTAR**, coherente con la via B ya confirmada en este doc: las convenciones de Spec Kit en uso se conservan **por su valor de metodo, no por evidencia medida de superioridad**, y asi MUST enunciarse. Ver `../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` §Resultado del criterio (b).
 
 Este documento es **decisorio** (que hacer), no descriptivo (como son ambos). La caracterizacion de Spec Kit vs. el testigo en cinco dimensiones vive en `COMPARATIVA-SPECKIT-VS-TESTIGO.md` y aqui se **referencia, no se repite**.
 
@@ -136,13 +136,13 @@ Desde el corte del 2026-07-01 el testigo avanzo ~40 commits (`5fbb04a`..`8bff08c
 
 ## 9.3 Cierre del paso 5 — B-07 medido (2026-07-28)
 
-El paso 5 de §8 queda **cerrado**. La componente de regenerabilidad de B-07 se ejecuto completa (diseno 2x2 balanceado por traduccion, 4 celdas, metricas R1-R5) y cerro en **"ajustar / no concluyente"**. Fuente: `../experimentos/RESULTADO-EXPERIMENTO-B7.md`; runbook `../experimentos/PRUEBA-REGENERABILIDAD-B7.md`.
+El paso 5 de §8 queda **cerrado**. La componente de regenerabilidad de B-07 se ejecuto completa (diseno 2x2 balanceado por traduccion, 4 celdas, metricas R1-R5) y cerro en **"ajustar / no concluyente"**. Fuente: `../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; runbook `../experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`.
 
 **Que dio.** En la unica feature que discrimino (F013) el formato **casero** supero al hibrido en R1, R2 y R5; F001 empato en las cinco metricas. H4 **no queda sostenida, sin ser refutada**, con dos reservas que el propio resultado declara: en F013 el eje formato esta **confundido** con el eje spec autentica/traducida, y **una sola ronda de reparacion borra la diferencia** (las 4 celdas llegan a 100%). `n = 1` por celda: no es afirmacion estadistica.
 
 **Que significa para esta decision.** Nada la revierte. La via B se eligio por **fit con el registry central por capacidad**, no por una apuesta a la regenerabilidad; el resultado retira el unico argumento pendiente que podia haber inclinado la balanza hacia A —"Spec Kit regenera mejor"— al no encontrar esa ventaja en este contexto. La recomendacion B queda **reforzada por ausencia de contraevidencia**, no por evidencia positiva a su favor: son cosas distintas y conviene no confundirlas.
 
-**Lo que sigue abierto.** El **corpus observacional** de las metricas secundarias de B7 (cobertura requisito->derivado, ~~ambiguedad temprana~~ —**degradada a descriptiva el 2026-07-29**, ver `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` §Hipotesis H2: su ratio no es computable y su variable de salida esta confundida con el tratamiento—, fronteras, costo de redaccion, specs vivas) **no se midio**: las preguntas 2 y 3 de `LINEAS-INVESTIGACION.md` §B7 siguen sin datos. Y el **Criterio de exito** de `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` resulto no evaluable; su reformulacion requiere decision del usuario.
+**Lo que sigue abierto.** El **corpus observacional** de las metricas secundarias de B7 (cobertura requisito->derivado, ~~ambiguedad temprana~~ —**degradada a descriptiva el 2026-07-29**, ver `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` §Hipotesis H2: su ratio no es computable y su variable de salida esta confundida con el tratamiento—, fronteras, costo de redaccion, specs vivas) **no se midio**: las preguntas 2 y 3 de `LINEAS-INVESTIGACION.md` §B7 siguen sin datos. Y el **Criterio de exito** de `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` resulto no evaluable; su reformulacion requiere decision del usuario.
 
 ## 10. Referencias internas
 
@@ -200,7 +200,7 @@ Referencia, no copia:
 - SSOT afectado: ninguno por este doc (derivado de COMPARATIVA, sincronizada en la misma tanda). En la misma tanda se corrigio `software/LINEAS-INVESTIGACION.md` (SSOT de agenda linea B), que habia quedado **atras de su propio derivado** `PLAN-PRUEBAS.md`
 - Derivados a revisar: ninguno — este doc no tiene derivados registrados
 - Cobertura: completa — las 4 afirmaciones de estado en presente quedan corregidas y el paso 5 de §8, que era la unica deuda estructural de este doc, queda cerrado con seccion propia
-- Deuda arrastrada: reformular el **Criterio de exito** de `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` (SSOT; no evaluable, requiere decision del usuario); el **corpus observacional** de las secundarias de B7 sigue sin medirse; el umbral `[NEEDS CLARIFICATION]` arrastrado desde 2026-07-09 queda **absorbido** por esa reformulacion; propuestas 3 y 4 del marco sin aplicar
+- Deuda arrastrada: reformular el **Criterio de exito** de `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` (SSOT; no evaluable, requiere decision del usuario); el **corpus observacional** de las secundarias de B7 sigue sin medirse; el umbral `[NEEDS CLARIFICATION]` arrastrado desde 2026-07-09 queda **absorbido** por esa reformulacion; propuestas 3 y 4 del marco sin aplicar
 - Riesgos/reservas: §9.3 afirma que la via B queda reforzada **por ausencia de contraevidencia**, no por evidencia a favor — la distincion es deliberada y no debe colapsarse al citarla. El resultado es `n = 1` por celda con formato confundido con procedencia en F013.
 
 ---
@@ -208,7 +208,7 @@ Referencia, no copia:
 [SDD-Check] — cierre de deuda declarada (2026-07-29)
 - Spec leida: SI (SPECS_REGISTRY.md; este doc es derivado de `COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
 - Incluye/Excluye verificado: SI — no cambia la decision adoptar-vs-portar ni §9.x; sólo cierra la deuda que el bloque anterior dejó explícita, más la nota fechada de H2 en §"Lo que sigue abierto"
-- Validaciones aplicadas: verificado en el SSOT `../experimentos/EXPERIMENTO-B7-formato-hibrido.md` §Criterio de exito que la reformulación está redactada, y en §Hipotesis que `H2` quedó degradada a descriptiva
+- Validaciones aplicadas: verificado en el SSOT `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` §Criterio de exito que la reformulación está redactada, y en §Hipotesis que `H2` quedó degradada a descriptiva
 - SSOT afectado: ninguno por este doc
 - Derivados a revisar: ninguno — este doc no tiene derivados registrados
 - Cobertura: completa para el cierre de esta deuda

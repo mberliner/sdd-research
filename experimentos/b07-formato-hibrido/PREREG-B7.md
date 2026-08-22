@@ -226,7 +226,7 @@ Suites levantadas de `ENV-REF`, aplicadas **post-regeneración**. El `Custodio` 
 
 - Hipótesis y métricas (SSOT): `EXPERIMENTO-B7-formato-hibrido.md`.
 - Procedimiento paso a paso (runbook): `PRUEBA-REGENERABILIDAD-B7.md`.
-- Base metodológica: tarea aislada + configuración fija [R33]; frontera de contexto y DIR [R34] (`../REFERENCIAS.md`).
+- Base metodológica: tarea aislada + configuración fija [R33]; frontera de contexto y DIR [R34] (`../../REFERENCIAS.md`).
 
 ---
 

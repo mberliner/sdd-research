@@ -31,7 +31,7 @@ La señal de congelamiento MUST medirse en **iteraciones del proyecto, no en tie
 - Criterio recomendado: una spec activa sin tocar durante **2-3 iteraciones o ciclos de cierre** del proyecto es candidata a revision.
 - Equivalencias de referencia: cadencia mensual ≈ 30 dias; cadencia semanal ≈ 1 semana; cadencia por iteracion rapida ≈ N iteraciones.
 
-Hallazgo de respaldo: experimento B-06 (`../experimentos/RESULTADO-EXPERIMENTO-B6.md`) mostro que un proyecto testigo que itera en horas vuelve inutil el umbral absoluto de 30 dias.
+Hallazgo de respaldo: experimento B-06 (`../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`) mostro que un proyecto testigo que itera en horas vuelve inutil el umbral absoluto de 30 dias.
 
 ### Por que ocurre
 
@@ -65,7 +65,7 @@ La cadencia correcta es una variable del proyecto, no un estandar fijo. SHOULD a
 - El bloque `[SDD-Check]` al final de cada entrega es un micro-circuito de retroalimentacion por sesion.
 - El campo `estado: Borrador/Activo/Deprecado` en specs explicita el ciclo de vida del conocimiento.
 - El historial en `../historial/sdd.md` registra la evolucion del sistema como evidencia de que los circuitos funcionan.
-- El campo **`Deuda arrastrada`** del bloque `[SDD-Check]` (ver `../AGENTS.md`) lista lo diferido en cada entrega y MUST re-explicitarse en las siguientes hasta resolverse. Es el mecanismo anti-cascada mas directo: convierte el pendiente en un artefacto obligatorio y grep-able en lugar de depender de que alguien lo recuerde. Distingue deuda de producto (se resuelve rapido) de deuda de tooling/entorno (persiste, señal de alarma leve). Derivado del experimento B-06 (`../experimentos/RESULTADO-EXPERIMENTO-B6.md`, hallazgo 2 y propuesta 1), que lo identifico como "el instrumento que mas claramente previene la cascada encubierta" en el proyecto testigo.
+- El campo **`Deuda arrastrada`** del bloque `[SDD-Check]` (ver `../AGENTS.md`) lista lo diferido en cada entrega y MUST re-explicitarse en las siguientes hasta resolverse. Es el mecanismo anti-cascada mas directo: convierte el pendiente en un artefacto obligatorio y grep-able en lugar de depender de que alguien lo recuerde. Distingue deuda de producto (se resuelve rapido) de deuda de tooling/entorno (persiste, señal de alarma leve). Derivado del experimento B-06 (`../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`, hallazgo 2 y propuesta 1), que lo identifico como "el instrumento que mas claramente previene la cascada encubierta" en el proyecto testigo.
 
 ## SDD vs Cascada: Comparativa
 

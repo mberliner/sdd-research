@@ -87,7 +87,7 @@ Lectura del mapeo: convergencia fuerte en lenguaje normativo y en validación de
 
 ### C1. La posición spec-anchored tiene un caso de producción
 
-C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers ocupa el punto medio deliberadamente y con producto vivo. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../experimentos/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
+C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers ocupa el punto medio deliberadamente y con producto vivo. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
 
 ### C2. El circuito de aprendizaje puede correr sobre el método, no solo sobre las specs
 

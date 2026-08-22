@@ -40,7 +40,7 @@ Razón: **todo el ciclo de vida del corpus es pre-git**. El repo se inicializó 
 
 ## Reglas críticas de medición (por qué el diseño es así)
 
-1. **`N/A` no es `0`.** Cuando una métrica cuenta ocurrencias de una sección o convención que sólo una de las dos anatomías contempla (`FR-`/`SC-`, ausentes en casero; `[NEEDS CLARIFICATION]`, ídem), el brazo sin la convención MUST registrarse como **`N/A`** y MUST NOT entrar a promedio ni ratio. Reportarlo como `0` convierte una asimetría de anatomía en un valor medido y produce una tautología a favor del tratamiento. Precedente: `PRUEBA-REGENERABILIDAD-B7.md` §3.6-bis descartó dos ítems de `R5` por esta razón. Anti-patrón general en `../agenda/BACKLOG-INVESTIGACION.md` §Prioridad alta 6.
+1. **`N/A` no es `0`.** Cuando una métrica cuenta ocurrencias de una sección o convención que sólo una de las dos anatomías contempla (`FR-`/`SC-`, ausentes en casero; `[NEEDS CLARIFICATION]`, ídem), el brazo sin la convención MUST registrarse como **`N/A`** y MUST NOT entrar a promedio ni ratio. Reportarlo como `0` convierte una asimetría de anatomía en un valor medido y produce una tautología a favor del tratamiento. Precedente: `PRUEBA-REGENERABILIDAD-B7.md` §3.6-bis descartó dos ítems de `R5` por esta razón. Anti-patrón general en `../../agenda/BACKLOG-INVESTIGACION.md` §Prioridad alta 6.
 
 2. **El *Coverage mapping* MUST NOT ser el instrumento de `H1`: es el tratamiento.** Sólo el brazo híbrido lo tiene. Medir cobertura leyendo la tabla que un solo brazo posee es la misma falacia del punto 1. El numerador se establece con un mapeo requisito a verificador construido con **la misma regla en los dos brazos**.
 
@@ -65,7 +65,7 @@ Razón: **todo el ciclo de vida del corpus es pre-git**. El repo se inicializó 
 
 ## Definicion operacional
 
-Sección obligatoria por `../templates/EXPERIMENTO.md`. Todo lo de acá MUST quedar sellado en Fase 0 antes de tocar el corpus.
+Sección obligatoria por `../../templates/EXPERIMENTO.md`. Todo lo de acá MUST quedar sellado en Fase 0 antes de tocar el corpus.
 
 ### Unidad de requisito (denominador)
 
@@ -216,18 +216,18 @@ Inventario y mapeo: Extractor-1 y Extractor-2, independientes y sin las hipótes
 
 - **4.1** Evaluar contra el criterio **(b)** de `EXPERIMENTO-B7-formato-hibrido.md`. MUST — respetar el techo descriptivo y la redacción obligada ante solapamiento.
 - **4.2** Consolidar reservas: confusión estructural, imposibilidad de cegado, `n` mínima, deriva del corte, modo de fallo común del mapeo spec a archivos, y costo evidencial de la regla relajada.
-- **4.3** Escribir el resultado sobre `../templates/RESULTADO-EXPERIMENTO.md`, incluida su sección «Propagacion» con los tres checks corridos.
+- **4.3** Escribir el resultado sobre `../../templates/RESULTADO-EXPERIMENTO.md`, incluida su sección «Propagacion» con los tres checks corridos.
 - **4.4** Cerrar B-07 con los **dos veredictos** que exige la regla de cierre del SSOT: el de (a), ya emitido, y el de (b). MUST NOT fundirse; la decisión declara el peso relativo.
 
 ## Documentos que esperan este resultado
 
-Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion, declarada acá antes de medir:
+Contraparte del check 3 de `../../templates/RESULTADO-EXPERIMENTO.md` §Propagacion, declarada acá antes de medir:
 
 - `EXPERIMENTO-B7-formato-hibrido.md` — SSOT; su §Metricas secundarias y su criterio (b) quedan resueltos por esta prueba.
-- `../software/LINEAS-INVESTIGACION.md` §B7 — SSOT de agenda; su pregunta 2 (cobertura) queda respondida y su pregunta 3 ya está marcada como no respondible.
-- `../software/PLAN-PRUEBAS.md` §B-07 — estado del experimento.
-- `../software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` — ambos declaran deuda abierta por el corpus observacional.
-- `../software/ANALISIS-SPEC-KIT.md` — hueco C1 (cobertura), que `H1` mide.
+- `../../software/LINEAS-INVESTIGACION.md` §B7 — SSOT de agenda; su pregunta 2 (cobertura) queda respondida y su pregunta 3 ya está marcada como no respondible.
+- `../../software/PLAN-PRUEBAS.md` §B-07 — estado del experimento.
+- `../../software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `../../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` — ambos declaran deuda abierta por el corpus observacional.
+- `../../software/ANALISIS-SPEC-KIT.md` — hueco C1 (cobertura), que `H1` mide.
 - `RESULTADO-EXPERIMENTO-B7.md` — su §Deuda arrastrada nombra `H1` y `H3` sin medir.
 
 ## Referencias
@@ -235,9 +235,9 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
 - SSOT de hipótesis, métricas y criterio: `EXPERIMENTO-B7-formato-hibrido.md`
 - Runbook de la métrica primaria, hermano de este: `PRUEBA-REGENERABILIDAD-B7.md`
 - Resultado de la métrica primaria: `RESULTADO-EXPERIMENTO-B7.md`
-- Hueco C1 (cobertura) y C3: `../software/ANALISIS-SPEC-KIT.md`
-- Anti-patrones del marco: `../agenda/BACKLOG-INVESTIGACION.md`
-- Plantillas: `../templates/EXPERIMENTO.md`, `../templates/RESULTADO-EXPERIMENTO.md`
+- Hueco C1 (cobertura) y C3: `../../software/ANALISIS-SPEC-KIT.md`
+- Anti-patrones del marco: `../../agenda/BACKLOG-INVESTIGACION.md`
+- Plantillas: `../../templates/EXPERIMENTO.md`, `../../templates/RESULTADO-EXPERIMENTO.md`
 
 ---
 
@@ -358,5 +358,5 @@ Contraparte del check 3 de `../templates/RESULTADO-EXPERIMENTO.md` §Propagacion
   control **no está congelado** al 2026-05-24 y se mide igual, sin filtrar, declarando que la contaminación lo favorece. Texto
   completo en `experimentosdd-b7/obs/prereg/ENMIENDAS.md`; el paquete de extractor pasa a armarse con
   `tools/extractor_run_v2.py`.
-- **2026-07-29 (reescritura como runbook ejecutable)** — el documento pasa de notas de diseño a runbook. Agregadas: §Definicion operacional completa (obligatoria por `../templates/EXPERIMENTO.md`: unidad, denominador, numerador, validación de instrumentos, granularidad, agregación, empate, independencia, sensibilidad, quién mide), **Fase 0 sellada**, Fases 1 a 4, §Documentos que esperan este resultado, §Glosario y §Roles. Corregido el **error factual** de la versión anterior, que mandaba *"checkout de commits previos al 6 de junio"*: **no existen**, el repo testigo se inicializó el 2026-06-13, luego el corte es **`3f1ed33`** con la deriva declarada. Incorporadas las decisiones del usuario del mismo día: unidad de medida por anatomía propia de cada formato, tres clases de verificador, y **regla de comparación relajada** a mediana con solapamiento declarado más *leave-one-out*. `H2` baja a Tier B sin cifra comparable (degradada a descriptiva en el SSOT). Se conservan del documento anterior sus cuatro reglas críticas y la nota `N/A` distinto de `0`, ahora integradas en §Reglas criticas de medicion.
+- **2026-07-29 (reescritura como runbook ejecutable)** — el documento pasa de notas de diseño a runbook. Agregadas: §Definicion operacional completa (obligatoria por `../../templates/EXPERIMENTO.md`: unidad, denominador, numerador, validación de instrumentos, granularidad, agregación, empate, independencia, sensibilidad, quién mide), **Fase 0 sellada**, Fases 1 a 4, §Documentos que esperan este resultado, §Glosario y §Roles. Corregido el **error factual** de la versión anterior, que mandaba *"checkout de commits previos al 6 de junio"*: **no existen**, el repo testigo se inicializó el 2026-06-13, luego el corte es **`3f1ed33`** con la deriva declarada. Incorporadas las decisiones del usuario del mismo día: unidad de medida por anatomía propia de cada formato, tres clases de verificador, y **regla de comparación relajada** a mediana con solapamiento declarado más *leave-one-out*. `H2` baja a Tier B sin cifra comparable (degradada a descriptiva en el SSOT). Se conservan del documento anterior sus cuatro reglas críticas y la nota `N/A` distinto de `0`, ahora integradas en §Reglas criticas de medicion.
 - **2026-07-29 (corrección de la fuente de `H2`)** — la versión previa afirmaba que la revisión reactiva sólo era rastreable por `historial/sdd.md`. Es falso: las 7 specs de ambos brazos llevan `## Historial` con entradas fechadas, y el casero marca además `rev.YYYY-MM-DD` in-line. Quedó sin efecto operativo al degradarse `H2`, pero el dato se conserva en §Fase 3 porque describe una convención compartida por los dos formatos.

@@ -75,7 +75,7 @@ Cierra una incoherencia del proyecto: investiga SDD multi-asistente y en la prá
 
 ## M-04 — Formato y compactación de documentos
 
-Convención de formato con resumen ejecutivo obligatorio a partir de cierto tamaño y migración oportunística. Candidatos por tamaño: `../SPECS_REGISTRY.md`, `../experimentos/PRUEBA-REGENERABILIDAD-B7.md`, `../experimentos/PRUEBA-OBSERVACIONAL-B7.md`. En el testigo la reescritura compacta de una spec dio −46% sin pérdida de contenido normativo.
+Convención de formato con resumen ejecutivo obligatorio a partir de cierto tamaño y migración oportunística. Candidatos por tamaño: `../SPECS_REGISTRY.md`, `../experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`, `../experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md`. En el testigo la reescritura compacta de una spec dio −46% sin pérdida de contenido normativo.
 
 ## M-05 — Encabezados que restatan su alcance
 
@@ -185,7 +185,7 @@ Origen: el resultado de M-15, que dejó al Principio VII declarando `Verificador
 Dos límites, declarados en el propio check y elegidos contra un corpus que discute la convención en unos treinta lugares sin tener un solo marcador vivo:
 
 1. **Marcador vs. mención.** Cuenta como marcador lo que trae `:` y una pregunta propia; la elipsis y el metavariable entre ángulos son como este repositorio cita el instrumento cuando habla de él. Los backticks **no** eximen a propósito: un marcador vivo escrito entre backticks sigue estando abierto.
-2. **Hueco conocido: los documentos exentos de spec.** `EXPERIMENTO-*` y `RESULTADO-EXPERIMENTO-*` no tienen `estado` que consultar, y la obligación del protocolo está enunciada contra ese campo — así que quedan fuera justo donde los marcadores reales más aparecen (`../experimentos/PRUEBA-REGENERABILIDAD-B7.md` llegó a tener cuatro). Cerrarlo exige decidir antes qué significa `Activo` para un documento exento, que es una pregunta sobre el registro y no sobre el check.
+2. **Hueco conocido: los documentos exentos de spec.** `EXPERIMENTO-*` y `RESULTADO-EXPERIMENTO-*` no tienen `estado` que consultar, y la obligación del protocolo está enunciada contra ese campo — así que quedan fuera justo donde los marcadores reales más aparecen (`../experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md` llegó a tener cuatro). Cerrarlo exige decidir antes qué significa `Activo` para un documento exento, que es una pregunta sobre el registro y no sobre el check.
 
 Lo que el check **no** cubre del principio: el caso en que el asistente interpretó en silencio y nunca hubo marcador. Eso sigue sin observador mecánico, y es la mitad que la contraparte de investigación mide sobre conducta (`BACKLOG-INVESTIGACION.md` prioridad alta #8).
 
