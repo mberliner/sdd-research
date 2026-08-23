@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## El contenido de los items cerrados migra al historial; el backlog queda con el puntero solo (2026-08-23) — COMPLETADA
+
+**Accion**: segunda pasada de M-29, por correccion del usuario. La primera dejaba en el backlog el planteo previo al cierre de cada item `Hecha`; ahora un item cerrado no conserva contenido propio. El planteo no se borra: migra a la entrada de historial que cerro el item.
+
+### Que se encontro
+La primera pasada corto la narracion de cierre pero conservo el planteo, con el argumento de que ese texto no estaba duplicado y que el Principio V pide no reescribirlo desde el resultado. El argumento sobrevive, pero la conclusion era la equivocada: el planteo se preserva igual si **se muda** en vez de quedarse, y quedandose seguia cobrandole al lector del backlog el costo que M-29 existe para eliminar. La primera pasada bajo el documento de 388 a 355 lineas; esta lo baja a 199.
+
+### Que cambio
+- `historial/sdd.md`: cada una de las 15 entradas que cierran un item de metodo suma al final un bloque `### Planteo de la mejora, migrado de agenda/MEJORAS-METODO.md (2026-08-23)`, con el texto tal como estaba en el backlog y un subtitulo `####` por item. **No se toco una sola linea de lo ya asentado**: el bloque se añade, se fecha y declara su origen, que es la unica forma de traer material a un registro que MUST NOT reescribirse hacia atras. Las rutas migradas pierden el prefijo `../`, que en este directorio apuntaria fuera del repositorio.
+- `agenda/MEJORAS-METODO.md`: 355 → 199 lineas. §Items cerrados deja de tener una seccion por item y pasa a ser una tabla de dos columnas —ID y entrada de historial que lo cerro—, que es lo que el campo `validacion` de la spec pedia desde el alta del documento. El titulo y la prioridad de cada cerrado siguen en la tabla de estado, sin duplicarse.
+- `SPECS_REGISTRY.md`: el `incluye`, el `excluye` y el check de validacion de ese documento pasan de «solo su planteo previo al cierre» a «solo el puntero», y el `excluye` describe la migracion como bloque añadido y fechado.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). Los 18 items cerrados tienen fila en la tabla de punteros y bloque migrado; los 27 separadores `---` entre entradas siguen siendo 27, con el bloque migrado por dentro de su entrada y no despues.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Cambia la forma del backlog de metodo y la spec que lo gobierna, y mueve material entre dos documentos de metodo. No mueve ningun dato de investigacion.
+
+### Deuda abierta
+- **El backlog ya no dice de que trataba un item cerrado**, mas alla del titulo de la tabla de estado. Es el costo aceptado de la regla nueva: para saber mas hay que ir al historial. Si aparece friccion real —alguien releyendo cerrados seguido— el caso se cuenta antes de aflojar la regla, igual que M-21.
+- **La entrada anterior de este mismo dia describe la regla que esta corrige.** Se deja como esta: registra lo que se decidio cuando se decidio.
+- Sin novedad: la ventana de `precedencia` sigue siendo sensible a la disposicion del documento; `historial/sdd.md` crece sin techo y la salida es rotar por periodo, sin item todavia; M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## El backlog de metodo se poda a puntero y se reordena por estado (2026-08-23) — COMPLETADA
 
 **Accion**: M-29 dada de alta y ejecutada. `agenda/MEJORAS-METODO.md` deja de narrar la ejecucion de lo ya cerrado y pasa a referenciar la entrada de historial que la contiene; los items quedan agrupados por estado. La regla del corte se escribe en la spec, no en el item.
@@ -32,6 +55,24 @@ Cambia la forma del backlog de metodo y la spec que lo gobierna. No mueve ningun
 - **`historial/sdd.md` crece sin techo.** 34 entradas y ~890 lineas, 20 de ellas de agosto. No es el problema que M-29 corrige —este archivo es append-only y se lee por la punta o por grep, no entero— pero tiene limite real, y la salida para un log es rotar por periodo, no podar. Sin item propio todavia; hay precedente de rotacion en `historial/ROADMAP-MEJORAS-SDD.md`.
 - **La poda rindio menos de lo proyectado**: se estimaron ~150 lineas y salieron 33 netas, porque la regla conserva todo el planteo previo y varios items cerrados lo tienen largo. Lo que si bajo a la mitad es el costo del uso normal: decidir que falta hacer pasa de leer 388 lineas a leer las 174 primeras.
 - Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-29 — El backlog de método cargaba la narración de lo ya cerrado
+
+El 57% de este documento —222 de 388 líneas— narraba la ejecución de items ya cerrados: qué se hizo, cómo se validó, qué deformaciones deliberadas se probaron. Esa narración ya vivía en `historial/sdd.md`, y la spec de este documento la excluye desde su alta (`SPECS_REGISTRY.md`: «el registro cronológico de lo ya aplicado — vive en `historial/sdd.md`», y `validacion`: «los items `Hecha` referencian la fase de `historial/sdd.md` que los cerró»). No era una mejora pendiente: era deriva doc-vs-spec.
+
+El costo lo paga quien lee para decidir qué falta hacer, que es el uso normal del documento: no hay forma de saber qué está abierto sin barrerlo entero.
+
+**Hecha el 2026-08-23.** Dos cambios: cada item `Hecha` conserva su planteo previo al cierre y remite el resto a la entrada de historial que lo cerró; y los items quedan agrupados por estado —abiertos primero— en vez de por orden de alta.
+
+**El corte quedó escrito en la spec**, no acá: `SPECS_REGISTRY.md` lo declara en el `incluye` y el `excluye` de este documento, y suma el check de validación correspondiente. Dejarlo enunciado sólo en este item habría reincidido en lo mismo que el item corrige.
+
+Lo que sí pertenece acá es **por qué** el corte cae donde cae. Se conserva el texto anterior al cierre porque no está duplicado en ningún lado y porque el Principio V es la razón de no reescribirlo desde el resultado: M-23 es el caso que lo justifica —el diseño enunciado se ejecutó más angosto, y esa diferencia sólo se ve si el enunciado original sigue ahí—. Se corta la narración posterior porque sí está duplicada, y un límite vigente se referencia en vez de copiarse, que es el Principio I aplicado al propio backlog.
+
+Reserva registrada y no resuelta: `historial/sdd.md` crece sin techo por diseño (34 entradas, ~890 líneas, 20 de ellas de agosto). No es el mismo problema —es append-only y se lee por la punta o por grep, no entero— pero tiene un límite real, y la salida para un log no es podar sino rotar por período. Sin item propio todavía.
 
 ## Propagacion de M-28 a los documentos que describen el backstop (2026-08-23) — COMPLETADA
 
@@ -84,6 +125,24 @@ Cambia un verificador y una regla del registro. Los cuerpos de los cinco documen
 - La detección por clave exige que la clave abra el renglón. El `Estado: Activo` a mitad de oración que hubo que corregir a mano no se habría detectado.
 - Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
 
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-28 — Encabezados que reproducen campos del registro
+
+`estado`, `ssot_level`, `owner` y `deriva_de` son campos que `SPECS_REGISTRY.md` declara para **todo** documento. Cuando un documento los repite en su encabezado crea una segunda fuente del mismo dato, que puede desincronizarse sin que nada lo señale. No depende de que el documento sea original o derivado: el registro es dueño de esos cuatro campos en los dos casos.
+
+Casos vivos, detectados en la auditoría de encabezados del 2026-08-23:
+
+1. `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` abre con una tabla que trae columnas `ssot_level` y `owner`. Mezcla dos campos del registro con dos que no lo son (`Creacion`, `Version`), así que el arreglo es recortar columnas, no borrar la tabla.
+2. `software/SDD-EN-LEGACY-Y-BROWNFIELD.md` abre con «Estado: Borrador».
+3. Cuatro documentos de línea B abren con «Deriva de: X». Tres coinciden con el registro; el cuarto —`software/RELACION-SPEC-VS-EPICA.md`— afirmaba una derivación que el registro había borrado el 2026-08-03, y se corrigió el 2026-08-23. Ese caso es la evidencia de que la clase no es teórica: el registro cambió, el encabezado no, y la divergencia sobrevivió cinco meses sin que nada la marcara.
+
+Los casos 1 y 2 coinciden hoy con el registro. Eso no los vuelve correctos, los vuelve **todavía no divergentes** — el estado exacto en que estaba `software/00-INDEX.md` antes de la auditoría de M-14, que lo encontró diciendo «Borrador» sobre un documento ya `Activo`.
+
+**Hecha el 2026-08-23**, en el orden que el caso pedía: primero el check, después la corrección de lo que encontró. La regla vigente vive en `SPECS_REGISTRY.md` §Reglas globales, y alcanza a más campos que los cuatro del planteo de arriba; el alcance del check, sus tres formas de detección y sus límites —detecta la anotación, no la paráfrasis, y exige que la clave abra el renglón—, en su docstring.
+
 ## La regla de alcance pasa de cuatro campos a ocho (2026-08-23) — COMPLETADA
 
 **Acción**: `SPECS_REGISTRY.md` §Reglas globales. La regla que reservaba al registro los campos de spec cubría `proposito`, `incluye`, `excluye` y `validacion`; ahora cubre también `ssot_level`, `estado`, `owner` y `deriva_de`. Parte normativa de M-28.
@@ -135,6 +194,16 @@ Cierra un ítem de método, abre otro y mueve un campo de alcance al registro. E
 - M-28 sin ejecutar: dos encabezados siguen reproduciendo campos del registro, hoy coincidentes con él. La reserva a decidir antes de escribir la exclusión spec por spec es si conviene declararla como regla global del registro.
 - Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
 
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-05 — Encabezados que restatan su alcance
+
+La regla de alcance en un solo lugar (`SPECS_REGISTRY.md` §Reglas globales) admite una línea de identidad en el encabezado, no la enumeración de `incluye`/`excluye`. Caso conocido: `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`. Migración al tocar cada documento, sin barrido masivo.
+
+**Hecha el 2026-08-23.** La clase distinta que el barrido encontró se dio de alta como **M-28**.
+
 ## `sdd-check-fields` pasa a mirar `templates/` (2026-08-23) — COMPLETADA
 
 **Acción**: M-27 dada de alta y ejecutada. El check deja de saltear `templates/`; `historial/` conserva la exención con su motivo escrito en el código.
@@ -157,6 +226,24 @@ Cambia el alcance de un verificador. No mueve ningún dato ni ninguna conclusió
 ### Deuda abierta
 - Ampliar el origen no amplía la clase detectada: el check sigue viendo sólo enumeraciones de campos del `[SDD-Check]`, y una regla reproducida en prosa fuera de su SSOT sigue sin verificador (M-24(2), sin aprobar).
 - Sin cambios: M-22 y M-25 en `Propuesta`; M-26, M-08 y M-05 sin decidir.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-27 — `sdd-check-fields` no miraba `templates/`
+
+El check saltea tres orígenes: `AGENTS.md`, que es el SSOT del bloque y por eso no puede violarse a sí mismo; `historial/sdd.md`; y `templates/`. Los dos primeros están bien. El tercero era el peor lugar posible para no mirar: un template **es** método, se copia en cada experimento, y una definición reproducida ahí se propaga sola a cada instancia futura sin volver a pasar por ninguna revisión.
+
+Detectado el 2026-08-23 leyendo la implementación al ejecutar M-24, no por un caso vivo. Se abrió y se cerró el mismo día porque medirlo costó menos que discutirlo.
+
+La reserva razonable era que un template legítimamente muestra la forma de lo que se llena, así que quitar la exención podría inundar de falsos positivos. No ocurre, por dos motivos independientes: los templates de hoy hablan del bloque en prosa y no enumeran sus campos —quitar la exención no cambió nada en el árbol—, y la regla instancia/definición que el check ya tenía cubre el caso hipotético: un template que muestre el bloque para llenar lleva el literal `[SDD-Check]` al lado y no dispara.
+
+`historial/sdd.md` conserva la exención con motivo propio, ahora escrito en el código: el historial registra entregas pasadas y MUST NOT reescribirse hacia atrás, así que un WARN ahí no sería accionable.
+
+Lo que este ítem **no** cierra es lo que M-24 dejó dicho: el check sigue viendo sólo enumeraciones de campos del `[SDD-Check]`. Ampliar el origen no amplía la clase detectada.
+
+**Hecha el 2026-08-23.**
 
 ## `excluded-field` deja de mirar solo tablas (2026-08-23) — COMPLETADA
 
@@ -184,6 +271,20 @@ Cambia un verificador. No mueve ningún dato ni ninguna conclusión de investiga
 - El check detecta el **valor** del campo, no su paráfrasis: de las tres anotaciones que el índice de línea B tenía, reproduce una y no ve las dos «Deriva de X.md». Cerrarlo exige decidir antes qué paráfrasis cuentan como anotación, que es pregunta sobre el registro y no sobre el check. Mismo límite que `scope-home`.
 - Sigue sin ítem la exención de `templates/` en `sdd-check-fields`, anotada ayer en el docstring.
 - Sin cambios: M-22 y M-25 en `Propuesta`; M-26, M-08 y M-05 sin decidir.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-23 — `excluded-field` escaneaba solo tablas, no listas
+
+El check (`M-09`) solo escanea líneas que empiezan con `|` — filas de tabla markdown. `software/00-INDEX.md` reproducía el rol (`ssot_level`) de tres documentos en una lista con guiones (`- [link] — SSOT de...`, `- [link] — ... Deriva de X.`), forma que la spec de ese índice prohíbe igual que una tabla, pero que el check no reconoce por no ser tabla.
+
+Detectado el 2026-08-22 en una auditoría de los tres `00-INDEX.md` contra `SPECS_REGISTRY.md`: cobertura de specs completa (0 archivo sin registrar, 0 spec sin archivo), pero esta anotación de rol en prosa pasó los checks existentes sin ruido — mismo patrón que motivó `M-09` (duplicación de SSOT no detectada por los checks de entonces). Corregido a mano en la misma auditoría.
+
+Forma de la mejora: generalizar el escaneo de `check_excluded_fields_in_tables` a cualquier línea de contenido (no solo `|...|`), buscando los valores válidos de `estado`/`ssot_level` como palabra completa cerca de un link, no solo dentro de celdas de tabla. Riesgo a evitar: falsos positivos con menciones legítimas de la palabra "SSOT" fuera de una anotación de rol (por ejemplo, en prosa explicativa).
+
+**Hecha el 2026-08-23.** **El diseño enunciado arriba se ejecutó más angosto, y el corpus dio la razón**: se exige el link en vez de barrer cualquier línea de contenido, que es lo que distingue una entrada de índice de una frase que menciona la palabra. El límite resultante —detecta el valor del campo, no su paráfrasis— está declarado en el docstring del check.
 
 ## `normative-block` pasa a llamarse `sdd-check-fields` (2026-08-23) — COMPLETADA
 
@@ -215,6 +316,27 @@ Cambia el verificador de un principio y el texto de la constitución. No mueve n
 - El punto ciego simétrico de `excluded-field` (sólo tablas) es M-23, y se abarata extrayendo el reconocedor de forma de línea que hoy está duplicado en los dos checks.
 - La exención de `templates/` en `sdd-check-fields` no tiene ítem propio: anotada en el docstring, pendiente de decidir si se quita — un template legítimamente muestra la forma de lo que se llena.
 - Sigue en pie del 2026-08-22: «qué decisión habilita» sin campo en el bloque `[SDD-Check]` (M-26), y el tratamiento de A-04 sin commit fijado (M-25, reformulada el 2026-08-23 junto con M-22, ambas en `Propuesta`).
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-24 — `normative-block` cubría bastante menos de lo que su nombre prometía
+
+`AGENTS.md` lo describía como «la definición de un bloque normativo reproducida fuera de su SSOT». La implementación detecta una sola cosa: enumeraciones de los campos del bloque `[SDD-Check]`. Las dos descripciones no son la misma, y la ancha era la que el asistente leía.
+
+Detectado el 2026-08-22: una revisión de `AGENTS.md` encontró cinco reglas re-enunciadas ahí en vez de referenciadas —la regla de propagación, el léxico normativo, el formato de commit, el límite del verificador y la disambiguación—, y **ninguna de las cinco es detectable por el check**, porque ninguna es una enumeración de campos del `[SDD-Check]`. El repositorio estaba en 0 ERROR y no dijo nada. Es el mismo patrón que M-23 y que el propio M-09: el hueco no está en lo que el check hace, sino entre lo que hace y lo que se cree que hace.
+
+Dos formas posibles, y no son la misma mejora:
+
+1. **Barata y honesta**: ajustar la descripción de `AGENTS.md` y el docstring para que digan lo que el check realmente hace. Cierra la falsa confianza sin tocar código. Es el piso, y conviene hacerlo aunque se haga también lo otro.
+2. **Cara y de valor incierto**: ampliar el check a otros bloques normativos. Requiere primero decidir qué es un «bloque normativo» de forma mecánica —el `[SDD-Check]` lo es porque tiene delimitadores y campos con nombre; la regla de propagación es prosa— y sin esa definición no hay qué implementar. Riesgo alto de falsos positivos: toda referencia legítima menciona el tema que referencia.
+
+**Recomendación: hacer (1) y dejar (2) sin aprobar** hasta que exista un criterio mecánico de «bloque normativo» que no sea una lista a mano —que es exactamente la deriva que `emitted_check_ids()` evita un nivel más arriba. La regla de disparadores del registro (§Reglas globales) cubre hoy este terreno por vía humana, y la spec de `AGENTS.md` ya tiene el check de validación correspondiente.
+
+**Hecha el 2026-08-23, con (1) ampliada y (2) sin aprobar.** La forma (1) fue un paso más allá de corregir la descripción: el check se renombró, porque el identificador se lee cada vez que alguien mira qué cubre un principio.
+
+Lo que el renombre **no** arregla quedó escrito donde se lee —el campo `Verificador:` del Principio I y el docstring del check—, no acá. El historial conserva el nombre viejo en las entradas anteriores, a propósito. La exención de `templates/` que este trabajo dejó anotada se cerró al día siguiente como **M-27**; el punto ciego simétrico de `excluded-field`, como **M-23**.
 
 ## §Qué NO hacer queda declarado como índice por modo de falla (2026-08-22) — COMPLETADA
 
@@ -373,6 +495,24 @@ El cableado estaba anotado como pendiente desde M-01 con una dependencia declara
 - **`core.hooksPath` es config local, no versionada.** El gate se versiona; su activación no. Por eso existe el check `gate`, que convierte «no instalado» en ERROR visible en vez de silencio.
 - El check `gate` no tiene regresión automatizada, igual que los de M-15, M-18 y M-20: cuarto ritual manual consecutivo, y el candidato natural a darse de alta como mejora propia.
 
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-07 — Revisar la premisa "sin CI"
+
+`AGENTS.md` e `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` describen un contexto sin CI. Sigue siendo cierto, pero desde 2026-07-31 hay git, y eso habilita `pre-commit` como sustrato tool-agnóstico para M-01 y M-02. Revisar ambos documentos cuando esas mejoras se implementen, no antes.
+
+**Hecha el 2026-08-15**, junto con M-19.
+
+#### M-19 — Cablear el backstop al commit, fail-closed y versionado
+
+La incoherencia más cara del repositorio: investiga gates que fallan abierto (`BACKLOG-INVESTIGACION.md` prioridad alta #4, hallazgo de B-07) y su propia verificación fallaba abierta por diseño — `check_docs.py` corría solo si alguien se acordaba, así que nada distinguía un commit verificado de uno que nadie miró.
+
+Contraparte de investigación: `BACKLOG-INVESTIGACION.md` alta #4 pedía «cómo detectar que un gate está caído (heartbeat / self-test)». El check `gate` es una respuesta parcial y ejecutada, no la cierra: detecta el gate desconectado, no el gate presente que no verifica lo que dice verificar.
+
+**Hecha el 2026-08-15.** Las tres decisiones de diseño y los dos límites del gate —verifica el árbol de trabajo y no el índice, y el flag de bypass lo saltea— están declarados en `tools/githooks/pre-commit`.
+
 ---
 
 ## M-20 — Verificador ejecutable para el Principio VI (2026-08-15) — COMPLETADA
@@ -395,6 +535,16 @@ Tres deformaciones deliberadas sobre el índice, una por decisión de diseño: c
 ### Deuda abierta
 - El check verifica que la entrada exista y quede arriba, **no que clasifique bien**. Que un cambio sea método y no hallazgo, y la dirección simétrica del principio —que un hallazgo no mueva el método sin decisión explícita y fechada—, siguen siendo juicio humano.
 - Quedan **III y V** sin verificador. III (M-16) ya no está bloqueada. V —el sellado experimental— es una promesa sobre el orden entre pensar y ver, y sigue sin observador mecánico posible.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-20 — Verificador del Principio VI
+
+El Principio VI declaraba `Verificador: ninguno` con el diagnóstico escrito desde M-01: «un check del criterio de separación método/investigación quedó pendiente y sigue sin darse de alta». `AGENTS.md` §Al cerrar una iteración obliga desde siempre a asentar el cambio de método en el historial, más reciente arriba, y nada lo miraba.
+
+**Hecha el 2026-08-15.** Decidió de paso lo que M-18 había dejado abierto —que el backstop MAY depender de git, en un modo opcional que degrada— y con eso **M-16 quedó desbloqueada**.
 
 ---
 
@@ -421,6 +571,18 @@ Cinco deformaciones deliberadas, cada una probando una decisión de diseño dist
 - **Hueco conocido y declarado**: los documentos exentos de spec (`EXPERIMENTO-*`, `RESULTADO-EXPERIMENTO-*`) no tienen `estado` que consultar y quedan fuera, justo donde los marcadores reales más aparecen. Cerrarlo exige decidir antes qué significa `Activo` para un documento exento — pregunta sobre el registro, no sobre el check.
 - El check no observa el caso en que se interpretó en silencio y nunca hubo marcador. Es la mitad que `agenda/BACKLOG-INVESTIGACION.md` prioridad alta #8 propone medir sobre conducta.
 - Quedan III, V y VI sin verificador. El más accionable sigue siendo III (M-16), bloqueado por la decisión de si el backstop puede depender de git.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-18 — Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto
+
+Origen: el resultado de M-15, que dejó al Principio VII declarando `Verificador: ninguno` con esta frase — «el marcador es grep-able, pero nada verifica que se haya resuelto antes de declarar un documento activo». Las dos piezas necesarias ya existían por separado: el marcador es grep-able desde que se adoptó de Spec Kit [R10], y el registro ya declara `estado` por documento. La mejora es cruzarlas.
+
+**Hecha el 2026-08-15.** Los dos límites del check —qué cuenta como marcador, y los documentos exentos de spec que quedan fuera justo donde más marcadores aparecen— están declarados en `tools/check_docs.py` y no se reproducen acá.
+
+Lo que el check **no** cubre del principio: el caso en que el asistente interpretó en silencio y nunca hubo marcador. Eso sigue sin observador mecánico, y es la mitad que la contraparte de investigación mide sobre conducta (`BACKLOG-INVESTIGACION.md` prioridad alta #8).
 
 ---
 
@@ -450,6 +612,20 @@ Se corrió el check en rojo antes de escribir el campo (7 ERROR, uno por princip
 - Cuatro principios sin verificador. El más accionable es III, que es M-16.
 - M-07 avanza pero no cierra: `AGENTS.md` quedó corregido, `comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` sigue pendiente.
 - El check verifica que el verificador **exista**, no que **alcance**: que `spec-coverage` baste para sostener el Principio IV sigue siendo juicio humano.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-15 — Cada principio declara un verificador ejecutable, o declara que no tiene
+
+Los siete principios de `CONSTITUTION.md` declaran `Enforcement:` y los siete nombran prosa: «checks de post-generación de `AGENTS.md`», «revisión editorial», «campo `validacion` de cada spec». `tools/check_docs.py` existe y cubre parte de eso, pero ningún principio lo nombra y nada verifica que la relación entre principio y verificador sea otra cosa que una intención escrita.
+
+Propuesta: que cada principio nombre el check de `check_docs.py` que lo cubre, o `ninguno` cuando nada lo cubra, y que `check_docs.py` verifique que los nombrados existen. Lo que produce no es enforcement universal —un repositorio documental sin CI no puede mecanizar «no formular una hipótesis después de ver el resultado»— sino **visibilidad de qué principio tiene mecanismo y cuál depende de que alguien se acuerde**.
+
+Origen: sdd-first [R39] declara ese vínculo en el config y verifica que el paso esté cableado y haya corrido; su SPEC-020 nació justamente al descubrir que un principio nuevo obtenía «enforcement decorativo» sin aviso (`software/ANALISIS-SDD-FIRST.md` C1). Contraparte de investigación: `BACKLOG-INVESTIGACION.md` prioridad alta #4 (gates que fallan abierto) y #3 (umbral de control manual a automatizado).
+
+**Hecha el 2026-08-15.** Qué principio tiene verificador hoy y cuál declara `ninguno` se lee en `CONSTITUTION.md`, campo `Verificador:`; este backlog no lo reproduce, porque el conteo cambia cada vez que se cierra una mejora.
 
 ---
 
@@ -498,6 +674,16 @@ Hallazgo con consecuencia inmediata: el chequeo de **mtime** que M-02 daba por d
 ### Deuda abierta
 - M-05 y M-08 siguen abiertas como prioridades baja.
 
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-14 — Índices de línea duplicaban `proposito`/`estado`
+
+Una auditoría de coherencia encontró que `software/00-INDEX.md` anotaba "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` mientras el registro ya declaraba `estado: Activo` desde el 2026-06-06 — contradicción directa entre el índice y su SSOT. Causa raíz: la spec de los dos índices de línea no prohibía explícitamente que las descripciones junto a cada link parafrasearan el `proposito` registrado ni que anotaran `estado`, a diferencia de la regla ya vigente para el `00-INDEX.md` de raíz.
+
+**Hecha el 2026-08-03.** Es el antecedente directo de M-28, que veinte días después generalizó la prohibición a todo documento.
+
 ---
 
 ## M-13 — `deriva_de` apunta a documentos que no son SSOT (2026-08-03) — COMPLETADA
@@ -524,6 +710,16 @@ Un octavo caso (`RELACION-SPEC-VS-EPICA.md` → `ANALISIS-SPEC-KIT.md`) resultó
 - M-05 y M-08 siguen abiertas como prioridades baja y media.
 - La excepción de entrada mínima para `EXPERIMENTO-*.md` es puntual (M-13); si aparecen más casos de documentos exentos de spec citados como origen, revisar si conviene generalizarla en vez de repetirla caso a caso.
 
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-13 — `deriva_de` apunta a documentos que no son SSOT
+
+De 7 specs `derivado` vigentes, 6 violaban la definición literal de `deriva_de` en tres patrones —destino `operativo`, derivado-de-derivado, destino sin entrada— y la séptima (`RELACION-SPEC-VS-EPICA.md`) resultó ser un error de modelado distinto: relación forzada, no síntesis real. Emparentada con M-11, que también toca coherencia del registro contra sí mismo.
+
+**Hecha el 2026-08-03.** La regla vigente —origen `SSOT` o `derivado`, nunca `operativo` ni sin registrar, con cadena permitida bajo condición— vive en `SPECS_REGISTRY.md`, campo `deriva_de`.
+
 ---
 
 ## Fase 13 — Higiene de archivo y validación de SSOTs, M-11 y M-12 (2026-08-03) — COMPLETADA
@@ -545,6 +741,22 @@ En la segunda ejecución luego del proceso de saneado, los verificadores retorna
 ### Deuda abierta
 - **El script base sigue careciendo de test automatizados y funcionales.** Se planteó explícitamente agregar `pytest` a su desarrollo o un comando en la bandera `--selftest`, pero por economía en esta fase se optó por respetar su alcance y postergar esta iniciativa como ticket nuevo.
 - M-05, M-08 y M-13 siguen abiertas como prioridades medias y bajas.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-11 — Validar la tabla SSOT
+
+El registro declara una tabla SSOT y nada verificaba su coherencia contra el disco ni contra las specs. Emparentada con M-13, que también toca coherencia del registro contra sí mismo.
+
+**Hecha el 2026-08-03**, junto con M-12: `tools/check_docs.py` asegura que los paths de la tabla existan en disco y coincidan con un `path` registrado.
+
+#### M-12 — Higiene de archivo
+
+CRLF mezclado, BOM y ausencia de newline final. Origen concreto: en la Fase 11 un barrido de referencias convirtió CRLF a LF en `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`, único archivo del repo con ese final de línea, inflando su diff de 3 a 418 líneas. Se detectó por el diffstat, no por el backstop.
+
+**Hecha el 2026-08-03**, junto con M-11.
 
 ---
 
@@ -574,6 +786,37 @@ Calibración: la ventana hacia atrás de `normative-block` pasó de 6 a 20 líne
 - El script sigue **sin tests propios**. La Fase 10 ya había afinado la heurística de precedencia contra tres falsos positivos y hoy se calibró `normative-block` contra siete; ninguna de esas calibraciones está protegida contra regresión. La técnica del worktree histórico funcionó bien y es la base natural de un `--selftest`, pero no se implementó.
 - `ssot-collision` solo mira el campo `incluye` de las specs. Una duplicación entre dos documentos cuyas specs no la declaran —el caso más probable, porque nadie escribe en la spec que va a duplicar— se le escapa entera.
 - M-05 y M-08 siguen abiertas desde fases anteriores.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-09 — Señales de duplicación entre SSOTs
+
+Dos checks nuevos en el backstop, ambos WARN, ambos originados en la Fase 11: los dos casos serios de duplicación que esa fase corrigió habían pasado los ocho checks existentes sin ruido.
+
+- `ssot-collision`: cruza la columna *Concepto* de la tabla SSOT contra los campos `incluye` de las demás specs. Detecta que dos specs se declaren dueñas del mismo tema. Habría señalado el caso D1 (la spec de `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` declaraba `incluye: metricas por linea` mientras la tabla SSOT asignaba esas métricas a los dos `NECESIDADES-Y-METRICAS.md`).
+- `sdd-check-fields` (así desde M-24; se llamó `normative-block` hasta el 2026-08-23): detecta que la definición de un bloque normativo —hoy el `[SDD-Check]`, cuyo SSOT es `AGENTS.md`— se reproduzca enumerada fuera de su SSOT. Distingue *instancia* de *definición*: una entrega que cierra con el bloque lleno es legítima en cualquier documento; lo que no lo es, es listar los campos como definición. Habría señalado el caso D2.
+
+**Límite: son señales para revisión humana, no veredictos.** El script conserva su límite declarado —presencia y forma, no adecuación— y por eso los dos checks emiten WARN: marcan candidatos a mirar, no violaciones probadas. Ampliar el límite del script a *adecuación* sería otra decisión y no se toma acá.
+
+**Hecha el 2026-07-31.**
+
+#### M-10 — Verificar rutas escritas en backticks
+
+`check_links` valida solo la sintaxis markdown `[texto](destino.md)`, pero este repositorio referencia sobre todo con backticks (`` `comun/X.md` ``). Esas rutas no se verificaban, así que la reorganización de la Fase 11 pudo haber dejado referencias muertas sin que el backstop dijera nada.
+
+Regla de resolución en tres casos, elegida para no producir falsos positivos con el proyecto testigo, cuya estructura de directorios es homónima de la nuestra:
+
+1. Ruta con prefijo relativo explícito (``, `./`): se resuelve contra el directorio del documento. Es intención de navegación inequívoca.
+2. Ruta cuyo primer segmento es un directorio **de este repositorio**: se resuelve contra la raíz.
+3. Cualquier otro primer segmento (`docs/`, `specs/`, `memory/`, `.b7/`): es de otro repositorio, se ignora.
+
+Un backtick sin barra es una mención por nombre, no una ruta, y no se verifica.
+
+Se agregó un cuarto caso durante la implementación: una ruta relativa que **sale de la raíz** apunta a un repositorio hermano y tampoco se verifica.
+
+**Hecha el 2026-07-31.**
 
 ---
 
@@ -628,6 +871,20 @@ La corrección de los falsos positivos se verificó contra los dos positivos ver
 - El checker **no verifica su propio criterio de separación** método/investigación (Fase 9): nada impide dar de alta una tarea de método en el backlog de investigación.
 - No está cableado a `pre-commit`; hay que acordarse de correrlo. Cablearlo depende de decidir M-02.
 - Sigue sin cubrir adecuación: los dos positivos verdaderos de hoy fueron de forma. Una spec que describe mal a su documento pasa igual.
+
+### Planteo de la mejora, migrado de `agenda/MEJORAS-METODO.md` (2026-08-23)
+
+Texto tal como estaba escrito en el backlog **antes** de este cierre: diagnostico, forma propuesta y reservas. Se trae aca por M-29, que deja en el backlog solo el puntero. No modifica nada de lo asentado arriba.
+
+#### M-01 — Backstop determinista de documentación
+
+Script local (sin CI) que verifica lo que hoy son checkboxes aspiracionales del campo `validacion`: todo `.md` autorado tiene spec registrada o cae en una exención declarada; el registro no apunta a archivos inexistentes; links internos vivos; `[Rxx]` usadas ⊆ `REFERENCIAS.md`; `deriva_de` existe y no es circular; `estado` y `ssot_level` con valores válidos; cadena de precedencia coherente con `CONSTITUTION.md` entre los documentos que la declaran.
+
+Es la capa 2 del enforcement de tres capas del testigo (`docs/SDD-ENFORCEMENT.md`), portada a un repo documental. Límite heredado y explícito: verifica **presencia y forma, no adecuación** — que un documento tenga spec no dice que la spec lo describa bien.
+
+Contraparte de investigación: `BACKLOG-INVESTIGACION` exploratoria «evaluación automática parcial sin CI», y prioridad alta «umbral de control manual a automatizado». Ejecutar M-01 produce dato para ambas; no las cierra.
+
+**Hecha el 2026-07-31.** Los dos pendientes que dejó abiertos —cablearlo al commit y un check del criterio método/investigación— se cerraron el 2026-08-15 como **M-19** y **M-20**, y con ellos la dependencia de M-02 declarada entonces, que resultó falsa.
 
 ---
 
