@@ -41,6 +41,9 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-22 | Verificar en tiempo de corrida el entorno que el sello declara | alta | Propuesta (2026-08-19) | desviación observada en T2 de la pasada 1b de A-04 | scripts de preparación de rep de experimentos futuros |
 | M-23 | Extender `check_excluded_fields_in_tables` a listas, no solo tablas | baja | Propuesta (2026-08-22) | auditoría de índices de línea | `../tools/check_docs.py` |
+| M-24 | `normative-block` cubre bastante menos de lo que su nombre promete | media | Propuesta (2026-08-22) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` |
+| M-25 | El tratamiento de A-04 no está fijado a una versión de `../AGENTS.md` | alta | Propuesta (2026-08-22) | el tratamiento cambió el 2026-08-22 sin que nada lo registrara | `../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` |
+| M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 
 ---
 
@@ -250,3 +253,41 @@ El check (`M-09`) solo escanea líneas que empiezan con `|` — filas de tabla m
 Detectado el 2026-08-22 en una auditoría de los tres `00-INDEX.md` contra `../SPECS_REGISTRY.md`: cobertura de specs completa (0 archivo sin registrar, 0 spec sin archivo), pero esta anotación de rol en prosa pasó los checks existentes sin ruido — mismo patrón que motivó `M-09` (duplicación de SSOT no detectada por los checks de entonces). Corregido a mano en la misma auditoría.
 
 Forma de la mejora: generalizar el escaneo de `check_excluded_fields_in_tables` a cualquier línea de contenido (no solo `|...|`), buscando los valores válidos de `estado`/`ssot_level` como palabra completa cerca de un link, no solo dentro de celdas de tabla. Riesgo a evitar: falsos positivos con menciones legítimas de la palabra "SSOT" fuera de una anotación de rol (por ejemplo, en prosa explicativa).
+
+## M-24 — `normative-block` cubre bastante menos de lo que su nombre promete
+
+`../AGENTS.md` lo describe como «la definición de un bloque normativo reproducida fuera de su SSOT». La implementación detecta una sola cosa: enumeraciones de los campos del bloque `[SDD-Check]`. Las dos descripciones no son la misma, y la ancha es la que el asistente lee.
+
+Detectado el 2026-08-22: una revisión de `../AGENTS.md` encontró cinco reglas re-enunciadas ahí en vez de referenciadas —la regla de propagación, el léxico normativo, el formato de commit, el límite del verificador y la disambiguación—, y **ninguna de las cinco es detectable por el check**, porque ninguna es una enumeración de campos del `[SDD-Check]`. El repositorio estaba en 0 ERROR y no dijo nada. Es el mismo patrón que M-23 y que el propio M-09: el hueco no está en lo que el check hace, sino entre lo que hace y lo que se cree que hace.
+
+Dos formas posibles, y no son la misma mejora:
+
+1. **Barata y honesta**: ajustar la descripción de `../AGENTS.md` y el docstring para que digan lo que el check realmente hace. Cierra la falsa confianza sin tocar código. Es el piso, y conviene hacerlo aunque se haga también lo otro.
+2. **Cara y de valor incierto**: ampliar el check a otros bloques normativos. Requiere primero decidir qué es un «bloque normativo» de forma mecánica —el `[SDD-Check]` lo es porque tiene delimitadores y campos con nombre; la regla de propagación es prosa— y sin esa definición no hay qué implementar. Riesgo alto de falsos positivos: toda referencia legítima menciona el tema que referencia.
+
+**Recomendación: hacer (1) y dejar (2) sin aprobar** hasta que exista un criterio mecánico de «bloque normativo» que no sea una lista a mano —que es exactamente la deriva que `emitted_check_ids()` evita un nivel más arriba. La regla de disparadores del registro (§Reglas globales) cubre hoy este terreno por vía humana, y la spec de `../AGENTS.md` ya tiene el check de validación correspondiente.
+
+## M-25 — El tratamiento de A-04 no está fijado a una versión de `AGENTS.md`
+
+El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente. El runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita los ancestros del workspace y verifica que no haya configuración de asistente presente, pero **no fija con qué commit de `../AGENTS.md` se entrega el tratamiento**. La variable independiente del experimento es el único componente sin identificar.
+
+Detectado el 2026-08-22, por ocurrencia: ese día `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato experimental lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero si el tratamiento hubiera cambiado entre dos tandas de una pasada 2, el efecto medido no tendría a qué atribuirse.
+
+Es la misma forma que M-22 y conviene leerlas juntas: allá el componente del sello que podía cambiar solo era la versión del harness; acá es el documento que el repositorio edita como parte de su trabajo normal. En los dos casos lo sellado y lo verificado no coinciden, y el hueco cae justo sobre lo que más se mueve.
+
+Forma de la mejora: el runbook declara el commit de `../AGENTS.md` que constituye el tratamiento, y el script de preparación de cada rep verifica que el archivo entregado corresponda a ese commit —el mismo lugar donde ya vive el chequeo de hashes del fixture, y el mismo mecanismo—. Una pasada que necesite un tratamiento distinto es una pasada distinta, con su enmienda fechada.
+
+Reserva: fijar el tratamiento congela `../AGENTS.md` mientras una pasada está abierta, o bien obliga a declarar la pasada como corrida sobre dos versiones. Es una restricción real sobre el trabajo del repositorio y hay que aceptarla explícitamente, no descubrirla a mitad de una tanda.
+
+## M-26 — «Qué decisión habilita» es un MUST sin casillero donde satisfacerse
+
+`../AGENTS.md` §Criterios de calidad mínima exige que cada cambio indique qué decisión habilita. A diferencia de `Derivados a revisar` o `Deuda arrastrada`, no tiene campo en el bloque `[SDD-Check]`: no hay lugar donde escribirlo ni dónde verificar que se escribió.
+
+Detectado el 2026-08-22 en la revisión de `../AGENTS.md`. No es contradicción —nada lo prohíbe—, es un MUST que en la práctica se cumple o no según se acuerde el asistente.
+
+Dos salidas, y la elección no es obvia:
+
+1. **Campo nuevo** en el bloque. Le da lugar mecánico y lo vuelve verificable por presencia. Costo: una línea más en **cada** entrega, para una exigencia que muchas veces se responde con una obviedad («habilita seguir escribiendo el documento»), y el bloque ya tiene siete campos.
+2. **Bajar el MUST a SHOULD**, reconociendo que es un criterio de juicio y no una casilla. Costo: pierde fuerza justo en los cambios donde importa, que son los que no habilitan nada y nadie nota.
+
+Ninguna es claramente mejor. Conviene decidirla junto con cualquier otra revisión del bloque `[SDD-Check]`, no sola.
