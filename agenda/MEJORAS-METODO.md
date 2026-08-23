@@ -44,6 +44,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-24 | `normative-block` cubría bastante menos de lo que su nombre prometía | media | **Hecha** (2026-08-23) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` + `../CONSTITUTION.md` |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
+| M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
 
 ---
 
@@ -303,6 +304,20 @@ Validación: el renombre se corrió en rojo a propósito antes de tocar la const
 `../historial/sdd.md` conserva el nombre viejo en las entradas de la Fase 12 y del 2026-08-22, a propósito: el historial registra lo que pasó cuando pasó y MUST NOT reescribirse hacia atrás.
 
 Dos hallazgos del mismo trabajo que **no** entran acá: el punto ciego simétrico de `excluded-field` (escaneaba sólo tablas, mientras este escanea sólo listas), que es M-23 y se cerró al día siguiente; y la exención de `templates/`, que no tiene ítem propio y quedó anotada en el docstring a la espera de decisión.
+
+## M-27 — `sdd-check-fields` no miraba `templates/`
+
+El check saltea tres orígenes: `../AGENTS.md`, que es el SSOT del bloque y por eso no puede violarse a sí mismo; `../historial/sdd.md`; y `../templates/`. Los dos primeros están bien. El tercero era el peor lugar posible para no mirar: un template **es** método, se copia en cada experimento, y una definición reproducida ahí se propaga sola a cada instancia futura sin volver a pasar por ninguna revisión.
+
+Detectado el 2026-08-23 leyendo la implementación al ejecutar M-24, no por un caso vivo. Se abrió y se cerró el mismo día porque medirlo costó menos que discutirlo.
+
+La reserva razonable era que un template legítimamente muestra la forma de lo que se llena, así que quitar la exención podría inundar de falsos positivos. No ocurre, por dos motivos independientes: los templates de hoy hablan del bloque en prosa y no enumeran sus campos —quitar la exención no cambió nada en el árbol—, y la regla instancia/definición que el check ya tenía cubre el caso hipotético: un template que muestre el bloque para llenar lleva el literal `[SDD-Check]` al lado y no dispara.
+
+`../historial/sdd.md` conserva la exención con motivo propio, ahora escrito en el código: el historial registra entregas pasadas y MUST NOT reescribirse hacia atrás, así que un WARN ahí no sería accionable.
+
+**Hecha el 2026-08-23.** Validación en las dos direcciones sobre `../templates/EXPERIMENTO.md`: una enumeración de cuatro campos del bloque dispara el WARN, y la misma enumeración precedida del literal `[SDD-Check]` no dispara. Árbol restaurado, 0 ERROR.
+
+Lo que este ítem **no** cierra es lo que M-24 dejó dicho: el check sigue viendo sólo enumeraciones de campos del `[SDD-Check]`. Ampliar el origen no amplía la clase detectada.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 

@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## `sdd-check-fields` pasa a mirar `templates/` (2026-08-23) — COMPLETADA
+
+**Acción**: M-27 dada de alta y ejecutada. El check deja de saltear `templates/`; `historial/` conserva la exención con su motivo escrito en el código.
+
+### Qué se encontró
+Leyendo la implementación al ejecutar M-24 apareció que el check saltea tres orígenes. `AGENTS.md` es el SSOT del bloque y no puede violarse a sí mismo; `historial/` registra entregas pasadas que MUST NOT reescribirse hacia atrás, así que un WARN ahí no sería accionable. `templates/` no tenía justificación equivalente y era el peor lugar donde no mirar: un template es método, se copia en cada experimento, y una definición reproducida ahí se propaga sola a cada instancia futura sin volver a pasar por revisión.
+
+La reserva —que un template legítimamente muestra la forma de lo que se llena— no se sostuvo, por dos motivos independientes: los templates actuales hablan del bloque en prosa y no enumeran sus campos, y la regla instancia/definición que el check ya tenía cubre el caso hipotético.
+
+### Qué cambió
+- `tools/check_docs.py`: `templates/` sale de la lista de orígenes salteados de `check_sdd_check_fields`; el comentario explica por qué `historial/` se queda y por qué esto salió barato.
+- `agenda/MEJORAS-METODO.md`: M-27 dada de alta y cerrada en la misma entrega.
+
+### Cómo se validó
+Primero se midió el costo: quitar la exención **no produjo ningún hallazgo** en el árbol, que es lo que hizo la decisión barata — no había deuda que pagar, sólo un hueco que cerrar antes de que alguien lo usara. Después, validación en las dos direcciones sobre `templates/EXPERIMENTO.md`: una enumeración de cuatro campos del bloque dispara el WARN en la línea correcta, y la misma enumeración precedida del literal `[SDD-Check]` no dispara. Árbol restaurado; `./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08).
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cambia el alcance de un verificador. No mueve ningún dato ni ninguna conclusión de investigación.
+
+### Deuda abierta
+- Ampliar el origen no amplía la clase detectada: el check sigue viendo sólo enumeraciones de campos del `[SDD-Check]`, y una regla reproducida en prosa fuera de su SSOT sigue sin verificador (M-24(2), sin aprobar).
+- Sin cambios: M-22 y M-25 en `Propuesta`; M-26, M-08 y M-05 sin decidir.
+
 ## `excluded-field` deja de mirar solo tablas (2026-08-23) — COMPLETADA
 
 **Acción**: M-23 ejecutada. El check que impide reproducir `estado` o `ssot_level` fuera del registro pasa a reconocer también la anotación puesta junto a un link en una lista. Ninguna regla cambia: la regla ya estaba escrita en el `validacion` de la spec —«ningún link ni tabla anota `ssot_level`/rol»— y el check sólo cubría la mitad «tabla».

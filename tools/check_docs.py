@@ -424,7 +424,16 @@ def check_sdd_check_fields(rep: Report, all_docs: list[str], heads: set[str]) ->
     if len(heads) < 3:
         return
     for rel in all_docs:
-        if rel == PROTOCOLO or rel.startswith(("templates/", "historial/")):
+        # `historial/` queda exento y `templates/` no (M-27). El historial registra
+        # entregas pasadas y MUST NOT reescribirse hacia atras, asi que un WARN ahi
+        # no seria accionable. Un template si: es metodo, se copia en cada
+        # experimento, y una definicion reproducida ahi se propaga sola. Quitar la
+        # exencion no cambio nada en el arbol del 2026-08-23 — los templates hablan
+        # del bloque en prosa, no enumeran sus campos —, que es precisamente por que
+        # sale barato: no hay deuda que pagar, solo un hueco que cerrar antes de que
+        # alguien lo use. Un template que muestre el bloque para llenar lleva el
+        # literal `[SDD-Check]` y no dispara, por la misma regla instancia/definicion.
+        if rel == PROTOCOLO or rel.startswith("historial/"):
             continue
         lines = read(rel).splitlines()
         for n, line in enumerate(lines):
