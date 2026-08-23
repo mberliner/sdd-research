@@ -2,7 +2,7 @@
 
 Navegación del proyecto: dónde está cada cosa, en qué orden leerla y qué rol cumple.
 
-El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion`) y el **mapa tema → SSOT** viven en [SPECS_REGISTRY.md](./SPECS_REGISTRY.md); acá no se reproducen.
+El **alcance** de cada documento, los campos de su spec y el **mapa tema → SSOT** viven en [SPECS_REGISTRY.md](./SPECS_REGISTRY.md); acá no se reproducen. Qué campos son y cuál es la única excepción: su §Reglas globales.
 
 ## Ruta recomendada
 

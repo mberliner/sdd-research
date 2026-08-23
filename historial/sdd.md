@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Propagacion de M-28 a los documentos que describen el backstop (2026-08-23) — COMPLETADA
+
+**Acción**: cerrar M-28 del lado documental. Ninguna regla ni verificador cambia; se alinea lo que tres documentos afirmaban sobre lo que el backstop cubre.
+
+### Qué se encontró
+Al revisar si M-28 quedaba cerrada aparecieron tres desalineaciones, todas del mismo tipo: texto que describía el estado anterior al cambio.
+
+### Qué cambió
+- `AGENTS.md` §Al cerrar una iteración: la enumeración de lo que el backstop cubre suma el disparador que faltaba —que ningún documento anote en su encabezado un campo que el registro reserva—, nombrando su SSOT en vez de repetir la regla.
+- `00-INDEX.md`: la línea que remitía al registro enumeraba cuatro campos cuando la regla ya nombra ocho. Se quitó la enumeración y quedó el puntero: enumerar de nuevo habría reintroducido la duplicación que la regla prohíbe.
+- `tools/check_docs.py`: el docstring del módulo suma `M-27` y `M-28` a los ids que implementa.
+
+`CONSTITUTION.md` no requiere cambio: el `Verificador:` del Principio I ya nombra `excluded-field`, y su nota sobre lo que ningún check cubre —la regla reproducida en prosa— sigue siendo cierta.
+
+### Cómo se validó
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). El error de `metodo-historial` que exigió esta entrada es el Principio VI funcionando: la propagación tocaba método y no se podía commitear sin asentarla.
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Toca el protocolo del asistente y el índice de navegación. No mueve ningún dato.
+
+### Deuda abierta
+- Sin novedad respecto de la entrada anterior: la paráfrasis sigue sin verificador y la clave a mitad de renglón no se detecta.
+
 ## `excluded-field` verifica la regla del registro, no el `excluye` de cada spec (2026-08-23) — COMPLETADA
 
 **Acción**: M-28 cerrada. El check cambia de fuente de autoridad, gana dos formas de detección y encuentra seis anotaciones en cinco documentos, corregidas en la misma entrega.
