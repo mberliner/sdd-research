@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Barrido de encabezados: M-05 cerrada, M-28 abierta (2026-08-23) — COMPLETADA
+
+**Acción**: barrido de los encabezados de los 45 documentos autorados. M-05 se cierra con un caso corregido; la clase distinta que el barrido encontró se da de alta como M-28.
+
+### Qué se encontró
+M-05 apuntaba a encabezados que enumeran su `incluye`/`excluye` en vez de dejar el alcance en el registro. Su caso conocido —`comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`— ya cumplía. Apareció uno vivo que no estaba anotado: `software/RELACION-SPEC-VS-EPICA.md` declaraba en su línea `Alcance:` una exclusión —la transferencia del razonamiento a Línea A— que su `excluye` registrado no tenía. Ningún otro encabezado del repositorio enumera su alcance.
+
+El mismo documento traía además «Deriva de: `ANALISIS-SPEC-KIT.md`», y el registro no le declara `deriva_de` desde el 2026-08-03: M-13 se lo quitó al concluir que era relación forzada —«un análisis paralelo con evidencia externa propia», dice esa entrada— y corrigió el registro sin bajar al documento. La divergencia sobrevivió cinco meses sin que nada la marcara.
+
+Esa segunda cosa no es de la clase de M-05: no es alcance restado, es un **campo del registro reproducido** en un encabezado. El barrido encontró dos casos más de esa clase, hoy coincidentes con el registro.
+
+### Qué cambió
+- `software/RELACION-SPEC-VS-EPICA.md`: encabezado reducido a identidad —fecha y línea—, sin la derivación falsa ni la exclusión. Bloque `[SDD-Check]` nuevo al pie; el anterior no se toca, que es registro datado.
+- `SPECS_REGISTRY.md`: la exclusión «transferencia del razonamiento a Línea A» pasa al `excluye` de la spec de ese documento, que es donde el alcance vive. Nada se pierde al limpiar el encabezado.
+- `agenda/MEJORAS-METODO.md`: M-05 a **Hecha** con el resultado del barrido; **M-28** dada de alta —encabezados que reproducen `estado`, `ssot_level`, `owner` o `deriva_de`— con sus casos y la ruta barata para cerrarla.
+
+### Cómo se validó
+Barrido mecánico de las primeras líneas de cada `.md` autorado y cruce de cada hallazgo contra su entrada del registro. Se verificó que ningún otro documento sostuviera la derivación borrada: `software/00-INDEX.md` y `RELACION-FR-VS-SC-Y-COBERTURA.md` lo citan sin llamarlo derivado. `./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08).
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cierra un ítem de método, abre otro y mueve un campo de alcance al registro. El cuerpo del documento reconciliado no se tocó y ninguna conclusión de investigación cambia.
+
+### Deuda abierta
+- M-28 sin ejecutar: dos encabezados siguen reproduciendo campos del registro, hoy coincidentes con él. La reserva a decidir antes de escribir la exclusión spec por spec es si conviene declararla como regla global del registro.
+- Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## `sdd-check-fields` pasa a mirar `templates/` (2026-08-23) — COMPLETADA
 
 **Acción**: M-27 dada de alta y ejecutada. El check deja de saltear `templates/`; `historial/` conserva la exención con su motivo escrito en el código.

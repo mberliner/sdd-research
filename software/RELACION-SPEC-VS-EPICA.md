@@ -1,8 +1,6 @@
 # Relación entre "spec" y los artefactos ágiles (épica / historia de usuario)
 
-Fecha: 2026-06-03.
-Deriva de: `ANALISIS-SPEC-KIT.md` (SSOT del análisis de Spec Kit).
-Alcance: Línea B (software). El vocabulario ágil (épicas, historias) y Spec Kit son nativos de software; la transferencia del razonamiento a Línea A queda fuera (ver `../agenda/BACKLOG-INVESTIGACION.md`).
+Fecha: 2026-06-03. Línea B (software): el vocabulario ágil (épicas, historias) y Spec Kit son nativos de software.
 
 Pregunta que origina el documento: *¿una "spec" es análoga a una "épica"?*
 
@@ -103,3 +101,15 @@ No se ha hallado una fuente que defienda la equivalencia estricta "spec = épica
 - Cobertura: completa — cada afirmación de la comparación mapea a una fuente [Rxx] o a un SSOT interno referenciado
 - Deuda arrastrada: ninguna; la transferencia del razonamiento a Línea A queda como item de backlog preexistente, no abierto por esta entrega
 - Riesgos/reservas: análisis basado en snapshot Spec Kit v0.8.13 [R10] y en discusión externa de 2025-2026 que aún evoluciona
+
+---
+
+[SDD-Check]
+- Spec leida: SI (`../SPECS_REGISTRY.md` → `software/RELACION-SPEC-VS-EPICA.md`)
+- Incluye/Excluye verificado: SI — la entrega es de reconciliación: el encabezado declaraba «Deriva de: `ANALISIS-SPEC-KIT.md`» y el registro no le declara `deriva_de` desde el 2026-08-03, cuando M-13 se lo quitó por ser relación forzada. El documento es original, no derivado; la línea era el último resto del error de modelado, que M-13 corrigió en el registro sin bajar al documento
+- Validaciones aplicadas: cruce del encabezado contra la entrada del registro; verificación de que ningún otro documento sostenga la derivación (`software/00-INDEX.md` y `RELACION-FR-VS-SC-Y-COBERTURA.md` lo citan sin llamarlo derivado); `tools/check_docs.py` en verde
+- SSOT afectado: `../SPECS_REGISTRY.md` — la exclusión «transferencia del razonamiento a Línea A», que vivía sólo en el encabezado de este documento, se trajo al campo `excluye` de su spec, que es donde el alcance vive
+- Derivados a revisar: ninguno — este documento no tiene derivados registrados
+- Cobertura: completa sobre el encabezado; el cuerpo del documento no se tocó
+- Deuda arrastrada: otros dos documentos reproducen campos del registro en su encabezado —`docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` (tabla con `ssot_level` y `owner`) y `software/SDD-EN-LEGACY-Y-BROWNFIELD.md` («Estado: Borrador»)— y siguen sin remediar: es M-28 en `../agenda/MEJORAS-METODO.md`
+- Riesgos/reservas: el bloque anterior de este documento sigue diciendo «SSOT afectado: ninguno (derivado de `software/ANALISIS-SPEC-KIT.md`)» y NO se corrige: es registro datado y la corrección se anota hacia adelante, no hacia atrás

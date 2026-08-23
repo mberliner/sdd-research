@@ -22,7 +22,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | alta | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
-| M-05 | Limpiar encabezados que restatan su alcance | baja | Aprobada | regla de alcance, Fase 8 | docs varios, oportunística |
+| M-05 | Limpiar encabezados que restatan su alcance | baja | **Hecha** (2026-08-23) | regla de alcance, Fase 8 | `../software/RELACION-SPEC-VS-EPICA.md` |
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
@@ -45,6 +45,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
+| M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | Propuesta (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + los documentos afectados |
 
 ---
 
@@ -85,6 +86,8 @@ Convención de formato con resumen ejecutivo obligatorio a partir de cierto tama
 ## M-05 — Encabezados que restatan su alcance
 
 La regla de alcance en un solo lugar (`../SPECS_REGISTRY.md` §Reglas globales) admite una línea de identidad en el encabezado, no la enumeración de `incluye`/`excluye`. Caso conocido: `../comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md`. Migración al tocar cada documento, sin barrido masivo.
+
+**Hecha el 2026-08-23.** Barrido de los encabezados de los 45 documentos autorados. El caso conocido ya cumplía: su encabezado es una línea de identidad más punteros a dónde vive lo que no cataloga, que es lo que la regla admite. Un solo caso vivo, corregido en la misma entrega: `../software/RELACION-SPEC-VS-EPICA.md` declaraba en su línea `Alcance:` una exclusión —la transferencia del razonamiento a Línea A— ausente del `excluye` registrado; la exclusión se trajo al registro y el encabezado quedó en identidad. Ningún otro encabezado enumera su alcance.
 
 ## M-06 — Modelo de confianza confirmado/inferido/gap
 
@@ -318,6 +321,22 @@ La reserva razonable era que un template legítimamente muestra la forma de lo q
 **Hecha el 2026-08-23.** Validación en las dos direcciones sobre `../templates/EXPERIMENTO.md`: una enumeración de cuatro campos del bloque dispara el WARN, y la misma enumeración precedida del literal `[SDD-Check]` no dispara. Árbol restaurado, 0 ERROR.
 
 Lo que este ítem **no** cierra es lo que M-24 dejó dicho: el check sigue viendo sólo enumeraciones de campos del `[SDD-Check]`. Ampliar el origen no amplía la clase detectada.
+
+## M-28 — Encabezados que reproducen campos del registro
+
+`estado`, `ssot_level`, `owner` y `deriva_de` son campos que `../SPECS_REGISTRY.md` declara para **todo** documento. Cuando un documento los repite en su encabezado crea una segunda fuente del mismo dato, que puede desincronizarse sin que nada lo señale. No depende de que el documento sea original o derivado: el registro es dueño de esos cuatro campos en los dos casos.
+
+Casos vivos, detectados en la auditoría de encabezados del 2026-08-23:
+
+1. `../docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` abre con una tabla que trae columnas `ssot_level` y `owner`. Mezcla dos campos del registro con dos que no lo son (`Creacion`, `Version`), así que el arreglo es recortar columnas, no borrar la tabla.
+2. `../software/SDD-EN-LEGACY-Y-BROWNFIELD.md` abre con «Estado: Borrador».
+3. Cuatro documentos de línea B abren con «Deriva de: X». Tres coinciden con el registro; el cuarto —`../software/RELACION-SPEC-VS-EPICA.md`— afirmaba una derivación que el registro había borrado el 2026-08-03, y se corrigió el 2026-08-23. Ese caso es la evidencia de que la clase no es teórica: el registro cambió, el encabezado no, y la divergencia sobrevivió cinco meses sin que nada la marcara.
+
+Los casos 1 y 2 coinciden hoy con el registro. Eso no los vuelve correctos, los vuelve **todavía no divergentes** — el estado exacto en que estaba `../software/00-INDEX.md` antes de la auditoría de M-14, que lo encontró diciendo «Borrador» sobre un documento ya `Activo`.
+
+Forma de la mejora, y su parte barata: `excluded-field` ya sabe detectar esto —incluida la forma de tabla del caso 1 y la anotación junto a un link— pero sólo dispara cuando la propia spec del documento declara el campo en `excluye`. Hoy esa exclusión está escrita únicamente para los dos índices de línea. Escribirla en las specs de los documentos afectados los pone bajo verificación **sin código nuevo**; queda después limpiar los encabezados, que es trabajo de edición.
+
+Reserva: la exclusión no debería escribirse documento por documento a mano si termina aplicando a todos. Si el barrido confirma que la regla es general —ningún documento anota campos del registro en su encabezado—, conviene decidir antes si se declara como regla global del registro en vez de repetirla en cada spec, que sería reintroducir la duplicación un nivel más arriba.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 

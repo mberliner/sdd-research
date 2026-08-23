@@ -668,6 +668,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`; se referencia, no se copia)
   - estadística de adopción de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
   - duplicación del mapeo Spec Kit vs. protocolo (referencia `ANALISIS-SPEC-KIT.md`, no copia)
+  - transferencia del razonamiento a Línea A: el vocabulario ágil y Spec Kit son nativos de software (pregunta abierta en `agenda/BACKLOG-INVESTIGACION.md`). Estaba declarada sólo en el encabezado del documento hasta el 2026-08-23, cuando se trajo acá (M-05)
 - `validacion`:
   - [ ] cada afirmación externa tiene referencia [Rxx]
   - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
