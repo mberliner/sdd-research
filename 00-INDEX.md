@@ -23,6 +23,7 @@ El **alcance** de cada documento (`proposito`, `incluye`, `excluye`, `validacion
 | 13 | [agenda/BACKLOG-INVESTIGACION.md](agenda/BACKLOG-INVESTIGACION.md) | operativo — preguntas abiertas de investigación |
 | 14 | [agenda/MEJORAS-METODO.md](agenda/MEJORAS-METODO.md) | operativo — mejoras al método del repo (`M-NN`) |
 | 15 | [REFERENCIAS.md](./REFERENCIAS.md) | SSOT — catálogo `[Rxx]` |
+| 16 | [CONVENCIONES.md](./CONVENCIONES.md) | SSOT — léxico y forma; transversal, se consulta al escribir |
 
 ## Resto de la estructura
 

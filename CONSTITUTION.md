@@ -1,13 +1,13 @@
 # Constitución del proyecto
 
-**Versión:** 0.2.2 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-15
+**Versión:** 0.2.3 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-22
 
 ## Preámbulo
 
 - **Qué es:** lista curada de los principios no-negociables de esta **investigación**. No es documentación de referencia ni protocolo de ejecución diaria: es lo que nunca cede.
 - **Cómo se usa:** leer antes de proponer una spec, un documento o un cambio de método. Si una spec o una decisión de redacción entra en conflicto con un principio, **se ajusta la spec, no el principio**.
 - **Alcance:** cada principio declara un **invariante** estable y autocontenido. El detalle operativo (que evoluciona) vive en el SSOT referenciado en `Detalle:`. La constitución nunca duplica ese detalle: solo declara el invariante y apunta. Cada principio declara además, en `Verificador:`, qué check determinista lo cubre — o `ninguno`, cuando nada mecánico lo cubre.
-- **Qué NO es:** no contiene convenciones de forma (formato de fecha, ortografía, nomenclatura de archivos) ni el protocolo paso a paso del asistente. Eso vive en `SPECS_REGISTRY.md` y `AGENTS.md`, y cambia sin enmienda constitucional.
+- **Qué NO es:** no contiene convenciones de forma ni de léxico —eso vive en `CONVENCIONES.md`— ni el protocolo paso a paso del asistente, que vive en `AGENTS.md`. Ninguno de los dos requiere enmienda constitucional para cambiar.
 
 ## Principios
 
@@ -17,7 +17,7 @@ Toda pieza de información normativa —regla, definición, cifra, tabla, conven
 
 - **Enforcement:** checks de post-generación de `AGENTS.md`; revisión editorial.
 - **Verificador:** `ssot-collision`, `normative-block`, `ssot-table`, `scope-home`, `excluded-field` de `tools/check_docs.py` — los dos primeros señalan candidatos a duplicación para que un humano los mire; no afirman que la haya.
-- **Detalle:** `SPECS_REGISTRY.md` (tabla SSOT, campo `ssot_level`, alcance por documento); `00-INDEX.md` (navegación: dónde está cada archivo).
+- **Detalle:** `SPECS_REGISTRY.md` (tabla SSOT, campo `ssot_level`, alcance por documento); `CONVENCIONES.md` (la clase «convención»: léxico y forma); `00-INDEX.md` (navegación: dónde está cada archivo).
 
 ### II. Trazabilidad de afirmación a fuente
 

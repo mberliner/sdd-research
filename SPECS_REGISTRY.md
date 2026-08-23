@@ -3,15 +3,16 @@
 Registro central de specs del proyecto `SDD`.
 
 ## Norma de interpretación
-- `MUST`: obligatorio.
-- `SHOULD`: recomendado fuerte; si no se cumple, debe justificarse.
-- `MAY`: opcional.
+
+`MUST`, `SHOULD`, `MAY` y su colocación: `CONVENCIONES.md` §Norma de interpretación.
 
 ## Precedencia
 1. `CONSTITUTION.md` MUST prevalecer sobre todo lo demás: declara los invariantes no-negociables. Si una regla de este registro entra en conflicto con un principio, se ajusta la regla, no el principio.
 2. Este archivo (`SPECS_REGISTRY.md`) MUST prevalecer para alcance y validación por documento.
 3. `AGENTS.md` SHOULD regir la ejecución diaria.
 4. El criterio del asistente MAY usarse solo cuando no haya conflicto con 1, 2 y 3.
+
+`CONVENCIONES.md` no es un eslabón de esta cadena: es transversal y sólo rige forma y léxico.
 
 División de trabajo: `CONSTITUTION.md` declara **qué nunca cede** (invariante; cambia por enmienda versionada). Este registro declara **cómo se aplica hoy** (alcance por documento, convenciones de forma, exenciónes; cambia sin enmienda).
 
@@ -20,16 +21,15 @@ División de trabajo: `CONSTITUTION.md` declara **qué nunca cede** (invariante;
 - Si un documento no tiene spec, se MUST crear spec mínima antes de modificar contenido.
 - El nivel de detalle de cada spec SHOULD seguir la tabla de profundidad (ver sección siguiente).
 - Los checks de validación MAY ejecutarse manualmente (contexto sin CI).
-- Sin emoticones en documentos de contenido.
-- Fechas en formato YYYY-MM-DD.
 - No duplicar contenido entre SSOTs: referenciar, no repetir.
+- Léxico normativo y convenciones de forma (fechas, ortografía, emoticones, nombres, commits): `CONVENCIONES.md`.
+- **La capa residente contiene disparadores, no definiciones (regla operativa del Principio I).** Una pieza normativa vive donde está su definición. `AGENTS.md` —lo único que el asistente tiene siempre en contexto— MUST contener disparadores: un disparador dice *cuándo* ir y *a dónde*, una definición dice *qué es*. Una definición MAY residir ahí sólo si su ausencia en el momento de decidir produce un error **silencioso** —uno que el asistente comete sin enterarse—, y aun así se escribe como la línea mínima que dispara la lectura de su SSOT. Motivo: la revisión del 2026-08-22 encontró cinco reglas re-enunciadas en `AGENTS.md` (propagación, léxico normativo, formato de commit, límite del verificador, disambiguación) por ser el único documento residente; sin criterio escrito, las copias vuelven.
 - **Alcance de un documento: un solo lugar (regla operativa del Principio I).** Los campos `proposito`, `incluye`, `excluye` y `validacion` MUST vivir únicamente en este registro. Ningún otro documento los reproduce ni los parafrasea:
   - Todo `00-INDEX.md` (raíz o de línea) responde *dónde está cada archivo* (ruta de lectura y ubicación), no *qué contiene cada doc*. Solo el `00-INDEX.md` de raíz declara además *quién es SSOT de qué tema*, en su tabla de rol (`SSOT` / `derivado` / `operativo`) — spec propia, tabla chica y estable (ver sección `00-INDEX.md` de este registro). `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md` MUST NOT reproducir esa clasificación ni `estado` — su contenido es más grande y rota más, y ya se desincronizó una vez (M-14); ver su spec propia.
   - El encabezado de un documento MAY llevar **una** línea de identidad para quien lo abre suelto; MUST NOT enumerar `incluye`/`excluye` ni criterios de validación.
   - Motivo: el 2026-07-31 se midió la divergencia real — 11 filas de `00-INDEX.md` repetían el `proposito` del registro y 5 ya habían derivado (perdiendo, entre otras cosas, la procedencia de `historial/ROADMAP-MEJORAS-SDD.md` y el alcance «contexto del repositorio» de `AGENTS.md`).
   - Migración: los encabezados de documentos preexistentes SHOULD limpiarse de forma oportunista al tocarlos, no en una reescritura masiva.
-- **Un experimento, una carpeta (desde 2026-08-22).** Todo documento de `experimentos/` MUST vivir en una subcarpeta por experimento, nombrada `<id en minúscula sin guión><guión><nombre corto>` — `a04-conducta-agente`, `b06-circuito-testigo`, `b07-formato-hibrido`. El nombre corto sale del título del documento de diseño, no se inventa. Un experimento nuevo abre su carpeta desde su primer documento. Motivo: `experimentos/` mezclaba diez archivos de tres experimentos en un solo plano y la pertenencia sólo se leía del sufijo del nombre. La carpeta **no** cambia qué necesita spec: la exención de §Docs excluidos sigue atada al prefijo del nombre de archivo (`EXPERIMENTO-*`, `RESULTADO-EXPERIMENTO-*`), así que un documento autorado no queda exento por estar dentro de una carpeta de experimento.
-- Ortografía: el contenido en español MUST usar ortografía correcta con tildes y signos (acentos, "ñ", apertura de interrogación/exclamación). Aplica a documentos nuevos y a todo documento que se edite. Excepciones: identificadores técnicos, rutas, nombres de archivo y claves de los bloques normativos (ej. campos del `[SDD-Check]` y nombres de campo de spec como `validacion`, `proposito`) MUST conservarse sin tildes por estabilidad grep-able. Los documentos preexistentes sin tildes SHOULD migrarse de forma oportunista al tocarlos, no en una reescritura masiva.
+- **Un experimento, una carpeta (desde 2026-08-22).** Todo documento de `experimentos/` MUST vivir en una subcarpeta por experimento; cómo se la nombra vive en `CONVENCIONES.md` §Nombres. Un experimento nuevo abre su carpeta desde su primer documento. Motivo: `experimentos/` mezclaba diez archivos de tres experimentos en un solo plano y la pertenencia sólo se leía del sufijo del nombre. La carpeta **no** cambia qué necesita spec: la exención de §Docs excluidos sigue atada al prefijo del nombre de archivo (`EXPERIMENTO-*`, `RESULTADO-EXPERIMENTO-*`), así que un documento autorado no queda exento por estar dentro de una carpeta de experimento.
 
 ## Campo ssot_level
 - `SSOT`: fuente autoritativa del concepto.
@@ -79,6 +79,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Comun | Modelo dual SDD | `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` | `README.md`, `00-INDEX.md`, planes de línea |
 | Comun | SDD adaptativo y circuitos de aprendizaje | `comun/SDD-ADAPTATIVO-VS-CASCADA.md` | `docs-y-investigacion/LINEAS-INVESTIGACION.md`, `software/LINEAS-INVESTIGACION.md` |
 | Comun | Referencias [Rxx] | `REFERENCIAS.md` | todos los docs con citas `[Rxx]` |
+| Comun | Lexico normativo y forma de los documentos | `CONVENCIONES.md` | `CONSTITUTION.md`, `SPECS_REGISTRY.md`, `AGENTS.md` |
 | Comun | Frameworks/proyectos lideres | `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` | `LINEAS-INVESTIGACION.md` de ambas líneas |
 | Comun | Tendencias y estadística | `comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md` | `BACKLOG-INVESTIGACION`, `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` |
 | Comun | Escenarios que justifican SDD | `comun/ESCENARIOS-QUE-JUSTIFICAN-SDD.md` | `00-INDEX.md`, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
@@ -244,6 +245,25 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] ids [Rxx] sin duplicados
   - [ ] enlaces legibles
 
+### CONVENCIONES.md
+- `path`: `CONVENCIONES.md`
+- `proposito`: SSOT de como se lee y como se escribe todo documento del proyecto (lexico normativo y forma).
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `incluye`:
+  - definicion de `MUST`/`SHOULD`/`MAY` y las formas de colocacion admitidas
+  - forma de los documentos: markdown, fechas, emoticones, ortografia
+  - nomenclatura de archivos y de carpetas
+  - forma del mensaje de commit
+- `excluye`:
+  - que contiene cada documento — vive en este registro
+  - que hace el asistente y en que orden — vive en `AGENTS.md`
+  - invariantes — viven en `CONSTITUTION.md`
+- `validacion`:
+  - [ ] cada regla de forma aparece aca y en ningun otro documento
+  - [ ] las reglas de colocacion describen el uso real del repositorio, no un ideal
+  - [ ] no declara alcance ni procedimiento; ante choque, cede
+
 ### docs-y-investigación/LINEAS-INVESTIGACION.md
 - `path`: `docs-y-investigacion/LINEAS-INVESTIGACION.md`
 - `proposito`: SSOT de agenda de investigacion linea A.
@@ -355,17 +375,18 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - protocolo durante el cambio y disambiguacion
   - checks de post-generacion y bloque `[SDD-Check]`
   - cierre de iteracion (registro, historial, commit)
-  - criterios de calidad, ciclo de vida de specs, «Que NO hacer», excepciónes, convenciones
+  - criterios de calidad, ciclo de vida de specs, «Que NO hacer», excepciónes
 - `excluye`:
   - invariantes y su justificación — viven en `CONSTITUTION.md` (se citan por principio)
   - regla de propagación, tabla SSOT y alcance por documento — viven en este registro
-  - convenciones de forma (fechas, ortografia, emoticones) — viven en este registro
+  - toda convención de forma y de léxico, sin enumerar clases — vive en `CONVENCIONES.md`
 - `validacion`:
   - [ ] orden de lectura arranca por `CONSTITUTION.md`
   - [ ] protocolo pre/durante/post generacion presente
   - [ ] bloque `[SDD-Check]` definido
   - [ ] referencia a `SPECS_REGISTRY.md` y a `CONSTITUTION.md`
   - [ ] no reproduce la regla de propagación ni el alcance por documento — referencia
+  - [ ] no contiene definiciones que otro SSOT ya declara, sólo disparadores (§Reglas globales)
   - [ ] precedencia declarada coincide con la de este registro y la de `CONSTITUTION.md`
 
 ### CLAUDE.md

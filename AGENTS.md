@@ -63,16 +63,16 @@ MUST — toda entrega cierra con este bloque:
 
 ## Al cerrar una iteración
 
-1. Corré el backstop `tools/check_docs.py` con el intérprete de Python del entorno (`python`, `python3` o `py -3` según la plataforma; requiere 3.8+) y dejá el resultado en verde (0 ERROR). Cubre la parte mecánica de los checks de arriba: cobertura de spec, links markdown y rutas escritas en backticks, `[Rxx]`, campos de spec, alcance en un solo lugar, cadena de precedencia, que cada principio de la constitución declare un `Verificador:` que exista, y que ningún documento `Activo` conserve un `[NEEDS CLARIFICATION]` abierto. **Verifica presencia y forma, no adecuación** — que un doc tenga spec no dice que la spec lo describa bien; eso sigue siendo tuyo. Dos checks emiten WARN como señal para que la mires, no como veredicto: `ssot-collision` (dos specs que se declaran dueñas del mismo tema) y `normative-block` (la definición de un bloque normativo reproducida fuera de su SSOT). Un WARN de esos MUST revisarse antes de entregar: o se corrige la duplicación, o se explica por qué no lo es. El backstop corre además solo, al commit, si el gate está instalado (`git config core.hooksPath tools/githooks`, una vez por clon); el propio backstop verifica que lo esté y falla si no. En modo commit suma un check que acá no corre: que un cambio de método traiga su entrada de historial (paso 3).
+1. Corré el backstop `tools/check_docs.py` con el intérprete de Python del entorno (`python`, `python3` o `py -3` según la plataforma; requiere 3.8+) y dejá el resultado en verde (0 ERROR). Cubre la parte mecánica de los checks de arriba: cobertura de spec, links markdown y rutas escritas en backticks, `[Rxx]`, campos de spec, alcance en un solo lugar, cadena de precedencia, que cada principio de la constitución declare un `Verificador:` que exista, y que ningún documento `Activo` conserve un `[NEEDS CLARIFICATION]` abierto. Qué verifica y qué MUST NOT pretender verificar: su propio docstring; el límite general, `CONSTITUTION.md` §Límite honesto. Dos checks emiten WARN como señal para que la mires, no como veredicto: `ssot-collision` (dos specs que se declaran dueñas del mismo tema) y `normative-block` (la definición de un bloque normativo reproducida fuera de su SSOT). Un WARN de esos MUST revisarse antes de entregar: o se corrige la duplicación, o se explica por qué no lo es. El backstop corre además solo, al commit, si el gate está instalado (`git config core.hooksPath tools/githooks`, una vez por clon); el propio backstop verifica que lo esté y falla si no. En modo commit suma un check que acá no corre: que un cambio de método traiga su entrada de historial (paso 3).
 2. Actualizá `SPECS_REGISTRY.md` si cambió el alcance, el estado o la lista de documentos.
 3. Si el cambio es de **método** (protocolo, registro, templates, constitución): agregá una entrada **al principio** de `historial/sdd.md` — más reciente arriba — con fecha, acción, cambios, cómo se validó y deuda abierta (Principio VI).
 4. Si enmendaste `CONSTITUTION.md`: seguí su procedimiento de enmienda completo (versión, historial, propagación, verificación).
-5. Commiteá con `docs: <resumen imperativo corto>`, un commit por pieza revisable.
+5. Commiteá, un commit por pieza revisable. Formato del mensaje: `CONVENCIONES.md` §Mensajes de commit.
 
 ## Criterios de calidad mínima
 
 - MUST — cada cambio debe indicar qué decisión habilita.
-- MUST — los cambios en SSOT disparan revisión de derivados, y los resultados de una ejecución suben al SSOT antes de bajar a sus derivados. Regla completa y su procedimiento: `SPECS_REGISTRY.md` §Regla de propagacion (Principio III).
+- MUST — si tocaste un SSOT o cerraste un experimento, aplicá la regla de propagación (Principio III): `SPECS_REGISTRY.md` §Regla de propagacion.
 - SHOULD — cada cifra o afirmación externa tiene referencia `[Rxx]`.
 
 ## Ciclo de vida de specs
@@ -115,8 +115,5 @@ git log --oneline                                                    # historial
 
 ## Convenciones
 
-- Markdown como formato fuente; secciones cortas y escaneables.
-- Lenguaje normativo: `MUST` = obligatorio, `SHOULD` = recomendado fuerte, `MAY` = opcional. MUST aparecer al inicio de la sentencia, seguido de `—` y el enunciado (ej. `MUST — cada cambio debe indicar qué decisión habilita.`).
-- Nombres de archivo: mayúsculas, separados por guión (ej. `PLAN-PRUEBAS.md`).
-- Commits: `docs: <resumen imperativo corto>` (ej. `docs: align PLAN-PRUEBAS with SSOT metrics`), sin firma de asistente.
-- Convenciones de forma restantes (fechas, ortografía, sin emoticones): `SPECS_REGISTRY.md` §Reglas globales.
+Léxico normativo, forma de los documentos, nombres y formato de commit: `CONVENCIONES.md`.
+Se consulta al escribir, no al arrancar.

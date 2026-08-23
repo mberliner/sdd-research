@@ -4,6 +4,36 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de `CONVENCIONES.md`, la capa de forma sale del registro (2026-08-22) — COMPLETADA
+
+**Acción**: alta de un SSOT nuevo, mudanza de las convenciones de léxico y forma desde `SPECS_REGISTRY.md` y `AGENTS.md`, regla global nueva sobre qué puede vivir en la capa residente, enmienda PATCH de la constitución (0.2.2 → 0.2.3) y corrección de una regla de colocación que el repositorio no cumplía.
+
+### Qué se encontró
+Una revisión de `AGENTS.md` encontró cinco reglas re-enunciadas ahí en vez de referenciadas: la regla de propagación, el léxico normativo, el formato de commit, el límite del verificador y la disambiguación. Todas verificadas contra el árbol: cuatro eran duplicación real. La causa no era descuido — `AGENTS.md` era la única capa que el asistente tiene siempre en contexto, así que toda regla cuya ausencia duele en el momento de decidir terminaba copiada ahí.
+
+Debajo apareció la causa estructural: `SPECS_REGISTRY.md` hacía dos trabajos, alcance por documento (qué se le exige a cada pieza) y forma de salida (§Norma de interpretación y parte de §Reglas globales). La forma no tenía hogar declarado, y por eso «nomenclatura de archivos» vivía suelta en `AGENTS.md` sin que ningún check pudiera notarlo: la constitución decía que las convenciones de forma viven en `SPECS_REGISTRY.md` **y** `AGENTS.md`, sin declarar cuál.
+
+### Qué cambió
+- **Alta**: `CONVENCIONES.md`, SSOT de léxico y forma, con spec aprobada antes de escribirlo (Principio IV). Transversal a la cadena de precedencia, no un eslabón de ella: ante choque con alcance o procedimiento, cede. Mismo patrón que `REFERENCIAS.md` —un catálogo consultado desde cualquier documento en el momento de escribir— que es el precedente que justificó darle documento propio en vez de una sección más del registro.
+- **Mudanza**: §Norma de interpretación, fechas, emoticones y ortografía salen del registro; markdown, nomenclatura de archivos, léxico y formato de commit salen de `AGENTS.md`. Los orígenes quedan como puntero, no como copia. La regla de carpetas de experimento se partió: el patrón de nombre es forma y se mudó, cuándo abrir una y qué necesita spec adentro es alcance y se quedó.
+- **Regla global nueva**: «la capa residente contiene disparadores, no definiciones» (operativa del Principio I). Un disparador dice cuándo ir y a dónde; una definición dice qué es. Una definición sólo puede residir en `AGENTS.md` si su ausencia produce un error **silencioso**, y aun así como línea mínima. Sin este criterio escrito, las copias vuelven — es lo que explica que hubieran aparecido cinco.
+- **Enmienda constitucional (PATCH, 0.2.3)**: §Qué NO es pasa a nombrar el hogar único; el `Detalle:` del Principio I suma `CONVENCIONES.md` como sede de la clase «convención». Ningún invariante cambia.
+- **Corrección de regla, no mudanza**: la colocación decía que el término normativo va al inicio de la sentencia seguido de `—`. El repositorio la usa 15 veces así y **37** como predicado dentro de la oración (`<sujeto> MUST <verbo>`), entre ellas §Precedencia y §Reglas globales del propio registro y la constitución. La regla era descriptivamente falsa y se veía recién al consolidarla al lado de su propio uso. Se reformuló para admitir las dos formas, y la definición de los tres términos pasó a tabla para que se lea como glosario —mención— y no como tres normas incumplidas.
+- **`AGENTS.md`**: los cuatro puntos de duplicación quedan como disparador. El límite del verificador ahora apunta al docstring de `check_docs.py` y a §Límite honesto, que es donde el registro ya decía que vive.
+
+### Cómo se validó
+`./tools/check_docs.py` en verde: 50 documentos, 47 specs, 0 ERROR, 1 WARN (el de emoticones de `PREREG-B7.md`, que es M-08 y está vivo a propósito). Antes de escribir el documento nuevo se verificó regla por regla, con grep sobre los cuatro documentos raíz, que cada pieza a mudar existiera hoy en un solo lugar: así fue en todas salvo el léxico normativo, que ya estaba duplicado entre registro y protocolo. Dos borradores del documento se descartaron por repetir contenido que ya vivía en otro lado —la cadena de precedencia, el patrón de nombre de carpetas, la cadencia de commits— es decir, por cometer el vicio que el cambio venía a corregir. Después de mudar se verificó que ningún puntero quedara colgado.
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Se dio de alta un documento normativo, se movieron reglas entre SSOTs, se agregó una regla global y se enmendó la constitución. No toca ningún dato ni ninguna conclusión de A-04, B-06 ni B-07.
+
+### Deuda abierta
+- §Qué NO hacer de `AGENTS.md` sigue sin decidir: tres de sus seis ítems son eco de otra sección del mismo documento y tres son la única aparición de su regla. O se declara sección de recap y los tres huérfanos se anclan donde aplican, o se poda. Tiene interacción con A-04, que mide conducta bajo este protocolo, así que podar sin criterio declarado toca su variable independiente.
+- «MUST — cada cambio debe indicar qué decisión habilita» no tiene campo en el bloque `[SDD-Check]`: es un MUST sin lugar mecánico donde satisfacerse ni verificarse.
+- El check `normative-block` promete por su nombre más de lo que implementa: sólo detecta enumeraciones de campos del `[SDD-Check]`, así que ninguna de las cinco duplicaciones de esta entrada podía ser detectada por él. Candidato a M-.
+
+---
+
 ## Una carpeta por experimento, mas el alta del resumen no tecnico de A-04 (2026-08-22) — COMPLETADA
 
 **Accion**: reorganizacion de `experimentos/` en subcarpetas por experimento, regla nueva en `SPECS_REGISTRY.md`, dos patrones de `tools/check_docs.py` actualizados, extension de la excepcion M-13 a los resultados, y alta de un documento autorado con su spec aprobada.
