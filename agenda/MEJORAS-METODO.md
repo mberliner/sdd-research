@@ -334,9 +334,20 @@ Casos vivos, detectados en la auditoría de encabezados del 2026-08-23:
 
 Los casos 1 y 2 coinciden hoy con el registro. Eso no los vuelve correctos, los vuelve **todavía no divergentes** — el estado exacto en que estaba `../software/00-INDEX.md` antes de la auditoría de M-14, que lo encontró diciendo «Borrador» sobre un documento ya `Activo`.
 
+**Regla escrita el 2026-08-23.** `../SPECS_REGISTRY.md` §Reglas globales pasa de cuatro campos a los ocho que el registro posee (`proposito`, `incluye`, `excluye`, `validacion`, `ssot_level`, `estado`, `owner`, `deriva_de`), con `path` fuera —una ruta se reproduce en cada link— y una excepción única, la tabla de rol del `00-INDEX.md` de raíz. El encabezado queda limitado a una línea de identidad, y se nombran las tres formas prohibidas: línea `Campo: valor`, tabla de cabecera y anotación junto a un link.
+
+Radio medido antes de escribirla, con el reconocedor de `excluded-field` sobre los 50 documentos: dos hallazgos, y uno es la excepción declarada. La regla global no rompe nada.
+
+Queda pendiente lo que la vuelve verificable, y son los dos casos vivos:
+
 Forma de la mejora, y su parte barata: `excluded-field` ya sabe detectar esto —incluida la forma de tabla del caso 1 y la anotación junto a un link— pero sólo dispara cuando la propia spec del documento declara el campo en `excluye`. Hoy esa exclusión está escrita únicamente para los dos índices de línea. Escribirla en las specs de los documentos afectados los pone bajo verificación **sin código nuevo**; queda después limpiar los encabezados, que es trabajo de edición.
 
-Reserva: la exclusión no debería escribirse documento por documento a mano si termina aplicando a todos. Si el barrido confirma que la regla es general —ningún documento anota campos del registro en su encabezado—, conviene decidir antes si se declara como regla global del registro en vez de repetirla en cada spec, que sería reintroducir la duplicación un nivel más arriba.
+Dos cosas más que el check necesita y hoy no tiene:
+
+- `annotation_slots` reconoce celda de tabla e ítem de lista con link, no la línea de encabezado `Campo: valor`. Por eso `../software/SDD-EN-LEGACY-Y-BROWNFIELD.md` no aparece en la medición: su «Estado: Borrador» es prosa suelta.
+- `owner` y `deriva_de` no tienen conjunto de valores válidos, así que por valor son indetectables. La forma general que cubre los ocho campos es detectar por **clave**: una línea de encabezado cuya clave sea un nombre de campo del registro.
+
+Nota sobre las exclusiones per-spec: las de los dos índices de línea quedan escritas aunque la regla global ya las cubra, porque hoy son el cableado del check. Se borran cuando `excluded-field` lea la regla global; borrarlas antes apagaría la única verificación vigente.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 

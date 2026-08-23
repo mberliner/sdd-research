@@ -4,6 +4,31 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## La regla de alcance pasa de cuatro campos a ocho (2026-08-23) — COMPLETADA
+
+**Acción**: `SPECS_REGISTRY.md` §Reglas globales. La regla que reservaba al registro los campos de spec cubría `proposito`, `incluye`, `excluye` y `validacion`; ahora cubre también `ssot_level`, `estado`, `owner` y `deriva_de`. Parte normativa de M-28.
+
+### Qué se encontró
+Los cuatro campos que faltaban se prohibían caso por caso —sólo en la spec de los dos índices de línea— y por eso el resto del repositorio no estaba alcanzado por ninguna regla escrita. Los casos vivos que lo mostraron: una tabla de cabecera con `ssot_level` y `owner`, un encabezado con «Estado: Borrador», y una línea «Deriva de: X» que sobrevivió cinco meses a que el registro borrara ese campo.
+
+Radio medido antes de escribir la regla, con el reconocedor de `excluded-field` sobre los 50 documentos: dos hallazgos, y uno es la excepción declarada (la tabla de rol del `00-INDEX.md` de raíz). La regla global no rompe nada.
+
+### Qué cambió
+- `SPECS_REGISTRY.md` §Reglas globales: la regla nombra los ocho campos, deja `path` afuera —una ruta se reproduce en cada link—, declara la excepción única y limita el encabezado a una línea de identidad, nombrando las tres formas prohibidas: línea `Campo: valor`, tabla de cabecera y anotación junto a un link.
+- `agenda/MEJORAS-METODO.md`: M-28 registra la regla escrita y lo que falta para verificarla.
+
+### Cómo se validó
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). La regla es normativa: hoy no suma verificación, y eso queda dicho.
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cambia una regla del registro. No mueve ningún dato ni ninguna conclusión de investigación.
+
+### Deuda abierta
+- La regla no está verificada: `excluded-field` sigue leyendo el `excluye` de cada spec, así que sólo alcanza a los dos índices de línea. Cablearlo a la regla global es lo que la vuelve universal (M-28).
+- `annotation_slots` no reconoce la línea de encabezado `Campo: valor`, y `owner`/`deriva_de` no tienen valores válidos que buscar: la forma general es detectar por clave (M-28).
+- Las exclusiones per-spec de los dos índices quedan escritas aunque la regla global ya las cubra, porque son el cableado actual del check. Se borran junto con el cableado nuevo, no antes.
+- Dos encabezados siguen sin limpiar: `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` y `software/SDD-EN-LEGACY-Y-BROWNFIELD.md`.
+
 ## Barrido de encabezados: M-05 cerrada, M-28 abierta (2026-08-23) — COMPLETADA
 
 **Acción**: barrido de los encabezados de los 45 documentos autorados. M-05 se cierra con un caso corregido; la clase distinta que el barrido encontró se da de alta como M-28.
