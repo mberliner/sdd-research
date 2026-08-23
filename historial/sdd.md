@@ -4,6 +4,34 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de M-30 y cierre de las dos deudas sin item que dejo M-29 (2026-08-23) — COMPLETADA
+
+**Accion**: la deuda de rotacion del historial se da de alta como **M-30** (`Propuesta`); la deuda sobre la ventana de `precedencia` se cierra escribiendo el limite donde se lee; la deuda sobre los cerrados sin descripcion se cierra por verificacion: estaba sobredimensionada.
+
+### Que se encontro
+Las tres deudas que M-29 dejo contadas y sin item no eran de la misma clase, y tratarlas igual las habria dejado arrastrandose otra entrega mas.
+
+**La rotacion es una mejora de metodo y necesitaba item.** Es lo unico de las tres que exige trabajo futuro: cambia la forma del registro cronologico y toca el registro de specs y el indice.
+
+**La ventana de `precedencia` es un limite, no un defecto.** El check mira -4/+12 lineas alrededor de cada mencion; al reordenar el backlog, la mencion de `SPECS_REGISTRY.md` de una seccion entro en la ventana de otra que hablaba de otro tema. La consecuencia general es que su veredicto depende de la disposicion del documento y no solo de su contenido: mover secciones puede crear o borrar hallazgos sin que cambie una afirmacion. Un limite de esa clase no se cierra ajustando el check —afinar un verificador sobre un caso unico es lo que M-21 ya decidio no hacer sin datos— sino escribiendolo donde alguien lo vaya a leer.
+
+**La tercera estaba sobredimensionada.** M-29 anoto que el backlog «ya no dice de que trataba un item cerrado». Verificado contra el documento: los 18 cerrados conservan titulo y prioridad en la tabla de estado, y §Items cerrados ya lo dice explicitamente. Lo que se perdio es el desarrollo, no la identificacion. La deuda se cierra sin cambio de artefacto.
+
+### Que cambio
+- `agenda/MEJORAS-METODO.md`: alta de **M-30**, prioridad media, `Propuesta`. Propone rotar por periodo —no podar, que esta prohibido— con el precedente de `historial/ROADMAP-MEJORAS-SDD.md` ya aplicado, la medicion que lo motiva, los dos consumidores que pagan el crecimiento y tres reservas. La primera reserva declara que cualquier umbral por tamano seria hoy eleccion de diseno y no medicion, y MUST presentarse como tal.
+- `tools/check_docs.py`: el docstring de `check_precedence` suma el limite de la ventana, con el caso que lo hizo visible y el motivo de no ajustar el check.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). Para la tercera deuda, conteo cruzado sobre el documento: 18 ids `Hecha` en la tabla de estado y 18 filas en la tabla de punteros, los mismos en las dos.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Da de alta una mejora al metodo y modifica el docstring de un verificador. No mueve ningun dato.
+
+### Deuda abierta
+- **M-30 queda `Propuesta` y sin ejecutar, a proposito.** Al corte el archivo se sigue leyendo; lo que se compra hoy es que la rotacion dispare por regla escrita y no por decision en caliente. El item declara ademas que rotar parte el grep en dos, que es su costo real.
+- **M-02 sigue `Aprobada` y sin ejecutar** desde la Fase 9. Un item aprobado que nadie toca en un mes es una decision revertida de hecho y sin registrar: o se ejecuta, o se le cambia el estado.
+- Sin novedad: M-22 y M-25 en `Propuesta`, ambas precondicion de cualquier pasada 2 de A-04; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## El contenido de los items cerrados migra al historial; el backlog queda con el puntero solo (2026-08-23) — COMPLETADA
 
 **Accion**: segunda pasada de M-29, por correccion del usuario. La primera dejaba en el backlog el planteo previo al cierre de cada item `Hecha`; ahora un item cerrado no conserva contenido propio. El planteo no se borra: migra a la entrada de historial que cerro el item.

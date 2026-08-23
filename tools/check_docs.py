@@ -636,6 +636,16 @@ def check_precedence(rep: Report, all_docs: list[str]) -> None:
     sin el eslabon nuevo. Es heuristica, no prueba: mira una ventana de texto
     alrededor de cada mencion, ignora bloques de codigo y acepta tanto el nombre
     de archivo como la palabra "constitucion".
+
+    Limite propio de la ventana, observado al reordenar `agenda/MEJORAS-METODO.md`
+    el 2026-08-23 (M-29): el veredicto depende de la **disposicion** del documento
+    y no solo de su contenido. Dos secciones sobre temas distintos que quedan a
+    menos de la ventana producen un hallazgo que ninguna de las dos justifica por
+    si sola, y separarlas lo borra, sin que cambie una sola afirmacion. Mover
+    secciones puede entonces crear o borrar hallazgos. Se deja asi a proposito:
+    ensanchar el contexto exigido —por ejemplo, exigir que la mencion y el
+    registro esten en la misma seccion— es afinar un verificador sobre un caso
+    unico, y ese es el criterio que M-21 ya decidio no aplicar sin datos.
     """
     for rel in all_docs:
         if rel.startswith("historial/"):  # registro cronologico: describe estados pasados
