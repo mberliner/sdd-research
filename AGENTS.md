@@ -83,12 +83,16 @@ MUST — toda entrega cierra con este bloque:
 
 ## Qué NO hacer
 
+Índice por modo de falla, no norma nueva: el protocolo de arriba está ordenado por fase y
+los modos de falla no respetan la cronología. Cada ítem dispara una regla definida en otro
+lado y nombra dónde; ninguno agrega norma.
+
 - No escribir ni modificar un documento autorado sin spec registrada (Principio IV).
-- No copiar el alcance de un documento fuera de `SPECS_REGISTRY.md`, ni el mapa tema → SSOT fuera de su tabla SSOT.
-- No cerrar un experimento sin correr los tres checks de «Propagacion».
+- No copiar el alcance de un documento ni el mapa tema → SSOT fuera del registro (`SPECS_REGISTRY.md` §Reglas globales y §Tabla SSOT).
+- No cerrar un experimento sin correr los tres checks de «Propagacion» (`templates/RESULTADO-EXPERIMENTO.md`).
 - No formular ni reescribir una hipótesis después de ver el resultado que la evalúa (Principio V).
 - No cambiar el método y presentarlo como hallazgo de investigación, ni al revés (Principio VI).
-- No interpretar una ambigüedad en silencio.
+- No interpretar una ambigüedad en silencio (Principio VII; §Disambiguación).
 
 ## Excepciones
 

@@ -4,6 +4,34 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## §Qué NO hacer queda declarado como índice por modo de falla (2026-08-22) — COMPLETADA
+
+**Acción**: encabezado nuevo y tres punteros faltantes en `AGENTS.md` §Qué NO hacer. Ninguna norma cambia.
+
+### Qué se encontró
+La revisión que motivó el alta de `CONVENCIONES.md` marcó esta sección como redundante: tres de sus seis ítems repiten en negativo algo que otra sección del mismo documento ya dice. Releída contra la regla de disparadores instalada ese mismo día, la conclusión se invierte. Los seis ítems son disparadores —ninguno define nada, todos nombran una regla que vive en otro documento— y los seis son de la clase de error **silencioso** que la regla admite en la capa residente: nadie nota que copió un alcance ni que reescribió una hipótesis.
+
+Lo que la sección es, en realidad, es un **segundo índice** sobre el mismo conjunto, ordenado por modo de falla en vez de por fase. Se gana el lugar porque el protocolo está ordenado cronológicamente y hay reglas sin fase: los Principios V y VI aplican al diseñar, al enmendar y al cerrar, así que disolver la sección los dejaría sin dónde vivir en `AGENTS.md`.
+
+El defecto real era otro: tres ítems no nombraban dónde vive su regla, y un índice cuya mitad se lee como norma autónoma puede divergir del protocolo sin que nada lo señale.
+
+### Qué cambió
+- Encabezado que declara la sección como índice por modo de falla, sin norma nueva.
+- Los tres ítems huérfanos nombran su fuente: §Reglas globales y §Tabla SSOT del registro, `templates/RESULTADO-EXPERIMENTO.md`, y el Principio VII con §Disambiguación.
+
+### Cómo se validó
+`./tools/check_docs.py` en verde. Se verificó además que las palabras agregadas no coincidan con el vocabulario de la regla PASS de A-04 (`experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`, líneas 185-193), que está definido a propósito sobre términos ausentes de `AGENTS.md` para sobrevivir al test del backlog alta #6: sólo se agregaron punteros a documentos internos.
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Toca el protocolo del asistente. No mueve ningún dato ni ninguna conclusión.
+
+### Deuda abierta
+- «MUST — cada cambio debe indicar qué decisión habilita» sigue sin campo en el bloque `[SDD-Check]`.
+- El check `normative-block` sólo detecta enumeraciones de campos del `[SDD-Check]`, bastante menos de lo que su nombre promete.
+- El runbook de A-04 no fija con qué commit de `AGENTS.md` se entrega el tratamiento. Nada se invalida —ni la pasada 1 ni la 1b produjeron dato de H1 válido—, pero una pasada 2 MUST declarar qué versión entregó.
+
+---
+
 ## Alta de `CONVENCIONES.md`, la capa de forma sale del registro (2026-08-22) — COMPLETADA
 
 **Acción**: alta de un SSOT nuevo, mudanza de las convenciones de léxico y forma desde `SPECS_REGISTRY.md` y `AGENTS.md`, regla global nueva sobre qué puede vivir en la capa residente, enmienda PATCH de la constitución (0.2.2 → 0.2.3) y corrección de una regla de colocación que el repositorio no cumplía.
