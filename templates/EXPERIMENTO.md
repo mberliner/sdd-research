@@ -14,6 +14,32 @@
 - Muestra:
 - Duracion:
 
+## Sello
+
+> Sección obligatoria. Declara qué componentes este experimento mantiene constantes y **cómo** se sostiene cada uno. Es la mitad mecanizable del Principio V (`CONSTITUTION.md`): no observa el orden entre pensar y ver, pero sí que el objeto sellado siga siendo el mismo objeto. Origen y evidencia: `historial/sdd.md`, «El sello del experimento pasa a resolverse por escalones».
+
+Por cada componente sellado MUST resolverse, **en este orden**:
+
+1. **Eliminarlo como variable.** ¿Puede construirse la corrida de modo que el desvío sea imposible, no sólo improbable? Si sí, se hace acá y no queda nada que vigilar después.
+2. **Verificarlo en corrida.** Lo que no se pudo eliminar MUST tener un verificador que lo comprueba en cada rep y detiene ante divergencia.
+3. **Declararlo sin verificador.** Lo que no admite ninguna de las dos MUST quedar escrito como límite del experimento, con su motivo. No es un cajón de derrota: es la diferencia entre un límite conocido y una sorpresa.
+
+El orden no es decorativo. Un desvío eliminado por construcción no puede ocurrir; uno vigilado ocurre y se detecta **después** de ocurrido, que en una tanda ya corrida puede significar re-correrla entera.
+
+| componente | qué queda sellado (valor o identificador) | escalón | mecanismo | qué hace el verificador si diverge |
+|---|---|---|---|---|
+| tratamiento | | | | |
+| entorno de ejecución | | | | |
+| fixture / workspace | | | | |
+
+Qué entra en la tabla: lo que este documento declara sellado explícitamente, ni más ni menos. Enumerar de más convierte el verificador en fuente de falsos bloqueos; enumerar de menos deja el hueco donde estaba.
+
+**Tratamiento que es material versionado de un repositorio**: el sello MUST identificarlo **por commit, no por ruta**, y la corrida MUST entregarlo extrayéndolo de ese commit, no copiándolo del árbol de trabajo. No congela nada — el repositorio sigue trabajando y la pasada sigue entregando lo sellado. Una pasada que necesite un tratamiento distinto es una **pasada distinta**, con su enmienda fechada. Residuo de otra clase, que ningún verificador arregla y MUST declararse aparte: si el artefacto evoluciona durante una pasada larga, el resultado describe una versión que ya no es la vigente — eso es vigencia externa, no atribución.
+
+**La prevención no vuelve prescindible el verificador; le cambia el rol.** Un mecanismo de eliminación es en sí mismo algo sellado: una variable de entorno que una versión nueva deja de respetar, un tag que se movió, una extracción que falló en silencio. Sin comprobación no se distingue «funcionó» de «dejó de funcionar sin avisar». Donde el escalón 1 alcanza, el escalón 2 sobrevive como heartbeat barato.
+
+**El verificador MUST detener y explicitar; MUST NOT elegir.** Abortar es lo correcto para un rep suelto. Para una tanda a mitad de camino, la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script.
+
 ## Metricas
 - Primaria:
 - Secundarias:

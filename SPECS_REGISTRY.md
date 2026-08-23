@@ -350,6 +350,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] campos minimos para ejecutar y cerrar experimentos
   - [ ] `EXPERIMENTO.md` incluye la sección «Definicion operacional» (obligatoria desde 2026-07-28, ver `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` Hallazgo 7)
+  - [ ] `EXPERIMENTO.md` incluye la sección «Sello» (obligatoria desde 2026-08-23, M-22 y M-25): cada componente sellado resuelve eliminar / verificar / declarar, y un tratamiento que sea material versionado se identifica por commit y se entrega extrayendolo de ese commit
   - [ ] el criterio de éxito se enuncia solo contra métricas que la propia prueba produce, con comprobacion de satisfacibilidad
   - [ ] `RESULTADO-EXPERIMENTO.md` incluye la sección «Propagacion» con el grep de deuda declarada y la tabla de triaje (obligatoria desde 2026-07-29)
   - [ ] `EXPERIMENTO.md` incluye «Documentos que esperan este resultado»; su contraparte en el cierre es «Propagacion»

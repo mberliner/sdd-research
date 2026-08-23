@@ -4,6 +4,36 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## El sello del experimento pasa a resolverse por escalones (2026-08-23) — COMPLETADA
+
+**Accion**: pieza 1 de M-22 y M-25, entregada junta porque cae en un solo artefacto. `templates/EXPERIMENTO.md` suma la seccion obligatoria «Sello». Los dos items quedan **`Aprobada`**, no `Hecha`: su cierre depende de piezas que este repositorio no contiene.
+
+### Que se encontro
+Los dos items apuntaban al mismo lugar. M-22 fija la jerarquia general —eliminar como variable, verificar en corrida, o declarar sin verificador— y M-25 la aplica al tratamiento, declarando a M-22 como su SSOT y sin reproducirla. Se evaluo unificarlos y **no conviene**: fusionarlos obligaria a duplicar la jerarquia o a perder el modo de falla propio del tratamiento, y borraria cual de las dos observaciones sostiene cual regla —M-22 nacio del entorno auto-actualizandose entre tandas, M-25 del tratamiento editado por el trabajo normal del repositorio—. Lo que si se unifica es la entrega: la pieza documental de ambos es una sola seccion.
+
+Al mapear las piezas aparecio el limite que decide el estado de los items: **el verificador en corrida vive en otro repositorio**. Los scripts de preparacion de A-04 (`preparar_rep.sh`, `preparar_rep_cc.sh`) estan en `experimentosdd-a4`, hermano de este arbol y fuera del alcance de este protocolo. Ninguno de los dos items puede declararse `Hecha` desde aca.
+
+### Que cambio
+- `templates/EXPERIMENTO.md`: seccion «Sello», entre «Diseno» y «Metricas». Trae los tres escalones en orden y por que el orden importa; una tabla por componente —que queda sellado, escalon, mecanismo, que hace el verificador si diverge—; el criterio de que entra en la tabla, que es lo que el documento declare sellado y nada mas; la regla de M-25 para tratamiento versionado, por commit y extraido de ese commit, con el residuo de vigencia externa declarado como cosa distinta de la atribucion; que la prevencion no vuelve prescindible el verificador sino que lo deja como heartbeat; y que el verificador MUST detener y explicitar, MUST NOT elegir.
+- `SPECS_REGISTRY.md`: la spec de los templates suma el check de validacion de la seccion nueva.
+- `agenda/MEJORAS-METODO.md`: M-22 y M-25 pasan a `Aprobada` con la pieza 1 hecha, y cada una enumera las dos que le faltan y donde viven.
+
+Las tres reservas que M-22 pedia resolver antes de darla por disenada quedaron resueltas dentro de la seccion, no en prosa aparte: que componentes entran, que hace el verificador cuando dispara, y el retorno decreciente del escalon 1.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). La seccion se escribio con rutas relativas a la raiz, que es la convencion que el template ya usaba, para que siga resolviendo cuando se copia dentro de `experimentos/`.
+
+Lo que **no** esta validado: que la seccion se pueda llenar sin ambiguedad para un experimento real. Eso lo prueba la pieza 2 sobre el runbook de A-04, y hasta entonces la seccion es una forma propuesta que nadie ejercito.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Cambia una plantilla de metodo y la spec que la gobierna. No mueve ningun dato de A-04 ni de ningun otro experimento.
+
+### Deuda abierta
+- **Pieza 2, en este repositorio**: `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` sella componentes sin resolver los escalones. Es ademas la prueba de que la seccion es llenable.
+- **Pieza 3, fuera de este repositorio**: el verificador de entorno y de correspondencia con el commit sellado, en `experimentosdd-a4/scripts/`. Mientras no exista, la regla del template es una exigencia sin verificador — el escalon 3 aplicado a la propia mejora.
+- **El template es obligatorio para experimentos nuevos, y los vigentes no se migran solos.** A-04 y B-07 ya estan escritos sin la seccion; solo A-04 tiene pasada futura, asi que la pieza 2 lo cubre y B-07 queda como esta, cerrado.
+- Sin novedad: M-02 sigue `Aprobada` y sin ejecutar; M-30 `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## Alta de M-30 y cierre de las dos deudas sin item que dejo M-29 (2026-08-23) — COMPLETADA
 
 **Accion**: la deuda de rotacion del historial se da de alta como **M-30** (`Propuesta`); la deuda sobre la ventana de `precedencia` se cierra escribiendo el limite donde se lee; la deuda sobre los cerrados sin descripcion se cierra por verificacion: estaba sobredimensionada.

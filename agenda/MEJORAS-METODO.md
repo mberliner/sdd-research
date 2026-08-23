@@ -21,8 +21,8 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | ID | Mejora | Prioridad | Estado | Origen | Destino |
 |---|---|---|---|---|---|
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | alta | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
-| M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Propuesta (2026-08-19; reformulada 2026-08-23) | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
-| M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
+| M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Aprobada — pieza 1 hecha (2026-08-23), piezas 2 y 3 pendientes | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
+| M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Aprobada — pieza 1 hecha (2026-08-23), piezas 2 y 3 pendientes | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
@@ -100,6 +100,11 @@ Tres reservas antes de darla por diseñada:
 
 Contraparte de investigación: caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
 
+**Aprobada y ejecutada por partes desde el 2026-08-23.** La pieza 1 está hecha: `../templates/EXPERIMENTO.md` §Sello, con la jerarquía, la tabla por componente y las tres reservas resueltas — el criterio de qué entra, el heartbeat que sobrevive al escalón 1, y el verificador que detiene sin elegir. Quedan dos, y la tercera no es de este repositorio:
+
+- **Pieza 2 — aplicación a los runbooks vigentes**: `../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` sella sin resolver los escalones por componente.
+- **Pieza 3 — el verificador en corrida**: vive en el repositorio hermano `experimentosdd-a4` (`scripts/preparar_rep.sh`, `scripts/preparar_rep_cc.sh`), fuera del alcance de este protocolo. **M-22 no puede declararse `Hecha` desde acá**; su cierre depende de una entrega en ese repositorio.
+
 ### M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 
 **Regla propuesta.** Cuando el tratamiento de un experimento es material versionado del propio repositorio, el sello MUST identificarlo por commit —no por ruta— y la corrida MUST entregarlo **extrayéndolo de ese commit**, no copiándolo del árbol de trabajo. Una pasada que necesite un tratamiento distinto es una **pasada distinta**, con su enmienda fechada.
@@ -113,6 +118,8 @@ Queda un residuo, que es de otra clase y MUST no confundirse con lo anterior: si
 El escalón 2 sobrevive como heartbeat: comprobar que lo entregado corresponde al commit sellado y no a un árbol sucio o a una extracción que falló en silencio.
 
 Forma de la mejora: la sección de sello de `../templates/EXPERIMENTO.md` (pieza 1 de M-22) exige commit para todo tratamiento que sea material del repositorio y extracción desde ese commit; el script de preparación comprueba la correspondencia. Aplicación a los runbooks vigentes al adoptarla.
+
+**Aprobada y ejecutada por partes desde el 2026-08-23.** La pieza 1 está hecha, en la misma sección `§Sello` que M-22: el tratamiento que es material versionado se identifica por commit, se entrega extrayéndolo de ese commit, y el residuo de vigencia externa queda declarado aparte. Faltan las mismas dos piezas que M-22 —el runbook vigente de A-04 y el verificador de correspondencia, este último en el repositorio hermano `experimentosdd-a4`—, así que **tampoco puede declararse `Hecha` desde acá**.
 
 **Caso que la originó** (evidencia, no alcance). El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente; el runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita ancestros y verifica ausencia de configuración de asistente, pero no fija con qué commit se entrega el tratamiento — la variable independiente era el único componente sin identificar. El 2026-08-22 `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero el mismo cambio entre dos tandas de una pasada 2 habría dejado el efecto medido sin a qué atribuirse.
 
