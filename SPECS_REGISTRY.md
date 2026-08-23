@@ -334,8 +334,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `ssot_level`: `operativo`
 - `excluye`:
   - el `proposito` de cada documento listado — vive en este registro; junto a cada link va a lo sumo un puntero breve de que tipo de contenido es, no una síntesis de que dice
-  - el campo `estado` de cada documento listado — vive en este registro; anotarlo aca crea una segunda fuente que puede desincronizarse (motivo: `software/00-INDEX.md` quedo con "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` cuando el registro ya declaraba `Activo`, detectado 2026-08-03, M-14)
-  - el campo `ssot_level`/rol (`SSOT`/`derivado`/`operativo`) de cada documento listado — vive en la tabla SSOT y en el campo `ssot_level` de este registro; mismo riesgo de desincronizacion que `estado` (ver `Detalle` del Principio I en `CONSTITUTION.md`)
+  - `estado` y `ssot_level`/rol de cada documento listado — caso particular de la regla global §Reglas globales, que reserva los ocho campos de spec a este registro. Motivo concreto acá: `software/00-INDEX.md` quedo con "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` cuando el registro ya declaraba `Activo` (detectado 2026-08-03, M-14)
 - `validacion`:
   - [ ] links vigentes
   - [ ] direccionan a SSOT de su línea
@@ -689,6 +688,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - cardinalidad entre artefactos de alcance spec/épica/historia (vive en `RELACION-SPEC-VS-EPICA.md`)
   - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`, SSOT del que deriva)
+  - transferencia del razonamiento a Línea A: el FR/SC y el coverage mapping son nativos de la anatomía de spec de software (pregunta abierta en `agenda/BACKLOG-INVESTIGACION.md`)
 - `validacion`:
   - [ ] cada afirmación externa tiene referencia [Rxx]
   - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`

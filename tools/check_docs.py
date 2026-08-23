@@ -503,36 +503,91 @@ def annotation_slots(line: str):
     return []
 
 
-def check_excluded_fields(rep: Report, specs: dict, all_docs: list[str]) -> None:
-    """Un doc no reproduce un campo que su propia spec excluye (M-14 y su correccion; M-23).
+def registry_spec_fields() -> list[str]:
+    """Los campos que el registro reserva para si, leidos de su propia regla global.
 
-    Generico: no hardcodea que documento aplica. Lee los `excluye_items` de cada
-    spec, busca nombres de campo citados en backticks (ej. `estado`, `ssot_level`)
-    y, si son `estado` o `ssot_level`, verifica que ninguna anotacion del documento
-    sea un valor valido de ese campo (VALID_ESTADO / VALID_SSOT_LEVEL). Que cuenta
-    como anotacion: `annotation_slots`.
-
-    Limite declarado: detecta el VALOR del campo, no su parafrasis. «Deriva de X.md»
-    junto a un link es una anotacion de rol y este check no la ve, porque `derivado`
-    no aparece como palabra. Mismo limite que `scope-home`, que solo matchea el campo
-    escrito literal. Cerrarlo exige decidir antes que parafrasis cuentan, y eso es
-    una pregunta sobre el registro, no sobre el check.
+    Derivados, no listados a mano: la autoridad es la vinneta «Los campos de una spec
+    viven en un solo lugar» de SPECS_REGISTRY.md §Reglas globales, y una lista aparte
+    volveria a poder divergir de ella — la misma razon por la que `emitted_check_ids()`
+    lee la fuente del script en vez de enumerar sus ids.
     """
-    for path, fields in specs.items():
-        if path not in all_docs:
+    m = re.search(
+        r"^- \*\*Los campos de una spec viven en un solo lugar.*?MUST vivir",
+        read(REGISTRY),
+        re.S | re.M,
+    )
+    return re.findall(r"`([a-z_]+)`", m.group(0)) if m else []
+
+
+def check_excluded_fields(rep: Report, specs: dict, all_docs: list[str]) -> None:
+    """Ningun documento reproduce un campo que el registro reserva (M-14, M-23, M-28).
+
+    La autoridad es la regla global del registro, no el `excluye` de cada spec: la
+    regla vale para todo documento, original o derivado, y cablearla a las specs
+    dejaba fuera a los 48 que no la declaraban.
+
+    Tres formas, porque son las tres en que este repositorio anoto un campo del
+    registro fuera de el:
+
+    1. Encabezado, por CLAVE: linea `Campo: valor` antes del primer `## `. Es la unica
+       forma que alcanza a `owner` y `deriva_de`, que no tienen conjunto de valores
+       validos y por valor son indetectables. La clave se normaliza `_` -> espacio,
+       sin distinguir mayusculas, asi que `deriva_de` matchea «Deriva de:».
+    2. Titulo de columna, por CLAVE: una celda que sea el nombre de un campo.
+    3. Anotacion, por VALOR: celda de tabla o texto junto a un link que sea un valor
+       valido de `estado` o `ssot_level` (ver `annotation_slots`).
+
+    La ventana difiere a proposito: la forma 1 corre solo en el encabezado —fuera de
+    el, «Estado:» aparece en prosa legitima— y las formas 2 y 3 corren en todo el
+    documento, porque los indices de linea anotan a media pagina, no en la cabecera.
+
+    Excepcion unica, declarada por la misma regla: la tabla de rol del `00-INDEX.md`
+    de raiz, y solo para `ssot_level`.
+
+    Limite: detecta la anotacion, no la parafrasis. «Este documento manda sobre X» es
+    una anotacion de rol y ningun reconocedor de claves ni de valores la ve.
+    """
+    campos = registry_spec_fields()
+    if len(campos) < 4:
+        rep.error(
+            "excluded-field",
+            REGISTRY,
+            "no se pudieron derivar los campos reservados de §Reglas globales: la regla "
+            "cambio de forma y este check quedaria vacio sin avisar",
+        )
+        return
+    norm = {c.replace("_", " "): c for c in campos}
+    claves = {
+        c: re.compile(rf"^\s*[*_]*{re.escape(c).replace('_', '[ _]')}[*_]*\s*:", re.I)
+        for c in campos
+    }
+    for rel in all_docs:
+        if rel == REGISTRY:
             continue
-        excluded = {
-            token
-            for item in fields.get("excluye_items", [])
-            for token in re.findall(r"`([a-z_]+)`", item)
-        }
-        checks = [f for f in ("estado", "ssot_level") if f in excluded]
-        if not checks:
-            continue
-        for n, line in enumerate(strip_code_fences(read(path).splitlines()), 1):
+        lines = strip_code_fences(read(rel).splitlines())
+        exento_rol = rel == "00-INDEX.md"
+        for n, line in enumerate(lines, 1):
+            if line.startswith("## "):
+                break
+            for campo, rx in claves.items():
+                if rx.match(line):
+                    rep.error(
+                        "excluded-field",
+                        f"{rel}:{n}",
+                        f"el encabezado anota `{campo}`; ese campo vive en {REGISTRY}",
+                    )
+            for text, _ in annotation_slots(line):
+                campo = norm.get(text.strip().lower())
+                if campo and not (exento_rol and campo == "ssot_level"):
+                    rep.error(
+                        "excluded-field",
+                        f"{rel}:{n}",
+                        f"una columna del encabezado se titula `{campo}`; ese campo vive en {REGISTRY}",
+                    )
+        for n, line in enumerate(lines, 1):
             for text, exact in annotation_slots(line):
                 for field, valid in (("estado", VALID_ESTADO), ("ssot_level", VALID_SSOT_LEVEL)):
-                    if field not in checks:
+                    if field not in campos or (exento_rol and field == "ssot_level"):
                         continue
                     hit = next(
                         (
@@ -547,8 +602,8 @@ def check_excluded_fields(rep: Report, specs: dict, all_docs: list[str]) -> None
                         etiqueta = "`estado`" if field == "estado" else "`ssot_level`/rol"
                         rep.error(
                             "excluded-field",
-                            f"{path}:{n}",
-                            f"{donde} anota {etiqueta} ({hit}); excluido por su propia spec",
+                            f"{rel}:{n}",
+                            f"{donde} anota {etiqueta} ({hit}); ese campo vive en {REGISTRY}",
                         )
 
 

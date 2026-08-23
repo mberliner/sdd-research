@@ -45,7 +45,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
-| M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | Propuesta (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + los documentos afectados |
+| M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | **Hecha** (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` + 6 documentos |
 
 ---
 
@@ -338,16 +338,25 @@ Los casos 1 y 2 coinciden hoy con el registro. Eso no los vuelve correctos, los 
 
 Radio medido antes de escribirla, con el reconocedor de `excluded-field` sobre los 50 documentos: dos hallazgos, y uno es la excepción declarada. La regla global no rompe nada.
 
-Queda pendiente lo que la vuelve verificable, y son los dos casos vivos:
+**Hecha el 2026-08-23**, en el orden que el caso pedía: primero el check, después la corrección de lo que encontró.
 
-Forma de la mejora, y su parte barata: `excluded-field` ya sabe detectar esto —incluida la forma de tabla del caso 1 y la anotación junto a un link— pero sólo dispara cuando la propia spec del documento declara el campo en `excluye`. Hoy esa exclusión está escrita únicamente para los dos índices de línea. Escribirla en las specs de los documentos afectados los pone bajo verificación **sin código nuevo**; queda después limpiar los encabezados, que es trabajo de edición.
+`excluded-field` deja de leer el `excluye` de cada spec y pasa a leer la regla global. El cambio de autoridad es el que importa: cableado a las specs alcanzaba a dos documentos, cableado a la regla alcanza a los cincuenta. Los ocho campos se derivan de la viñeta del registro con `registry_spec_fields()` —no de una lista a mano, misma disciplina que `emitted_check_ids()`— y si esa derivación devuelve menos de cuatro campos el check **falla**: una regla reescrita no puede vaciarlo en silencio.
 
-Dos cosas más que el check necesita y hoy no tiene:
+Tres formas de detección, con ventanas distintas a propósito:
 
-- `annotation_slots` reconoce celda de tabla e ítem de lista con link, no la línea de encabezado `Campo: valor`. Por eso `../software/SDD-EN-LEGACY-Y-BROWNFIELD.md` no aparece en la medición: su «Estado: Borrador» es prosa suelta.
-- `owner` y `deriva_de` no tienen conjunto de valores válidos, así que por valor son indetectables. La forma general que cubre los ocho campos es detectar por **clave**: una línea de encabezado cuya clave sea un nombre de campo del registro.
+1. **Encabezado, por clave**: línea `Campo: valor` antes del primer `## `. Es la única que alcanza a `owner` y `deriva_de`, indetectables por valor. La clave se normaliza `_` → espacio y sin distinguir mayúsculas, así que `deriva_de` matchea «Deriva de:» sin necesidad de una tabla de alias.
+2. **Título de columna, por clave**, también sólo en el encabezado.
+3. **Anotación, por valor**, en todo el documento: es la forma de los índices de línea, que anotan a media página.
 
-Nota sobre las exclusiones per-spec: las de los dos índices de línea quedan escritas aunque la regla global ya las cubra, porque hoy son el cableado del check. Se borran cuando `excluded-field` lea la regla global; borrarlas antes apagaría la única verificación vigente.
+La ventana de las formas 1 y 2 no es prudencia genérica: con la detección por título de columna corriendo en todo el documento aparecían dos falsos positivos —la columna «Estado» de este mismo backlog y otra de `../software/PLAN-PRUEBAS.md`—, que son estados de otra cosa, no el campo de spec. Acotarla al encabezado los eliminó sin perder ningún hallazgo real.
+
+Encontró **seis** anotaciones en cinco documentos, todas corregidas en la misma entrega: la tabla de cabecera de `../docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` perdió las columnas `Owner` y `ssot_level`; tres «Deriva de:» de línea B se borraron —el campo vive en el registro y `deriva-cycle` ya lo valida—; y `../software/SDD-EN-LEGACY-Y-BROWNFIELD.md` perdió su «Estado: Borrador». Se corrigieron además dos cosas que el check no ve y aparecieron al mirar: un «Estado: Activo» a mitad de renglón en `../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, y la línea `Alcance:` de `../software/RELACION-FR-VS-SC-Y-COBERTURA.md`, que declaraba una exclusión ausente de su `excluye` registrado y se trajo al registro.
+
+Con el cableado nuevo, las exclusiones per-spec de los dos índices de línea dejaron de ser necesarias y se resumieron a una línea que remite a la regla global.
+
+Validación: sobre el árbol previo a las correcciones el check reproduce los seis hallazgos; sobre el árbol corregido, 0 ERROR. Dos deformaciones deliberadas —`Owner:` y `Deriva de:` en el encabezado de un documento limpio— detectadas; una tercera línea de prosa en el mismo encabezado, mencionando «SSOT» y «estado» sin forma de anotación, no detectada.
+
+**Límite que queda**: detecta la anotación, no la paráfrasis. «Este documento manda sobre X» sigue sin verificador, igual que `scope-home`. Y la forma 1 exige que la clave abra el renglón: un `Estado: Activo` a mitad de oración no se ve, que es exactamente el caso que hubo que corregir a mano.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 

@@ -4,6 +4,34 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## `excluded-field` verifica la regla del registro, no el `excluye` de cada spec (2026-08-23) — COMPLETADA
+
+**Acción**: M-28 cerrada. El check cambia de fuente de autoridad, gana dos formas de detección y encuentra seis anotaciones en cinco documentos, corregidas en la misma entrega.
+
+### Qué se encontró
+La regla escrita el mismo día cubría los ocho campos, pero el verificador seguía cableado al `excluye` de cada spec, y esa exclusión estaba escrita sólo para los dos índices de línea: cuarenta y ocho documentos quedaban fuera de toda verificación. Con la autoridad puesta en la regla global, el check encontró seis anotaciones vivas.
+
+Aparecieron además dos anotaciones que el check **no** ve y se corrigieron a mano: un «Estado: Activo» a mitad de renglón —la detección por clave exige que la clave abra la línea— y una línea `Alcance:` que declaraba una exclusión ausente del `excluye` registrado.
+
+### Qué cambió
+- `tools/check_docs.py`: `registry_spec_fields()` deriva los ocho campos de la viñeta del registro, y el check falla si la derivación devuelve menos de cuatro — una regla reescrita no puede vaciarlo en silencio. Tres formas: encabezado por clave, título de columna por clave, anotación por valor. Las dos primeras corren sólo en el encabezado; la tercera, en todo el documento.
+- `SPECS_REGISTRY.md`: las exclusiones per-spec de los dos índices de línea se resumen a una línea que remite a la regla global; la exclusión «transferencia a Línea A» de `software/RELACION-FR-VS-SC-Y-COBERTURA.md` pasa a su `excluye`.
+- Cinco documentos limpiados: `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md` (columnas `Owner` y `ssot_level`), `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` y `software/RELACION-FR-VS-SC-Y-COBERTURA.md` (línea «Deriva de:»), `software/SDD-EN-LEGACY-Y-BROWNFIELD.md` («Estado: Borrador»).
+- `agenda/MEJORAS-METODO.md`: M-28 a **Hecha**.
+
+### Cómo se validó
+La ventana de las dos formas por clave no es prudencia genérica: con el título de columna corriendo en todo el documento aparecían dos falsos positivos —la columna «Estado» del backlog de mejoras y otra de `software/PLAN-PRUEBAS.md`, que son estados de otra cosa—. Acotarla al encabezado los eliminó sin perder ningún hallazgo real.
+
+Sobre el árbol previo a las correcciones, el check reproduce los seis hallazgos; sobre el corregido, 0 ERROR. Dos deformaciones deliberadas —`Owner:` y `Deriva de:` en el encabezado de un documento limpio— detectadas; una línea de prosa en el mismo encabezado mencionando «SSOT» y «estado», no detectada. `./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08).
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cambia un verificador y una regla del registro. Los cuerpos de los cinco documentos corregidos no se tocaron.
+
+### Deuda abierta
+- Detecta la anotación, no la paráfrasis: «este documento manda sobre X» sigue sin verificador, igual que `scope-home`.
+- La detección por clave exige que la clave abra el renglón. El `Estado: Activo` a mitad de oración que hubo que corregir a mano no se habría detectado.
+- Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## La regla de alcance pasa de cuatro campos a ocho (2026-08-23) — COMPLETADA
 
 **Acción**: `SPECS_REGISTRY.md` §Reglas globales. La regla que reservaba al registro los campos de spec cubría `proposito`, `incluye`, `excluye` y `validacion`; ahora cubre también `ssot_level`, `estado`, `owner` y `deriva_de`. Parte normativa de M-28.

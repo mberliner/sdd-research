@@ -1,6 +1,6 @@
 # SDD en Legacy y Brownfield
 
-Estado: Borrador. Fecha: 2026-06-05. Línea: B (software).
+Fecha: 2026-06-05. Línea: B (software).
 
 Spec: ver `SPECS_REGISTRY.md` → `software/SDD-EN-LEGACY-Y-BROWNFIELD.md`.
 

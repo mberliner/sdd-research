@@ -1,7 +1,6 @@
 # Comparativa: GitHub Spec Kit vs. proyecto testigo (`evaluador-flujo-intent`)
 
 Fecha: 2026-05-26. Actualizado: 2026-07-09; sincronizado con el cierre de B-07 el 2026-07-29.
-Deriva de: `ANALISIS-SPEC-KIT.md` (SSOT del flujo interno de Spec Kit).
 Fuentes: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]; artefactos reales del testigo `evaluador-flujo-intent` (ex `agent-test-suite`; `../../../test_circuito_intents/evaluador-flujo-intent/`), observados al 2026-07-09 (HEAD `8bff08c`, 64 commits).
 
 > Nota de premisa (2026-06-21): el testigo se reorganizo sobre la premisa **SDD universal primero, adaptadores por ambiente despues**: `AGENTS.md` es el SSOT del protocolo (lo leen opencode/Cursor/Codex/Aider/Gemini CLI por convencion; Claude Code via `@AGENTS.md`); el cuerpo semantico de `/analyze` y `/clarify` vive neutro en `docs/playbooks/` y cada asistente recibe un wrapper fino (`.claude/skills/`, `.opencode/command/`). Ademas el testigo **ya adopto git + CI + pre-commit**. Las celdas y bullets que asumian "sin git/sin CI" / "Claude-only" se corrigen abajo; los bloques `[SDD-Check]` datados previos quedan como registro de su fecha.

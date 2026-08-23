@@ -1,8 +1,8 @@
 # Guia de Inicio: Proyecto de Investigacion con SDD y Asistentes IA
 
-| Creacion | Version | Owner | ssot_level |
-|----------|---------|-------|------------|
-| 2026-03-18 | 0.4 | proyecto SDD | operativo |
+| Creacion | Version |
+|----------|---------|
+| 2026-03-18 | 0.4 |
 
 ---
 
