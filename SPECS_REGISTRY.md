@@ -424,14 +424,17 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - criterio de separacion respecto de `agenda/BACKLOG-INVESTIGACION.md` (operativa del Principio VI)
   - tabla de estado: ID `M-NN`, prioridad, estado (`Propuesta`/`Aprobada`/`Hecha`/`Descartada`), origen, destino
   - detalle por mejora: que resuelve, de donde se porta, requisitos de diseño y reservas
+  - de un item `Hecha`, solo su planteo previo al cierre: diagnostico, forma propuesta y reservas
 - `excluye`:
   - preguntas de investigación — viven en `agenda/BACKLOG-INVESTIGACION.md`
   - el registro cronológico de lo ya aplicado — vive en `historial/sdd.md`
+  - de un item `Hecha`: la ejecucion, la validacion y los límites resultantes — la ejecucion y la validacion viven en `historial/sdd.md`; un límite vigente vive en el artefacto que lo declara (docstring del check, campo `Verificador:` de `CONSTITUTION.md`, este registro) y se referencia, no se copia
   - el análisis historico cerrado de 2026-03-01 — vive en `historial/ROADMAP-MEJORAS-SDD.md` (cerrado, no se reabre)
 - `validacion`:
   - [ ] cada item tiene ID, prioridad, estado y destino
   - [ ] cada item declara su origen (testigo, referencia `[Rxx]`, fase del historial)
   - [ ] los items `Hecha` referencian la fase de `historial/sdd.md` que los cerro
+  - [ ] ningun item `Hecha` narra su propia ejecucion, validacion o límites — referencia a donde viven
   - [ ] no duplica preguntas de investigación — referencia por sección
 
 ### historial/ROADMAP-MEJORAS-SDD.md

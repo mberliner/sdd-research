@@ -4,6 +4,35 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## El backlog de metodo se poda a puntero y se reordena por estado (2026-08-23) — COMPLETADA
+
+**Accion**: M-29 dada de alta y ejecutada. `agenda/MEJORAS-METODO.md` deja de narrar la ejecucion de lo ya cerrado y pasa a referenciar la entrada de historial que la contiene; los items quedan agrupados por estado. La regla del corte se escribe en la spec, no en el item.
+
+### Que se encontro
+El 57% del documento —222 de 388 lineas— eran secciones de items `Hecha` narrando ejecucion, validacion y limites. Esa narracion ya vivia aca, y la spec del documento la excluye desde su alta: `excluye` decia «el registro cronologico de lo ya aplicado — vive en `historial/sdd.md`» y `validacion` pedia que «los items `Hecha` referencian la fase de `historial/sdd.md` que los cerro». No era una mejora pendiente sino deriva doc-vs-spec, y ninguno de los checks la ve: reproducir prosa fuera de su SSOT sigue sin verificador (limite ya declarado en el Principio I).
+
+El costo lo paga el uso normal del documento —leerlo para decidir que falta hacer—, porque no hay forma de saber que esta abierto sin barrerlo entero.
+
+### Que cambio
+- `agenda/MEJORAS-METODO.md`: 388 → 355 lineas. Cada item `Hecha` conserva su planteo previo al cierre y remite el resto a la entrada que lo cerro; se verifico entrada por entrada que el material cortado estuviera efectivamente aca antes de cortarlo. Los items pasan a `###` bajo dos agrupadores `##` —«Items abiertos», por prioridad, y «Items cerrados», por ID— y la tabla de estado se ordena igual. Alta de **M-29**.
+- `SPECS_REGISTRY.md`: la spec de ese documento suma al `incluye` «de un item `Hecha`, solo su planteo previo al cierre», al `excluye` la ejecucion, la validacion y los limites resultantes, y un check de validacion nuevo. La regla vive ahi y no en M-29, que solo explica por que el corte cae donde cae.
+
+Un limite vigente no se copia al backlog: se nombra donde vive. M-15 remite al campo `Verificador:` de `CONSTITUTION.md` en vez de reproducir el conteo de principios cubiertos, que cambia cada vez que se cierra una mejora; M-18, M-19, M-23, M-24 y M-28 remiten al docstring del check o al propio hook.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08, el vivo a proposito).
+
+La primera corrida dio 1 ERROR, y es el hallazgo del dia: `precedencia` marco `agenda/MEJORAS-METODO.md:181`. Falso positivo **producido por el reordenamiento**. El check mira una ventana de -4/+12 lineas alrededor de cada mencion de «precedencia» y exige que nombre la constitucion si nombra el registro; al mover M-05 junto a M-01, la mencion de `SPECS_REGISTRY.md` de una seccion entro en la ventana de la otra, que hablaba de otro tema. Se resolvio nombrando la constitucion en la frase de M-01, que ademas es lo que el check verifica.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Cambia la forma del backlog de metodo y la spec que lo gobierna. No mueve ningun dato. `agenda/` no dispara `metodo-historial` a proposito —proponer una mejora no es adoptarla— pero esta entrega no propone: reorganiza el documento y enmienda su spec, y el cambio de `SPECS_REGISTRY.md` disparo el check igual.
+
+### Deuda abierta
+- **La ventana de `precedencia` depende de la disposicion del documento, no solo de su contenido.** Mover secciones puede crear o borrar hallazgos sin que cambie una sola afirmacion. Es la misma clase de limite que el resto del script —heuristica declarada como tal en su propio docstring— y no se ajusto: aflojar un verificador para acomodar un reordenamiento es la deriva que M-21 ya decidio no cometer. Queda contado, sin item.
+- **`historial/sdd.md` crece sin techo.** 34 entradas y ~890 lineas, 20 de ellas de agosto. No es el problema que M-29 corrige —este archivo es append-only y se lee por la punta o por grep, no entero— pero tiene limite real, y la salida para un log es rotar por periodo, no podar. Sin item propio todavia; hay precedente de rotacion en `historial/ROADMAP-MEJORAS-SDD.md`.
+- **La poda rindio menos de lo proyectado**: se estimaron ~150 lineas y salieron 33 netas, porque la regla conserva todo el planteo previo y varios items cerrados lo tienen largo. Lo que si bajo a la mitad es el costo del uso normal: decidir que falta hacer pasa de leer 388 lineas a leer las 174 primeras.
+- Sin cambios: M-22 y M-25 en `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## Propagacion de M-28 a los documentos que describen el backstop (2026-08-23) — COMPLETADA
 
 **Acción**: cerrar M-28 del lado documental. Ninguna regla ni verificador cambia; se alinea lo que tres documentos afirmaban sobre lo que el backstop cubre.
