@@ -40,7 +40,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Propuesta (2026-08-19; reformulada 2026-08-23) | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
-| M-23 | Extender `check_excluded_fields_in_tables` a listas, no solo tablas | baja | Propuesta (2026-08-22) | auditoría de índices de línea | `../tools/check_docs.py` |
+| M-23 | `excluded-field` escaneaba solo tablas, no listas | baja | **Hecha** (2026-08-23) | auditoría de índices de línea | `../tools/check_docs.py` |
 | M-24 | `normative-block` cubría bastante menos de lo que su nombre prometía | media | **Hecha** (2026-08-23) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` + `../CONSTITUTION.md` |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -264,13 +264,22 @@ Tres reservas antes de darla por diseñada:
 
 Contraparte de investigación: caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
 
-## M-23 — Extender `check_excluded_fields_in_tables` a listas
+## M-23 — `excluded-field` escaneaba solo tablas, no listas
 
 El check (`M-09`) solo escanea líneas que empiezan con `|` — filas de tabla markdown. `../software/00-INDEX.md` reproducía el rol (`ssot_level`) de tres documentos en una lista con guiones (`- [link] — SSOT de...`, `- [link] — ... Deriva de X.`), forma que la spec de ese índice prohíbe igual que una tabla, pero que el check no reconoce por no ser tabla.
 
 Detectado el 2026-08-22 en una auditoría de los tres `00-INDEX.md` contra `../SPECS_REGISTRY.md`: cobertura de specs completa (0 archivo sin registrar, 0 spec sin archivo), pero esta anotación de rol en prosa pasó los checks existentes sin ruido — mismo patrón que motivó `M-09` (duplicación de SSOT no detectada por los checks de entonces). Corregido a mano en la misma auditoría.
 
 Forma de la mejora: generalizar el escaneo de `check_excluded_fields_in_tables` a cualquier línea de contenido (no solo `|...|`), buscando los valores válidos de `estado`/`ssot_level` como palabra completa cerca de un link, no solo dentro de celdas de tabla. Riesgo a evitar: falsos positivos con menciones legítimas de la palabra "SSOT" fuera de una anotación de rol (por ejemplo, en prosa explicativa).
+
+**Hecha el 2026-08-23.** `excluded-field` deja de escanear líneas y pasa a escanear **ranuras de anotación**, extraídas por un reconocedor propio (`annotation_slots`): una celda de tabla, comparada por igualdad exacta como hasta ahora, o el texto que sigue a un link markdown dentro de un ítem de lista, comparado por palabra completa. La función se renombró a `check_excluded_fields`: ya no es «in_tables», y dejar el nombre viejo habría reincidido en lo que M-24 acababa de corregir.
+
+**El diseño enunciado arriba se ejecutó más angosto, y el corpus dio la razón.** «Cualquier línea de contenido» habría marcado `../docs-y-investigacion/00-INDEX.md:17` —«Un modelo operativo SDD liviano, sin CI obligatorio…»—, que es prosa suelta bajo «Resultado esperado» y no anota el rol de nadie. Exigir el link no es un filtro conservador cualquiera: es lo que distingue una entrada de índice de una frase que menciona la palabra. El campo `validacion` de esa spec ya lo decía así —«ningún link ni tabla anota `ssot_level`/rol»—, de modo que el check ahora verifica la regla escrita en vez de una versión ensanchada de ella.
+
+Límite declarado en el propio docstring: detecta el **valor** del campo, no su paráfrasis. De las tres anotaciones que el índice de línea B tenía el 2026-08-22, el check nuevo reproduce la primera (`— SSOT de convergencia…`) y **no** ve las otras dos (`Deriva de X.md`), porque `derivado` no aparece como palabra. Es el mismo límite de `scope-home`, que sólo matchea el campo escrito literal. Cerrarlo exige decidir antes qué paráfrasis cuentan como anotación, y esa es una pregunta sobre el registro, no sobre el check.
+
+Validación, con la técnica del worktree histórico que ya usó la Fase 12: sobre el árbol de `b24549a` —anterior a la corrección manual— el check reproduce el caso real (`software/00-INDEX.md:20`, `link anota ssot_level/rol (SSOT)`). Sobre el árbol actual, cuatro deformaciones deliberadas en el mismo índice: un `Activo` junto a un link, detectado; un `Deriva de X.md`, no detectado —el límite declarado, comportándose como se declara—; una frase con «operativo» y «SSOT» sin link, no detectada; y una anotación dentro de un bloque de código, no detectada. Árbol restaurado, 0 ERROR.
+
 
 ## M-24 — `normative-block` cubría bastante menos de lo que su nombre prometía
 
@@ -293,7 +302,7 @@ Validación: el renombre se corrió en rojo a propósito antes de tocar la const
 
 `../historial/sdd.md` conserva el nombre viejo en las entradas de la Fase 12 y del 2026-08-22, a propósito: el historial registra lo que pasó cuando pasó y MUST NOT reescribirse hacia atrás.
 
-Dos hallazgos del mismo trabajo que **no** entran acá: el punto ciego simétrico de `excluded-field` (escanea sólo tablas, mientras este escanea sólo listas), que es M-23 y se abarata al extraer el reconocedor de forma compartido; y la exención de `templates/`, que no tiene ítem propio y quedó anotada en el docstring a la espera de decisión.
+Dos hallazgos del mismo trabajo que **no** entran acá: el punto ciego simétrico de `excluded-field` (escaneaba sólo tablas, mientras este escanea sólo listas), que es M-23 y se cerró al día siguiente; y la exención de `templates/`, que no tiene ítem propio y quedó anotada en el docstring a la espera de decisión.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 

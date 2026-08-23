@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -466,13 +466,48 @@ def check_references(rep: Report, all_docs: list[str]) -> None:
                 rep.error("referencias", rel, f"cita [{r}] sin entrada en {REFERENCIAS}")
 
 
-def check_excluded_fields_in_tables(rep: Report, specs: dict, all_docs: list[str]) -> None:
-    """Un doc no reproduce en tabla un campo que su propia spec excluye (M-14 y su correccion).
+LIST_ITEM_WITH_LINK = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+.*\[[^\]]+\]\([^)]+\)(?P<desc>.*)$")
+
+
+def annotation_slots(line: str):
+    """Fragmentos de una linea donde una anotacion de campo seria una anotacion (M-23).
+
+    Dos formas, y solo dos, porque son las dos en que este repositorio anota rol o
+    estado junto a un documento:
+
+    - fila de tabla: cada celda, comparada por igualdad exacta;
+    - item de lista que contiene un link markdown: el texto que sigue al link,
+      comparado por palabra completa.
+
+    La segunda existe porque `software/00-INDEX.md` anotaba el rol en lista y el
+    check solo miraba tablas. Se exige el link a proposito: es lo que distingue una
+    entrada de indice de la prosa. `docs-y-investigacion/00-INDEX.md` dice «Un modelo
+    operativo SDD liviano» en un parrafo suelto, y escanear cualquier linea de
+    contenido —la forma en que M-23 estaba enunciada— lo habria marcado.
+    """
+    stripped = line.strip()
+    if stripped.startswith("|"):
+        return [(c.strip().strip("*"), True) for c in stripped.strip("|").split("|")]
+    m = LIST_ITEM_WITH_LINK.match(line)
+    if m:
+        return [(m.group("desc"), False)]
+    return []
+
+
+def check_excluded_fields(rep: Report, specs: dict, all_docs: list[str]) -> None:
+    """Un doc no reproduce un campo que su propia spec excluye (M-14 y su correccion; M-23).
 
     Generico: no hardcodea que documento aplica. Lee los `excluye_items` de cada
     spec, busca nombres de campo citados en backticks (ej. `estado`, `ssot_level`)
-    y, si son `estado` o `ssot_level`, verifica que ninguna celda de tabla del
-    documento sea un valor valido de ese campo (VALID_ESTADO / VALID_SSOT_LEVEL).
+    y, si son `estado` o `ssot_level`, verifica que ninguna anotacion del documento
+    sea un valor valido de ese campo (VALID_ESTADO / VALID_SSOT_LEVEL). Que cuenta
+    como anotacion: `annotation_slots`.
+
+    Limite declarado: detecta el VALOR del campo, no su parafrasis. «Deriva de X.md»
+    junto a un link es una anotacion de rol y este check no la ve, porque `derivado`
+    no aparece como palabra. Mismo limite que `scope-home`, que solo matchea el campo
+    escrito literal. Cerrarlo exige decidir antes que parafrasis cuentan, y eso es
+    una pregunta sobre el registro, no sobre el check.
     """
     for path, fields in specs.items():
         if path not in all_docs:
@@ -485,14 +520,27 @@ def check_excluded_fields_in_tables(rep: Report, specs: dict, all_docs: list[str
         checks = [f for f in ("estado", "ssot_level") if f in excluded]
         if not checks:
             continue
-        for n, line in enumerate(read(path).splitlines(), 1):
-            if not line.strip().startswith("|"):
-                continue
-            for cell in (c.strip().strip("*") for c in line.strip().strip("|").split("|")):
-                if "estado" in checks and cell in VALID_ESTADO:
-                    rep.error("excluded-field", f"{path}:{n}", f"tabla anota `estado` ({cell}); excluido por su propia spec")
-                if "ssot_level" in checks and cell in VALID_SSOT_LEVEL:
-                    rep.error("excluded-field", f"{path}:{n}", f"tabla anota `ssot_level`/rol ({cell}); excluido por su propia spec")
+        for n, line in enumerate(strip_code_fences(read(path).splitlines()), 1):
+            for text, exact in annotation_slots(line):
+                for field, valid in (("estado", VALID_ESTADO), ("ssot_level", VALID_SSOT_LEVEL)):
+                    if field not in checks:
+                        continue
+                    hit = next(
+                        (
+                            v
+                            for v in sorted(valid)
+                            if (text == v if exact else re.search(rf"(?<![\w`]){re.escape(v)}(?![\w`])", text))
+                        ),
+                        None,
+                    )
+                    if hit:
+                        donde = "tabla" if exact else "link"
+                        etiqueta = "`estado`" if field == "estado" else "`ssot_level`/rol"
+                        rep.error(
+                            "excluded-field",
+                            f"{path}:{n}",
+                            f"{donde} anota {etiqueta} ({hit}); excluido por su propia spec",
+                        )
 
 
 def check_scope_single_home(rep: Report, all_docs: list[str]) -> None:
@@ -871,7 +919,7 @@ def main() -> int:
     check_backtick_paths(rep, all_docs)
     check_references(rep, all_docs)
     check_scope_single_home(rep, all_docs)
-    check_excluded_fields_in_tables(rep, specs, all_docs)
+    check_excluded_fields(rep, specs, all_docs)
     check_ssot_collision(rep, specs, parse_ssot_table())
     check_sdd_check_fields(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)

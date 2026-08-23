@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## `excluded-field` deja de mirar solo tablas (2026-08-23) — COMPLETADA
+
+**Acción**: M-23 ejecutada. El check que impide reproducir `estado` o `ssot_level` fuera del registro pasa a reconocer también la anotación puesta junto a un link en una lista. Ninguna regla cambia: la regla ya estaba escrita en el `validacion` de la spec —«ningún link ni tabla anota `ssot_level`/rol»— y el check sólo cubría la mitad «tabla».
+
+### Qué se encontró
+El punto ciego se había detectado el 2026-08-22 auditando los tres `00-INDEX.md`: `software/00-INDEX.md` anotaba el rol de tres documentos en ítems de lista y el repositorio estaba en 0 ERROR. Se corrigió a mano y quedó como M-23.
+
+Al implementar apareció lo que la propuesta no sabía: el diseño enunciado —«escanear cualquier línea de contenido»— produce un falso positivo en el corpus actual. `docs-y-investigacion/00-INDEX.md:17` dice «Un modelo operativo SDD liviano, sin CI obligatorio…» bajo «Resultado esperado», prosa que no anota el rol de nadie. Exigir que la línea contenga un link markdown separa la entrada de índice de la frase que menciona la palabra, y coincide con la regla tal como el registro la escribió.
+
+### Qué cambió
+- `tools/check_docs.py`: reconocedor nuevo `annotation_slots`, que devuelve las ranuras donde una anotación sería una anotación — celda de tabla (igualdad exacta, como antes) o texto que sigue a un link en un ítem de lista (palabra completa). El check pasa por `strip_code_fences`, que antes no aplicaba.
+- Función renombrada `check_excluded_fields_in_tables` → `check_excluded_fields`: el sufijo dejó de ser cierto, y conservarlo habría reincidido en lo que la entrada anterior de este historial acababa de corregir.
+- `agenda/MEJORAS-METODO.md`: M-23 a **Hecha**, con el diseño ejecutado y su diferencia respecto del propuesto.
+
+El id del check no cambia, así que `CONSTITUTION.md` no requiere enmienda: el Principio I ya lo nombra y su cobertura se amplía sin que la declaración deje de ser cierta.
+
+### Cómo se validó
+Worktree histórico sobre `b24549a` —el commit anterior a la corrección manual—, la misma técnica de la Fase 12: el check reproduce el caso real, `software/00-INDEX.md:20`, «link anota `ssot_level`/rol (SSOT)». Sobre el árbol actual, cuatro deformaciones deliberadas en el mismo índice: `Activo` junto a un link, detectado; `Deriva de X.md`, no detectado; una frase con «operativo» y «SSOT» sin link, no detectada; una anotación dentro de un bloque de código, no detectada. Árbol restaurado; `./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08).
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cambia un verificador. No mueve ningún dato ni ninguna conclusión de investigación.
+
+### Deuda abierta
+- El check detecta el **valor** del campo, no su paráfrasis: de las tres anotaciones que el índice de línea B tenía, reproduce una y no ve las dos «Deriva de X.md». Cerrarlo exige decidir antes qué paráfrasis cuentan como anotación, que es pregunta sobre el registro y no sobre el check. Mismo límite que `scope-home`.
+- Sigue sin ítem la exención de `templates/` en `sdd-check-fields`, anotada ayer en el docstring.
+- Sin cambios: M-22 y M-25 en `Propuesta`; M-26, M-08 y M-05 sin decidir.
+
 ## `normative-block` pasa a llamarse `sdd-check-fields` (2026-08-23) — COMPLETADA
 
 **Acción**: M-24 ejecutada. Renombre del check y corrección de lo que se afirmaba que cubría, en el script, en `CONSTITUTION.md` (v0.2.4, enmienda PATCH) y en `AGENTS.md`. Ninguna regla cambia y el check detecta exactamente lo mismo que antes.
