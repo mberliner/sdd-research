@@ -4,6 +4,37 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## `normative-block` pasa a llamarse `sdd-check-fields` (2026-08-23) — COMPLETADA
+
+**Acción**: M-24 ejecutada. Renombre del check y corrección de lo que se afirmaba que cubría, en el script, en `CONSTITUTION.md` (v0.2.4, enmienda PATCH) y en `AGENTS.md`. Ninguna regla cambia y el check detecta exactamente lo mismo que antes.
+
+### Qué se encontró
+El nombre prometía la categoría entera —cualquier bloque normativo reproducido fuera de su SSOT— y la implementación cubre una sola cosa: ítems de lista que enumeran tres o más campos del bloque `[SDD-Check]`. La distancia entre las dos descripciones ya había quedado anotada como deuda el 2026-08-22, cuando cinco reglas re-enunciadas en `AGENTS.md` pasaron con el repositorio en 0 ERROR.
+
+Al ejecutar apareció la razón para ir más allá de corregir la prosa: `CONSTITUTION.md` declaraba `normative-block` en el campo `Verificador:` del Principio I. Ahí el nombre no es una descripción sino la respuesta a «qué cubre este principio», y se lee cada vez que alguien audita cobertura — mucho más seguido que un docstring.
+
+Dos puntos ciegos más, encontrados leyendo la implementación y **no** cerrados acá: `sdd-check-fields` escanea sólo ítems de lista y `excluded-field` escanea sólo filas de tabla, de modo que cada uno ignora justo la forma que el otro cubre; y `sdd-check-fields` saltea `templates/`, que es donde una definición reproducida se propaga a cada experimento.
+
+### Qué cambió
+- `tools/check_docs.py`: id `normative-block` → `sdd-check-fields`, función `check_normative_block` → `check_sdd_check_fields`, docstring del módulo con el motivo del renombre y docstring del check con su alcance exacto y sus tres puntos ciegos.
+- `CONSTITUTION.md` v0.2.3 → v0.2.4 (PATCH: aclara redacción, no cambia el invariante). El `Verificador:` del Principio I nombra el id nuevo y agrega qué **no** cubre: la reproducción de una regla en prosa fuera de su SSOT, que es la forma más común de violar ese principio.
+- `AGENTS.md` §Al cerrar una iteración: la descripción del WARN dice lo que el check hace.
+- `agenda/MEJORAS-METODO.md`: M-24 a **Hecha**, menciones de M-09 al nombre nuevo con la nota del renombre.
+
+### Cómo se validó
+El renombre se corrió **en rojo a propósito**: id cambiado en el script y constitución todavía sin tocar. `constitucion` falló con «principio "I. SSOT único por tema" declara el check `normative-block`, que este script no emite» — el lazo que M-15 dejó armado, disparando sobre un caso real y no sobre una deformación deliberada. Propagado el cambio, `./tools/check_docs.py` queda en 0 ERROR y 1 WARN (el de M-08, preexistente).
+
+Las entradas viejas de este historial conservan el nombre `normative-block` a propósito: el historial registra lo que pasó cuando pasó y MUST NOT reescribirse hacia atrás.
+
+### Por qué esto es entrada de método y no hallazgo de investigación
+Cambia el verificador de un principio y el texto de la constitución. No mueve ningún dato ni ninguna conclusión de investigación.
+
+### Deuda abierta
+- La reproducción de una regla en prosa fuera de su SSOT sigue sin verificador; ampliar el check exige antes un criterio mecánico de «bloque normativo», y M-24(2) queda sin aprobar por eso.
+- El punto ciego simétrico de `excluded-field` (sólo tablas) es M-23, y se abarata extrayendo el reconocedor de forma de línea que hoy está duplicado en los dos checks.
+- La exención de `templates/` en `sdd-check-fields` no tiene ítem propio: anotada en el docstring, pendiente de decidir si se quita — un template legítimamente muestra la forma de lo que se llena.
+- Sigue en pie del 2026-08-22: «qué decisión habilita» sin campo en el bloque `[SDD-Check]` (M-26), y el tratamiento de A-04 sin commit fijado (M-25, reformulada el 2026-08-23 junto con M-22, ambas en `Propuesta`).
+
 ## §Qué NO hacer queda declarado como índice por modo de falla (2026-08-22) — COMPLETADA
 
 **Acción**: encabezado nuevo y tres punteros faltantes en `AGENTS.md` §Qué NO hacer. Ninguna norma cambia.

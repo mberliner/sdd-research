@@ -8,11 +8,18 @@ humano y queda fuera del alcance de este script (mismo limite declarado por el
 proyecto testigo en docs/SDD-ENFORCEMENT.md).
 
 Dos checks son SEÑAL, no veredicto, y por eso emiten WARN: `ssot-collision` y
-`normative-block` (M-09) marcan candidatos a duplicacion entre SSOTs para que un
+`sdd-check-fields` (M-09) marcan candidatos a duplicacion entre SSOTs para que un
 humano los mire. Rozan el limite de arriba a proposito, pero no lo cruzan: no
 afirman que haya duplicacion, solo que dos documentos se declaran dueños del
 mismo tema. Ambos se validaron reproduciendo los dos casos reales que la Fase 11
 corrigio, corriendolos contra el arbol anterior a esa fase.
+
+`sdd-check-fields` se llamo `normative-block` hasta el 2026-08-23 (M-24). El
+nombre viejo prometia la categoria entera —cualquier bloque normativo— y la
+implementacion cubre una sola cosa: enumeraciones de los campos del bloque
+`[SDD-Check]`. Reglas normativas reproducidas en prosa fuera de su SSOT no las
+ve, y no hay hoy criterio mecanico de «bloque normativo» que permita ampliarlo
+sin inundar de falsos positivos: toda referencia legitima menciona su tema.
 
 El check `constitucion` (M-15) cierra el lazo sobre este mismo script: cada
 principio de CONSTITUTION.md declara en `Verificador:` que checks lo cubren —o
@@ -402,12 +409,17 @@ def normative_fields() -> set[str]:
     return heads
 
 
-def check_normative_block(rep: Report, all_docs: list[str], heads: set[str]) -> None:
+def check_sdd_check_fields(rep: Report, all_docs: list[str], heads: set[str]) -> None:
     """Señal: la definicion del bloque `[SDD-Check]` reproducida fuera de su SSOT (M-09).
 
     Distingue instancia de definicion. Una entrega que cierra con el bloque lleno es
     legitima en cualquier documento y lleva el literal `[SDD-Check]` al lado; lo que
     no lo es, es enumerar los campos como definicion — el caso corregido en la Fase 11.
+
+    Alcance exacto, y no mas (M-24): ITEMS DE LISTA que enumeran tres o mas
+    encabezados de campo del bloque. No ve la misma enumeracion puesta en TABLA, no
+    mira `templates/` ni `historial/`, y no ve ninguna otra regla normativa
+    reproducida en prosa.
     """
     if len(heads) < 3:
         return
@@ -430,7 +442,7 @@ def check_normative_block(rep: Report, all_docs: list[str], heads: set[str]) -> 
             # La ventana hacia atras cubre un bloque entero: sus 8 campos mas el titulo.
             if len(found) >= 3 and not any("[SDD-Check]" in w for w in lines[max(0, n - 20) : n + 10]):
                 rep.warn(
-                    "normative-block",
+                    "sdd-check-fields",
                     f"{rel}:{n + 1}",
                     f"enumera campos del bloque `[SDD-Check]` fuera de {PROTOCOLO}: "
                     f"{', '.join(sorted(found))}",
@@ -861,7 +873,7 @@ def main() -> int:
     check_scope_single_home(rep, all_docs)
     check_excluded_fields_in_tables(rep, specs, all_docs)
     check_ssot_collision(rep, specs, parse_ssot_table())
-    check_normative_block(rep, all_docs, normative_fields())
+    check_sdd_check_fields(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
     check_constitucion(rep)
     check_clarificacion(rep, specs, all_docs)

@@ -1,6 +1,6 @@
 # Constitución del proyecto
 
-**Versión:** 0.2.3 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-22
+**Versión:** 0.2.4 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-23
 
 ## Preámbulo
 
@@ -16,7 +16,7 @@
 Toda pieza de información normativa —regla, definición, cifra, tabla, convención— vive en exactamente un documento, su SSOT; cualquier otro documento que la necesite la referencia, nunca la reproduce. El mismo invariante rige dentro de un documento: un detalle compartido por varias secciones se declara una vez y las secciones lo referencian. Qué documento es SSOT de qué tema es detalle operativo: vive en la tabla SSOT del registro.
 
 - **Enforcement:** checks de post-generación de `AGENTS.md`; revisión editorial.
-- **Verificador:** `ssot-collision`, `normative-block`, `ssot-table`, `scope-home`, `excluded-field` de `tools/check_docs.py` — los dos primeros señalan candidatos a duplicación para que un humano los mire; no afirman que la haya.
+- **Verificador:** `ssot-collision`, `sdd-check-fields`, `ssot-table`, `scope-home`, `excluded-field` de `tools/check_docs.py` — los dos primeros señalan candidatos a duplicación para que un humano los mire; no afirman que la haya. Ninguno cubre la reproducción de una regla en prosa fuera de su SSOT, que es la forma más común de violar este principio y sigue dependiendo de revisión editorial.
 - **Detalle:** `SPECS_REGISTRY.md` (tabla SSOT, campo `ssot_level`, alcance por documento); `CONVENCIONES.md` (la clase «convención»: léxico y forma); `00-INDEX.md` (navegación: dónde está cada archivo).
 
 ### II. Trazabilidad de afirmación a fuente

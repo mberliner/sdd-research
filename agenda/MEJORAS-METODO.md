@@ -26,7 +26,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
-| M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `normative-block`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
+| M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `sdd-check-fields`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
 | M-12 | Higiene de archivo: CRLF mezclado, BOM, newline final | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
@@ -41,7 +41,7 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Propuesta (2026-08-19; reformulada 2026-08-23) | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
 | M-23 | Extender `check_excluded_fields_in_tables` a listas, no solo tablas | baja | Propuesta (2026-08-22) | auditoría de índices de línea | `../tools/check_docs.py` |
-| M-24 | `normative-block` cubre bastante menos de lo que su nombre promete | media | Propuesta (2026-08-22) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` |
+| M-24 | `normative-block` cubría bastante menos de lo que su nombre prometía | media | **Hecha** (2026-08-23) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` + `../CONSTITUTION.md` |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 
@@ -104,12 +104,12 @@ El documento viola la regla global «sin emoticones» pero está **pre-registrad
 Dos checks nuevos en el backstop, ambos WARN, ambos originados en la Fase 11: los dos casos serios de duplicación que esa fase corrigió habían pasado los ocho checks existentes sin ruido.
 
 - `ssot-collision`: cruza la columna *Concepto* de la tabla SSOT contra los campos `incluye` de las demás specs. Detecta que dos specs se declaren dueñas del mismo tema. Habría señalado el caso D1 (la spec de `../comun/MARCO-COMPARATIVO-DOS-LINEAS.md` declaraba `incluye: metricas por linea` mientras la tabla SSOT asignaba esas métricas a los dos `NECESIDADES-Y-METRICAS.md`).
-- `normative-block`: detecta que la definición de un bloque normativo —hoy el `[SDD-Check]`, cuyo SSOT es `../AGENTS.md`— se reproduzca enumerada fuera de su SSOT. Distingue *instancia* de *definición*: una entrega que cierra con el bloque lleno es legítima en cualquier documento; lo que no lo es, es listar los campos como definición. Habría señalado el caso D2.
+- `sdd-check-fields` (así desde M-24; se llamó `normative-block` hasta el 2026-08-23): detecta que la definición de un bloque normativo —hoy el `[SDD-Check]`, cuyo SSOT es `../AGENTS.md`— se reproduzca enumerada fuera de su SSOT. Distingue *instancia* de *definición*: una entrega que cierra con el bloque lleno es legítima en cualquier documento; lo que no lo es, es listar los campos como definición. Habría señalado el caso D2.
 
 **Límite: son señales para revisión humana, no veredictos.**
-**Hecha el 2026-07-31** (Fase 12). Validados contra el árbol anterior a la Fase 11: corriendo el script nuevo sobre el commit previo, `ssot-collision` reproduce el caso D1 (dos filas, líneas A y B) y `normative-block` reproduce el D2. Es la única forma honesta de saber que un check detecta lo que dice detectar.
+**Hecha el 2026-07-31** (Fase 12). Validados contra el árbol anterior a la Fase 11: corriendo el script nuevo sobre el commit previo, `ssot-collision` reproduce el caso D1 (dos filas, líneas A y B) y `sdd-check-fields` reproduce el D2. Es la única forma honesta de saber que un check detecta lo que dice detectar.
 
-En su primera corrida sobre el árbol actual `normative-block` encontró **un caso vivo que la Fase 11 no había auditado**: `../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 reproducía los mismos cuatro campos del bloque. Corregido en la misma entrega. Calibración necesaria: la ventana hacia atrás que distingue instancia de definición pasó de 6 a 20 líneas, porque un bloque lleno tiene ocho campos y los últimos quedaban fuera del alcance del literal `[SDD-Check]`.
+En su primera corrida sobre el árbol actual `sdd-check-fields` encontró **un caso vivo que la Fase 11 no había auditado**: `../docs-y-investigacion/PLAN-PRUEBAS.md` A-02 reproducía los mismos cuatro campos del bloque. Corregido en la misma entrega. Calibración necesaria: la ventana hacia atrás que distingue instancia de definición pasó de 6 a 20 líneas, porque un bloque lleno tiene ocho campos y los últimos quedaban fuera del alcance del literal `[SDD-Check]`.
  El script conserva su límite declarado —presencia y forma, no adecuación— y por eso los dos checks emiten WARN: marcan candidatos a mirar, no violaciones probadas. Ampliar el límite del script a *adecuación* sería otra decisión y no se toma acá.
 
 ## M-10 — Verificar rutas escritas en backticks
@@ -272,9 +272,9 @@ Detectado el 2026-08-22 en una auditoría de los tres `00-INDEX.md` contra `../S
 
 Forma de la mejora: generalizar el escaneo de `check_excluded_fields_in_tables` a cualquier línea de contenido (no solo `|...|`), buscando los valores válidos de `estado`/`ssot_level` como palabra completa cerca de un link, no solo dentro de celdas de tabla. Riesgo a evitar: falsos positivos con menciones legítimas de la palabra "SSOT" fuera de una anotación de rol (por ejemplo, en prosa explicativa).
 
-## M-24 — `normative-block` cubre bastante menos de lo que su nombre promete
+## M-24 — `normative-block` cubría bastante menos de lo que su nombre prometía
 
-`../AGENTS.md` lo describe como «la definición de un bloque normativo reproducida fuera de su SSOT». La implementación detecta una sola cosa: enumeraciones de los campos del bloque `[SDD-Check]`. Las dos descripciones no son la misma, y la ancha es la que el asistente lee.
+`../AGENTS.md` lo describía como «la definición de un bloque normativo reproducida fuera de su SSOT». La implementación detecta una sola cosa: enumeraciones de los campos del bloque `[SDD-Check]`. Las dos descripciones no son la misma, y la ancha era la que el asistente leía.
 
 Detectado el 2026-08-22: una revisión de `../AGENTS.md` encontró cinco reglas re-enunciadas ahí en vez de referenciadas —la regla de propagación, el léxico normativo, el formato de commit, el límite del verificador y la disambiguación—, y **ninguna de las cinco es detectable por el check**, porque ninguna es una enumeración de campos del `[SDD-Check]`. El repositorio estaba en 0 ERROR y no dijo nada. Es el mismo patrón que M-23 y que el propio M-09: el hueco no está en lo que el check hace, sino entre lo que hace y lo que se cree que hace.
 
@@ -284,6 +284,16 @@ Dos formas posibles, y no son la misma mejora:
 2. **Cara y de valor incierto**: ampliar el check a otros bloques normativos. Requiere primero decidir qué es un «bloque normativo» de forma mecánica —el `[SDD-Check]` lo es porque tiene delimitadores y campos con nombre; la regla de propagación es prosa— y sin esa definición no hay qué implementar. Riesgo alto de falsos positivos: toda referencia legítima menciona el tema que referencia.
 
 **Recomendación: hacer (1) y dejar (2) sin aprobar** hasta que exista un criterio mecánico de «bloque normativo» que no sea una lista a mano —que es exactamente la deriva que `emitted_check_ids()` evita un nivel más arriba. La regla de disparadores del registro (§Reglas globales) cubre hoy este terreno por vía humana, y la spec de `../AGENTS.md` ya tiene el check de validación correspondiente.
+
+**Hecha el 2026-08-23, con (1) ampliada y (2) sin aprobar.** La forma (1) fue un paso más allá de corregir la descripción: **el check se renombró a `sdd-check-fields`**. Razón, decidida al ejecutar: la descripción se lee una vez y el identificador se lee cada vez que alguien mira qué cubre un principio — y `../CONSTITUTION.md` lo declaraba como verificador del Principio I, que es donde una promesa ancha hace más daño. Tocó cuatro lugares: el script (id, función y docstring), el campo `Verificador:` del Principio I, la descripción de `../AGENTS.md` §Al cerrar una iteración, y las menciones de M-09 en este documento.
+
+Lo que el renombre **no** arregla y quedó escrito donde se lee: el campo `Verificador:` del Principio I ahora declara que ningún check cubre la reproducción de una regla en prosa fuera de su SSOT —que es la forma más común de violar ese principio, y la que las cinco duplicaciones del 2026-08-22 tomaron—; el docstring del check declara su alcance exacto y sus tres puntos ciegos (tabla, `templates/`, `historial/`).
+
+Validación: el renombre se corrió en rojo a propósito antes de tocar la constitución, y `constitucion` falló con «declara el check `normative-block`, que este script no emite» — el lazo que M-15 dejó armado, funcionando sobre un caso real y no sobre una deformación deliberada. Después de propagar, 0 ERROR.
+
+`../historial/sdd.md` conserva el nombre viejo en las entradas de la Fase 12 y del 2026-08-22, a propósito: el historial registra lo que pasó cuando pasó y MUST NOT reescribirse hacia atrás.
+
+Dos hallazgos del mismo trabajo que **no** entran acá: el punto ciego simétrico de `excluded-field` (escanea sólo tablas, mientras este escanea sólo listas), que es M-23 y se abarata al extraer el reconocedor de forma compartido; y la exención de `templates/`, que no tiene ítem propio y quedó anotada en el docstring a la espera de decisión.
 
 ## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 
