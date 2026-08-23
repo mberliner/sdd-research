@@ -39,10 +39,10 @@ Un item puede tener contraparte del otro lado: implementar una mejora de método
 | M-19 | Cablear el backstop al commit, fail-closed y versionado | alta | **Hecha** (2026-08-15) | pendiente de M-01; `BACKLOG-INVESTIGACION.md` alta #4 | `../tools/githooks/pre-commit` + check `gate` |
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
-| M-22 | Verificar en tiempo de corrida el entorno que el sello declara | alta | Propuesta (2026-08-19) | desviación observada en T2 de la pasada 1b de A-04 | scripts de preparación de rep de experimentos futuros |
+| M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Propuesta (2026-08-19; reformulada 2026-08-23) | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
 | M-23 | Extender `check_excluded_fields_in_tables` a listas, no solo tablas | baja | Propuesta (2026-08-22) | auditoría de índices de línea | `../tools/check_docs.py` |
 | M-24 | `normative-block` cubre bastante menos de lo que su nombre promete | media | Propuesta (2026-08-22) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` |
-| M-25 | El tratamiento de A-04 no está fijado a una versión de `../AGENTS.md` | alta | Propuesta (2026-08-22) | el tratamiento cambió el 2026-08-22 sin que nada lo registrara | `../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` |
+| M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Propuesta (2026-08-22; reformulada 2026-08-23) | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 
 ---
@@ -229,22 +229,40 @@ El check es fiel al texto: el Principio VI nombra literalmente «registro de spe
 
 Costo actual: una entrada de historial de más por alta de spec. Barato. Se acepta la fricción y se cuenta.
 
-## M-22 — Verificar en tiempo de corrida el entorno que el sello declara
+## M-22 — Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo
 
-Un runbook de experimento sella el entorno en un artefacto —en A-04, `ENTORNO-1B.md` fija «Claude Code 2.1.233»— y después nada lo mira. El sello es una **declaración**, no un verificador: se escribe una vez, antes de la primera tanda, y ningún paso posterior comprueba que la corrida siguiente siga ocurriendo bajo eso.
+**Regla propuesta.** Por cada componente que un experimento declara sellado, el diseño MUST resolver, **en este orden**:
 
-Origen: la pasada 1b de A-04. T1 corrió el 2026-08-16 bajo 2.1.233, como el sello declara. T2 corrió el 2026-08-19 bajo 2.1.234 en sus reps 01-06 y bajo **2.1.235** en los reps 07-10: la CLI se auto-actualizó entre tandas y otra vez a mitad de tanda. Ningún rep de T2 corrió bajo el entorno sellado, y la desviación se descubrió recién al preparar la Fase 4 —tres días después— porque el barajado obligó a mirar los campos del transcript que delatan la tanda. Detalle en `../../experimentosdd-a4/T2-1B.md`.
+1. **Eliminarlo como variable.** ¿Puede construirse la corrida de modo que el desvío sea imposible, no sólo improbable? Si sí, se hace acá y no hay nada que vigilar después.
+2. **Verificarlo en corrida.** Lo que no se pudo eliminar MUST tener un verificador que lo comprueba en cada rep y aborta ante divergencia.
+3. **Declararlo sin verificador.** Lo que no admite ninguna de las dos MUST quedar escrito como límite del experimento, con su motivo. No es un cajón de derrota: es la diferencia entre un límite conocido y una sorpresa.
 
-Lo que hace al caso instructivo es la asimetría con lo que **sí** estaba verificado. El script de preparación de cada rep comprueba hashes del fixture, ausencia de configuración de asistente en el workspace y auditoría de ancestros, y aborta ante cualquiera de las tres. La versión del harness era igual de sellada y no tenía check, así que el único componente del sello que podía cambiar solo —porque se actualiza sin intervención— era justo el que nadie miraba.
+El orden no es decorativo. Un desvío eliminado por construcción no puede ocurrir; uno vigilado ocurre y se detecta después de ocurrido, que en una tanda ya corrida puede significar re-correrla entera. Además, la pregunta «¿qué puede cambiar mientras esto corre?» pertenece al momento en que se fija la hipótesis, no al momento en que se descubre que algo cambió — decidirla al diseñar es lo que el Principio V pide.
 
-Forma de la mejora: el script de preparación lee la versión efectiva del harness y aborta si no coincide con la que el entorno sellado declara. Tres líneas, en el mismo lugar donde ya vive el chequeo de hashes del fixture. Habría abortado T2 en el rep 01, con la pasada todavía dentro de la ventana de 12-72 h y con 2.1.233 aún instalable.
+Es la mitad mecanizable de ese principio, que hoy declara `Verificador: ninguno` (`../CONSTITUTION.md`; ver M-15). Su mitad difícil —el orden entre pensar y ver— no es observable por un script. Su mitad fácil sí: que el objeto sellado siga siendo el mismo objeto. La mejora es de método y no de un experimento porque el hueco se abre cada vez que un runbook escribe un sello y sigue.
 
-Dos reservas antes de darla por diseñada:
+Componentes conocidos que el sello alcanza, y hasta qué escalón llega cada uno:
 
-1. **Qué componentes del entorno entran.** La versión del harness es la que se movió acá, pero el mismo argumento aplica a cualquier cosa que el entorno declare y pueda cambiar sin intervención. Enumerar de más convierte el check en fuente de falsos bloqueos; enumerar de menos lo deja donde está hoy. El criterio candidato es «lo que el artefacto de entorno declara explícitamente», que tiene la virtud de no necesitar una lista aparte.
-2. **Qué hacer cuando el check dispara.** Abortar el rep es lo correcto para un rep suelto; para una tanda a mitad de camino la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script. El check debe **detener y explicitar**, no elegir.
+- **Tratamiento** —el artefacto que constituye la variable independiente. Cuando es material versionado, el escalón 1 lo resuelve casi entero. Es **M-25**, que aplica esta jerarquía a ese componente y no la reenuncia.
+- **Entorno de ejecución.** Cambia *solo*, sin intervención: un harness que se auto-actualiza, una dependencia que resuelve a la última versión. El escalón 1 llega hasta donde llegue el control sobre esa pieza —pinneo, auto-actualización desactivada, corrida sin red, ventana temporal corta— y **no llega hasta el final** cuando el objeto de estudio es la conducta bajo una herramienta de terceros: blindarla del todo puede cambiar lo que se está midiendo. Por eso acá el escalón 2 es esencial y no cosmético.
+- **Fixture y workspace.** Ya en el escalón 2 hoy, por hash y auditoría de ancestros: son el ejemplo de lo que la regla generaliza, no un pendiente.
 
-Contraparte de investigación: es un caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
+Forma de la mejora, en dos piezas:
+
+1. `../templates/EXPERIMENTO.md` suma una sección de sello donde cada componente declarado responde los tres escalones. Es el mismo movimiento que M-15 hizo sobre `../CONSTITUTION.md`: no mecaniza lo inmecanizable, hace visible qué está cubierto y qué depende de que alguien se acuerde.
+2. El script de preparación de cada rep implementa el escalón 2 donde corresponda: lee el valor efectivo y aborta si no coincide con lo sellado, en el mismo lugar donde ya vive el chequeo de hashes del fixture.
+
+**La prevención no vuelve prescindible el verificador; le cambia el rol.** Un mecanismo de eliminación es en sí mismo algo sellado: una variable de entorno que una versión nueva deja de respetar, un tag de imagen que se movió, una extracción que salió de un árbol sucio. Sin comprobación, no se distingue «funcionó» de «dejó de funcionar en silencio», que es exactamente el modo de falla que M-19 documentó — el gate del testigo salía 0 sin correr nada y nadie lo notó durante todo B-07. Donde el escalón 1 alcanza, el escalón 2 sobrevive como heartbeat barato.
+
+Tres reservas antes de darla por diseñada:
+
+1. **Qué componentes entran.** Enumerar de más convierte el check en fuente de falsos bloqueos; enumerar de menos lo deja donde está hoy. El criterio candidato es «lo que el artefacto de sello declara explícitamente», que no necesita una lista aparte y crece solo cuando alguien decide sellar algo nuevo.
+2. **Qué hacer cuando el escalón 2 dispara.** Abortar es lo correcto para un rep suelto; para una tanda a mitad de camino la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script. El verificador MUST detener y explicitar, MUST NOT elegir.
+3. **Retorno decreciente del escalón 1.** Cada mecanismo de prevención es otra cosa sellada que alguien debería verificar. Regla práctica: prevenir donde el mecanismo cueste menos que el check —el caso del tratamiento, donde extraer de un commit cuesta lo mismo que copiar un archivo— y verificar donde no. No construir una fortaleza para proteger diez reps.
+
+**Caso que la originó** (evidencia, no alcance). Pasada 1b de A-04: el sello fijaba «Claude Code 2.1.233»; T1 corrió el 2026-08-16 bajo esa versión y T2 corrió el 2026-08-19 bajo 2.1.234 en los reps 01-06 y bajo **2.1.235** en los 07-10 —la CLI se auto-actualizó entre tandas y otra vez a mitad de tanda—. Ningún rep de T2 corrió bajo el entorno sellado, y la desviación se descubrió tres días después, al preparar la Fase 4, porque el barajado obligó a mirar los campos del transcript que delatan la tanda (`../../experimentosdd-a4/T2-1B.md`). Lo instructivo es la asimetría: el script ya abortaba por hash del fixture, por configuración de asistente presente y por ancestros, y el único componente del sello que podía cambiar sin intervención era justo el que nadie miraba. El verificador propuesto habría abortado en el rep 01, con la pasada dentro de la ventana de 12-72 h y con 2.1.233 aún instalable.
+
+Contraparte de investigación: caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
 
 ## M-23 — Extender `check_excluded_fields_in_tables` a listas
 
@@ -267,17 +285,21 @@ Dos formas posibles, y no son la misma mejora:
 
 **Recomendación: hacer (1) y dejar (2) sin aprobar** hasta que exista un criterio mecánico de «bloque normativo» que no sea una lista a mano —que es exactamente la deriva que `emitted_check_ids()` evita un nivel más arriba. La regla de disparadores del registro (§Reglas globales) cubre hoy este terreno por vía humana, y la spec de `../AGENTS.md` ya tiene el check de validación correspondiente.
 
-## M-25 — El tratamiento de A-04 no está fijado a una versión de `AGENTS.md`
+## M-25 — El sello MUST identificar el artefacto que constituye el tratamiento
 
-El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente. El runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita los ancestros del workspace y verifica que no haya configuración de asistente presente, pero **no fija con qué commit de `../AGENTS.md` se entrega el tratamiento**. La variable independiente del experimento es el único componente sin identificar.
+**Regla propuesta.** Cuando el tratamiento de un experimento es material versionado del propio repositorio, el sello MUST identificarlo por commit —no por ruta— y la corrida MUST entregarlo **extrayéndolo de ese commit**, no copiándolo del árbol de trabajo. Una pasada que necesite un tratamiento distinto es una **pasada distinta**, con su enmienda fechada.
 
-Detectado el 2026-08-22, por ocurrencia: ese día `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato experimental lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero si el tratamiento hubiera cambiado entre dos tandas de una pasada 2, el efecto medido no tendría a qué atribuirse.
+Aplica la jerarquía de M-22, que es su SSOT y no se reproduce acá. Lo que agrega este ítem es el modo de falla propio del componente: el tratamiento no se mueve por accidente ni por auto-actualización, se mueve **porque el repositorio trabaja**. Editar el artefacto es la actividad normal y correcta; lo que falta es que la corrida deje de depender de que nadie lo edite.
 
-Es la misma forma que M-22 y conviene leerlas juntas: allá el componente del sello que podía cambiar solo era la versión del harness; acá es el documento que el repositorio edita como parte de su trabajo normal. En los dos casos lo sellado y lo verificado no coinciden, y el hueco cae justo sobre lo que más se mueve.
+Por eso acá el escalón 1 alcanza casi entero, y eso cambia el balance del ítem. Extraer de un commit fijo cuesta lo mismo que copiar y **no impone ninguna restricción sobre el repositorio**: el trabajo sigue, el artefacto sigue evolucionando, y la pasada sigue entregando lo sellado. No hay que congelar nada ni declarar la pasada corrida sobre dos versiones — esa disyuntiva era un artefacto de haber pensado el control como alerta en vez de como construcción.
 
-Forma de la mejora: el runbook declara el commit de `../AGENTS.md` que constituye el tratamiento, y el script de preparación de cada rep verifica que el archivo entregado corresponda a ese commit —el mismo lugar donde ya vive el chequeo de hashes del fixture, y el mismo mecanismo—. Una pasada que necesite un tratamiento distinto es una pasada distinta, con su enmienda fechada.
+Queda un residuo, que es de otra clase y MUST no confundirse con lo anterior: si el artefacto evoluciona durante una pasada larga, el resultado describe una versión que ya no es la vigente. Eso es vigencia externa, no atribución; se acepta declarándolo y ningún verificador lo arregla.
 
-Reserva: fijar el tratamiento congela `../AGENTS.md` mientras una pasada está abierta, o bien obliga a declarar la pasada como corrida sobre dos versiones. Es una restricción real sobre el trabajo del repositorio y hay que aceptarla explícitamente, no descubrirla a mitad de una tanda.
+El escalón 2 sobrevive como heartbeat: comprobar que lo entregado corresponde al commit sellado y no a un árbol sucio o a una extracción que falló en silencio.
+
+Forma de la mejora: la sección de sello de `../templates/EXPERIMENTO.md` (pieza 1 de M-22) exige commit para todo tratamiento que sea material del repositorio y extracción desde ese commit; el script de preparación comprueba la correspondencia. Aplicación a los runbooks vigentes al adoptarla.
+
+**Caso que la originó** (evidencia, no alcance). El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente; el runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita ancestros y verifica ausencia de configuración de asistente, pero no fija con qué commit se entrega el tratamiento — la variable independiente era el único componente sin identificar. El 2026-08-22 `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero el mismo cambio entre dos tandas de una pasada 2 habría dejado el efecto medido sin a qué atribuirse.
 
 ## M-26 — «Qué decisión habilita» es un MUST sin casillero donde satisfacerse
 
