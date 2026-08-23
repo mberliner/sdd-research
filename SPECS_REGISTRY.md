@@ -740,7 +740,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - escalera de modelo pre-registrada, con sus enmiendas fechadas y clasificadas pre/post dato
   - descripcion del fixture, opciones forzadas y regla PASS con sus dos condiciones
   - regimen de permisos y el criterio que distingue degradacion de aborto
-  - protocolo por fases (0 a 4), roles y regimen de sellado
+  - protocolo por fases (0 a 4), roles, regimen de sellado y el sello por escalones por componente (enmienda 4)
 - `excluye`:
   - hipótesis, métricas y criterio de éxito (viven en `EXPERIMENTO-A4-protocolo-conducta.md`, su SSOT — referencia, no copia)
   - los resultados y veredictos (viven en `RESULTADO-EXPERIMENTO-A4.md`)

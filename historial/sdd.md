@@ -4,6 +4,38 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## El runbook de A-04 resuelve su sello por escalones (2026-08-23) — COMPLETADA
+
+**Accion**: pieza 2 de M-22 y M-25. `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` suma §Sello como **enmienda 4**, pre-dato respecto de la pasada 2 y sin alterar las pasadas 1 y 1b, cerradas. El template gana ademas la regla general que salio de ejercitarlo.
+
+### Que se encontro
+Ejercitar la seccion sobre un experimento real era el punto de la pieza 2, y produjo dos correcciones que la pieza 1 no podia dar sola.
+
+**El entorno no admite sello anticipado.** La version de la CLI del harness puede cambiar varias veces en un mismo dia, asi que una version elegida al escribir el diseno llega desactualizada —o no instalable— al momento de correr. El sello del entorno tiene que tomarse **al abrir cada tanda**, con la version que efectivamente haya. Es una restriccion del usuario, no una deduccion del corpus, y refina lo que M-22 preveia: alli el escalon 1 para el entorno figuraba como «pinneo» entre los mecanismos disponibles, y resulta que para esta clase de herramienta no lo es.
+
+**La primera version de la tabla se etiqueto mal a si misma.** Se anoto el entorno como escalon 1 intra-tanda cuando el mecanismo escrito —registrar al abrir y releer por rep— solo **detecta**, no impide. Corregido a escalon 2 intra-tanda mas 3 entre tandas. Llegar al escalon 1 exigiria suprimir la auto-actualizacion mientras la tanda corre, y este runbook no determina si el harness lo permite: queda como pregunta de Fase 0 de la pasada 2, con su resultado registrado pase lo que pase.
+
+**El precedente decidio la forma.** La 1b se manejo como enmiendas al mismo runbook y no como documento nuevo, asi que la pieza 2 entra igual, con el regimen de enmiendas que el propio documento fija: fechada, motivada y clasificada pre/post dato.
+
+### Que cambio
+- `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`: seccion §Sello nueva, antes de §Fases, con la tabla de cinco componentes —tratamiento, entorno, fixture y workspace, modelo, regimen de permisos—, cada uno con su escalon, su mecanismo y que pasa si diverge. El tratamiento queda sellado **por commit** y se entrega extrayendolo de el. Fase 2 declara que el sello de diseno no fija la version del harness y si el commit del tratamiento; Fase 3 suma el registro de version al abrir la tanda, la relectura por rep y la comprobacion de correspondencia del tratamiento.
+- `templates/EXPERIMENTO.md`: §Sello suma la regla general para herramienta de terceros —sello del dia de la corrida, no del diseno—, con el escalon que eso deja y la advertencia de que el escalon 1 MAY no ser posible y MUST NOT suponerse.
+- `SPECS_REGISTRY.md`: el `incluye` del runbook nombra el sello por escalones.
+- `agenda/MEJORAS-METODO.md`: M-22 y M-25 con piezas 1 y 2 hechas.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). La seccion se lleno entera para un experimento real, que era la prueba que la pieza 1 no tenia: las cinco filas se pudieron responder, y las dos que no tienen verificador quedaron declaradas como tales en vez de vacias.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Cambia el protocolo de un experimento y una plantilla de metodo. No mueve ningun dato: las pasadas 1 y 1b conservan sello, datos y veredictos.
+
+### Deuda abierta
+- **Pieza 3, fuera de este repositorio.** Los verificadores del tratamiento y del entorno viven en `experimentosdd-a4/scripts/`. Hasta que existan, las dos filas declaran escalon 2 **sin tener quien lo ejecute**, y el runbook lo dice asi: es limite vigente, no control activo. M-22 y M-25 quedan `Aprobada` y no pueden cerrarse desde aca.
+- **Si el harness permite suprimir la auto-actualizacion durante una tanda esta sin averiguar.** Determina si el entorno llega a escalon 1 intra-tanda o se queda en 2.
+- **T1 y T2 pueden correr bajo versiones distintas y eso no se elimina**, se declara. Es un confundido conocido de cualquier pasada con tandas separadas 12-72 h.
+- **§Fases dice «Cinco sondas» y la tabla lista seis.** Error preexistente, detectado al escribir esta entrega y **no corregido**: tocarlo seria una edicion post-dato a pasadas cerradas sin beneficio para ninguna corrida futura. Se deja contado.
+- Sin novedad: M-02 sigue `Aprobada` y sin ejecutar; M-30 `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## El sello del experimento pasa a resolverse por escalones (2026-08-23) — COMPLETADA
 
 **Accion**: pieza 1 de M-22 y M-25, entregada junta porque cae en un solo artefacto. `templates/EXPERIMENTO.md` suma la seccion obligatoria «Sello». Los dos items quedan **`Aprobada`**, no `Hecha`: su cierre depende de piezas que este repositorio no contiene.

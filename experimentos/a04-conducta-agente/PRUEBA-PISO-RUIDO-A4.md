@@ -219,6 +219,58 @@ El detalle del régimen, la limitación sellada que quedó abierta y las tres fa
 de entorno que hubo que resolver antes de poder medir viven en
 `../../../experimentosdd-a4/entorno/REGIMEN-DE-PERMISOS.md`.
 
+## Sello
+
+### Enmienda 4 (pre-dato respecto de la pasada 2, 2026-08-23) — sello por escalones
+
+Motivo: M-22 y M-25 (`../../historial/sdd.md`, «El sello del experimento pasa a
+resolverse por escalones»). Hasta acá el runbook sellaba componentes sin decir
+**cómo** se sostiene cada uno, y la 1b mostró el costo: el único componente que
+podía cambiar sin intervención —la versión de la CLI— era justo el que nadie
+miraba, y ningún rep de T2 corrió bajo el entorno sellado.
+
+**Alcance.** No altera las pasadas 1 ni 1b, cerradas: su sello, sus datos y sus
+veredictos quedan exactamente como están. Aplica desde la pasada 2, que todavía no
+produjo un solo rep — por eso es pre-dato respecto de ella.
+
+Por cada componente sellado se resuelve, en orden: eliminarlo como variable,
+verificarlo en corrida, o declararlo sin verificador (`../../templates/EXPERIMENTO.md`
+§Sello, que es el SSOT de la jerarquía y no se reproduce acá).
+
+| componente | qué queda sellado | escalón | mecanismo | si diverge |
+|---|---|---|---|---|
+| tratamiento — el `AGENTS.md` que recibe el brazo tratamiento | el commit de `sdd-research` del que se extrae | 1 + 2 | se extrae de ese commit, no se copia del árbol de trabajo | detiene el rep: lo entregado no corresponde al commit sellado |
+| entorno de ejecución — versión de la CLI del harness | la versión efectiva observada **al abrir cada tanda**, no antes | 2 intra-tanda + 3 entre tandas | se registra al abrir la tanda y se lee la versión efectiva en cada rep | detiene la tanda y explicita; re-correr o contar con confusión declarada lo decide el diseño, no el script |
+| fixture y workspace | hashes de los artefactos; ausencia de ancestros contaminantes | 1 + 2 | ya vigente: `sha256sum` antes y después de cada rep, auditoría de ancestros hasta `/` | no se corre ningún rep, o se descarta el rep |
+| modelo | ID de modelo y nivel de esfuerzo | 2 | ya vigente: registrado por rep en Fase 3 | se descarta el rep |
+| régimen de permisos | la lista de permitidos versionada | 1 + 2 | ya vigente: hook `PreToolUse` propio que registra cada decisión | ver §Régimen de permisos |
+
+**Por qué el entorno no se fija de antemano y su sello es del día.** Elegir la
+versión al escribir el diseño no es viable: la CLI puede publicar varias versiones
+en un mismo día, así que una versión decidida con antelación llega desactualizada
+—o directamente no instalable— al momento de correr. El sello del entorno se toma
+entonces **al abrir cada tanda**, con la versión que efectivamente haya, y se
+sostiene mientras esa tanda dura.
+
+Dentro de la tanda eso es escalón 2 y no 1: se **detecta** el cambio, no se impide.
+Llegar al escalón 1 intra-tanda exigiría suprimir la auto-actualización mientras la
+tanda corre, y este runbook no determina si el harness lo permite. Queda como
+pregunta a resolver en Fase 0 de la pasada 2, con su resultado registrado pase lo
+que pase; mientras no se resuelva, la fila queda en escalón 2 declarado.
+
+**Límite que esto deja escrito y no resuelve.** T1 y T2 están separadas 12-72 h, así
+que pueden correr legítimamente bajo versiones distintas. Esa diferencia MUST
+registrarse en el sello de tanda y declararse junto al resultado: es un confundido
+**conocido, no removido**. Lo que el verificador sí elimina es el caso de la 1b —la
+versión cambiando *dentro* de una tanda, entre los reps 06 y 07—, que no es un
+confundido declarable sino un sello roto.
+
+**Pieza que este documento no puede entregar.** Los verificadores de las dos
+primeras filas viven en los scripts de preparación del repositorio de datos
+`experimentosdd-a4/`, fuera de este árbol. Hasta que existan, las dos filas
+declaran escalón 2 sin tener quién lo ejecute, y eso MUST leerse como límite
+vigente y no como control activo.
+
 ## Fases
 
 **Fase 0 — validación del instrumento.** Cinco sondas, todas bloqueantes, cada una
@@ -286,9 +338,19 @@ runbook, hashes del fixture, plantilla del prompt, regla de puntuación, entorno
 vacuna contra el HARKing. Después del primer rep puntuado no hay edición: hay
 corrida nueva.
 
+*Desde la pasada 2 (enmienda 4):* el sello de diseño **no** fija la versión del
+harness — esa se sella por tanda al abrirla, y el sello de diseño sí fija el commit
+del que se extrae el tratamiento. Ver §Sello.
+
 **Fase 3 — tandas.** T1 y T2, 10 reps válidos cada una, mismo escenario, separadas
 12-72 h. Hash del fixture verificado antes y después de cada rep; ID de modelo
 registrado por rep; VOIDs contados contra el umbral en vivo.
+
+*Desde la pasada 2 (enmienda 4):* al abrir cada tanda se registra la versión
+efectiva del harness —ese es su sello— y se la vuelve a leer en cada rep; una
+divergencia detiene la tanda. El tratamiento se entrega extrayéndolo del commit
+sellado, y su correspondencia se comprueba por rep. Si T1 y T2 corren bajo
+versiones distintas, las dos van al resultado con la diferencia declarada.
 
 **Fase 4 — puntuación y cierre.** El Custodio baraja y renombra los 20
 transcripts; los dos puntuadores producen `k1`, `k2` y `d` **por separado antes de
