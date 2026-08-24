@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## El entorno se sella por snapshot del ejecutable, no por ajuste de actualizacion (2026-08-23) — COMPLETADA
+
+**Accion**: correccion dentro de la enmienda 4 del runbook de A-04 y de §Sello del template, antes de commitear la version anterior. El mecanismo del componente «entorno» pasa de desactivar la auto-actualizacion a **copiar el ejecutable a una ruta privada al abrir la tanda**.
+
+### Que se encontro
+La version anterior de esta entrega iba a apoyarse en la variable de entorno que suprime el actualizador del harness, verificada presente en el bundle instalado. **El usuario detuvo la escritura con la objecion correcta**: esa variable suprime el actualizador *de ese proceso*, no de la instalacion. El ejecutable es compartido, asi que cualquier otra sesion del harness abierta en la maquina corre su propio actualizador y mueve el binario que los reps van a lanzar. La tanda quedaba igual de expuesta y ademas con la falsa confianza de creerse protegida — un escalon 2 disfrazado de 1, que es exactamente lo que M-22 advierte cuando dice que un mecanismo de eliminacion es a su vez algo sellado.
+
+Verificado que el arreglo es viable, no supuesto: se copio el ejecutable a una ruta privada y arranca reportando su version (2.1.241). Con eso el desvio pasa a ser imposible en vez de improbable, que es lo que separa el escalon 1 del 2, y sigue respetando la restriccion de origen —no se elige una version de antemano, se congela la que haya al correr—. Es la misma construccion que M-25 aplica al tratamiento: entregar desde un punto fijo en vez de apuntar a algo que se mueve.
+
+### Que cambio
+- `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`: la fila del entorno sella el **snapshot** y no la version suelta; se explica por que el ajuste no alcanza; la supresion de auto-actualizacion se conserva pero baja de rango, solo para que el snapshot no se actualice a si mismo; el snapshot se hashea y su version se relee **de el** en cada rep; Fase 3 lanza el snapshot por ruta absoluta; y la nota de pieza faltante exige que el lanzador apunte al snapshot y no al `PATH`.
+- `templates/EXPERIMENTO.md` §Sello: la regla general para herramienta de terceros gana el parrafo del escalon 1 por copia privada, con la advertencia de que un ajuste de proceso deja el componente en escalon 2 creyendose en 1.
+
+### Como se valido
+`./tools/check_docs.py` y `--staged` en 0 ERROR, 1 WARN (M-08). El mecanismo se probo a mano hasta donde alcanza: la copia arranca y reporta su version.
+
+**Lo que no esta validado, escrito donde se lee**: que el harness se comporte igual desde el snapshot en una corrida completa de agente. Solo se probo el flag de version. Credenciales, rutas de configuracion y actualizador interno pueden depender de la ruta de instalacion. El runbook lo declara como sonda obligatoria de Fase 0 y fija el degradado: si falla, la fila vuelve a escalon 2 y se registra.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Corrige el protocolo de un experimento y una plantilla de metodo. No mueve ningun dato.
+
+### Deuda abierta
+- **La sonda de Fase 0 sobre el snapshot esta sin correr**, y hasta entonces el escalon 1 del entorno es una construccion propuesta, no comprobada.
+- **El equivalente en `agy` esta sin determinar.** Si ese harness no admite snapshot, su fila queda en escalon 2 y la asimetria entre harnesses MUST reportarse junto al resultado.
+- **Pieza 3 sigue fuera de este repositorio**, y ahora con un requisito mas: el lanzador de `experimentosdd-a4/` MUST apuntar al snapshot. Mientras apunte al `PATH`, la fila del entorno describe un control que el aparato no ejecuta.
+- Sin novedad: «Cinco sondas» vs seis filas, preexistente y no corregido; M-02 `Aprobada` sin ejecutar; M-30 `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir.
+
 ## El runbook de A-04 resuelve su sello por escalones (2026-08-23) — COMPLETADA
 
 **Accion**: pieza 2 de M-22 y M-25. `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` suma §Sello como **enmienda 4**, pre-dato respecto de la pasada 2 y sin alterar las pasadas 1 y 1b, cerradas. El template gana ademas la regla general que salio de ejercitarlo.

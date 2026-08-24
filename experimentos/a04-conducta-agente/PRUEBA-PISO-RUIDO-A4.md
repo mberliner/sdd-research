@@ -240,7 +240,7 @@ verificarlo en corrida, o declararlo sin verificador (`../../templates/EXPERIMEN
 | componente | qué queda sellado | escalón | mecanismo | si diverge |
 |---|---|---|---|---|
 | tratamiento — el `AGENTS.md` que recibe el brazo tratamiento | el commit de `sdd-research` del que se extrae | 1 + 2 | se extrae de ese commit, no se copia del árbol de trabajo | detiene el rep: lo entregado no corresponde al commit sellado |
-| entorno de ejecución — versión de la CLI del harness | la versión efectiva observada **al abrir cada tanda**, no antes | 2 intra-tanda + 3 entre tandas | se registra al abrir la tanda y se lee la versión efectiva en cada rep | detiene la tanda y explicita; re-correr o contar con confusión declarada lo decide el diseño, no el script |
+| entorno de ejecución — el ejecutable del harness | el **snapshot** tomado al abrir cada tanda, con la versión que hubiera en ese momento | 1 + 2 intra-tanda, 3 entre tandas | se copia el ejecutable corriente a una ruta privada y todos los reps lanzan esa copia por ruta absoluta; hash del snapshot y versión releída **del snapshot** en cada rep | detiene la tanda y explicita; re-correr o contar con confusión declarada lo decide el diseño, no el script |
 | fixture y workspace | hashes de los artefactos; ausencia de ancestros contaminantes | 1 + 2 | ya vigente: `sha256sum` antes y después de cada rep, auditoría de ancestros hasta `/` | no se corre ningún rep, o se descarta el rep |
 | modelo | ID de modelo y nivel de esfuerzo | 2 | ya vigente: registrado por rep en Fase 3 | se descarta el rep |
 | régimen de permisos | la lista de permitidos versionada | 1 + 2 | ya vigente: hook `PreToolUse` propio que registra cada decisión | ver §Régimen de permisos |
@@ -252,11 +252,41 @@ en un mismo día, así que una versión decidida con antelación llega desactual
 entonces **al abrir cada tanda**, con la versión que efectivamente haya, y se
 sostiene mientras esa tanda dura.
 
-Dentro de la tanda eso es escalón 2 y no 1: se **detecta** el cambio, no se impide.
-Llegar al escalón 1 intra-tanda exigiría suprimir la auto-actualización mientras la
-tanda corre, y este runbook no determina si el harness lo permite. Queda como
-pregunta a resolver en Fase 0 de la pasada 2, con su resultado registrado pase lo
-que pase; mientras no se resuelva, la fila queda en escalón 2 declarado.
+**Desactivar la auto-actualización del rep no alcanza, y creer que sí es peor que no
+hacer nada.** La variable de entorno que suprime el actualizador lo suprime **en ese
+proceso**, no en la instalación. El ejecutable es compartido: cualquier otra sesión
+del harness abierta en la máquina —otra terminal, otro proyecto— corre su propio
+actualizador y mueve el binario que los reps van a lanzar. La tanda queda igual de
+expuesta, y además con la falsa confianza de creerse protegida.
+
+**Por eso el mecanismo es un snapshot, no un ajuste.** Al abrir la tanda se copia el
+ejecutable corriente a una ruta privada del rep, y todos los reps de esa tanda lanzan
+**esa copia por ruta absoluta**, nunca el comando del `PATH`. Una actualización de la
+instalación global no la toca. Eso vuelve el desvío imposible en vez de improbable,
+que es lo que distingue el escalón 1 del 2, y no contradice el párrafo anterior: no se
+elige una versión de antemano, se congela la que haya en el momento de correr. Es la
+misma construcción que la fila del tratamiento —entregar desde un punto fijo en vez de
+apuntar a algo que se mueve—, aplicada a la herramienta.
+
+La supresión de la auto-actualización se conserva en el entorno del rep, pero baja de
+rango: ya no es la defensa, sólo evita que el snapshot intente actualizarse a sí mismo.
+
+**El snapshot es a su vez algo sellado, y se verifica.** Hash del snapshot al tomarlo, y
+versión releída **del snapshot** —no del `PATH`— en cada rep. Sin eso no se distingue
+«la construcción funcionó» de «dejó de funcionar sin avisar», que es el modo de falla
+que este aparato ya pagó una vez (`../../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4:
+el gate se comprueba, no se supone).
+
+**Lo que Fase 0 MUST comprobar antes de sellar nada.** Que el harness corra desde el
+snapshot **en una corrida completa de agente**, no sólo respondiendo su número de
+versión: credenciales, rutas de configuración y actualizador interno pueden depender de
+la ruta de instalación. Al escribir esta enmienda se verificó únicamente que la copia
+arranca y reporta su versión; el resto es supuesto. Si la sonda falla, la fila vuelve a
+escalón 2 —detectar sin impedir— y eso se registra, no se omite.
+
+El equivalente en `agy` está sin determinar y es parte de la misma sonda. Si ese harness
+no admite snapshot, su fila queda en escalón 2 declarado y la asimetría entre harnesses
+MUST reportarse junto al resultado.
 
 **Límite que esto deja escrito y no resuelve.** T1 y T2 están separadas 12-72 h, así
 que pueden correr legítimamente bajo versiones distintas. Esa diferencia MUST
@@ -265,11 +295,14 @@ registrarse en el sello de tanda y declararse junto al resultado: es un confundi
 versión cambiando *dentro* de una tanda, entre los reps 06 y 07—, que no es un
 confundido declarable sino un sello roto.
 
-**Pieza que este documento no puede entregar.** Los verificadores de las dos
-primeras filas viven en los scripts de preparación del repositorio de datos
-`experimentosdd-a4/`, fuera de este árbol. Hasta que existan, las dos filas
-declaran escalón 2 sin tener quién lo ejecute, y eso MUST leerse como límite
-vigente y no como control activo.
+**Pieza que este documento no puede entregar.** El snapshot, la extracción del
+tratamiento desde el commit sellado y los dos verificadores viven en los scripts de
+preparación y lanzamiento del repositorio de datos `experimentosdd-a4/`, fuera de este
+árbol. En particular, el lanzador MUST apuntar al snapshot y no al comando del `PATH`:
+mientras siga apuntando al `PATH`, la fila del entorno describe un escalón 1 que el
+aparato no ejecuta. Hasta que esas piezas existan, las dos filas declaran mecanismos
+sin tener quién los corra, y eso MUST leerse como límite vigente y no como control
+activo.
 
 ## Fases
 
@@ -346,11 +379,12 @@ del que se extrae el tratamiento. Ver §Sello.
 12-72 h. Hash del fixture verificado antes y después de cada rep; ID de modelo
 registrado por rep; VOIDs contados contra el umbral en vivo.
 
-*Desde la pasada 2 (enmienda 4):* al abrir cada tanda se registra la versión
-efectiva del harness —ese es su sello— y se la vuelve a leer en cada rep; una
-divergencia detiene la tanda. El tratamiento se entrega extrayéndolo del commit
-sellado, y su correspondencia se comprueba por rep. Si T1 y T2 corren bajo
-versiones distintas, las dos van al resultado con la diferencia declarada.
+*Desde la pasada 2 (enmienda 4):* al abrir cada tanda se toma el snapshot del
+ejecutable del harness y se registra su hash y su versión —ese es su sello—; los reps
+de esa tanda lanzan el snapshot por ruta absoluta, y la versión se relee de él en cada
+rep. Una divergencia detiene la tanda. El tratamiento se entrega extrayéndolo del
+commit sellado, y su correspondencia se comprueba por rep. Si T1 y T2 corren bajo
+snapshots distintos, las dos van al resultado con la diferencia declarada.
 
 **Fase 4 — puntuación y cierre.** El Custodio baraja y renombra los 20
 transcripts; los dos puntuadores producen `k1`, `k2` y `d` **por separado antes de
