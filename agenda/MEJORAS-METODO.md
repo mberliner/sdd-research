@@ -33,6 +33,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | Propuesta (2026-08-23) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por período) |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | Propuesta (2026-08-30) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
+| M-36 | El grafo de propagación no ve 18 de los 22 SSOT, y M-16 lo lee | media | Propuesta (2026-08-30) | auditoría propia del 2026-08-30; lección de [R40] Fase 17 | `../SPECS_REGISTRY.md` (grafo) antes que `../tools/check_docs.py` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -199,7 +200,7 @@ Reserva antes de aprobarla: en un repo documental el vínculo requisito→verifi
 
 Y declara su propio límite en el campo `Verificador:` del principio: es un **recordatorio**, no una verificación. Nombra derivados; no puede saber si alguien los revisó, y ningún script puede.
 
-Consecuencia para este ítem: la mitad descendente (SSOT tocado → derivados nombrados) está resuelta y es portable casi tal cual. Lo que sigue abierto, y es lo que M-16 pide de más, es la mitad **ascendente**: cruzar esos nombres contra el campo `Derivados a revisar` del bloque `[SDD-Check]`, que hoy no se verifica contra nada. [R40] tampoco la implementó, y dejó escrito por qué: no quiso afinar un verificador recién nacido sin datos de uso.
+Consecuencia para este ítem: la mitad descendente (SSOT tocado → derivados nombrados) está resuelta y es portable casi tal cual — **pero el insumo no lo está**, y eso lo mide M-36: nuestro grafo declarado no ve 18 de los 22 SSOT, así que portar el check hoy produciría uno que corre y calla. M-36 es previo a este ítem. Lo que sigue abierto, y es lo que M-16 pide de más, es la mitad **ascendente**: cruzar esos nombres contra el campo `Derivados a revisar` del bloque `[SDD-Check]`, que hoy no se verifica contra nada. [R40] tampoco la implementó, y dejó escrito por qué: no quiso afinar un verificador recién nacido sin datos de uso.
 
 ### M-17 — Portar el modelo de skills multi-asistente desde una fuente única
 
@@ -264,6 +265,39 @@ sdd-first [R39] resolvió esto con un §Índice de descartes: una tabla de dos c
 El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombrar hoy sin investigar nada: la opción «bajar el MUST a SHOULD» de M-26, si la decisión se resuelve por la otra vía; y la salida «lista de exenciones» para specs que un check nuevo pone en rojo, que M-13 y M-28 descartaron migrando en la misma iteración.
 
 Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
+
+### M-36 — El grafo de propagación no ve 18 de los 22 SSOT, y M-16 lo lee
+
+M-16 propone un recordatorio de propagación, y [R40] ya mostró cuál es su modo de falla: el defecto que su check `propagacion` **no** vio fue el de un documento que no declaraba `deriva_de` de nada. Un recordatorio de propagación es tan bueno como el grafo que lee. Este ítem mide el nuestro antes de implementar el de M-16, no después.
+
+**Medición del 2026-08-30 sobre `../SPECS_REGISTRY.md`** (46 entradas, 48 paths):
+
+| | |
+|---|---|
+| Specs por nivel | 22 `SSOT`, 16 `operativo`, 8 `derivado` |
+| Aristas `deriva_de` declaradas | **8** |
+| SSOT con al menos un derivado declarado | **4 de 22** |
+| SSOT que no dispararían nada al cambiar | **18** |
+
+Los 18 mudos incluyen a `../CONSTITUTION.md`, `../AGENTS.md`, `../SPECS_REGISTRY.md`, `../REFERENCIAS.md` y `../CONVENCIONES.md` — es decir, los cinco documentos más referenciados del repositorio. Un recordatorio construido hoy sobre este grafo callaría exactamente cuando más importa hablar.
+
+**La causa es estructural, no de higiene.** `deriva_de` está definido sólo para `ssot_level: derivado` (§Campo ssot_level del registro). Los 16 documentos `operativo` —que incluyen los cinco análisis de framework y los índices de línea— **no pueden** llevar arista por definición, aunque dependan demostrablemente de otros documentos: `../software/ANALISIS-SDD-FIRST.md` depende de `../REFERENCIAS.md` y alimenta a este documento, y el grafo no tiene forma de representarlo.
+
+**Hay un segundo grafo, ya declarado y sin usar.** La columna «Quien referencia» de la tabla SSOT del registro declara **40 aristas**, de las cuales sólo 5 coinciden con una arista `deriva_de`. Está escrita en paths con backticks, o sea que es parseable hoy. En la otra dirección hay 3 aristas `deriva_de` que no figuran en esa tabla, porque su origen no es una fila de la tabla.
+
+O sea: el repositorio declara su estructura de dependencias **en dos lugares con semánticas distintas** —«sintetiza un origen» y «usa este SSOT»— y ningún consumidor lee ninguno de los dos.
+
+Tres salidas:
+
+1. **Ampliar `deriva_de` a `operativo`.** Cambia el significado del campo, que hoy dice «sintetiza un origen verificable» y no «lo usa». Es la más limpia conceptualmente y la más cara: obliga a revisar la definición del campo y las 16 specs `operativo`.
+2. **Leer la columna «Quien referencia» como grafo débil.** Cubre 40 aristas, no requiere tocar ninguna spec y es parseable sin cambios. Es la barata.
+3. **Las dos, con las aristas tipadas**: `deriva_de` como relación fuerte y la tabla SSOT como débil, y que el recordatorio distinga qué está diciendo.
+
+Reservas, y la primera es la que puede invalidar la salida 2:
+
+- **«Quien referencia» se mantiene a mano y nadie verifica que esté completa.** `ssot-table` (M-11) verifica que los paths de la tabla existan, no que la columna liste a todos los que efectivamente referencian. Usarla como grafo sin auditarla primero repite el modo de falla de [R40] Fase 17: un índice manual que se atrasa y del que nadie sospecha porque está escrito con autoridad.
+- **Más aristas es más ruido, y el ruido tiene un ítem propio.** Pasar de 8 a 40 aristas multiplica los avisos por cinco, y si el aviso se vuelve paisaje el recordatorio deja de significar algo. Esa es exactamente la pregunta abierta de `BACKLOG-INVESTIGACION.md` #17. Quien decida entre las tres salidas MUST mirar ese ítem antes.
+- **Este ítem no propone implementar nada de M-16.** Mide el insumo. Si la conclusión es que el grafo no alcanza, la consecuencia puede ser postergar M-16 en vez de acelerarlo, y eso también es un resultado.
 
 ### M-08 — Emoticones en `PREREG-B7.md`
 
