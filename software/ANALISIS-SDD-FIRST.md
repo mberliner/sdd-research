@@ -2,6 +2,7 @@
 
 Fecha: 2026-08-15.
 Fuente: sdd-first v0.1.0, commit `ebfbd67` (2026-08-14), rama `main`, árbol limpio [R39]. Clon vendored en `../fuentes-externas/sdd-first/`.
+Re-consultado el 2026-08-30 en el commit `f032dce` (2026-08-17). El delta se lee en §Lo que el kit destiló después y en C7; el resto del documento vale para el commit original.
 Alcance: Línea B (software).
 
 ---
@@ -55,6 +56,16 @@ Dos lugares editables por skill —el playbook en `docs/playbooks/` (contenido, 
 ### Actualización de instalaciones derivadas
 
 `core/sdd_update.py` propaga versiones nuevas del kit a un proyecto ya instalado: muestra el plan sin escribir salvo `--apply`, nunca pisa una plantilla editada y deja la versión nueva como `<archivo>.kit-new` para fusionar a mano. Es propagación de método a través de una frontera de repositorios, con detección de conflictos.
+
+### Lo que el kit destiló después (delta 2026-08-16/17)
+
+Dieciséis commits después del corte original, el kit partió su backlog en tres documentos y destiló el tercero. `docs/IDEAS.md` conserva lo abierto; `docs/IDEAS-CERRADAS.md` recibe cada ítem cerrado **con su post-mortem** —«donde vive la mayor parte del conocimiento», dice su encabezado—; y `docs/PATRONES.md` destila de esos post-mortems ocho clases de defecto recurrentes, cada una citando los ítems que la evidencian y sin reproducir su razonamiento.
+
+El encabezado de `PATRONES.md` declara para qué existe: es lo que conviene leer antes de escribir una spec o dar por cerrada una iteración, porque «casi todos estos patrones se descubrieron dos o tres veces antes de tener nombre». No es una lista de bugs: es un artefacto de método, y la unidad destilada es la **clase de defecto**, no el defecto.
+
+`docs/IDEAS.md` sumó además un §Índice de descartes: tabla de dos columnas —qué se descartó, dónde está escrito el motivo— que existe explícitamente «para no re-litigarlas», con el razonamiento remitido al ítem que lo produjo.
+
+Las convenciones del backlog que sostienen las tres piezas están escritas en su §Cómo se lee: IDs estables por tanda de origen, nunca renumerados ni reciclados —los citan specs, historial y comentarios de código—; la prioridad declarada **sólo** en la tabla, con los títulos agrupando por tanda «para que recalibrar un ítem no obligue a moverlo de lugar»; y un valor de prioridad `—` que significa «sin triage», con la aclaración de que no es «menos que P3» sino «sin medir».
 
 ---
 
@@ -120,14 +131,27 @@ M-03 dice que este proyecto investiga SDD multi-asistente y su tooling es Claude
 - **El kit como instalación.** `core/sdd_init.py` siembra un andamiaje pensado para un proyecto de software con `source_roots`. Este repositorio no tiene código de producto, y su modo `none` —solo gobernanza y specs— no está probado para un repo documental de 44 documentos con registro por documento y niveles SSOT.
 - **Su acuerdo con nuestro método como respaldo.** Vale repetirlo porque es la tentación obvia: que un kit escrito por el mismo autor reproduzca siete de ocho filas no confirma nada del método. Es la misma trampa que `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` corrigió al descontar al testigo del conteo de linajes.
 
+### C7. La pieza más portable del kit no es un check: es la destilación del post-mortem
+
+De todo lo que este documento describe, `docs/PATRONES.md` es lo único que no depende de tener código. Destila ocho clases de defecto de un corpus de post-mortems, y al menos cinco están enunciadas en términos que no mencionan software: la lista duplicada que nada ata (Principio I en su forma más barata de violar), el aviso que suena siempre y enseña que el verde no significa nada, validar existencia en vez de contenido, medir antes de cablear y poner el trinquete en el piso real, y el fix fácil que mueve el blanco.
+
+Tres de esas cinco tienen instancia abierta en este repositorio, y una fue verificada el 2026-08-30: el patrón «validar existencia en vez de contenido» describe a `../tools/check_docs.py` cuando renombrar un título de sección deja dos checks en no-op sin que el backstop lo note (`../agenda/MEJORAS-METODO.md` M-31).
+
+Dos consecuencias, y son de naturaleza distinta:
+
+- **De método:** el mecanismo de destilar —cerrar con post-mortem, y separar el post-mortem de la clase que se repite— no está en el protocolo de este repositorio. Las entradas de `../historial/sdd.md` ya traen «Deuda abierta» y a menudo el post-mortem entero, pero nadie destila; la clase se redescubre. Candidatas dadas de alta: `../agenda/MEJORAS-METODO.md` M-32 (índice de descartes) y M-33 (convenciones de backlog).
+- **De investigación, y MUST NOT confundirse con la anterior:** si esas ocho clases clasifican defectos de corpus documentales, son propiedades del método y no del lenguaje. Eso se cierra con evidencia, no con una edición, y vive en `../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #19 — con el recaudo de Principio V que el ítem declara, porque los patrones ya están escritos y ya fueron leídos.
+
+Saldo aparte, que corrige un supuesto del ítem #15 de ese backlog: el cierre de T-1 midió el **FR pendiente** —escrito, sin fila en el Coverage mapping— y dio **0 en las 26 specs**, porque el flujo escribe la fila en la misma iteración. La unidad existe sólo *durante* la iteración: no hay lote que medir mirando el árbol en reposo.
+
 ---
 
 [SDD-Check]
 - Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc)
 - Incluye/Excluye verificado: SI - no se toca la lectura cruzada de convergencia (remitida a `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`), no se re-analiza ningun otro framework, no se toman decisiones de adopcion (las candidatas van a `../agenda/MEJORAS-METODO.md` como M-15/M-16/M-17 en estado Propuesta)
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R39] con commit `ebfbd67` y estado del arbol declarado; procedencia resuelta antes de la lectura y con conclusion explicita de que NO suma linaje, con tres clases de evidencia (mismo autor y misma cadena de tooling, vocabulario propio de este repo, difusion desde Spec Kit ya declarada); ninguna coincidencia del mapeo se presenta como convergencia y la advertencia esta escrita dos veces, en el encabezado de la tabla y en C6; la fuente no reporta ninguna medicion y eso queda dicho; cada rasgo citado declara su archivo de origen en el clon vendored; mapeo corrido sobre el instrumento v1 sin agregar ni redefinir filas; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R39] con commit `ebfbd67` y estado del arbol declarado, mas el commit `f032dce` para el delta del 2026-08-30 (§Lo que el kit destilo despues y C7, unicas secciones que valen para ese segundo anclaje); procedencia resuelta antes de la lectura y con conclusion explicita de que NO suma linaje, con tres clases de evidencia (mismo autor y misma cadena de tooling, vocabulario propio de este repo, difusion desde Spec Kit ya declarada); ninguna coincidencia del mapeo se presenta como convergencia y la advertencia esta escrita dos veces, en el encabezado de la tabla y en C6; la fuente no reporta ninguna medicion y eso queda dicho; cada rasgo citado declara su archivo de origen en el clon vendored; mapeo corrido sobre el instrumento v1 sin agregar ni redefinir filas; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc operativo). `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` recibe una fila de procedencia que registra el caso como no-linaje, sin cambiar ningun veredicto ni el conteo de cuatro linajes
-- Derivados a revisar: `../agenda/MEJORAS-METODO.md` (M-02 incorpora el resultado negativo de C3; M-15/M-16/M-17 dadas de alta como Propuesta); `../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4 (el fail-closed que la pregunta pide ya tiene una implementacion de referencia; la pregunta sigue abierta porque nadie midio su costo operativo) - señalado, sin modificar
-- Cobertura: completa - las seis conclusiónes mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio; las tres candidatas tienen ID de destino en `../agenda/MEJORAS-METODO.md`
+- Derivados a revisar: `../agenda/MEJORAS-METODO.md` (M-02 incorpora el resultado negativo de C3; M-15/M-16/M-17 dadas de alta como Propuesta; en el delta del 2026-08-30, M-32 y M-33 dadas de alta y M-31 citando el patron 1 de `PATRONES.md`); `../agenda/BACKLOG-INVESTIGACION.md` #15 y #19 (el saldo de T-1 corrige un supuesto del primero, el segundo nace de C7); `../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4 (el fail-closed que la pregunta pide ya tiene una implementacion de referencia; la pregunta sigue abierta porque nadie midio su costo operativo) - señalado, sin modificar
+- Cobertura: completa - las siete conclusiónes mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio; las candidatas tienen ID de destino en `../agenda/MEJORAS-METODO.md` (M-15/M-16/M-17 en la entrega original; M-32 y M-33 en el delta) y la mitad de investigacion de C7 tiene item propio en `../agenda/BACKLOG-INVESTIGACION.md` #19
 - Deuda arrastrada: la de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sigue intacta y este documento no la toca (Kiro sin leer, dimension «como llega el metodo al agente» sin veredicto, corpus observacional de OpenSpec sin dar de alta, tercer eje propuesto y sin cerrar); se agrega una propia: **por que el kit dejo caer `[NEEDS CLARIFICATION]` no esta declarado en la fuente y este analisis no lo resuelve**; y M-15/M-16/M-17 quedan en Propuesta, sin aprobacion
 - Riesgos/reservas: el analisis lee documentos, specs, config e historial del clon, sin correr `sdd_init.py` ni el pipeline, asi que las capacidades descritas son las declaradas por la fuente y no verificadas por ejecucion; la fuente es del mismo autor que este repositorio, con sesgo de confirmacion estructural y no solo probable, y por eso ninguna de sus coincidencias se cuenta como evidencia; el clon vendored es un directorio de trabajo vivo, no un snapshot congelado, asi que la lectura vale para el commit declarado y puede desactualizarse sin aviso
