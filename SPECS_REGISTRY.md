@@ -587,6 +587,36 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados
   - [ ] no duplica SSOT — referencia
 
+### docs-y-investigación/ANALISIS-CASO-CAMPO-1.md
+- `path`: `docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md`
+- `proposito`: analisis del caso de campo 1 [R40] — la unica aplicacion conocida del metodo de este repositorio a un cuerpo documental ajeno al propio repositorio — con foco en que mecanismos ya ejecutados alli son portables a Linea A, cuales dieron resultado negativo, y que corpus habilitan.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, con su evidencia y su consecuencia: no suma linaje
+  - las reglas de anonimizacion bajo las que el caso se puede citar, y por que existen
+  - caracterizacion del caso: superficie de metodo, checks propios y checks portados desde este repositorio
+  - los mecanismos con implementacion de referencia y los resultados negativos, cada uno con el item de `agenda/MEJORAS-METODO.md` que lo recibe
+  - el corpus que el caso agrega a Linea A y que se puede y no se puede afirmar con el
+- `excluye`:
+  - todo contenido normativo del caso — no se cita ni se parafrasea; la restriccion vive en `REFERENCIAS.md` [R40]
+  - la identidad de la organizacion y de sus areas internas
+  - las decisiónes de adopcion — viven en `agenda/MEJORAS-METODO.md`
+  - los diseños de experimento que el caso habilita — viven en `agenda/BACKLOG-INVESTIGACION.md`
+  - la lectura cruzada de convergencia — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
+- `validacion`:
+  - [ ] version analizada anclada en `REFERENCIAS.md` [R40], con commit y fecha
+  - [ ] la procedencia esta declarada antes de la lectura y concluye explicitamente que la fuente NO suma linaje
+  - [ ] ninguna coincidencia con el metodo de este repositorio se presenta como convergencia
+  - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medición, y eso queda dicho
+  - [ ] la organizacion no se nombra, ni por nombre comercial ni por rasgo que la identifique de forma unica
+  - [ ] ninguna cita reproduce ni parafrasea contenido normativo del caso
+  - [ ] los documentos y las areas del caso se nombran por rol; ningun nombre propio, ni siquiera saneado
+  - [ ] toda cifra citada es dato agregado del corpus (conteos, fechas, presencia de campos), no expresion
+  - [ ] cada mecanismo citado declara el archivo del extracto saneado donde se verifica
+  - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados, con ID de destino
+  - [ ] no duplica SSOT — referencia
+
 ### software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
 - `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre cuatro casos (Spec Kit, Superpowers, OpenSpec y el proyecto testigo) con un instrumento comun.

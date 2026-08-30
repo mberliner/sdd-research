@@ -4,6 +4,41 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Dos aplicaciones del metodo devuelven mecanismos ya ejercidos y dos resultados negativos (2026-08-30) — COMPLETADA
+
+**Accion**: relevamiento de dos repositorios que aplican este metodo —el kit de [R39], re-consultado, y una aplicacion de campo documental dada de alta como [R40]— y volcado de lo transferible al backlog de metodo, al backlog de investigacion y a un analisis de caso nuevo.
+
+### Que se encontro
+Lo relevante no fue confirmacion sino tres cosas que este repositorio no tenia:
+
+1. **Mecanismos propuestos aca que alla ya corrieron.** M-16 (recordatorio de propagacion) esta implementado en [R40] desde el 2026-08-25, con tres decisiones de diseño escritas y una tabla de validacion que discrimina dos diffs identicos con resultado opuesto. M-17 tiene una segunda implementacion, esta vez en un repositorio documental sin codigo de producto, que era la reserva que lo frenaba.
+2. **Dos resultados negativos.** La variante «indice de entradas» que M-30 podria haber elegido ya se probo y fallo alla: llego a estar trece iteraciones atrasada y apuntando a un archivo borrado. Y el saldo de T-1 en [R39] invalida una estrategia de barrido que el item #15 del backlog de investigacion podria haber intentado.
+3. **Un hueco propio, verificado.** Encuadrado por el check `normativos` de [R40], se probo que renombrar el titulo `## Tabla SSOT` del registro deja `ssot-table` y `ssot-collision` recorriendo cero filas, con el backstop saliendo **0 ERROR** y sin nombrar ninguno de los dos ids. El patron de guarda ya estaba aplicado dos veces en `tools/check_docs.py` y no estaba declarado en ningun lado.
+
+Una lectura preliminar erronea quedo corregida y escrita: el campo `Verificador:` que declara que mitad del invariante ve el check no es un refinamiento ajeno a importar — ya es practica de `CONSTITUTION.md` y el caso la heredo.
+
+### Que cambio
+- `REFERENCIAS.md`: alta de [R40] como **fuente reservada** con su restriccion de uso escrita; [R39] gana el anclaje del segundo commit para el delta del 2026-08-16/17.
+- `agenda/MEJORAS-METODO.md`: alta de M-31 a M-34; M-16, M-17 y M-30 anotados con la evidencia de campo y con lo que de cada uno queda abierto.
+- `agenda/BACKLOG-INVESTIGACION.md`: alta de los items 17, 18 y 19; correccion del inventario de corpus de Linea A del item #15, que declaraba un solo corpus cuando hay dos.
+- `software/ANALISIS-SDD-FIRST.md`: §Lo que el kit destilo despues y conclusion C7, ambas ancladas al segundo commit.
+- `SPECS_REGISTRY.md` + `docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md` + `docs-y-investigacion/00-INDEX.md`: alta del analisis del caso, con spec que incorpora cuatro checks de validacion sin precedente en el registro — los que sostienen la anonimizacion.
+
+### Como se valido
+`./tools/check_docs.py` en 0 ERROR y 1 WARN (M-08, preexistente) despues de cada pieza, y el gate al commit en cada uno. El hueco del punto 3 se verifico ejecutando el backstop sobre el registro con el titulo renombrado y restaurandolo.
+
+La anonimizacion se verifico por barrido: el extracto saneado sale con cero ocurrencias de nombre comercial, de nombres de documento del caso y de nombres de area, sobre siete archivos. El analisis va mas lejos que el extracto y no usa ni siquiera los nombres saneados: nombra por rol.
+
+### Por que esto es entrada de metodo y no hallazgo de investigacion
+Mueve el backlog de metodo, el registro de specs y el catalogo de referencias. Las preguntas que el relevamiento abrio **no** se contestaron aca: quedaron como items 17, 18 y 19 del backlog de investigacion, que se cierran con evidencia y no con una edicion.
+
+### Deuda abierta
+- **La viabilidad contractual de difundir aprendizajes derivados de [R40], aun anonimizados, no esta verificada.** Es previa a cualquier uso fuera de este repositorio y no la resuelve ningun check.
+- **El extracto saneado no entra a git** (`fuentes-externas/` esta ignorado), asi que la verificabilidad de las citas del analisis depende de una copia local. Es el mismo regimen que los otros clones vendorizados, y la misma limitacion.
+- **M-31 a M-34 quedan en `Propuesta`**, sin aprobacion. El hueco verificado de M-31 sigue abierto en el codigo.
+- **La mitad ascendente de M-16** —cruzar los derivados nombrados contra el campo `Derivados a revisar`— no tiene implementacion en ningun repositorio.
+- Sin novedad: M-02 `Aprobada` sin ejecutar; M-30 `Propuesta`; M-24(2) sin aprobar; M-26 y M-08 sin decidir; la sonda de Fase 0 sobre el snapshot sigue sin correr y la pieza 3 de M-22/M-25 sigue fuera de este repositorio.
+
 ## El entorno se sella por snapshot del ejecutable, no por ajuste de actualizacion (2026-08-23) — COMPLETADA
 
 **Accion**: correccion dentro de la enmienda 4 del runbook de A-04 y de §Sello del template, antes de commitear la version anterior. El mecanismo del componente «entorno» pasa de desactivar la auto-actualizacion a **copiar el ejecutable a una ruta privada al abrir la tanda**.

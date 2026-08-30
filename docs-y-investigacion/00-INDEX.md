@@ -13,5 +13,8 @@ Como aplicar SDD para mejorar calidad analitica y consistencia documental en equ
 3. [NECESIDADES-Y-METRICAS.md](./NECESIDADES-Y-METRICAS.md)
 4. [PLAN-PRUEBAS.md](./PLAN-PRUEBAS.md)
 
+## Análisis de casos
+- [ANALISIS-CASO-CAMPO-1.md](./ANALISIS-CASO-CAMPO-1.md) — análisis del caso de campo 1. Fuente reservada; extracto saneado en [../fuentes-externas/caso-campo-1/](../fuentes-externas/caso-campo-1/).
+
 ## Resultado esperado
 Un modelo operativo SDD liviano, sin CI obligatorio, que reduzca contradicciones y aumente trazabilidad.
