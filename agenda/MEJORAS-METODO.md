@@ -34,10 +34,13 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | Propuesta (2026-08-23) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por período) |
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | Propuesta (2026-08-30) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
+| M-39 | Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado | media | Propuesta (2026-08-30) | [R40] Fase 37; barrido propio del 2026-08-30 | `../CONSTITUTION.md` §Límite honesto o documento nuevo |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
+| M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
+| M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
 | M-05 | Limpiar encabezados que restatan su alcance | baja | **Hecha** (2026-08-23) | regla de alcance, Fase 8 | `../software/RELACION-SPEC-VS-EPICA.md` |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
@@ -363,6 +366,21 @@ El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombra
 Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
 
 
+### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
+
+`../CONSTITUTION.md` §Límite honesto contesta esta pregunta para los siete principios: cuáles tienen verificador, cuál es parcial y cuál sustantivo, y qué mitad de cada invariante queda humana. Para las reglas de proceso no la contesta nadie.
+
+Superficie medida el 2026-08-30: **11 MUST en `../AGENTS.md` y 5 en `../CONVENCIONES.md`**. Cuántos de esos 16 tienen algo mecánico detrás no está escrito, y por lo tanto tampoco está escrito cuáles dependen enteramente de que alguien se acuerde.
+
+Precedente de que el barrido produce algo: la Fase 37 de [R40] tomó un MUST que su convención declaraba y que sostenía sólo la disciplina —completar la descripción de cada entrada versionada de su changelog— y lo convirtió en check. No lo encontró buscando qué automatizar: lo encontró habiendo hecho el inventario.
+
+**El ítem es el barrido, no la automatización.** Producir la tabla MUST → verificador (o `ninguno`), y recién sobre esa tabla decidir uno por uno. La mitad del valor está en el inventario mismo, por la misma razón que el §Límite honesto vale aunque no cambie nada: saber cuál regla no tiene red es lo que permite mirarla.
+
+Dos reservas:
+
+- **Dónde vive el resultado no es obvio.** Si va a `../CONSTITUTION.md`, mezcla invariantes con reglas de proceso, que es justo la separación que ese documento mantiene. Si va a `../AGENTS.md`, engorda la capa residente con algo que no es disparador. Un documento nuevo necesita spec y sube el conteo. Conviene decidirlo antes de barrer, no después.
+- **Es el más caro de los ítems abiertos de higiene**, porque cada MUST hay que evaluarlo contra lo que `../tools/check_docs.py` efectivamente emite — y M-31 acaba de mostrar que lo que emite no siempre es lo que su nombre dice. Este ítem MUST hacerse después de M-31, o su tabla nace mintiendo.
+
 ### M-08 — Emoticones en `PREREG-B7.md`
 
 El documento viola la regla global «sin emoticones» pero está **pre-registrado y sellado**. Editarlo post-sello tiene implicancias metodológicas (Principio V). Decisión pendiente del usuario: corregir con enmienda fechada, o declarar excepción permanente para documentos sellados.
@@ -399,6 +417,33 @@ sdd-first [R39] eligió lo contrario y escribió el motivo: los títulos de secc
 Aplicado acá el cambio sería: mantener la partición abierto/cerrado sólo en la tabla —barata de reordenar, es una fila— y ordenar el cuerpo por ID, que es estable. Ganancia: cerrar un ítem pasa a ser editar dos celdas.
 
 Prioridad baja a propósito: M-29 ya pagó la migración grande y el dolor no vuelve hasta el próximo lote de cierres. Vale registrarlo ahora para que la decisión no se tome otra vez en caliente.
+
+### M-37 — El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec
+
+La tabla de profundidad de `../SPECS_REGISTRY.md` define tres niveles de spec, y el nivel `Extendida` se distingue por llevar el campo `refresh`. Distribución real medida el 2026-08-30 sobre las 46 entradas: **36 `Estandar`, 10 `Minima`, 0 `Extendida`**. El campo `refresh` aparece una sola vez en todo el repositorio — en la fila de la tabla que lo define.
+
+Y hay dos documentos que cumplen el criterio que la propia tabla declara para `Extendida` («SSOTs criticos con multiples derivados»): `../software/ANALISIS-SPEC-KIT.md` y `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`, cada uno con dos derivados registrados. Ninguno lo usa.
+
+Es una instancia del patrón 4 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la carpeta que existe y ningún paso mira»): una clave de primera clase que ningún consumidor visita. No falla — calla, y el silencio se lee como salud.
+
+Dos salidas, y no hay una obviamente mejor:
+
+1. **Aplicarlo** a los dos documentos que califican, y con eso averiguar si `refresh` sirve para algo. Riesgo: se aplica por completar la tabla y no porque alguien necesite el dato, que es cómo nacen los campos que después nadie mantiene — el mismo destino de las 195 casillas de M-35.
+2. **Retirarlo**, dejando dos niveles. Es la más barata y la que menos promete. Si más adelante hace falta un campo de refresco, se agrega con un consumidor.
+
+Lo que no se sostiene es dejarlo declarado sin usuarios: el registro afirma una taxonomía de tres niveles y opera con dos.
+
+### M-38 — Seis encabezados del registro escriben un directorio que no existe
+
+Seis entradas de `../SPECS_REGISTRY.md` titulan su bloque `### docs-y-investigación/...`, con tilde. El directorio en disco es `docs-y-investigacion/`, sin tilde. Nada lo detecta porque `parse_registry()` toma la ruta del campo `path` —que está bien escrito en las seis— y el encabezado queda como decoración.
+
+No rompe nada hoy. Lo que hace es peor a largo plazo: quien lea el registro y copie el encabezado escribe una ruta inválida, y el próximo consumidor que decida parsear los `### ` en vez del campo `path` hereda seis fallas silenciosas.
+
+**Uno de los seis lo escribí yo el 2026-08-30**, dando de alta la spec del análisis de caso, copiando la convención local sin verificar que el directorio existiera. Vale registrarlo porque es la evidencia del patrón 1 de `../fuentes-externas/sdd-first/docs/PATRONES.md` en su forma más literal: el archivo número siete nace roto igual que el primero, y lo que sostiene el fix no es corregir los seis sino un check que falle nombrando al séptimo.
+
+Qué hace falta: corregir los seis encabezados, y agregar al backstop la verificación de que el encabezado de cada bloque coincida con alguno de sus `path` declarados. El check es de tres líneas y ya tiene los dos insumos parseados.
+
+Prioridad baja, no nula: es higiene, pero la guarda es tan barata que postergarla cuesta más en discusión que en implementación.
 
 ---
 
