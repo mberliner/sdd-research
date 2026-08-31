@@ -24,6 +24,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-31 | Un check puede quedar en no-op y el backstop sigue en verde | alta | Propuesta (2026-08-30) | [R40] (check `normativos`) + auditoría propia del 2026-08-30 | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
+| M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -33,7 +34,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | Propuesta (2026-08-23) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por período) |
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | Propuesta (2026-08-30) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
-| M-36 | El grafo de propagación no ve 18 de los 22 SSOT, y M-16 lo lee | media | Propuesta (2026-08-30) | auditoría propia del 2026-08-30; lección de [R40] Fase 17 | `../SPECS_REGISTRY.md` (grafo) antes que `../tools/check_docs.py` |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -172,6 +172,70 @@ Reservas antes de aprobarla:
 
 Decisión pendiente del usuario: cuál de las salidas, o la 2 y la 3 juntas. El ítem no la anticipa.
 
+### M-36 — M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar
+
+M-16 propone un recordatorio de propagación. [R40] ya lo implementó y su lección es que un recordatorio de propagación es tan bueno como el grafo que lee. Este ítem midió el nuestro antes de portar nada, y el resultado bloquea a M-16 en vez de habilitarlo.
+
+**Corrección de la primera versión de este ítem (2026-08-30, escrita y medida el mismo día).** La primera redacción decía que la causa era estructural: `deriva_de` está definido sólo para `ssot_level: derivado`, así que los 16 documentos `operativo` no pueden llevar arista. Eso es cierto y es un síntoma. La causa está un nivel más abajo y la medición la expuso.
+
+#### Los tres grafos que el repositorio ya tiene
+
+| Estructura | Aristas | Relación que declara | Cómo se mantiene |
+|---|---|---|---|
+| `deriva_de` en el registro | **8** | «sintetiza a» | a mano, atada al rol |
+| Columna «Quien referencia» de la tabla SSOT | **40** | «usa este SSOT» | a mano, sin auditar |
+| Citación en el texto (links + rutas en backticks) | **385** | «menciona a» | derivable, completa por construcción |
+
+Precisión alta y recall nulo en un extremo; recall total y precisión nula en el otro; nada declarado en el medio. Y el hueco de fondo: **la pregunta que la propagación hace nunca se definió**. Esa pregunta es «si esto cambia sustantivamente, ¿qué hay que releer?», y no está escrita como definición en ningún lado. `deriva_de` nació para clasificar roles; la tabla SSOT nació porque alguien necesitó la otra relación y abrió un segundo lugar en vez de arreglar el primero. Ninguna de las dos tuvo nunca un consumidor, y por eso derivar salía gratis.
+
+#### La medición que decide
+
+De las 385 aristas de citación, 241 son de contenido a contenido tras excluir clases estructurales: origen o destino en `../historial/` (registro del pasado), destino en gobernanza o protocolo, y origen en índices o en el README.
+
+Sobre esas 241 se corrió una muestra con el criterio, la población, el tamaño, la semilla y la regla de decisión **fijados por escrito antes de generar un solo par** (Principio V):
+
+- **Muestra:** n = 30, aleatoria sin reemplazo, `random.seed(20260830)`.
+- **Regla de puntuación:** para cada par, leyendo la línea donde aparece la cita, ¿un cambio sustantivo en el destino obligaría a releer el origen? `DUDOSO` cuenta como NO.
+- **Regla de decisión, fijada antes del dato:** ≤ 15 % de SI → hay un árbol escondido y la solución declarativa alcanza; ≥ 30 % → hay malla y declarar a mano no va a funcionar; entre ambos, NO CONCLUYENTE.
+
+**Resultado: 17 SI, 10 NO, 3 DUDOSO — 56,7 % de SI.** Da malla, por el doble del umbral. Quitando los tres SI más discutibles —el registro citando a los documentos que registra, que es una clase sistemática que quizá debió excluirse de la población, y uno escrito dentro de un bloque de cierre— queda **51,9 %**. El resultado no depende de las llamadas dudosas.
+
+**Extrapolado: ~137 aristas reales sobre las 241 candidatas.** Contra las 8 declaradas, un factor de **17**.
+
+#### Los dos resultados, y se cancelan entre sí
+
+1. **La solución declarativa no es viable acá.** El grafo declarado no está incompleto por descuido: está incompleto por un orden de magnitud, y ningún esfuerzo de disciplina cierra un factor de 17. Por eso el arreglo de [R40] —que funciona sobre siete aristas— no es portable: su corpus es un árbol, con 4 de sus 7 aristas colgando de un mismo origen. El nuestro es una malla sin raíz, donde ningún documento tiene cero citas entrantes.
+2. **El grafo real es inservible como disparador.** 137 aristas sobre 51 documentos es un aviso en casi cada commit, que es exactamente el patrón «el aviso que suena siempre enseña que el verde no significa nada» (`../fuentes-externas/sdd-first/docs/PATRONES.md`, 3).
+
+Juntos dejan a M-16 sin salida por la vía que tenía planteada: **no le falta trabajo, le falta una idea distinta**. Un grafo mejor no la desbloquea, porque el problema deja de ser el grafo apenas el grafo es bueno.
+
+#### Qué queda abierto
+
+Lo que la medición **no** contestó es cuál sería un disparador más selectivo que un aviso por arista. Cuatro direcciones, ninguna evaluada y ninguna preferida:
+
+- Disparar sólo sobre la relación fuerte —el `deriva_de` actual— y aceptar que cubre poco, declarándolo.
+- Disparar por **sección** y no por documento, para que el aviso nombre qué parte cambió y no el archivo entero.
+- Disparar sobre un subconjunto de documentos elegido por criterio explícito, no sobre todos.
+- **Descartar M-16** y aceptar que la propagación en un repositorio con esta forma es humana. Es una salida legítima y hoy es la que menos supuestos requiere.
+
+La pregunta #17 de `BACKLOG-INVESTIGACION.md` —si un recordatorio automático se vuelve paisaje— dejó de ser curiosidad y pasó a ser bloqueante para elegir entre las cuatro.
+
+#### Descartado con motivo
+
+Las tres salidas que proponía la primera redacción de este ítem quedan descartadas por la misma medición, y se registran para no re-litigarlas:
+
+| Descarte | Motivo |
+|---|---|
+| Ampliar `deriva_de` a `operativo` | resuelve la forma, no el factor de 17 |
+| Leer «Quien referencia» como grafo débil | 40 aristas contra ~137 reales: sigue subrepresentando, y encima sin auditar |
+| Poblar por sustracción desde las 385 candidatas | produciría el grafo correcto y con él un recordatorio inservible por ruido |
+
+#### Reproducibilidad, y un límite deliberado
+
+La muestra se reproduce exactamente con la población y la semilla declaradas arriba. Los veredictos par por par **no se transcriben acá a propósito**: quien la rehaga debe puntuar sin ver los míos, para no quedar anclado. El desacuerdo entre dos puntuadores sobre los mismos 30 pares es a su vez un dato sobre si la regla de puntuación es aplicable, y hoy no existe.
+
+Limitación que no tiene mitigación: el puntuador fue quien propuso el diseño que la muestra evaluaba. El resultado terminó siendo contrario a esa propuesta, lo cual reduce la preocupación pero no la elimina.
+
 ### M-03 — Playbooks agnósticos de asistente
 
 Procedimiento neutro en `playbooks/{analyze,clarify}.md`, envuelto por wrappers finos (`.claude/skills/`, `.opencode/command/`) que no duplican el contenido. Adaptados a documentos: `analyze` = consistencia doc↔SSOT, afirmaciones sin `[Rxx]`, contradicciones entre SSOTs activos; `clarify` = resolver `[NEEDS CLARIFICATION]` abiertos.
@@ -202,7 +266,7 @@ Reserva antes de aprobarla: en un repo documental el vínculo requisito→verifi
 
 Y declara su propio límite en el campo `Verificador:` del principio: es un **recordatorio**, no una verificación. Nombra derivados; no puede saber si alguien los revisó, y ningún script puede.
 
-Consecuencia para este ítem: la mitad descendente (SSOT tocado → derivados nombrados) está resuelta y es portable casi tal cual — **pero el insumo no lo está**, y eso lo mide M-36: nuestro grafo declarado no ve 18 de los 22 SSOT, así que portar el check hoy produciría uno que corre y calla. M-36 es previo a este ítem. Lo que sigue abierto, y es lo que M-16 pide de más, es la mitad **ascendente**: cruzar esos nombres contra el campo `Derivados a revisar` del bloque `[SDD-Check]`, que hoy no se verifica contra nada. [R40] tampoco la implementó, y dejó escrito por qué: no quiso afinar un verificador recién nacido sin datos de uso.
+Consecuencia para este ítem, y cambió el 2026-08-30: **M-16 está bloqueada por un resultado adverso propio**, medido en M-36. El insumo que el check necesita no existe en ninguna de las dos formas que hacen falta — el grafo declarado subrepresenta la dependencia real por un factor de 17, y el grafo real es tan denso que un recordatorio construido sobre él dispararía en casi cada commit. Portar el mecanismo del caso no está esperando trabajo: está esperando una idea distinta. M-36 es previo y puede concluir que este ítem se descarta. Lo que sigue abierto, y es lo que M-16 pide de más, es la mitad **ascendente**: cruzar esos nombres contra el campo `Derivados a revisar` del bloque `[SDD-Check]`, que hoy no se verifica contra nada. [R40] tampoco la implementó, y dejó escrito por qué: no quiso afinar un verificador recién nacido sin datos de uso.
 
 ### M-17 — Portar el modelo de skills multi-asistente desde una fuente única
 
@@ -268,38 +332,6 @@ El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombra
 
 Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
 
-### M-36 — El grafo de propagación no ve 18 de los 22 SSOT, y M-16 lo lee
-
-M-16 propone un recordatorio de propagación, y [R40] ya mostró cuál es su modo de falla: el defecto que su check `propagacion` **no** vio fue el de un documento que no declaraba `deriva_de` de nada. Un recordatorio de propagación es tan bueno como el grafo que lee. Este ítem mide el nuestro antes de implementar el de M-16, no después.
-
-**Medición del 2026-08-30 sobre `../SPECS_REGISTRY.md`** (46 entradas, 48 paths):
-
-| | |
-|---|---|
-| Specs por nivel | 22 `SSOT`, 16 `operativo`, 8 `derivado` |
-| Aristas `deriva_de` declaradas | **8** |
-| SSOT con al menos un derivado declarado | **4 de 22** |
-| SSOT que no dispararían nada al cambiar | **18** |
-
-Los 18 mudos incluyen a `../CONSTITUTION.md`, `../AGENTS.md`, `../SPECS_REGISTRY.md`, `../REFERENCIAS.md` y `../CONVENCIONES.md` — es decir, los cinco documentos más referenciados del repositorio. Un recordatorio construido hoy sobre este grafo callaría exactamente cuando más importa hablar.
-
-**La causa es estructural, no de higiene.** `deriva_de` está definido sólo para `ssot_level: derivado` (§Campo ssot_level del registro). Los 16 documentos `operativo` —que incluyen los cinco análisis de framework y los índices de línea— **no pueden** llevar arista por definición, aunque dependan demostrablemente de otros documentos: `../software/ANALISIS-SDD-FIRST.md` depende de `../REFERENCIAS.md` y alimenta a este documento, y el grafo no tiene forma de representarlo.
-
-**Hay un segundo grafo, ya declarado y sin usar.** La columna «Quien referencia» de la tabla SSOT del registro declara **40 aristas**, de las cuales sólo 5 coinciden con una arista `deriva_de`. Está escrita en paths con backticks, o sea que es parseable hoy. En la otra dirección hay 3 aristas `deriva_de` que no figuran en esa tabla, porque su origen no es una fila de la tabla.
-
-O sea: el repositorio declara su estructura de dependencias **en dos lugares con semánticas distintas** —«sintetiza un origen» y «usa este SSOT»— y ningún consumidor lee ninguno de los dos.
-
-Tres salidas:
-
-1. **Ampliar `deriva_de` a `operativo`.** Cambia el significado del campo, que hoy dice «sintetiza un origen verificable» y no «lo usa». Es la más limpia conceptualmente y la más cara: obliga a revisar la definición del campo y las 16 specs `operativo`.
-2. **Leer la columna «Quien referencia» como grafo débil.** Cubre 40 aristas, no requiere tocar ninguna spec y es parseable sin cambios. Es la barata.
-3. **Las dos, con las aristas tipadas**: `deriva_de` como relación fuerte y la tabla SSOT como débil, y que el recordatorio distinga qué está diciendo.
-
-Reservas, y la primera es la que puede invalidar la salida 2:
-
-- **«Quien referencia» se mantiene a mano y nadie verifica que esté completa.** `ssot-table` (M-11) verifica que los paths de la tabla existan, no que la columna liste a todos los que efectivamente referencian. Usarla como grafo sin auditarla primero repite el modo de falla de [R40] Fase 17: un índice manual que se atrasa y del que nadie sospecha porque está escrito con autoridad.
-- **Más aristas es más ruido, y el ruido tiene un ítem propio.** Pasar de 8 a 40 aristas multiplica los avisos por cinco, y si el aviso se vuelve paisaje el recordatorio deja de significar algo. Esa es exactamente la pregunta abierta de `BACKLOG-INVESTIGACION.md` #17. Quien decida entre las tres salidas MUST mirar ese ítem antes.
-- **Este ítem no propone implementar nada de M-16.** Mide el insumo. Si la conclusión es que el grafo no alcanza, la consecuencia puede ser postergar M-16 en vez de acelerarlo, y eso también es un resultado.
 
 ### M-08 — Emoticones en `PREREG-B7.md`
 
