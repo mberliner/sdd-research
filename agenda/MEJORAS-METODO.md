@@ -64,27 +64,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 
 ## Items abiertos
 
-### M-02 — Gate de autoría documental
-
-Declaración de la spec que gobierna la edición (`.sdd/current-doc`) más un hook `PreToolUse` que bloquea editar un `.md` de contenido sin esa declaración, con chequeo de mtime: la spec MUST haberse editado después de declararse. Reusa `../tools/sdd_gate.py` del testigo, que ya separa decisión de transporte (stdin JSON / argv / env) y por lo tanto no queda atado a Claude Code.
-
-**Requisito de diseño no negociable: fail-closed.** El gate del testigo terminaba en `[ -f "$PYBIN" ] || exit 0` y, sin intérprete, permitía la edición en silencio; durante todo B-07 el enforcement estuvo caído sin que nadie lo notara. Ver `BACKLOG-INVESTIGACION` prioridad alta #4, que es la pregunta de investigación asociada.
-
-Reserva: en un repo documental la fricción puede ser desproporcionada. Conviene medirla, no asumirla.
-
-**Corrección de diseño incorporada el 2026-08-15 (origen: sdd-first [R39], `../software/ANALISIS-SDD-FIRST.md` C3).** El chequeo de mtime del párrafo anterior MUST NOT implementarse: se implementó en sdd-first y falló en las dos direcciones —bloqueó flujo legítimo (una spec trabajada en varios commits, `git checkout`, `clone`, y el ciclo stash/restore del propio `pre-commit`, que renueva mtimes) y no detuvo a nadie, porque un `touch` lo satisfacía. El criterio que lo reemplazó es de **contenido**: la spec declarada debe existir, figurar en el registro con un estado que habilite trabajo, y tener al menos un requisito con texto propio además del keyword; los placeholders de la plantilla no cuentan. Se conserva el enunciado original arriba, tachado por esta nota y no borrado, porque el error es el dato. Tres modos de falla adicionales ya documentados por esa fuente y transferibles a `.sdd/current-doc`: el gate debe fallar cerrado incluso sobre un harness fail-open; la escritura por `Bash` escapa a todo hook `PreToolUse` y se cubre corriendo la capa al commit, no parseando la línea de comandos; un reset post-commit evita que una declaración quede vigente por descuido.
-
-**Nota de diseño a investigar (2026-08-24).** El gate no puede exigir spec para todo `.md` editado: tiene que replicar el criterio de `../SPECS_REGISTRY.md` §Docs excluidos antes de bloquear, o corta flujo legítimo sobre material exento —`fuentes-externas/` (vendored, no autorado), `EXPERIMENTO-*.md`/`RESULTADO-EXPERIMENTO-*.md` generados desde template, notas de sesión sin estructura formal, archivos fuente originales. El caso fino es `experimentos/`: no alcanza con el prefijo de carpeta, porque un runbook de método (`PRUEBA-*.md`) vive ahí sin derivar de ningún template y sí necesita spec — el criterio real es «¿la estructura la fija un template del proyecto, o su autor?», ya escrito en esa sección y no re-derivable por regla de ruta simple. Sin este filtro, la primera vez que el gate corra sobre una edición a `fuentes-externas/` o a un experimento generado, el falso bloqueo lo va a descubrir por fricción — precedente ya vivido con M-21.
-
-**Tres convergencias con el relevamiento del 2026-08-30, y una pregunta sin responder.** La nota de arriba toca tres cosas que ese relevamiento midió, y ninguna estaba disponible cuando el ítem se escribió:
-
-1. **Replicar §Docs excluidos es el patrón de M-31.** La propia nota dice que el criterio **no es re-derivable por regla de ruta simple**, así que lo que va a haber es una reimplementación, no una derivación. Eso lo deja peor que los dos casos que el backstop ya resuelve bien —`emitted_check_ids()` y `registry_spec_fields()`, que derivan y fallan ruidosamente si la derivación no produce nada—: acá va a haber dos enumeraciones del mismo hecho sin nada que las ate. Si el registro cambia su criterio, el gate sigue excluyendo por el viejo y nadie se entera. El remedio disponible no es derivar sino un test de paridad, que es la forma de M-34.
-2. **El gate es un clasificador y M-34 aplica.** El caso fino que la nota identifica —«¿la estructura la fija un template del proyecto, o su autor?»— es juicio codificado, con frontera difusa. Un error de clasificación no aparece como error sino como trabajo legítimo bloqueado. M-02 MUST NOT entregarse sin la tabla de regresión que M-34 propone.
-3. **La reserva «conviene medirla, no asumirla» ya tiene método.** M-36 dejó el molde ejercitado: criterio, población, umbral y regla de decisión por escrito antes del dato, muestra con semilla, decisión contra el umbral. La fricción de M-02 se mide igual y **antes** de construir: barrer commits pasados, contar cuántas ediciones de `.md` habría bloqueado el gate y qué proporción de ésas era legítima. Es la respuesta más barata a una reserva abierta desde que el ítem existe.
-
-**Y la pregunta que el ítem no responde: por qué bloquea en vez de avisar.** M-02 es hoy el único mecanismo propuesto en este backlog que **bloquea**. Todo lo relevado apunta en contra: el `propagacion` de [R40] emite WARN y nunca ERROR, con el motivo escrito de que bloquear por trabajo normal enseña `--no-verify` y eso es peor que no tener el check; M-16 hereda esa decisión; M-21 ya registró un verificador de método sobre-disparando sobre altas legítimas; y M-36 midió que la estructura de este repositorio es más densa y menos regular de lo que los mecanismos asumían.
-
-Nada de eso prueba que M-02 vaya a sobre-disparar —la superficie es otra: cobertura de spec, no densidad de citación— y por eso se enuncia como **prior a declarar, no como resultado**. Pero son tres observaciones independientes en la misma dirección sobre el único mecanismo que no degrada a aviso. Bloquear puede seguir siendo la decisión correcta; lo que no puede seguir es no estar escrita.
 
 ### M-22 — Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo
 
@@ -269,6 +248,27 @@ La muestra se reproduce exactamente con la población y la semilla declaradas ar
 
 Limitación que no tiene mitigación: el puntuador fue quien propuso el diseño que la muestra evaluaba. El resultado terminó siendo contrario a esa propuesta, lo cual reduce la preocupación pero no la elimina.
 
+### M-02 — Gate de autoría documental
+
+Declaración de la spec que gobierna la edición (`.sdd/current-doc`) más un hook `PreToolUse` que bloquea editar un `.md` de contenido sin esa declaración, con chequeo de mtime: la spec MUST haberse editado después de declararse. Reusa `../tools/sdd_gate.py` del testigo, que ya separa decisión de transporte (stdin JSON / argv / env) y por lo tanto no queda atado a Claude Code.
+
+**Requisito de diseño no negociable: fail-closed.** El gate del testigo terminaba en `[ -f "$PYBIN" ] || exit 0` y, sin intérprete, permitía la edición en silencio; durante todo B-07 el enforcement estuvo caído sin que nadie lo notara. Ver `BACKLOG-INVESTIGACION` prioridad alta #4, que es la pregunta de investigación asociada.
+
+Reserva: en un repo documental la fricción puede ser desproporcionada. Conviene medirla, no asumirla.
+
+**Corrección de diseño incorporada el 2026-08-15 (origen: sdd-first [R39], `../software/ANALISIS-SDD-FIRST.md` C3).** El chequeo de mtime del párrafo anterior MUST NOT implementarse: se implementó en sdd-first y falló en las dos direcciones —bloqueó flujo legítimo (una spec trabajada en varios commits, `git checkout`, `clone`, y el ciclo stash/restore del propio `pre-commit`, que renueva mtimes) y no detuvo a nadie, porque un `touch` lo satisfacía. El criterio que lo reemplazó es de **contenido**: la spec declarada debe existir, figurar en el registro con un estado que habilite trabajo, y tener al menos un requisito con texto propio además del keyword; los placeholders de la plantilla no cuentan. Se conserva el enunciado original arriba, tachado por esta nota y no borrado, porque el error es el dato. Tres modos de falla adicionales ya documentados por esa fuente y transferibles a `.sdd/current-doc`: el gate debe fallar cerrado incluso sobre un harness fail-open; la escritura por `Bash` escapa a todo hook `PreToolUse` y se cubre corriendo la capa al commit, no parseando la línea de comandos; un reset post-commit evita que una declaración quede vigente por descuido.
+
+**Nota de diseño a investigar (2026-08-24).** El gate no puede exigir spec para todo `.md` editado: tiene que replicar el criterio de `../SPECS_REGISTRY.md` §Docs excluidos antes de bloquear, o corta flujo legítimo sobre material exento —`fuentes-externas/` (vendored, no autorado), `EXPERIMENTO-*.md`/`RESULTADO-EXPERIMENTO-*.md` generados desde template, notas de sesión sin estructura formal, archivos fuente originales. El caso fino es `experimentos/`: no alcanza con el prefijo de carpeta, porque un runbook de método (`PRUEBA-*.md`) vive ahí sin derivar de ningún template y sí necesita spec — el criterio real es «¿la estructura la fija un template del proyecto, o su autor?», ya escrito en esa sección y no re-derivable por regla de ruta simple. Sin este filtro, la primera vez que el gate corra sobre una edición a `fuentes-externas/` o a un experimento generado, el falso bloqueo lo va a descubrir por fricción — precedente ya vivido con M-21.
+
+**Tres convergencias con el relevamiento del 2026-08-30, y una pregunta sin responder.** La nota de arriba toca tres cosas que ese relevamiento midió, y ninguna estaba disponible cuando el ítem se escribió:
+
+1. **Replicar §Docs excluidos es el patrón de M-31.** La propia nota dice que el criterio **no es re-derivable por regla de ruta simple**, así que lo que va a haber es una reimplementación, no una derivación. Eso lo deja peor que los dos casos que el backstop ya resuelve bien —`emitted_check_ids()` y `registry_spec_fields()`, que derivan y fallan ruidosamente si la derivación no produce nada—: acá va a haber dos enumeraciones del mismo hecho sin nada que las ate. Si el registro cambia su criterio, el gate sigue excluyendo por el viejo y nadie se entera. El remedio disponible no es derivar sino un test de paridad, que es la forma de M-34.
+2. **El gate es un clasificador y M-34 aplica.** El caso fino que la nota identifica —«¿la estructura la fija un template del proyecto, o su autor?»— es juicio codificado, con frontera difusa. Un error de clasificación no aparece como error sino como trabajo legítimo bloqueado. M-02 MUST NOT entregarse sin la tabla de regresión que M-34 propone.
+3. **La reserva «conviene medirla, no asumirla» ya tiene método.** M-36 dejó el molde ejercitado: criterio, población, umbral y regla de decisión por escrito antes del dato, muestra con semilla, decisión contra el umbral. La fricción de M-02 se mide igual y **antes** de construir: barrer commits pasados, contar cuántas ediciones de `.md` habría bloqueado el gate y qué proporción de ésas era legítima. Es la respuesta más barata a una reserva abierta desde que el ítem existe.
+
+**Y la pregunta que el ítem no responde: por qué bloquea en vez de avisar.** M-02 es hoy el único mecanismo propuesto en este backlog que **bloquea**. Todo lo relevado apunta en contra: el `propagacion` de [R40] emite WARN y nunca ERROR, con el motivo escrito de que bloquear por trabajo normal enseña `--no-verify` y eso es peor que no tener el check; M-16 hereda esa decisión; M-21 ya registró un verificador de método sobre-disparando sobre altas legítimas; y M-36 midió que la estructura de este repositorio es más densa y menos regular de lo que los mecanismos asumían.
+
+Nada de eso prueba que M-02 vaya a sobre-disparar —la superficie es otra: cobertura de spec, no densidad de citación— y por eso se enuncia como **prior a declarar, no como resultado**. Pero son tres observaciones independientes en la misma dirección sobre el único mecanismo que no degrada a aviso. Bloquear puede seguir siendo la decisión correcta; lo que no puede seguir es no estar escrita.
 ### M-03 — Playbooks agnósticos de asistente
 
 Procedimiento neutro en `playbooks/{analyze,clarify}.md`, envuelto por wrappers finos (`.claude/skills/`, `.opencode/command/`) que no duplican el contenido. Adaptados a documentos: `analyze` = consistencia doc↔SSOT, afirmaciones sin `[Rxx]`, contradicciones entre SSOTs activos; `clarify` = resolver `[NEEDS CLARIFICATION]` abiertos.
@@ -343,6 +343,17 @@ Consecuencia directa para la reserva 3: el puntero del archivo vivo a los tomos 
 
 Instructivo de yapa, porque aplica igual acá: cuando ese defecto apareció, **ningún check lo vio**, y las dos razones son nuestras también. Su `propagacion` no lo detectó porque el índice no declaraba `deriva_de` de nada —un recordatorio de propagación es tan bueno como el grafo que lee—, y su check de rutas ignora las referencias en backticks sin `/`, que es la misma decisión de diseño que toma nuestro `check_backtick_paths`.
 
+### M-32 — Las decisiones evaluadas y descartadas no tienen dónde vivir
+
+Este documento define `Descartada` como estado posible en §Criterio de separación, y ningún ítem lo usa. Tampoco hay lugar donde escribir **por qué** se descartó algo: una alternativa que se evaluó y se dejó afuera desaparece del registro, y vuelve a discutirse desde cero la próxima vez que a alguien se le ocurra.
+
+sdd-first [R39] resolvió esto con un §Índice de descartes: una tabla de dos columnas —qué se descartó, dónde está escrito el motivo— cuyo encabezado declara que existe «para no re-litigarlas» y que el razonamiento **no se reproduce ahí**. Es una aplicación literal del Principio I: el índice apunta, el motivo vive en el ítem que lo produjo.
+
+El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombrar hoy sin investigar nada: la opción «bajar el MUST a SHOULD» de M-26, si la decisión se resuelve por la otra vía; y la salida «lista de exenciones» para specs que un check nuevo pone en rojo, que M-13 y M-28 descartaron migrando en la misma iteración.
+
+Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
+
+
 ### M-34 — Un check que clasifica no tiene tabla de regresión que lo pruebe
 
 Varios checks de `../tools/check_docs.py` no verifican una propiedad: **clasifican**. `excluded-field` decide si una celda es una anotación de campo o prosa legítima; `sdd-check-fields` decide si un texto es una definición o una instancia; `ssot-collision` decide si dos specs hablan del mismo tema; `metodo-historial` decide si un archivo es método. Todos tienen frontera difusa y todos la ajustaron al menos una vez (M-23, M-27, y M-21 sigue abierto).
@@ -354,17 +365,6 @@ En [R40] el hueco se cerró con un check `gate-reglas`: el gate lleva su tabla d
 Acá el hueco es doble y conviene no confundirlo: no hay tabla de casos **ni** hay quien la corra. `../tools/check_docs.py` no tiene tests de ningún tipo; su única verificación es correr sobre el árbol real, que sólo contiene los casos que hoy existen. Cada ajuste de frontera se validó a mano y esa validación no quedó ejecutable en ningún lado.
 
 Reserva antes de aprobarla: sumar una suite de tests es una dependencia nueva y un cambio de naturaleza — hoy `tools/` está declarado «no es pieza documental autorada» y vive sin infraestructura. El alcance mínimo que lo evita es el de [R40]: casos declarados como datos dentro del propio script, corridos por un check más, sin framework.
-
-### M-32 — Las decisiones evaluadas y descartadas no tienen dónde vivir
-
-Este documento define `Descartada` como estado posible en §Criterio de separación, y ningún ítem lo usa. Tampoco hay lugar donde escribir **por qué** se descartó algo: una alternativa que se evaluó y se dejó afuera desaparece del registro, y vuelve a discutirse desde cero la próxima vez que a alguien se le ocurra.
-
-sdd-first [R39] resolvió esto con un §Índice de descartes: una tabla de dos columnas —qué se descartó, dónde está escrito el motivo— cuyo encabezado declara que existe «para no re-litigarlas» y que el razonamiento **no se reproduce ahí**. Es una aplicación literal del Principio I: el índice apunta, el motivo vive en el ítem que lo produjo.
-
-El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombrar hoy sin investigar nada: la opción «bajar el MUST a SHOULD» de M-26, si la decisión se resuelve por la otra vía; y la salida «lista de exenciones» para specs que un check nuevo pone en rojo, que M-13 y M-28 descartaron migrando en la misma iteración.
-
-Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
-
 
 ### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
 
@@ -417,6 +417,10 @@ sdd-first [R39] eligió lo contrario y escribió el motivo: los títulos de secc
 Aplicado acá el cambio sería: mantener la partición abierto/cerrado sólo en la tabla —barata de reordenar, es una fila— y ordenar el cuerpo por ID, que es estable. Ganancia: cerrar un ítem pasa a ser editar dos celdas.
 
 Prioridad baja a propósito: M-29 ya pagó la migración grande y el dolor no vuelve hasta el próximo lote de cierres. Vale registrarlo ahora para que la decisión no se tome otra vez en caliente.
+
+**Segunda instancia, el mismo día que se registró el ítem.** El 2026-08-30 M-02 bajó de `alta` a `media` y M-36 subió de `media` a `alta`. Las dos filas se movieron; los dos cuerpos no, y el documento quedó afirmando un orden que no tenía. Se detectó comparando tabla contra cuerpo con un script, no leyendo — o sea que a ojo no se ve. Se corrigió moviendo dos bloques, que es exactamente el costo que este ítem propone eliminar.
+
+Corolario para cuando se implemente: mientras la convención siga siendo la actual, la coherencia entre tabla y cuerpo **MUST** poder verificarse mecánicamente. Es comparable a los dos órdenes con el mismo parser que ya lee las filas, y sin eso la deriva vuelve en la próxima recalibración.
 
 ### M-37 — El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec
 
