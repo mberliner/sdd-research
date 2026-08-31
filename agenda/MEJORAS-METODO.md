@@ -22,7 +22,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 |---|---|---|---|---|---|
 | M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
-| M-31 | Un check puede quedar en no-op y el backstop sigue en verde | alta | Propuesta (2026-08-30) | [R40] (check `normativos`) + auditoría propia del 2026-08-30 | `../tools/check_docs.py` |
+| M-31 | Un check reporta salud sobre lo que no mira: dos formas verificadas | alta | Propuesta (2026-08-30) | [R40] (check `normativos`) + dos auditorías propias del 2026-08-30 | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
@@ -141,7 +141,7 @@ Forma de la mejora: la sección de sello de `../templates/EXPERIMENTO.md` (pieza
 
 **Caso que la originó** (evidencia, no alcance). El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente; el runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita ancestros y verifica ausencia de configuración de asistente, pero no fija con qué commit se entrega el tratamiento — la variable independiente era el único componente sin identificar. El 2026-08-22 `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero el mismo cambio entre dos tandas de una pasada 2 habría dejado el efecto medido sin a qué atribuirse.
 
-### M-31 — Un check puede quedar en no-op y el backstop sigue en verde
+### M-31 — Un check reporta salud sobre lo que no mira: dos formas verificadas
 
 `../tools/check_docs.py` deriva parte de sus insumos leyendo otros documentos: los campos reservados salen de una viñeta de `../SPECS_REGISTRY.md` §Reglas globales, los ids de check salen de la propia fuente del script, y la tabla SSOT sale de una sección del registro localizada por su título. Derivar en vez de enumerar es deliberado y correcto —una lista a mano vuelve a divergir—, pero le agrega al check una dependencia que puede romperse sin que nadie la nombre.
 
@@ -157,6 +157,26 @@ Qué hace falta, en dos pasos:
 2. **Auditar el resto de las derivaciones** y declarar la regla: todo insumo derivado de otro documento MUST fallar ruidosamente cuando la derivación no produce nada, en vez de degradar a no-op. Sin la regla escrita, la guarda número cuatro nace sin ella igual que nació ésta.
 
 Es una instancia del patrón 1 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («el mecanismo correcto que los casos nuevos no adoptan»): lo que sostiene el fix no es haber puesto dos guardas, es un barrido que falle nombrando a la que falta.
+
+#### Segunda forma, verificada el mismo día: el alcance más angosto que el nombre
+
+`check_backtick_paths` se llama «las rutas escritas en backticks existen» y su docstring dice lo mismo. Lo que hace es más chico: `BACKTICK_PATH` es `^[\w./-]+\.md$`, o sea que **sólo verifica rutas Markdown**. Toda ruta a un `.py`, un `.sh`, un `.yaml` o un archivo sin extensión conocida se ignora en silencio.
+
+Medido: **105 rutas no-`.md` citadas en backticks y resolubles contra este repositorio, de las cuales 42 no existen** (15 pares documento→ruta distintos).
+
+La lectura honesta de ese 42 es más interesante que el número. La mayoría **no son errores**: son herramientas del proyecto testigo —`tools/sdd_gate.py`, `tools/check_traceability.py`, `tools/pipeline_local.sh`, `tools/check_constitution.py`— citadas sin ningún prefijo que diga que son de otro repositorio, así que se leen como si fueran nuestras. Eso no es un link roto sino una **ambigüedad de procedencia**, y es un defecto distinto que hoy no tiene ni nombre ni convención. El caso que sí es error liso: `../historial/sdd.md` cita `./tools/check_docs.py`, que resuelve a `historial/tools/check_docs.py`.
+
+Se descubrió intentando verificar que `../tools/sdd_gate.py`, citado dos veces en M-02, existiera. No existe, y el backstop está en verde.
+
+#### Por qué las dos formas son el mismo ítem
+
+Una derivación que no produce nada y un reconocedor más angosto que su nombre producen el mismo efecto observable: el check corre, sale limpio, y la limpieza no significa lo que su nombre promete. En los dos casos el consumidor —una persona leyendo `0 ERROR`— no tiene forma de distinguir «está sano» de «no lo miró».
+
+Qué hace falta, actualizado a tres pasos:
+
+1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o devolvió cero filas.
+2. **Decidir el alcance real de `check_backtick_paths`** y hacer que el nombre y el docstring lo digan. Dos salidas: ampliarlo a toda ruta resoluble —lo que exige antes una convención para citar herramientas de otro repositorio, o los 42 entran como falsos positivos—, o dejarlo en `.md` y renombrarlo para que no prometa de más. La segunda es honesta y cuesta una línea; la primera cierra el hueco pero arrastra un problema de convención que no está resuelto.
+3. **Auditar el resto de las derivaciones y de los reconocedores**, y declarar la regla: todo insumo derivado MUST fallar ruidosamente cuando no produce nada, y todo check MUST nombrar el alcance que efectivamente cubre. Sin la regla escrita, el próximo nace igual.
 
 ### M-35 — Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira
 
