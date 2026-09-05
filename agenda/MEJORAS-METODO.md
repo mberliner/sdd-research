@@ -26,8 +26,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | Propuesta (2026-09-05) | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
-| M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
-| M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -38,6 +36,8 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | Propuesta (2026-08-30) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
 | M-39 | Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado | media | Propuesta (2026-08-30) | [R40] Fase 37; barrido propio del 2026-08-30 | `../CONSTITUTION.md` §Límite honesto o documento nuevo |
+| M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
+| M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -253,6 +253,26 @@ La muestra se reproduce exactamente con la población y la semilla declaradas ar
 
 Limitación que no tiene mitigación: el puntuador fue quien propuso el diseño que la muestra evaluaba. El resultado terminó siendo contrario a esa propuesta, lo cual reduce la preocupación pero no la elimina.
 
+### M-40 — La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel
+
+El Principio VI de `../CONSTITUTION.md` enumera qué cuenta como método: «protocolo del asistente, registro de specs, templates, esta constitución». Su verificador `metodo-historial` deriva de ahí su lista, y el comentario de `../tools/check_docs.py` lo dice sin rodeos: «La enumeracion sale literal del Principio VI [...] mas `tools/`, porque un check ES metodo».
+
+`../CONVENCIONES.md` no está en esa enumeración. Y es el SSOT del léxico normativo (qué significa MUST, SHOULD, MAY en este repositorio), de la forma de los documentos, de los nombres de archivo y del formato de los mensajes de commit. `../AGENTS.md` le delega esas cuatro cosas por remisión explícita.
+
+**Sonda corrida el 2026-09-05.** Se agregó una línea a `../CONVENCIONES.md`, se la dejó staged y se corrió `./tools/check_docs.py --staged`, que es el modo que invoca el gate de commit: **0 ERROR**, sin pedir entrada de historial. Un commit que redefine qué significa MUST en este repositorio pasa sin dejar rastro en `../historial/sdd.md`.
+
+Lo que hace a este ítem distinto de M-31 —con el que comparte familia— es dónde está el defecto. En M-31 el check miraba mal. Acá **el check mira exactamente lo que le dijeron**: la lista es fiel, la fuente está incompleta. Arreglar `METODO_FILES` sin tocar el Principio VI deja la constitución diciendo una cosa y el verificador otra, que es justo la divergencia que la fidelidad de la lista evitaba.
+
+Es una instancia de la clase 2 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
+
+Qué hace falta, en este orden:
+
+1. **Decidir si `CONVENCIONES.md` es método.** Es la pregunta real y es del usuario, no del backstop. Si lo es, el Principio VI se enmienda con su procedimiento completo (es cambio de constitución, no de check).
+2. **Barrer el resto de la enumeración** con el mismo criterio antes de enmendar, para no pagar dos enmiendas: `../REFERENCIAS.md` y `../00-INDEX.md` son los otros dos candidatos, y ninguno de los dos es obvio. `agenda/` e `historial/` ya están razonados y quedan afuera.
+3. **Recién entonces** actualizar `METODO_FILES`, que sigue siendo la copia fiel.
+
+Prioridad alta y no media: mientras esté abierto, la única garantía mecánica del Principio VI tiene un agujero del tamaño del SSOT del léxico, y el repositorio no lo sabe.
+
 ### M-02 — Gate de autoría documental
 
 Declaración de la spec que gobierna la edición (`.sdd/current-doc`) más un hook `PreToolUse` que bloquea editar un `.md` de contenido sin esa declaración, con chequeo de mtime: la spec MUST haberse editado después de declararse. Reusa `../tools/sdd_gate.py` del testigo, que ya separa decisión de transporte (stdin JSON / argv / env) y por lo tanto no queda atado a Claude Code.
@@ -371,25 +391,20 @@ Acá el hueco es doble y conviene no confundirlo: no hay tabla de casos **ni** h
 
 Reserva antes de aprobarla: sumar una suite de tests es una dependencia nueva y un cambio de naturaleza — hoy `tools/` está declarado «no es pieza documental autorada» y vive sin infraestructura. El alcance mínimo que lo evita es el de [R40]: casos declarados como datos dentro del propio script, corridos por un check más, sin framework.
 
-### M-40 — La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel
+### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
 
-El Principio VI de `../CONSTITUTION.md` enumera qué cuenta como método: «protocolo del asistente, registro de specs, templates, esta constitución». Su verificador `metodo-historial` deriva de ahí su lista, y el comentario de `../tools/check_docs.py` lo dice sin rodeos: «La enumeracion sale literal del Principio VI [...] mas `tools/`, porque un check ES metodo».
+`../CONSTITUTION.md` §Límite honesto contesta esta pregunta para los siete principios: cuáles tienen verificador, cuál es parcial y cuál sustantivo, y qué mitad de cada invariante queda humana. Para las reglas de proceso no la contesta nadie.
 
-`../CONVENCIONES.md` no está en esa enumeración. Y es el SSOT del léxico normativo (qué significa MUST, SHOULD, MAY en este repositorio), de la forma de los documentos, de los nombres de archivo y del formato de los mensajes de commit. `../AGENTS.md` le delega esas cuatro cosas por remisión explícita.
+Superficie medida el 2026-08-30: **11 MUST en `../AGENTS.md` y 5 en `../CONVENCIONES.md`**. Cuántos de esos 16 tienen algo mecánico detrás no está escrito, y por lo tanto tampoco está escrito cuáles dependen enteramente de que alguien se acuerde.
 
-**Sonda corrida el 2026-09-05.** Se agregó una línea a `../CONVENCIONES.md`, se la dejó staged y se corrió `./tools/check_docs.py --staged`, que es el modo que invoca el gate de commit: **0 ERROR**, sin pedir entrada de historial. Un commit que redefine qué significa MUST en este repositorio pasa sin dejar rastro en `../historial/sdd.md`.
+Precedente de que el barrido produce algo: la Fase 37 de [R40] tomó un MUST que su convención declaraba y que sostenía sólo la disciplina —completar la descripción de cada entrada versionada de su changelog— y lo convirtió en check. No lo encontró buscando qué automatizar: lo encontró habiendo hecho el inventario.
 
-Lo que hace a este ítem distinto de M-31 —con el que comparte familia— es dónde está el defecto. En M-31 el check miraba mal. Acá **el check mira exactamente lo que le dijeron**: la lista es fiel, la fuente está incompleta. Arreglar `METODO_FILES` sin tocar el Principio VI deja la constitución diciendo una cosa y el verificador otra, que es justo la divergencia que la fidelidad de la lista evitaba.
+**El ítem es el barrido, no la automatización.** Producir la tabla MUST → verificador (o `ninguno`), y recién sobre esa tabla decidir uno por uno. La mitad del valor está en el inventario mismo, por la misma razón que el §Límite honesto vale aunque no cambie nada: saber cuál regla no tiene red es lo que permite mirarla.
 
-Es una instancia de la clase 2 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
+Dos reservas:
 
-Qué hace falta, en este orden:
-
-1. **Decidir si `CONVENCIONES.md` es método.** Es la pregunta real y es del usuario, no del backstop. Si lo es, el Principio VI se enmienda con su procedimiento completo (es cambio de constitución, no de check).
-2. **Barrer el resto de la enumeración** con el mismo criterio antes de enmendar, para no pagar dos enmiendas: `../REFERENCIAS.md` y `../00-INDEX.md` son los otros dos candidatos, y ninguno de los dos es obvio. `agenda/` e `historial/` ya están razonados y quedan afuera.
-3. **Recién entonces** actualizar `METODO_FILES`, que sigue siendo la copia fiel.
-
-Prioridad alta y no media: mientras esté abierto, la única garantía mecánica del Principio VI tiene un agujero del tamaño del SSOT del léxico, y el repositorio no lo sabe.
+- **Dónde vive el resultado no es obvio.** Si va a `../CONSTITUTION.md`, mezcla invariantes con reglas de proceso, que es justo la separación que ese documento mantiene. Si va a `../AGENTS.md`, engorda la capa residente con algo que no es disparador. Un documento nuevo necesita spec y sube el conteo. Conviene decidirlo antes de barrer, no después.
+- **Es el más caro de los ítems abiertos de higiene**, porque cada MUST hay que evaluarlo contra lo que `../tools/check_docs.py` efectivamente emite — y M-31 acaba de mostrar que lo que emite no siempre es lo que su nombre dice. Este ítem MUST hacerse después de M-31, o su tabla nace mintiendo.
 
 ### M-41 — Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog
 
@@ -420,21 +435,6 @@ Propuesta concreta, mínima: extender el marcador a `[NEEDS CLARIFICATION: <preg
 **Qué NO propone este ítem, y conviene que quede escrito**: no relaja la obligación de preguntar. El Principio VII manda preguntar ante ambigüedad y detener ante contradicción, y eso no se toca; el marcador cubre el caso que el propio principio ya excluye —incertidumbre puntual que no bloquea—. Superpowers va bastante más lejos (decide y sigue sin humano para todo conflicto no catastrófico), y **esa parte no se propone**: es constitucional, responde a un riesgo distinto — proteger una corrida autónoma larga, no evitar que el asistente interprete en silencio — y su única evidencia es un caso autoreportado.
 
 Costo de implementarlo: una línea en `../AGENTS.md` y ninguna en el backstop. Verificado el 2026-09-05: `CLARIFICACION` de `../tools/check_docs.py` captura `([^\]]*)` —todo hasta el corchete de cierre— así que los dos campos nuevos entran en el payload sin tocar el patrón, y `es_placeholder()` los distingue de un marcador de relleno por la misma vía que hoy.
-
-### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
-
-`../CONSTITUTION.md` §Límite honesto contesta esta pregunta para los siete principios: cuáles tienen verificador, cuál es parcial y cuál sustantivo, y qué mitad de cada invariante queda humana. Para las reglas de proceso no la contesta nadie.
-
-Superficie medida el 2026-08-30: **11 MUST en `../AGENTS.md` y 5 en `../CONVENCIONES.md`**. Cuántos de esos 16 tienen algo mecánico detrás no está escrito, y por lo tanto tampoco está escrito cuáles dependen enteramente de que alguien se acuerde.
-
-Precedente de que el barrido produce algo: la Fase 37 de [R40] tomó un MUST que su convención declaraba y que sostenía sólo la disciplina —completar la descripción de cada entrada versionada de su changelog— y lo convirtió en check. No lo encontró buscando qué automatizar: lo encontró habiendo hecho el inventario.
-
-**El ítem es el barrido, no la automatización.** Producir la tabla MUST → verificador (o `ninguno`), y recién sobre esa tabla decidir uno por uno. La mitad del valor está en el inventario mismo, por la misma razón que el §Límite honesto vale aunque no cambie nada: saber cuál regla no tiene red es lo que permite mirarla.
-
-Dos reservas:
-
-- **Dónde vive el resultado no es obvio.** Si va a `../CONSTITUTION.md`, mezcla invariantes con reglas de proceso, que es justo la separación que ese documento mantiene. Si va a `../AGENTS.md`, engorda la capa residente con algo que no es disparador. Un documento nuevo necesita spec y sube el conteo. Conviene decidirlo antes de barrer, no después.
-- **Es el más caro de los ítems abiertos de higiene**, porque cada MUST hay que evaluarlo contra lo que `../tools/check_docs.py` efectivamente emite — y M-31 acaba de mostrar que lo que emite no siempre es lo que su nombre dice. Este ítem MUST hacerse después de M-31, o su tabla nace mintiendo.
 
 ### M-08 — Emoticones en `PREREG-B7.md`
 
