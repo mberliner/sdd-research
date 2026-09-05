@@ -4,6 +4,47 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de Spec Kit [R10]: la tesis no se movio, y el material que la califica llevaba dos meses invisible (2026-09-05) — COMPLETADA
+
+**Accion**: fase B del re-anclaje, segunda de cuatro. Diff dirigido de Spec Kit entre `983a87f` (v0.12.11.dev0, 2026-07-10) y `4a7341a` (v1.0.5.dev0, 2026-09-04) contra `software/ANALISIS-SPEC-KIT.md`, que es SSOT. 560 commits, con el 1.0.0 liberado el 2026-08-21.
+
+### Que se encontro
+**Nada de lo analizado se movio, y esta vez se verifico en vez de afirmarse**: `git diff 983a87f..HEAD -- spec-driven.md` sale vacio. La Power Inversion y los nueve articulos son el mismo texto. Los diez comandos siguen ahi. C1-C5 intactas.
+
+Lo que cambio esta en `docs/concepts/`, un directorio de cuatro documentos que el diff anterior no miro. Tres son conceptuales y nuevos para nosotros, y uno de ellos —`spec-persistence.md`— **estaba en el arbol desde el 2026-06-09, un mes antes del corte anterior**. El `[SDD-Check]` de aquella entrega declara por que no lo vio: «diff basado en CHANGELOG + spec-driven.md». Un documento agregado sin linea de changelog es invisible a ese procedimiento.
+
+Lo que estuvo perdido dos meses no era decorativo:
+
+1. **La fuente adopta nuestro instrumento.** `spec-persistence.md` cita el articulo de Fowler que usamos como [R30] y reproduce sus tres niveles. Compartimos taxonomia, no solo practica.
+2. **Y declara que no fuerza ninguno**: «None is the default, and none is required by Spec Kit». Eso califica a C3, que lee la Power Inversion como una posicion mas fuerte que la nuestra. La lectura sigue siendo correcta para el manifiesto —que no cambio— pero ahora hay una **tension adentro de la fuente**: filosofia que afirma la inversion, referencia que declara el modelo de persistencia como convencion de equipo. C3 no se retira; se le agrega que citar la posicion fuerte sin esa distincion sobre-atribuye. Nueva conclusion **C6**.
+3. **Un eje que ya usabamos sin nombre.** La fuente separa la pregunta temporal de [R30] de una segunda, de mutacion: flow-back, flow-forward, living spec. `COMPARATIVA-SPECKIT-VS-TESTIGO.md` compara «carpeta por feature» contra «registro central» — que es ese eje exacto. Nueva conclusion **C7**, con la advertencia de que es convergencia de instrumento y MUST NOT contarse como linaje.
+
+**Una correccion.** El relevamiento previo marco `--require-spec` como respaldo upstream de M-02. El diff lo desmiente: es una precondicion de fase para `analyze` («Require spec.md to exist»), no mira quien edita ni si la spec tiene contenido. No respalda M-02.
+
+**Lo que no se caracterizo, dicho**: entre v0.12 y v1.0.4 la superficie que mas crecio es la plataforma —extensiones, presets, bundler, catalogos de comunidad con modelo de confianza—. Queda fuera por alcance de la spec, y con su efecto sobre `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar.
+
+### Que cambio
+- `software/ANALISIS-SPEC-KIT.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la correccion de `--require-spec`, lo que el 1.0 agrega y no se caracteriza, y la revision explicita de los dos derivados registrados. Bloque `[SDD-Check]` propio, con `Cobertura` declarada **incompleta**.
+- `agenda/MEJORAS-METODO.md`: alta de **M-41** — el procedimiento de re-consulta de fuentes no esta escrito, y el que se improviso el 2026-07-10 tenia un punto ciego que costo dos meses. Trae tres pasos de borrador, ya ejecutados a mano en este diff.
+- `REFERENCIAS.md`: [R10] pasa de «diff pendiente» a re-consulta cerrada, con lo que vale y lo que no.
+
+### Revision de derivados (regla de propagacion)
+Los dos registrados, revisados: `COMPARATIVA-SPECKIT-VS-TESTIGO.md` sin contradiccion (gana vocabulario de C7, edicion propia); `RELACION-FR-VS-SC-Y-COBERTURA.md` sin impacto.
+
+Fuera del registro de derivados, un hallazgo que alcanza a otro documento: `docs/concepts/spec-of-specs.md` escribe **la epica por encima de la spec** —un roadmap descompone «the epic» en sub-specs—, que es la direccion contraria a la contencion que `software/RELACION-SPEC-VS-EPICA.md` reporta como posicion dominante. No se toco: tiene spec propia y no deriva de este.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). La no-invalidacion se verifico con `git diff`, no por lectura; la cita de `spec-persistence.md` es textual; `--require-spec` se leyo en el script.
+
+### Deuda abierta
+- **`software/RELACION-SPEC-VS-EPICA.md` sin actualizar** por el material de `spec-of-specs.md`. Es el pendiente mas concreto que deja esta entrada.
+- **El ecosistema del 1.0 sin caracterizar**, y su efecto sobre `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar.
+- M-41 en Propuesta: mientras no se escriba, las dos re-consultas que faltan siguen improvisando el procedimiento.
+- Sigue abierto lo de la entrada anterior: M-40 sin decidir, y el hueco de `PATRONES.md` del lado del canal de error.
+- Faltan las dos fases B restantes: superpowers y OpenSpec.
+
+---
+
 ## Diff dirigido de sdd-first [R39]: la taxonomia ajena absorbe defectos que no la formaron, y devuelve un agujero propio (2026-09-05) — COMPLETADA
 
 **Accion**: fase B del re-anclaje, primera de cuatro. Diff dirigido de los 8 commits de sdd-first entre `f032dce` (2026-08-17) y `4a0851e` (2026-09-03) contra `software/ANALISIS-SDD-FIRST.md`. Ninguna conclusion previa (C1-C7) queda invalidada.

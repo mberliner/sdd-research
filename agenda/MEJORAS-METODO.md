@@ -26,6 +26,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | Propuesta (2026-09-05) | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
+| M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -386,6 +387,22 @@ Qué hace falta, en este orden:
 3. **Recién entonces** actualizar `METODO_FILES`, que sigue siendo la copia fiel.
 
 Prioridad alta y no media: mientras esté abierto, la única garantía mecánica del Principio VI tiene un agujero del tamaño del SSOT del léxico, y el repositorio no lo sabe.
+
+### M-41 — Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog
+
+Este repositorio re-consulta cuatro clones vendored y cada re-consulta produce un diff dirigido contra el análisis correspondiente. El procedimiento no está escrito en ningún lado: se improvisa cada vez, y el `[SDD-Check]` de la entrega declara después qué se leyó.
+
+El del 2026-07-10 declaró el suyo con honestidad —«diff basado en CHANGELOG + spec-driven.md»— y esa declaración es exactamente el registro de su punto ciego. `docs/concepts/spec-persistence.md` estaba en el árbol de Spec Kit desde el 2026-06-09, un mes antes de ese corte, y no aparece en el análisis: **un documento agregado sin línea de changelog es invisible a un diff que lee el changelog**. Lo que se perdió no era menor — es la sección que califica la tesis central de la fuente (`../software/ANALISIS-SPEC-KIT.md` C6) y la que da vocabulario upstream al eje que nuestra comparativa ya usaba (C7).
+
+Es una instancia de la clase 4 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la carpeta que existe y ningún paso mira») aplicada a un procedimiento humano en vez de a un pipeline: el directorio estaba, el paso no lo visitaba, y el resultado salió en verde durante dos meses.
+
+Qué hace falta: un procedimiento mínimo de re-consulta, escrito una vez y aplicado a las cuatro fuentes. Tres pasos que ya se ejecutaron a mano en el diff del 2026-09-05 y sirven de borrador:
+
+1. `git diff --stat <ancla>..HEAD` sobre el árbol completo, no sobre los archivos que uno espera que cambien — es lo que hace visible un directorio nuevo.
+2. Verificar la no-invalidación de la tesis central con `git diff <ancla>..HEAD -- <doc de filosofía>` y reportar si salió vacío, en vez de afirmarlo por lectura comparada.
+3. Declarar en el `[SDD-Check]` qué se leyó **y qué no**, que es lo único que la entrega del 2026-07-10 ya hacía bien.
+
+Prioridad media: el costo de no tenerlo ya se pagó una vez y se detectó solo porque la re-consulta siguiente miró el árbol. Con cuatro fuentes vivas, va a volver a pasar.
 
 ### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
 
