@@ -4,6 +4,38 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de OpenSpec [R38]: el repositorio de specs se separa del artefacto, y el punto ciego de M-41 reaparece (2026-09-05) — COMPLETADA
+
+**Accion**: fase B del re-anclaje, ultima de cuatro. Diff dirigido de OpenSpec entre `45cca5d` (v1.7.0, 2026-07-30) y `e062b95` (v1.12.0, 2026-09-03) contra `software/ANALISIS-OPENSPEC.md`. Con esto quedan cerradas las cuatro re-consultas.
+
+### Que se encontro
+Lo analizado no se movio, y en un punto se verifico contra una sospecha propia: `git ls-tree` en los dos commits devuelve la misma anatomia `openspec/`, asi que la lectura preliminar del relevamiento —que tomaba `initiatives/`, `explorations/` y `work/` por estructura nueva— era falsa y quedo descartada antes de escribirse. Las 12 skills siguen siendo 12 y el argumento de procedencia por fecha no depende de nada que haya cambiado. C1-C5 intactas.
+
+**C6 — la primera implementacion del corpus que separa el repositorio de specs del repositorio del artefacto.** `docs-lab/multi-repo/stores.md` documenta los *stores* (beta): la carpeta `openspec/` se muda a un repositorio propio que varios repositorios de codigo comparten, se sincroniza por git como cualquier repositorio, y las specs reciben ramas y pull requests igual que el codigo. Los otros tres casos y este repositorio alojan el metodo adentro del artefacto que gobierna.
+
+Toca un problema que acá esta declarado y sin resolver, en tres formas distintas: la pieza 3 de A-04 fuera de este repositorio (deuda desde el 2026-08-23), la propagacion asistida de sdd-first a traves de una frontera de repositorios, y [R40] como fork del backstop viviendo afuera. Queda como **lectura** y no candidata, con dos advertencias escritas en la conclusion: la direccion es la contraria —un store centraliza specs de varios repos de codigo, acá el caso es un repositorio de metodo cuyas piezas corren afuera— y la capacidad es beta y autodeclarada.
+
+**C7 — la fuente reescribe su documentacion a mano y prohibe arrastrar texto.** `docs-lab/` es un arbol nuevo desde el que ya construye el sitio, con la regla escrita: «written by hand, from scratch. The old `docs/` tree is source material for facts, never text to carry over», y una skill propia para escribirlo. Es una postura explicita de un proyecto spec-driven sobre su propia prosa, y es la contraria a la regeneracion — el eje de B-07. **No se desarrolla**: la transferencia a Linea A no esta en el `incluye` de ese documento.
+
+**Una nota menor con cuatro decisiones aprovechables.** En v1.11.0 la fuente corrigio que `validate` aprobaba un `## Purpose` que seguia siendo su propio placeholder, porque el placeholder supera el piso de brevedad. Misma clase que M-31 acá, y su solucion trae cuatro decisiones de diseño transferibles sin una linea de codigo: deteccion angosta a proposito, WARN y no ERROR, el texto entre backticks no cuenta, y un caso produce un mensaje y no dos. Anotadas en M-31.
+
+**Y una recurrencia.** `docs-lab/` no figura en el CHANGELOG —es infraestructura de documentacion, no entrada de release—, asi que un diff que leyera solo el changelog no lo habria visto, igual que el del 2026-07-10 no vio `spec-persistence.md`. **Segunda instancia del modo de falla de M-41 en la misma sesion y en otra fuente**, esta vez evitada porque el procedimiento borrador empieza por el arbol completo. M-41 deja de describir un descuido puntual.
+
+### Que cambio
+- `software/ANALISIS-OPENSPEC.md`: §Actualizacion 2026-09-05 con **C6**, **C7**, la nota de M-31, la recurrencia de M-41 y bloque `[SDD-Check]` propio con `Cobertura` declarada **incompleta**.
+- `agenda/MEJORAS-METODO.md`: M-31 recibe las cuatro decisiones de diseño ajenas.
+- `REFERENCIAS.md`: [R38] pasa de «diff pendiente» a re-consulta cerrada.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). La invariancia de la anatomia se verifico con `git ls-tree`, no por lectura; las dos citas de politica son textuales.
+
+### Deuda abierta
+- **Dos preguntas de investigacion señaladas y NO dadas de alta**: si la frontera entre el repositorio de specs y el del artefacto es una decision de diseño con consecuencias medibles o una comodidad de alojamiento (C6), y la postura de reescribir en vez de regenerar documentacion propia (C7, eje de B-07). Plantearlas bien es trabajo propio y darlas de alta a medias es peor que no darlas.
+- **La transferencia a Linea A que C7 habilita queda sin desarrollar**, por alcance de la spec de ese documento.
+- Cierra la fase B, y con ella el arrastre «faltan N re-consultas». Sigue abierto todo lo demas: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, `software/RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar, el hueco de `PATRONES.md` del lado del canal de error, y cuanto cuesta frenar sin medir.
+
+---
+
 ## Diff dirigido de Superpowers [R37]: la ceremonia escala, la compuerta no, y la precedencia se usa para no frenar (2026-09-05) — COMPLETADA
 
 **Accion**: fase B del re-anclaje, tercera de cuatro. Diff dirigido de Superpowers entre `44c9b2d` (v6.2.0, 2026-08-02) y `b36e082` (v6.3.0, 2026-08-12) contra `software/ANALISIS-SUPERPOWERS.md`. Primer diff que aplica el borrador de procedimiento de M-41: `git diff --stat` sobre el arbol completo antes de mirar ningun archivo esperado.
