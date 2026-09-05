@@ -536,6 +536,31 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como candidatas vs. cambios aprobados
   - [ ] no duplica SSOT — referencia
 
+### software/ANALISIS-KIRO.md
+- `path`: `software/ANALISIS-KIRO.md`
+- `proposito`: analisis de Kiro [R44] **como metodo**, no como herramienta, y de su lugar en el corpus: es el caso mas antiguo por fecha de anuncio y el unico de producto cerrado, sin clon vendored posible.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - la clase de evidencia y su limite: producto cerrado, todo se cita de documentacion y nada de codigo leido
+  - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, con las fechas que lo sostienen y —explicitamente— lo que las fechas **no** deciden
+  - sintesis del metodo declarado: artefactos, fases, compuertas, notacion de requisitos, contexto de proyecto y automatizaciones
+  - las variantes declaradas y la escala de ceremonia
+  - la posicion declarada sobre persistencia de la spec, situada en las taxonomias que el repositorio ya usa ([R30] y los modelos de [R10])
+  - conclusiónes accionables para Linea B, marcadas como lectura, candidatas o aprobadas
+  - las fuentes secundarias evaluadas y **no** usadas para sostener afirmaciones, con el motivo
+- `excluye`:
+  - la lectura cruzada de los casos y el veredicto de convergencia — viven en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
+  - la orientacion practica de uso — vive en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
+  - re-analisis de las otras implementaciónes (viven en sus analisis respectivos)
+  - estadistica de adopcion (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
+- `validacion`:
+  - [ ] la clase de evidencia esta declarada antes de cualquier rasgo, y ninguna afirmacion se presenta como verificada en fuente de codigo
+  - [ ] cada rasgo declara la pagina oficial de la que sale; lo que no este en fuente oficial se atribuye a [R45] y se marca como tal
+  - [ ] la procedencia declara que las fechas descartan una direccion de derivacion y **no** establecen la contraria
+  - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medicion, y eso queda dicho
+  - [ ] no duplica SSOT — referencia
+
 ### software/ANALISIS-OPENSPEC.md
 - `path`: `software/ANALISIS-OPENSPEC.md`
 - `proposito`: analisis de la metodologia de OpenSpec [R38] y su relacion con nuestra investigacion SDD en Linea B, con foco en su rasgo sin equivalente en las otras fuentes: la instruccion de metodo servida por herramienta bajo demanda en vez de leida de un documento.

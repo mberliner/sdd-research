@@ -4,6 +4,43 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de ANALISIS-KIRO: el caso mas antiguo del corpus entra como metodo, sin clon posible (2026-09-05) — COMPLETADA
+
+**Accion**: alta de `software/ANALISIS-KIRO.md` con spec registrada antes de escribirlo, mas [R44] y [R45] en `REFERENCIAS.md`. Paga a medias una deuda declarada desde el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia». Tessl sigue pendiente.
+
+### La clase de evidencia es distinta, y eso condiciona todo
+Kiro es **producto cerrado**: su repositorio publico declara «The Kiro product source code is not hosted here» y aloja solo issues. **No hay clon vendored y no puede haberlo.** Los otros cuatro casos se caracterizaron leyendo archivos; este se caracteriza leyendo documentacion de producto. Por eso el documento no emite ningun veredicto comparativo y la advertencia encabeza el texto en vez de ir en las reservas.
+
+### Lo que devolvio la lectura
+**Es el caso mas antiguo del corpus.** Anuncio del **2025-07-14**, verificado en su propio blog: 22 dias antes del primer commit de OpenSpec y 38 antes del de Spec Kit.
+
+Eso decide una sola cosa —Kiro no puede derivar de ningun otro caso— y **no** decide la contraria: anterioridad no es derivacion. Y hay un corte en sentido opuesto que el documento deja escrito: la triada requisitos-diseño-tareas es anterior a los cinco por decadas, asi que coincidir en ella no es marcador de difusion, igual que `WHEN/THEN` desciende de Gherkin [R07]. Lo que si cambia es que **la defensa por fecha ya no esta disponible**: `CONVERGENCIA` sostenia la independencia de OpenSpec frente a Spec Kit con fechas y declaraba que frente a Kiro no estaba establecida; ahora se sabe que Kiro precede a los dos. No convierte convergencia en difusion; retira un argumento.
+
+**La escala de ceremonia pasa a cuatro casos, y gana el eje que la vuelve informativa.** Kiro tiene `Feature Spec` con compuertas en dos ordenamientos, `Quick Spec` que las **saltea** —«auto-generate[s] all three artifacts without approval gates»— y `Quick Plan`. Con Superpowers, Spec Kit y nuestro linaje son cuatro de cinco. Y no coinciden en **que** escala: Superpowers mantiene la compuerta fija por diseño explicito («what scales with simplicity is the artifact, never the approval») y Kiro la retira. Esa divergencia interna es exactamente lo que le faltaba a la candidata a instrumento v2 registrada ayer.
+
+**EARS.** Kiro adopta una sintaxis de requisitos con nombre propio y reglas de patron (`WHEN ... THE SYSTEM SHALL ...`, con `IF-THEN` para condiciones de error). Refuerza la fila 2 y agrega el dato de que **tres de cinco** casos apoyan su lenguaje normativo en una fuente externa nombrada.
+
+**Persistencia.** «Kiro's specs stay synced with your evolving codebase. Developers can author code and ask Kiro to update specs». Es *spec-anchored* en [R30] y **flow-back** en los modelos de [R10], con el riesgo que esa fuente le atribuye: «silent divergence». Es el unico caso del corpus que declara la sincronizacion **desde el codigo hacia la spec** como camino previsto por la herramienta.
+
+### Sobre las fuentes propuestas
+Se verificaron las siete. Las oficiales (blog, docs y tracker de `kiro.dev` / GitHub) sostienen todo el documento. `sddobservatory.com` existe, es comunitario con metodologia y licencia declaradas, y se usa **para un solo dato** que la documentacion oficial no expone: la ruta `.kiro/specs/<feature>/`, atribuida a [R45] y no a [R44]. Las tres secundarias restantes quedan registradas en el documento **como evaluadas y no usadas**, con el motivo. En `aws.amazon.com` no hay guia tecnica: lo que existe es un curso en AWS Skill Builder y contenido en `builder.aws.com`, material didactico que tampoco mide.
+
+### Que cambio
+- `REFERENCIAS.md`: alta de **[R44]** (Kiro oficial, con la clase de evidencia y la prohibicion de usarlo como efectividad) y **[R45]** (SDD Observatory, con su uso acotado a un dato).
+- `SPECS_REGISTRY.md`: spec de `software/ANALISIS-KIRO.md`, con cinco casillas de validacion, entre ellas que la procedencia declare que las fechas cierran una direccion y no abren la contraria.
+- `software/ANALISIS-KIRO.md`: alta.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Las cuatro citas textuales se verificaron en la pagina que las contiene el 2026-09-05.
+
+### Deuda abierta
+- **La propagacion queda sin ejecutar**, y es lo que sigue: `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (reserva de procedencia reformulada, y cuarto caso en la dimension candidata a v2), `ANALISIS-OPENSPEC.md` (declara el mismo hueco de Kiro) y `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (Kiro es adoptable, pero madurez y actividad **no** se pueden calcular con `git` como en los otros cuatro).
+- **Tessl sigue sin filtro de procedencia**: la deuda se paga a medias.
+- Ninguna afirmacion sobre Kiro es verificable en codigo, y eso no tiene remedio mientras el producto sea cerrado.
+- Sigue abierto: M-40, M-41, M-42, el ecosistema del 1.0 de Spec Kit sin caracterizar, e instrumento v2 sin decidir.
+
+---
+
 ## Alta de ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD: para que sirve cada herramienta, con doce dimensiones y sin una sola medicion (2026-09-05) — COMPLETADA
 
 **Accion**: documento nuevo, con spec registrada antes de escribirlo y fila propia en la Tabla SSOT. Responde la pregunta que quedo diferida el 2026-09-05 al reestructurar `software/RELACION-SPEC-VS-EPICA.md`: la comparacion entre frameworks, ahora en clave de uso y no de convergencia.
