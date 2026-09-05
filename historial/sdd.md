@@ -4,6 +4,37 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Convergencia se re-corre contra las cuatro versiones nuevas; sdd-first entra a la columna del linaje (2026-09-05) — COMPLETADA
+
+**Accion**: propagacion al SSOT de convergencia de los cuatro diffs dirigidos de esta sesion, que se habia salteado. Mas la revision de que artefacto representa a nuestro linaje, a pedido del usuario.
+
+### La omision
+Los cuatro diffs se entregaron sin propagar a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que es SSOT y que lee justo lo que esos diffs tocaron. Es la regla de propagacion del Principio III y no se aplico; lo detecto el usuario, no el proceso. Vale registrarlo asi: el bloque `[SDD-Check]` de cada uno de los cuatro declaro «Derivados a revisar» mirando hacia abajo, y ninguno miro hacia el SSOT que los agrega.
+
+### Que artefacto representa a nuestro linaje
+El usuario planteo que sdd-first es la consecuencia de esta investigacion y que el testigo quizas ya no deba representar al linaje. Dos hechos verificados lo respaldan: el testigo esta **dormido desde el 2026-08-02** (`04d921d`, 71 commits, 18 specs) y el primer commit de sdd-first es del **2026-08-01** — el trabajo migro. Y sdd-first es el unico artefacto del linaje con el metodo ejecutado por codigo de punta a punta, ademas de publico y vendorizado.
+
+Entra a la columna, con tres reglas que impiden que su entrada fabrique convergencia: no cambia el conteo de cuatro linajes; **cada celda declara de que artefacto del linaje sale**, para que nadie elija por fila el que mas se parece a los otros casos; y lo que sdd-first declara adoptado de otro caso del corpus MUST NOT sostener un veredicto. Esto ultimo esta verificado en fuente: sus playbooks dicen «Adaptado de `/speckit.analyze`» y «Adaptado de `/speckit.clarify`». El testigo **no se retira**: es el artefacto que se leyo cuando el instrumento se fijo.
+
+### Que devolvio la re-lectura
+**El instrumento sigue en v1** y no se le agrego ni redefinio ninguna fila, pese a que dos dimensiones nuevas quedaron registradas fuera de la tabla. Ningun veredicto se dio vuelta. Cambio otra cosa:
+
+- **La fila 3 dejo de ser cuatro respuestas y paso a ser dos contra dos.** Superpowers v6.3.0 adopto «decidir y registrar», que es la posicion de OpenSpec. Y el dato incomodo que el documento no tenia: de los dos que quedan del lado «marcar y preguntar», **uno adopto la practica del otro**, asi que esa posicion la sostiene **un** linaje independiente y la contraria **dos**. Sobre este eje la posicion de este repositorio es la minoritaria, y su unica compañia es la fuente de la que la copio.
+- **Se falsifico un invariante.** El documento afirmaba que lo que sobrevivia a cuatro registros incompatibles era que «las specs son archivos versionados que viven junto al artefacto que gobiernan». Los *stores* de OpenSpec sacan el registro a un repositorio propio: queda reducido a «las specs son archivos versionados». Corregido donde estaba escrito, con la leccion de metodo al lado.
+- **El tercer eje deja de ser una particion.** `docs/PATRONES.md` de sdd-first corre aprendizaje sobre el **metodo**, que era la casilla de Superpowers, asi que nuestro linaje ocupa las dos.
+- **Dos dimensiones nuevas registradas sin veredicto**: «donde vive el metodo respecto del artefacto» (un caso, en beta) y **«la ceremonia escala con el tamaño del trabajo»**, que hoy es la **candidata mas fuerte a instrumento v2** — tres de cuatro casos la ejercen con mecanismos distintos, contra uno solo de la candidata anterior.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Fechas de actividad del testigo y citas de procedencia de sdd-first verificadas en sus repositorios, no en documentos previos.
+
+### Deuda abierta
+- **«La ceremonia escala» sin decidir**: abrir instrumento v2 obliga a re-correr los cuatro casos (regla 3) y es trabajo aparte.
+- **El testigo dormido**: su celda describe una posicion congelada y MUST releerse si vuelve a moverse.
+- **La orientacion practica de cada framework sigue sin documento**: es el trabajo que sigue, con poblacion distinta a la de convergencia (entra sdd-first por adoptable, sale el testigo por no serlo) y con madurez, actividad, licencia y soporte como dimensiones, a pedido del usuario.
+- Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, el ecosistema del 1.0 de Spec Kit sin caracterizar.
+
+---
+
 ## RELACION-SPEC-VS-EPICA se funda primero en norma y despues en implementaciónes; la spec se enmienda para permitirlo (2026-09-05) — COMPLETADA
 
 **Accion**: reestructuracion del documento y enmienda de su spec, a pedido del usuario, con cuatro criterios que el pedido fijo: fidelidad al estado de hoy sin perder la historia; el concepto general primero y las implementaciónes despues; libertad para cambiar estructura o alcance si mejora la calidad; y la comparacion entre frameworks explicitamente diferida a otro analisis.
