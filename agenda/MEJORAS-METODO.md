@@ -27,6 +27,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | Propuesta (2026-09-05) | sdd-first [R39] (`../software/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
+| M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -403,6 +404,20 @@ Qué hace falta: un procedimiento mínimo de re-consulta, escrito una vez y apli
 3. Declarar en el `[SDD-Check]` qué se leyó **y qué no**, que es lo único que la entrega del 2026-07-10 ya hacía bien.
 
 Prioridad media: el costo de no tenerlo ya se pagó una vez y se detectó solo porque la re-consulta siguiente miró el árbol. Con cuatro fuentes vivas, va a volver a pasar.
+
+### M-42 — El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal
+
+`../AGENTS.md` §Disambiguación permite marcar incertidumbre puntual con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able, el check `clarificacion` verifica que ningún documento `Activo` conserve uno abierto, y hasta ahí funciona.
+
+Lo que no registra es qué hizo el asistente mientras tanto. Un marcador que no bloquea significa, por definición, que el trabajo siguió — y siguió sobre **alguna** lectura de la ambigüedad. Esa lectura hoy no queda escrita en ningún lado: quien resuelve el marcador más tarde ve la pregunta, no la respuesta provisional que el texto ya está asumiendo, y no tiene forma de saber cuánto del documento se cae si la respuesta es la otra.
+
+Superpowers v6.3.0 [R37] resuelve la mitad simétrica del problema con una forma de tres campos: `Ruling: <qué se decidió> — <por qué> — <cuánto cuesta si está mal>` (`../software/ANALISIS-SUPERPOWERS.md` C7). El tercer campo es el que falta acá: convierte una duda anotada en una duda **priorizable**.
+
+Propuesta concreta, mínima: extender el marcador a `[NEEDS CLARIFICATION: <pregunta> | asumido: <lectura provisional> | costo: <qué se rehace si está mal>]`, con los dos campos nuevos opcionales — un marcador que sí bloquea no necesita declarar asunción porque no la hay.
+
+**Qué NO propone este ítem, y conviene que quede escrito**: no relaja la obligación de preguntar. El Principio VII manda preguntar ante ambigüedad y detener ante contradicción, y eso no se toca; el marcador cubre el caso que el propio principio ya excluye —incertidumbre puntual que no bloquea—. Superpowers va bastante más lejos (decide y sigue sin humano para todo conflicto no catastrófico), y **esa parte no se propone**: es constitucional, responde a un riesgo distinto — proteger una corrida autónoma larga, no evitar que el asistente interprete en silencio — y su única evidencia es un caso autoreportado.
+
+Costo de implementarlo: una línea en `../AGENTS.md` y ninguna en el backstop. Verificado el 2026-09-05: `CLARIFICACION` de `../tools/check_docs.py` captura `([^\]]*)` —todo hasta el corchete de cierre— así que los dos campos nuevos entran en el payload sin tocar el patrón, y `es_placeholder()` los distingue de un marcador de relleno por la misma vía que hoy.
 
 ### M-39 — Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado
 

@@ -4,6 +4,38 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de Superpowers [R37]: la ceremonia escala, la compuerta no, y la precedencia se usa para no frenar (2026-09-05) — COMPLETADA
+
+**Accion**: fase B del re-anclaje, tercera de cuatro. Diff dirigido de Superpowers entre `44c9b2d` (v6.2.0, 2026-08-02) y `b36e082` (v6.3.0, 2026-08-12) contra `software/ANALISIS-SUPERPOWERS.md`. Primer diff que aplica el borrador de procedimiento de M-41: `git diff --stat` sobre el arbol completo antes de mirar ningun archivo esperado.
+
+### Que se encontro
+Un unico commit de release, 40 archivos, +2888 lineas. Las 14 skills siguen siendo 14 y la tesis central —no hay Power Inversion— no se mueve. El peso esta en dos skills, y cada una devuelve algo que este repositorio no tiene.
+
+**C6 — la ceremonia escala con la tarea; la compuerta de aprobacion no.** `brainstorming` clasifica el pedido en spike / bounded / architectural, y solo el ultimo escribe spec y plan. Las cuatro guardas que rodean la clasificacion son lo portable: se anuncia en voz alta **antes** de la primera pregunta para que el humano la anule; el trinquete es de una sola via (ante la duda, el camino mas pesado; la complejidad descubierta sube, nada baja); los tres caminos terminan igual en aprobacion humana explicita; y el atajo tiene nombre de anti-patron —«reaching for a label to skip work IS the doubt»—.
+
+Acá `SPECS_REGISTRY.md` §Profundidad de spec declara tres niveles y M-37 midio que el mas alto no lo usa ninguna de las 46 entradas: la escala existe declarada y no opera. Superpowers muestra las tres piezas que le faltan —quien elige, cuando lo anuncia, que impide elegir hacia abajo— pero clasifica **trabajo** y nuestra tabla clasifica **documentos**. Queda como lectura para M-37, no como candidata, y la distincion esta escrita en la conclusion para que nadie porte la forma sin el mecanismo.
+
+**C7 — la precedencia se usa para no frenar, en direccion contraria a nuestro Principio VII.** «Rulings, not stalls. A running plan does not wait on a human.» Un conflicto se resuelve contra la spec —«the spec is the binding authority, the plan is its argument»—, se registra como `Ruling: <que se decidio> — <por que> — <cuanto cuesta si esta mal>` y el trabajo sigue; solo lo destructivo frena. La fuente declara el costo que lo motivo: una sesion bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido. Autoreportado, un caso, sin medicion agregada — no se usa como efectividad.
+
+Acá el Principio VII manda lo contrario, y **no se propone cambiarlo**: es constitucional, y los dos diseños responden a riesgos distintos. Lo portable sin tocar nada es la forma de tres campos: nuestro `[NEEDS CLARIFICATION]` registra la pregunta y no lo que el texto ya esta asumiendo mientras el marcador sigue abierto, ni lo que se rehace si la asuncion es la otra. Alta de **M-42**.
+
+Refuerzo de C1 sin cambiarla: los planes llevan un puntero `Spec:` y la skill lee la spec al armar el trabajo, asi que la fuente es **mas** spec-anchored que en v6.2.0 y sigue sin regenerar nada.
+
+### Que cambio
+- `software/ANALISIS-SUPERPOWERS.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la nota de refuerzo a C1/C4, y bloque `[SDD-Check]` propio.
+- `agenda/MEJORAS-METODO.md`: alta de **M-42**, con lo que propone y —escrito aparte— lo que NO propone. Verificado que el patron `CLARIFICACION` del backstop captura todo el interior del corchete, asi que los dos campos nuevos no cuestan una linea de codigo.
+- `REFERENCIAS.md`: [R37] pasa de «diff pendiente» a re-consulta cerrada.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Todas las citas de la fuente son textuales y declaran su archivo; el caso de las nueve horas lleva su reserva al lado.
+
+### Deuda abierta
+- **Cuanto cuesta frenar no esta medido acá.** Sin ese dato, C7 describe dos diseños y no puede compararlos. Es el hueco mas concreto que deja esta entrada.
+- Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, `software/RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar, y el hueco de `PATRONES.md` del lado del canal de error.
+- Falta la ultima fase B: OpenSpec.
+
+---
+
 ## Diff dirigido de Spec Kit [R10]: la tesis no se movio, y el material que la califica llevaba dos meses invisible (2026-09-05) — COMPLETADA
 
 **Accion**: fase B del re-anclaje, segunda de cuatro. Diff dirigido de Spec Kit entre `983a87f` (v0.12.11.dev0, 2026-07-10) y `4a7341a` (v1.0.5.dev0, 2026-09-04) contra `software/ANALISIS-SPEC-KIT.md`, que es SSOT. 560 commits, con el 1.0.0 liberado el 2026-08-21.

@@ -118,3 +118,50 @@ Superpowers sirve 11 harnesses desde un set único con adaptadores finos, y su d
 - Cobertura: completa - las cinco conclusiones mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es candidata o solo lectura
 - Deuda arrastrada: el pronostico de divergencia por fila se verifico acá, pero el veredicto de invariancia entre las tres implementaciones queda pendiente del documento de convergencia; los evals de la fuente no fueron ejecutados, solo leidos sus reportes
 - Riesgos/reservas: analisis sobre snapshot v6.2.0 commit `44c9b2d`; fuente autoreportada, sin peer review y con interes comercial; la caracterizacion sale de leer skills, release notes y docs internos, no de correr el sistema en vivo
+
+---
+
+## Actualizacion: revision contra Superpowers v6.3.0 (2026-09-05)
+
+Clon vendored movido v6.2.0 `44c9b2d` (2026-08-02) → v6.3.0 `b36e082` (2026-08-12), un unico commit de release. Diff sobre el arbol completo (40 archivos, +2888 lineas): las 14 skills siguen siendo las mismas 14, y **la tesis central no se mueve** — nada regenera codigo desde la spec, asi que la ausencia de Power Inversion sigue en pie. Los harnesses pasaron de 11 a 14 (Devin CLI, Hermes Agent, Grok Build CLI), lo que refuerza C4 sin agregarle nada.
+
+El peso del delta esta en dos skills: `brainstorming` (+117 lineas) y `subagent-driven-development` (+113). Cada una devuelve algo que este repositorio no tiene.
+
+### C6. La ceremonia escala con la tarea; la compuerta de aprobacion no
+
+`brainstorming` clasifica ahora cada pedido en tres caminos —**spike** (pregunta de factibilidad, salida es una respuesta y no codigo que se guarda), **bounded** (cambio acotado sobre un flujo que ya existe en el repo) y **architectural** (proyecto nuevo, subsistema, interfaz de la que otros dependen)— y el camino determina cuanto artefacto se produce: el spike no escribe nada, el bounded presenta un diseño corto en chat, solo el architectural escribe spec y plan.
+
+Lo que hace al mecanismo interesante no es la clasificacion sino las cuatro guardas que la rodean, y las cuatro son portables a un repositorio sin codigo:
+
+1. **Se anuncia antes de la primera pregunta**, en voz alta y con la forma «esto parece bounded, asi que presento un diseño corto en vez de escribir una spec», **para que el humano pueda anularla**. La clasificacion no es una decision privada del asistente.
+2. **El trinquete es de una sola via**: ante la duda se toma el camino mas pesado, la complejidad descubierta a mitad de tarea sube de camino, y nada baja nunca.
+3. **La compuerta no escala**: los tres caminos terminan en aprobacion humana explicita antes de implementar. «What scales with simplicity is the artifact, never the approval.»
+4. **El atajo tiene nombre de anti-patron**: «Reaching for a label to skip work IS the doubt — take the heavier path», en una tabla de racionalizaciones que incluye «lo entiendo, asi que es bounded» respondido con «bounded mide el repositorio, no tu familiaridad».
+
+Este repositorio declara tres niveles de profundidad de spec en `../SPECS_REGISTRY.md` §Profundidad de spec, y `../agenda/MEJORAS-METODO.md` M-37 midio que el nivel mas alto no lo usa **ninguna** de las 46 entradas. O sea: la escala existe declarada y no opera. Superpowers no resuelve ese hueco —su clasificacion es de tarea, no de documento— pero muestra las tres piezas que a nuestra tabla le faltan para operar: quien elige, cuando lo anuncia, y que impide elegir hacia abajo. **Lectura para M-37**, no candidata: nuestra tabla clasifica documentos y la de ellos clasifica trabajo, y confundir las dos cosas seria portar la forma sin el mecanismo.
+
+### C7. La precedencia se usa para **no frenar**, y eso corre en direccion contraria a nuestro Principio VII
+
+`subagent-driven-development` incorpora una regla que declara sin rodeos: «**Rulings, not stalls.** A running plan does not wait on a human.» Un conflicto entre el plan y lo que el implementador encuentra ya no detiene el trabajo: se resuelve contra la spec —«the spec is the binding authority, the plan is its argument»—, se registra el fallo en el ledger con la forma `Ruling: <que se decidio> — <por que> — <cuanto cuesta si esta mal>`, y se sigue. Solo lo destructivo o irreversible sigue frenando para un humano.
+
+La fuente declara el costo que lo motivo: una sesion donada estuvo bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido (`../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.3.0). Es un dato autoreportado, de un caso, sin medicion agregada: **MUST NOT citarse como evidencia de efectividad**, en linea con la reserva de [R37].
+
+El contraste con este repositorio es directo y vale escribirlo con precision, porque no es una mejora disponible:
+
+- `../AGENTS.md` §Disambiguación dice que ante ambiguedad el asistente MUST preguntar, y que una solicitud que contradice la spec MUST detener el trabajo sin proponer alternativas. Es el Principio VII de `../CONSTITUTION.md`.
+- Superpowers hace lo contrario para el conflicto no-catastrofico, y lo hace **usando la precedencia**: hay una autoridad vinculante declarada, asi que el conflicto tiene resolucion y no hace falta un humano para arbitrarlo.
+- Nuestro Principio VII y su marcador `[NEEDS CLARIFICATION]` tienen la mitad del mecanismo: la pregunta se marca y es grep-able. Lo que no tienen es la otra mitad —**decidir provisionalmente y registrar el costo de equivocarse**— ni ninguna medicion de lo que cuesta frenar.
+
+**No se propone cambiar el Principio VII**: es constitucional, su enmienda tiene procedimiento propio, y ademas los dos diseños responden a riesgos distintos —ellos protegen una corrida autonoma larga, acá el riesgo es que el asistente interprete en silencio—. Lo que si es portable sin tocar nada es la **forma de tres campos del ruling**: nuestro marcador registra la pregunta y nada mas, y agregarle «que se asumio» y «que cuesta si esta mal» no relaja la obligacion de preguntar, la documenta mejor. Dado de alta como `../agenda/MEJORAS-METODO.md` M-42.
+
+Nota aparte, que refuerza C1 sin cambiarla: los planes llevan ahora un puntero `Spec:` y la skill lee la spec al armar el trabajo. La spec pasa de documento de diseño fechado a autoridad consultada durante la ejecucion — **mas** spec-anchored que en v6.2.0, no menos, y sigue sin haber regeneracion.
+
+[SDD-Check] — actualizacion 2026-09-05
+- Spec leida: SI (spec de este doc en `../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — C6 y C7 caen en «conclusiónes accionables para Linea B»; no se re-analiza Spec Kit ni se toca la lectura cruzada de convergencia; el diseño experimental sigue diferido
+- Validaciones aplicadas: diff corrido sobre el arbol completo con `git diff --stat 44c9b2d..HEAD` y no sobre los archivos esperados, siguiendo el borrador de procedimiento de M-41; toda cita declara su archivo de origen en el clon vendored y es textual; el caso de las nueve horas se presenta como autoreportado, de un caso y sin medicion agregada, con la prohibicion de usarlo como efectividad escrita al lado; C7 declara explicitamente que NO propone enmendar el Principio VII; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../agenda/MEJORAS-METODO.md` M-37 (C6 le aporta las tres piezas que a la tabla de profundidad le faltan para operar) y M-42, dada de alta desde C7
+- Cobertura: completa — C6 y C7 tienen destino declarado (M-37 como lectura, M-42 como candidata), y el refuerzo de C1 y C4 se registra sin abrir item porque no pide nada
+- Deuda arrastrada: la del documento original sigue intacta; se agrega una: **cuanto cuesta frenar no esta medido acá**, y sin ese dato el contraste de C7 describe dos diseños sin poder compararlos. Sigue abierto de las entradas previas: M-40 sin decidir, M-41 sin escribir, `RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar
+- Riesgos/reservas: la lectura sale de las skills y las release notes del clon, sin correr el sistema; la fuente es autoreportada, con interes comercial y sin peer review; el mapeo de C6 contra nuestra tabla de profundidad compara dos cosas que clasifican objetos distintos —trabajo contra documento— y eso queda escrito en la propia conclusion para que no se porte la forma sin el mecanismo
