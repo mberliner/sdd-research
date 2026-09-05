@@ -4,6 +4,41 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Los cuatro clones vendored se re-anclan al estado del disco (2026-09-05) — COMPLETADA
+
+**Accion**: `git pull` deliberado de los cuatro clones de `fuentes-externas/` y re-anclaje de `REFERENCIAS.md` al estado real del disco. **No** es re-analisis: ningun documento de `software/` se toco.
+
+### Por que
+Las cuatro entradas afirmaban un commit de clon que ya no estaba en disco. `[R10]` era el caso mas visible: declaraba el clon en v0.12.11.dev0 `983a87f` cuando estaba en `4a7341a`. Una afirmacion falsa sobre el estado del vendorizado no invalida los analisis —que estan anclados a su snapshot conceptual— pero rompe la reproducibilidad de toda cita que alguien quiera verificar volviendo al clon.
+
+### Que se movio, de donde a donde
+
+| Fuente | Anclaje anterior | Estado hoy | Tramo |
+|---|---|---|---|
+| [R10] spec-kit | v0.12.11.dev0 `983a87f` (2026-07-10) | v1.0.5.dev0 `4a7341a` (2026-09-04) | 560 commits; cruzo su 1.0.0 el 2026-08-21 |
+| [R37] superpowers | v6.2.0 `44c9b2d` (2026-08-02) | v6.3.0 `b36e082` (2026-08-12) | 1 commit de release |
+| [R38] OpenSpec | v1.7.0 `45cca5d` (2026-07-30) | v1.12.0 `e062b95` (2026-09-03) | 103 commits, 5 versiones menores |
+| [R39] sdd-first | `f032dce` (2026-08-17) | `4a0851e` (2026-09-03) | 8 commits, todos `fix:` contra specs propias |
+
+Los cuatro clones estan en `main` con arbol limpio.
+
+### Que cambio en `REFERENCIAS.md`
+- Cada una de las cuatro entradas gana una linea **Estado del clon vendored** separada de **Version analizada**, con el par origen → destino y su fecha. La separacion es el punto: el analisis vale para el snapshot, el disco esta en otro lado, y ahora las dos cosas se leen por separado en vez de confundirse en una sola frase.
+- Cada linea nueva declara que el diff dirigido esta **pendiente**, para que el re-anclaje no se lea como re-analisis.
+- `[R10]`: corregido un pendiente que ya no lo era — la linea decia «pendiente incorporar `/speckit.converge` y articulos IV-VI *project-defined*» y ambos estan incorporados a `software/ANALISIS-SPEC-KIT.md` desde el 2026-07-10.
+- `[R37]`: los harnesses pasaron de 11 a 14 (Devin CLI, Hermes Agent, Grok Build CLI); las 14 skills no cambiaron.
+- `[R38]`: `docs/supported-tools.md` paso de mas de 30 a 62 filas; la anatomia de `openspec/` y las 12 skills no cambiaron. Se verifico con `git ls-tree` contra `45cca5d` que `initiatives/`, `explorations/` y `work/` **ya existian** en el commit analizado: una lectura preliminar los tomo por estructura nueva y quedo descartada antes de escribirse.
+- `[R39]`: la reserva de vendorizado decia «anclarse al commit declarado arriba» y arriba ahora hay dos; pasa a nombrar cual sirve para que (`ebfbd67` la version analizada, `f032dce` el delta del 2026-08-30) y a prohibir explicitamente citar contra el estado del clon.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Cada commit, version y conteo se leyo del clon en disco, no del documento previo.
+
+### Deuda abierta
+- **El diff dirigido de las cuatro fuentes queda sin correr** (fase B, un commit por fuente). Orden acordado: sdd-first, spec-kit, superpowers, OpenSpec.
+- Los cuatro clones son directorios vivos y pueden volver a moverse sin aviso; la unica entrada que declaraba esa reserva era `[R39]` y sigue siendo la unica que la necesita por ser del mismo autor, pero el modo de falla es comun a los cuatro.
+
+---
+
 ## Dos aplicaciones del metodo devuelven mecanismos ya ejercidos y dos resultados negativos (2026-08-30) — COMPLETADA
 
 **Accion**: relevamiento de dos repositorios que aplican este metodo —el kit de [R39], re-consultado, y una aplicacion de campo documental dada de alta como [R40]— y volcado de lo transferible al backlog de metodo, al backlog de investigacion y a un analisis de caso nuevo.
