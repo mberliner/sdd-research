@@ -4,6 +4,45 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de ANALISIS-TESSL: el unico caso que regenera, y la deuda de procedencia queda saldada (2026-09-05) — COMPLETADA
+
+**Accion**: alta de `software/ANALISIS-TESSL.md` con spec registrada antes de escribirlo, alta de [R46], anotacion de [R20], y propagacion a tres documentos. Cierra la deuda abierta el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia».
+
+### La fuente que sostiene el hallazgo no era la propuesta
+El pedido traia dos URLs del blog de Tessl y una caracterizacion con directivas `@generate`/`@describe`/`@use` y tres recursos plans/specs/tests. **Ninguna de las dos URLs sostiene eso**: la nota de lanzamiento no enumera esos tres recursos, y el anuncio de productos describe specs que **guian** al agente, no que generen codigo. Lo que resolvio la cuestion fue **[R20] Fowler, que ya estaba en `REFERENCIAS.md` desde el 2026-06-03** y cuyo titulo nombra a Tessl, mas `docs.tessl.io`. La verificacion cambio la atribucion, no la conclusion: el encuadre del pedido era correcto y su fuente no.
+
+### Lo que Tessl es, y por que importa mas que su tamaño
+**Es el unico caso del corpus que regenera codigo desde la spec.** Verificado en [R20], textual: «Running `tessl build` for this spec generates the corresponding JavaScript code file», con los archivos generados marcados `// GENERATED FROM SPEC - DO NOT EDIT`. Y su ubicacion, tambien textual: «Tessl is the only one of these three tools that explicitly aspires to a spec-anchored approach, and is even **exploring the spec-as-source level of SDD**».
+
+Los cuatro casos de la tabla de convergencia son *spec-anchored*: ninguno regenera. Spec Kit **enuncia** la Power Inversion y su referencia declara que no impone ninguna persistencia; Superpowers no regenera; OpenSpec fusiona deltas; Kiro sincroniza en dos direcciones. **La posicion fuerte del corpus existe y no es la de Spec Kit: es la de Tessl.** De ahi la precision agregada a C3 de `ANALISIS-SPEC-KIT.md`: al citar «la posicion mas fuerte» MUST nombrarse a quien se le atribuye, porque **la fuente que la enuncia y la que la ejerce no son la misma**.
+
+**Un rasgo sin equivalente**: el *Spec Registry* distribuye **contenido de spec** —mas de 10.000 specs de uso de librerias, versionadas, y las propias publicables como paquete—, mientras los otros cinco distribuyen **metodo**. Es la spec tratada como dependencia. Registrada como dimension fuera del instrumento v1, sin veredicto: un solo caso y en beta.
+
+**Y una observacion de terceros sobre regeneracion**: el autor de [R20] corrio la generacion varias veces desde la misma spec y reporta «the non-determinism in action». Es observacion de un practicante identificado, sin diseño ni repeticiones declaradas: **no es una medicion** y el documento lo dice en un parrafo propio.
+
+### Lo que NO se hizo, y es deliberado
+**B-07 esta cerrado y no se toco.** La tentacion de leer a Tessl como confirmacion —o como refutacion— de la tesis de regenerabilidad de este proyecto es exactamente lo que el Principio V prohibe, y la spec del documento lo pone en `excluye`. Lo que corresponde es un item de backlog con una pregunta **nueva**, y **no se dio de alta**: plantearla bien es trabajo propio.
+
+### Que cambio
+- `REFERENCIAS.md`: alta de **[R46]** con su clase de evidencia (Framework en beta cerrada, sin clon posible). **[R20] pasa a ser fuente de carga**: lleva ahora la taxonomia de tres niveles textual, la ubicacion de Tessl y la observacion de no-determinismo, con su estatuto declarado.
+- `SPECS_REGISTRY.md`: spec de `software/ANALISIS-TESSL.md`, con una casilla de validacion que dice explicitamente que el documento **no reformula B-07**.
+- `software/ANALISIS-TESSL.md`: alta.
+- `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia; dimension «la spec como dependencia instalable» registrada fuera del instrumento; y un parrafo nuevo en §Que se puede inferir que dice que **un caso del corpus si regenera y no es ninguno de los cuatro de la tabla**. Instrumento sigue en v1.
+- `software/ANALISIS-SPEC-KIT.md`: precision en C3.
+- `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: Tessl **queda fuera** por beta cerrada, con el motivo escrito y la incomodidad declarada — el documento excluye, por un criterio correcto, al caso mas distinto de todos.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR) despues de cada edicion. Las citas de [R20] y [R46] se verificaron en la pagina que las contiene el 2026-09-05.
+
+### Deuda abierta
+- **La pregunta que abre el no-determinismo observado sigue sin item** en ningun backlog.
+- **Tessl fuera de la orientacion practica** mientras el Framework siga en beta cerrada; revisar si abre.
+- Su rasgo distintivo se conoce **por un tercero**, no por la fuente, y eso no tiene remedio con el producto cerrado.
+- La direccion Kiro -> Spec Kit / OpenSpec sigue abierta y exige marcadores de difusion.
+- Sigue abierto: M-40, M-41, M-42, el ecosistema del 1.0 de Spec Kit sin caracterizar, instrumento v2 sin decidir.
+
+---
+
 ## Kiro se propaga a los tres documentos que lo esperaban, y debilita un argumento propio (2026-09-05) — COMPLETADA
 
 **Accion**: propagacion de `software/ANALISIS-KIRO.md` a los tres derivados que la entrega anterior dejo señalados. Cierra la deuda que ella misma abrio.

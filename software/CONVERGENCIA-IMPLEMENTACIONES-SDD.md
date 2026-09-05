@@ -37,6 +37,7 @@ Las divergencias se reportan con el mismo detalle que las convergencias. Un rele
 | OpenSpec [R38] | Primer commit 2025-08-05, dieciséis días **anterior** al primer commit del repositorio de Spec Kit (2025-08-21); menciona a Spec Kit y a Kiro solo para diferenciarse comercialmente; ausentes los tres marcadores de difusión conocidos. Detalle y límites en `ANALISIS-OPENSPEC.md` | Sí, respecto de Spec Kit |
 | Testigo + este repo | El testigo deriva de este repositorio, con sesgo de confirmación declarado en B-06 | Sí, como un solo linaje |
 | Kiro [R44] | Anuncio 2025-07-14, **anterior a todos los demás casos**; no puede derivar de ninguno. La dirección contraria no queda descartada por fechas y no se investigó | **No toma columna** — por clase de evidencia: producto cerrado, sin clon vendored posible. Detalle en `ANALISIS-KIRO.md` |
+| Tessl [R46] | Productos lanzados 2025-09-16/23, **el mas reciente de los cinco externos**; las fechas no descartan que conociera a los otros tres. Como con los demas, establecer difusion exigiria marcadores, no cronologia | **No toma columna** — por clase de evidencia: Framework en **beta cerrada**, sin clon vendored posible. Detalle en `ANALISIS-TESSL.md` |
 | sdd-first [R39] | Mismo autor; generaliza el tooling del testigo y arrastra vocabulario nacido acá (`[SDD-Check]`, el par `hibrido`/`casero` de B-07, la forma de principio de `../CONSTITUTION.md`) más la difusión desde Spec Kit ya declarada (`analyze`, `clarify`) | **No** como linaje — pero **sí** se lee dentro de la columna del linaje desde 2026-09-05; ver «Qué artefacto representa a nuestro linaje». Detalle en `ANALISIS-SDD-FIRST.md` |
 
 ### Qué artefacto representa a nuestro linaje (2026-09-05)
@@ -139,6 +140,8 @@ Registradas por la regla 2 de la sección «Cómo se incorpora un caso nuevo»: 
 
   Y desde la incorporación de Kiro tiene además el eje sobre el que discriminaría, que es lo que le faltaba: **no coinciden en qué escala.** Superpowers mantiene la compuerta fija por diseño explícito —«what scales with simplicity is the artifact, never the approval»— y Kiro la retira en su variante rápida. Una dimensión donde todos hacen lo mismo no informa; ésta separa a dos casos en una decisión de diseño nombrable. Decidirlo sigue siendo trabajo aparte y caro: abre v2 y obliga a re-correr todos los casos (regla 3).
 
+- **La spec como dependencia instalable** (observada al incorporar Tessl, 2026-09-05). Los cinco casos distribuyen **método** —comandos, skills, plantillas, adaptadores, extensiones—. Tessl distribuye **contenido de spec**: su *Spec Registry* aloja «more than 10,000 pre-built specs» de librerías open source, versionadas, y permite a un equipo publicar las propias como paquete instalable [R46]. La fila 8 mira cómo se extiende el método y no ve esto. **Sin veredicto**: un solo caso la ejerce, y en beta.
+
 ### La divergencia más informativa: el objeto del circuito de aprendizaje
 
 `COMPARATIVA-SPECKIT-VS-TESTIGO.md` cerró su síntesis sobre dos ejes ortogonales, regenerabilidad y adaptatividad. Superpowers no entra limpio en ese marco: es débil en regenerabilidad —no regenera nada— y su circuito de adaptatividad **no corre sobre las specs del proyecto sino sobre sus propios documentos de método**, medido por conducta de agentes en sesiones frescas.
@@ -156,6 +159,8 @@ Este documento propone el eje, no lo cierra: se apoya en cuatro casos y la asign
 ## Qué se puede y qué no se puede inferir de esto
 
 **Se puede inferir consenso de diseño.** Cuatro linajes independientes que llegan a lenguaje normativo, a un gate de consistencia previo al cierre y a la extensión por capa externa, con mecanismos distintos, indican que esos elementos resuelven un problema real y recurrente del trabajo asistido por IA. El cuarto caso sube el conteo de tres a cuatro, con la reserva de procedencia declarada arriba, y ninguno de los tres invariantes se apoya solo en él.
+
+**Un caso del corpus sí regenera, y no es ninguno de los cuatro de la tabla.** Las cuatro columnas describen métodos *spec-anchored*: la spec sobrevive a la implementación y ninguno regenera código desde ella. Tessl [R46] sí lo hace —`tessl build` genera el archivo de código y lo marca `// GENERATED FROM SPEC - DO NOT EDIT`— y [R20] lo ubica como «the only one of these three tools that explicitly aspires to a spec-anchored approach, and is even **exploring the spec-as-source level of SDD**». Queda fuera de la tabla por clase de evidencia, no por irrelevancia: es el único caso conocido que ejerce la posición fuerte que dos de las columnas sólo enuncian. Detalle en `ANALISIS-TESSL.md`.
 
 **No se puede inferir eficacia, y este proyecto tiene evidencia propia de que la distinción no es teórica.** Que varios equipos coincidan en una práctica muestra acuerdo, no que la práctica funcione — el mismo criterio que aplicamos a fuentes secundarias como [R28] y [R30]. El cuarto caso lo ilustra por el lado más crudo: OpenSpec **no reporta ninguna medición propia**, así que suma un voto de diseño y cero evidencia. Y hay un caso medido en casa: B-07 puso a prueba justamente el elemento donde la anatomía de Spec Kit debía ganar —la regenerabilidad— y cerró **sin ventaja del formato híbrido** (`../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`). La convergencia de diseño y el desempeño medido están desacoplados.
 
@@ -184,6 +189,18 @@ Si un caso nuevo hace algo que ninguna de las ocho filas contempla, MUST NOT agr
 MUST — si una dimensión registrada demuestra importar, se fija un **instrumento v2** fechado y se re-corren **todos** los casos contra él, declarando la versión en cada lectura. MUST NOT ampliarse la v1 en caliente: leer unos casos con ocho filas y otros con nueve produce una tabla que no compara nada.
 
 Es el mismo régimen que el proyecto aplica a los experimentos sellados —enmienda fechada y motivada, nunca edición silenciosa (Principio V)—, trasladado a un instrumento de análisis. La diferencia con un experimento es que acá el costo de re-correr es leer documentos, no producir datos: es caro en atención, barato en todo lo demás.
+
+---
+
+[SDD-Check] — incorporacion de Tessl por procedencia 2026-09-05
+- Spec leida: SI (spec en `../SPECS_REGISTRY.md`; sin cambio de `incluye`/`excluye`)
+- Incluye/Excluye verificado: SI — Tessl pasa el filtro de procedencia y **no toma columna**; su caracterizacion vive en `ANALISIS-TESSL.md`
+- Validaciones aplicadas: **el instrumento sigue en v1**, sin filas nuevas ni redefinidas; ningun veredicto cambio; la dimension «la spec como dependencia instalable» se registra fuera de la tabla y sin veredicto, con un solo caso y en beta (regla 2); la exclusion de Tessl se motiva por clase de evidencia —Framework en beta cerrada— y no por linaje; la afirmacion de que un caso del corpus si regenera se atribuye a [R20] y no a la fuente, porque no esta en la documentacion de Tessl
+- SSOT afectado: este documento
+- Derivados a revisar: `software/ANALISIS-SPEC-KIT.md` C3 queda **señalado** — al citar «la posicion mas fuerte» conviene nombrar a quien se le atribuye, porque la fuente que la enuncia (Spec Kit) y la que la ejerce (Tessl) no son la misma. `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: Tessl **no** entra a esa poblacion hoy, y el motivo esta escrito en la deuda
+- Cobertura: completa para la procedencia y para la dimension nueva. **Cierra la deuda «Kiro y Tessl sin pasar por el filtro»**, abierta el 2026-08-02
+- Deuda arrastrada: **Tessl no entra a la orientacion practica porque su Framework esta en beta cerrada** — no es adoptable hoy, y ese documento exige adoptabilidad; revisar si eso cambia. La pregunta de investigacion que abre el no-determinismo observado por [R20] **no esta dada de alta** en ningun backlog. La direccion Kiro -> Spec Kit / OpenSpec sigue abierta. Lo previo sigue entero: corpus observacional de OpenSpec sin dar de alta, B6 sin reescribir, M-13, el testigo dormido
+- Riesgos/reservas: con Kiro y Tessl el corpus tiene **siete fuentes en tres clases de evidencia** —cuatro clones leidos, una documentacion de producto cerrado, una documentacion de producto en beta cerrada mas un tercero, y el testigo privado— y la tabla de veredictos sigue siendo de cuatro columnas a proposito; que dos casos queden fuera no los vuelve marginales, y en el caso de Tessl el rasgo que lo hace relevante es justamente el que ninguna columna tiene
 
 ---
 

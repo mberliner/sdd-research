@@ -536,6 +536,31 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como candidatas vs. cambios aprobados
   - [ ] no duplica SSOT — referencia
 
+### software/ANALISIS-TESSL.md
+- `path`: `software/ANALISIS-TESSL.md`
+- `proposito`: analisis de Tessl [R46] **como metodo**: el unico caso del corpus que regenera codigo desde la spec, y por lo tanto el unico que ejerce la posicion que este repositorio venia leyendo solo como retorica en otras fuentes.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - la clase de evidencia y su limite: producto en beta cerrada, sin clon vendored posible
+  - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
+  - sintesis del metodo declarado: anatomia de la spec, directivas, registro de specs de uso
+  - su ubicacion en la taxonomia de [R20] y que la distingue de los otros casos
+  - la observacion de terceros sobre no-determinismo en la regeneracion, con su estatuto declarado
+  - conclusiónes accionables para Linea B, marcadas como lectura, candidatas o aprobadas
+- `excluye`:
+  - la lectura cruzada de los casos y el veredicto de convergencia — viven en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
+  - la orientacion practica de uso — vive en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
+  - **toda reformulacion de B-07**, que esta cerrado: lo que este documento aporta es un puntero para el backlog, nunca una relectura de su resultado (Principio V)
+  - re-analisis de las otras implementaciónes
+- `validacion`:
+  - [ ] la clase de evidencia esta declarada antes de cualquier rasgo
+  - [ ] cada rasgo declara si sale de [R46] o de [R20]; lo verificado por un tercero no se atribuye a la fuente
+  - [ ] la observacion de no-determinismo se presenta como observacion de un practicante identificado, nunca como medicion
+  - [ ] la fuente no se cita como evidencia de efectividad: no reporta medicion, y eso queda dicho
+  - [ ] no reformula ni reinterpreta el resultado de B-07
+  - [ ] no duplica SSOT — referencia
+
 ### software/ANALISIS-KIRO.md
 - `path`: `software/ANALISIS-KIRO.md`
 - `proposito`: analisis de Kiro [R44] **como metodo**, no como herramienta, y de su lugar en el corpus: es el caso mas antiguo por fecha de anuncio y el unico de producto cerrado, sin clon vendored posible.
