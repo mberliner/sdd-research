@@ -740,14 +740,15 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad y soporte esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
   - la poblacion y por que difiere de la de convergencia: entra quien alguien pueda evaluar o adoptar, no quien sume linaje. **Ni la apertura del codigo ni la disponibilidad son criterio de admision**: son dimensiones que se documentan
-  - las catorce dimensiones, con su procedencia y la fecha en que se fijaron
-  - tabla resumen de las catorce dimensiones sobre los cinco casos
-  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte y rasgo sin equivalente
+  - las quince dimensiones, con su procedencia y la fecha en que se fijaron
+  - tabla resumen de las quince dimensiones sobre los seis casos
+  - **uso y reputacion en redes (D15)**: atencion acumulada medida en los repositorios publicos, y reportes de practica de terceros identificables —objeciones fundadas y verificaciones de buen comportamiento— con sus tres canales y sus sesgos declarados
+  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte, uso y reputacion reportada, y rasgo sin equivalente
   - la distincion entre perder la **herramienta** y perder los **artefactos**, que es lo que la apertura decide en la practica
   - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
   - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
@@ -758,12 +759,15 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - estadistica de adopcion y popularidad — vive en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
   - el proyecto testigo, que no es un producto que un tercero pueda evaluar ni adoptar
 - `validacion`:
-  - [ ] las catorce dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - [ ] las quince dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
   - [ ] la apertura del codigo y la disponibilidad se documentan como dimensiones y **nunca** se usan para admitir o excluir un caso
   - [ ] cada caso cerrado declara que artefactos quedan en el repositorio del usuario, para no confundir perder la herramienta con perder el trabajo
   - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
   - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
   - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
+  - [ ] toda afirmacion de D15 lleva `[reportado]`, cita [R47], [R48], [R49] o [R50], y **nunca** se presenta como medicion ni como proporcion de usuarios
+  - [ ] las metricas de atencion (estrellas, forks, issues) declaran la fecha y el comando que las produce, y declaran que miden atencion y no uso
+  - [ ] la ausencia de reportes se informa como ausencia de exposicion, no como ausencia de defectos
   - [ ] no hereda ningun encuadre de «estandar de referencia»
   - [ ] no duplica SSOT — referencia
 

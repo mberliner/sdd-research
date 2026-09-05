@@ -4,6 +4,33 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## D15: uso y reputacion en redes entra a la orientacion practica (2026-09-05) — COMPLETADA
+
+**Accion**: alta de una dimension a pedido del usuario en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, con enmienda de spec previa y cuatro referencias nuevas. El documento pasa de **catorce a quince dimensiones**. En la misma jornada, y antes de esto, salio del documento toda mencion al proyecto testigo, que la spec ya excluia.
+
+### Que se pidio
+Informacion de usuarios de **primera mano**: objeciones fundadas y verificaciones de buen comportamiento. No popularidad.
+
+### Que cambio
+- **Enmienda de spec** (segunda del documento): `proposito` suma la reputacion reportada por terceros; `incluye` sube a quince dimensiones y suma un bullet propio para D15 con sus tres canales y sus sesgos; `validacion` suma tres casillas —marca `[reportado]` obligatoria, procedencia fechada de las metricas de atencion, y que la ausencia de reportes se lea como ausencia de exposicion y no de defectos—.
+- **D15 Uso y reputacion en redes**, con fila en la tabla resumen y **seccion propia (§4 quinquies)** para los seis casos, en vez de repartirse por ficha: la advertencia de clase de evidencia tenia que quedar en un solo lugar y antes de la primera cita.
+- **Tercera marca de procedencia, `[reportado]`.** El documento tenia dos, `[declarado]` y `[derivado]`. Lo que dice un tercero sobre su propia experiencia no es ninguna de las dos.
+- **Altas en `REFERENCIAS.md`**: [R47] hilos publicos de practica, [R48] discusiones y trackers de los propios proyectos, [R49] metricas de la API de GitHub con fecha y comando, [R50] prensa tecnica del incidente de cupos y precios de Kiro. Las cuatro entradas declaran su sesgo y prohiben expresamente su uso como medicion.
+- **Fila nueva en la tabla de escenarios** y **bullet nuevo en la seccion 6** (lo que el documento no puede decir).
+
+### Lo que la dimension mostro
+La objecion recurrente de cada caso **coincide con el modo de falla que el documento ya habia derivado de su mecanismo**: el costo fijo del ciclo en Spec Kit, la deriva al fusionar el delta en OpenSpec, el consumo de contexto en Superpowers. Es convergencia entre dos clases de evidencia independientes, y quedo escrita como interesante **y debil a la vez**: quien leyo los mecanismos y quien selecciono las citas es la misma persona.
+
+Dos casos quedan **sin ningun reporte**, por motivos opuestos: sdd-first porque nadie de afuera lo uso (0 estrellas, 0 forks, factor de bus 1), y Tessl porque casi nadie pudo usarlo (beta cerrada, D14). Ninguna de las dos ausencias se presenta como dato favorable.
+
+### Como se valido
+`tools/check_docs.py` en verde (0 ERROR; el unico WARN es preexistente y ajeno). Metricas de atencion tomadas el 2026-09-05 con `curl` contra la API de GitHub, con los numeros escritos en [R49]. Cada cita de practica lleva handle y referencia.
+
+### Deuda abierta
+**Ninguna fuente de D15 tiene poblacion definida**, y no hay forma de mejorar esa clase de evidencia sin un instrumento propio, que no existe. El conjunto de reportes recogidos es el que devolvio la busqueda de ese dia, sin criterio de exhaustividad: **no es reproducible tal cual**. Si la dimension se vuelve a mirar, MUST declararse el criterio de busqueda antes de buscar.
+
+---
+
 ## Abierto o cerrado deja de ser filtro y pasa a ser dimension; Tessl entra a la orientacion practica (2026-09-05) — COMPLETADA
 
 **Accion**: correccion de un error de diseño propio en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, señalado por el usuario, con enmienda de spec. El documento se entrego ayer con doce dimensiones y cuatro casos; queda con **catorce dimensiones y seis casos**.
