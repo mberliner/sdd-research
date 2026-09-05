@@ -10,21 +10,20 @@ Pregunta que origina el documento: *si quisiera usar una de estas herramientas, 
 
 ## 1. Población: por qué no es la misma que la de convergencia
 
-`CONVERGENCIA-IMPLEMENTACIONES-SDD.md` lee cuatro **linajes** y pregunta de dónde vino cada método. Acá la pregunta es otra —¿lo podés instalar y usar?— y la población se invierte en dos casos:
+`CONVERGENCIA-IMPLEMENTACIONES-SDD.md` lee **linajes** y pregunta de dónde vino cada método. Acá la pregunta es otra —¿lo podés instalar y usar?— y por eso la población no coincide: tres casos entran acá sin sumar linaje allá.
 
 | Caso | En convergencia | Acá | Motivo |
 |---|---|---|---|
 | Spec Kit [R10] | Sí | **Sí** | — |
 | OpenSpec [R38] | Sí | **Sí** | — |
 | Superpowers [R37] | Sí | **Sí** | — |
-| Proyecto testigo | Sí, cuarto linaje | **No** | No es un producto: es un proyecto testigo privado, que nadie de afuera puede evaluar ni adoptar |
 | sdd-first [R39] | **No** suma linaje | **Sí** | Es un kit instalable. Su procedencia no importa para decidir si sirve; importa que exista y se pueda usar |
 | Kiro [R44] | **No** toma columna | **Sí** | Producto cerrado y disponible. Que sea cerrado es una **dimensión** (D13), no un impedimento |
 | Tessl [R46] | **No** toma columna | **Sí** | Producto cerrado, con el *Framework* en beta cerrada. Que no esté disponible hoy es una **dimensión** (D14), no un impedimento — y excluirlo dejaba afuera al único caso que regenera |
 
 **Corrección del criterio (2026-09-05).** La primera versión de este documento decía que la población era «lo adoptable» y dejaba a Tessl afuera por estar en beta cerrada. Estaba mal por dos motivos. El primero es de coherencia: Kiro también es producto cerrado y entraba, así que «cerrado» parecía hacer el trabajo de excluir cuando el criterio declarado era otro. El segundo es de propósito: un criterio que deja afuera al único caso del corpus que **regenera código desde la spec** está mal elegido para un documento que existe para ayudar a decidir. Saber que una herramienta existe, qué hace distinto y que todavía no se consigue **es** información para decidir.
 
-Población, entonces: **lo que alguien podría evaluar o adoptar**. Ni la apertura del código ni la disponibilidad admiten o excluyen: se documentan, en D13 y D14. El testigo sigue afuera por otro motivo, que no cambió: no es un producto.
+Población, entonces: **lo que alguien podría evaluar o adoptar**. Ni la apertura del código ni la disponibilidad admiten o excluyen: se documentan, en D13 y D14.
 
 **Reserva sobre sdd-first, que MUST leerse antes de su ficha.** Es del mismo autor que este repositorio [R39]. Todo juicio favorable sobre él en un documento escrito acá es autocorrelación por construcción, y por eso su ficha se limita a hechos verificables del clon —conteos, fechas, mecanismos— sin ninguna valoración comparativa. Su factor de bus está escrito en la ficha y en la tabla.
 
@@ -293,7 +292,7 @@ Dos advertencias sobre esta tabla `[derivado]`:
 
 [SDD-Check]
 - Spec leida: SI, y **registrada antes de escribir** el 2026-09-05, mas fila en la Tabla SSOT; **enmendada el mismo dia** al corregir el criterio de poblacion: `proposito` pasa de «adoptable» a «que alguien pueda evaluar o adoptar», `incluye` sube de doce a catorce dimensiones y suma la distincion entre perder la herramienta y perder los artefactos, y `validacion` suma tres casillas, entre ellas que la apertura y la disponibilidad **nunca** se usen para admitir o excluir
-- Incluye/Excluye verificado: SI — no se emite veredicto de convergencia (remitido a su SSOT), no se reproduce la caracterizacion individual completa de ningun caso, no se toma ninguna decision de adopcion para este repositorio, y el testigo queda fuera por no ser adoptable
+- Incluye/Excluye verificado: SI — no se emite veredicto de convergencia (remitido a su SSOT), no se reproduce la caracterizacion individual completa de ningun caso, no se toma ninguna decision de adopcion para este repositorio
 - Validaciones aplicadas: **D13 (apertura) y D14 (disponibilidad) son dimensiones y no filtros**, y la seccion 1 registra por escrito que la version anterior las usaba como filtro y por que estaba mal; los dos casos cerrados declaran que artefactos quedan en el repositorio del usuario, para no confundir perder la herramienta con perder el trabajo; en los casos sin clon, D9 y D10 se declaran **no medibles** en vez de completarse con datos no comparables; una afirmacion propia de la version anterior —que la salida de Kiro era «la mas cara de las cinco»— se corrige en su lugar y con nota, en vez de reescribirse en silencio; las catorce dimensiones estan fechadas y su procedencia declarada, **incluida la advertencia de que NO son anteriores a la lectura de los casos** y por que eso pesa distinto que en convergencia; cada afirmacion lleva `[declarado]` o `[derivado]` y ninguna se presenta como medida; los datos de D9, D10 y D11 salen de `git` sobre los clones vendored con la ventana declarada (90 dias desde 2026-06-07), no de la documentacion de las fuentes; la reserva de procedencia de [R39] esta escrita dos veces —en la poblacion y encabezando su ficha— y su factor de bus 1 figura en la tabla y en la ficha; las tres citas de consecuencias de Spec Kit son textuales; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: este documento (alta el 2026-09-05; incorporacion de Kiro el mismo dia) y `../SPECS_REGISTRY.md` (spec nueva mas fila en la Tabla SSOT)
 - Derivados a revisar: ninguno registrado todavia. Señalados sin modificar: `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, cuya comparacion adoptar-contra-portar se hizo sobre un snapshot donde el ecosistema del 1.0 no existia, y `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, que posee la estadistica de adopcion que este documento no toca
