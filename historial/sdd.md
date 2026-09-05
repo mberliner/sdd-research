@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Un paradigma por caso, derivado del instrumento y no de fuentes nuevas (2026-09-05) — COMPLETADA
+
+**Accion**: seccion 5 nueva en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, con enmienda de spec previa (tercera del documento en el dia). Las secciones de escenarios y de limites se renumeraron a 6 y 7.
+
+### Que se pidio
+Si se podia definir un paradigma claro de cada implementacion **a partir de las dimensiones ya establecidas**. La restriccion vino en la pregunta: a partir de estas dimensiones, no de material nuevo.
+
+### La decision de alcance, que se consulto antes de escribir
+Caracterizar seis casos con un mismo eje se parece peligrosamente a lectura cruzada, y esa es materia de `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT. Se ofrecieron tres destinos —este documento, aquel, o uno nuevo— y el usuario eligio este, por el motivo que lo justifica: **la derivacion sale integra del instrumento de quince dimensiones, que es de este documento**. La frontera quedo escrita en tres lugares: en `incluye` y `excluye` de la spec, y como tercera advertencia de la propia seccion.
+
+### Que dice
+Las quince dimensiones convergen en un eje discriminante unico —**que es la spec, y donde vive la autoridad**— del que salen seis paradigmas: proceso ceremonial parametrizable (Spec Kit), control de cambios sobre un estado declarado (OpenSpec), disciplina de oficio (Superpowers), cumplimiento verificado por codigo (sdd-first), metodo encarnado en el producto (Kiro) y compilacion desde la especificacion (Tessl). Cada uno se rastrea a D1, D2, D3, D4, D7 y D8.
+
+Lo que hace util a la seccion, y no es un adorno: **el modo de falla de cada caso cae exactamente sobre la operacion que define su paradigma**. El costo fijo del ciclo en el que apuesta al orden de las fases; la fusion del delta en el que lleva un estado vigente; el contexto en el que gobierna la conducta; el verificador en el que ejecuta el cumplimiento; el proveedor en el que no es tuyo; el no-determinismo en el que compila. Eso no se busco: aparecio al ordenar.
+
+### Que NO dice
+No ordena por calidad, y **no es una particion**: Superpowers gobierna el trabajo del agente y los otros cinco gobiernan artefactos, asi que es ortogonal y se combina. La seccion 7 suma un limite nuevo: cual de los seis paradigmas es el correcto es indecidible con lo que hay.
+
+### Como se valido
+`tools/check_docs.py` en verde (0 ERROR; unico WARN preexistente y ajeno). Ninguna referencia nueva: la seccion cita [R50] y §4 quinquies, ya presentes.
+
+### Deuda abierta
+La frontera con `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` es una **restriccion declarada que ningun verificador comprueba**. Si alguna vez la seccion 5 empieza a afirmar derivacion o linaje entre casos, nada la va a frenar salvo la lectura humana. Queda anotado para la eventual revision del instrumento v2 de convergencia.
+
+---
+
 ## D15: uso y reputacion en redes entra a la orientacion practica (2026-09-05) — COMPLETADA
 
 **Accion**: alta de una dimension a pedido del usuario en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, con enmienda de spec previa y cuatro referencias nuevas. El documento pasa de **catorce a quince dimensiones**. En la misma jornada, y antes de esto, salio del documento toda mencion al proyecto testigo, que la spec ya excluia.

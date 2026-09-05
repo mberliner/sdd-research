@@ -740,7 +740,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una; y **que paradigma encarna cada una**, derivado de esas mismas dimensiones. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
@@ -750,10 +750,11 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - **uso y reputacion en redes (D15)**: atencion acumulada medida en los repositorios publicos, y reportes de practica de terceros identificables —objeciones fundadas y verificaciones de buen comportamiento— con sus tres canales y sus sesgos declarados
   - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte, uso y reputacion reportada, y rasgo sin equivalente
   - la distincion entre perder la **herramienta** y perder los **artefactos**, que es lo que la apertura decide en la practica
+  - **el paradigma de cada caso (seccion 5)**, derivado de las dimensiones ya establecidas y de ninguna fuente nueva: que es la spec, donde vive la autoridad, donde vive el enforcement y que se paga. Es caracterizacion de cada caso por separado, **nunca** veredicto de convergencia, invariancia ni linaje
   - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
   - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
 - `excluye`:
-  - el veredicto de convergencia e invariancia entre implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT; aca se referencia
+  - el veredicto de convergencia e invariancia entre implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT; aca se referencia. La seccion de paradigmas **no es** lectura cruzada: caracteriza cada caso por separado con el instrumento de este documento, y MUST NOT afirmar que los casos converjan, deriven uno de otro ni compartan linaje
   - la caracterizacion individual completa de cada implementacion — vive en cada `software/ANALISIS-*.md`
   - la decision de adopcion de este repositorio — vive en `agenda/MEJORAS-METODO.md` y en `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`
   - estadistica de adopcion y popularidad — vive en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
@@ -765,6 +766,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
   - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
   - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
+  - [ ] cada paradigma se deriva de dimensiones enunciadas en este mismo documento y no introduce fuente ni dato nuevo; ninguno se presenta como juicio de calidad ni como puesto en un orden
+  - [ ] la seccion de paradigmas declara que la lista **no es una particion**: el caso que gobierna el trabajo del agente es ortogonal a los que gobiernan artefactos
   - [ ] toda afirmacion de D15 lleva `[reportado]`, cita [R47], [R48], [R49] o [R50], y **nunca** se presenta como medicion ni como proporcion de usuarios
   - [ ] las metricas de atencion (estrellas, forks, issues) declaran la fecha y el comando que las produce, y declaran que miden atencion y no uso
   - [ ] la ausencia de reportes se informa como ausencia de exposicion, no como ausencia de defectos
