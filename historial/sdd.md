@@ -4,6 +4,42 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Kiro se propaga a los tres documentos que lo esperaban, y debilita un argumento propio (2026-09-05) — COMPLETADA
+
+**Accion**: propagacion de `software/ANALISIS-KIRO.md` a los tres derivados que la entrega anterior dejo señalados. Cierra la deuda que ella misma abrio.
+
+### Lo que Kiro le hace al argumento de convergencia
+`CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sostenia la independencia de OpenSpec «frente a Spec Kit por fechas verificables» y declaraba la reserva «mientras Kiro no se lea». Kiro se leyo, y el resultado **no es la confirmacion que la reserva esperaba**: Kiro se anuncio 22 dias antes del primer commit de OpenSpec y 38 antes del de Spec Kit. Es el caso mas antiguo del corpus.
+
+Eso cierra una direccion —Kiro no puede derivar de ninguno— y no abre la contraria. Pero **retira la defensa por fecha en la direccion Kiro -> Spec Kit / OpenSpec, para los dos**. La reserva quedo reformulada: ya no dice «mientras Kiro no se lea» sino que establecer o descartar esa derivacion exige marcadores de difusion y no cronologia, y que ese trabajo no esta hecho. Ahora alcanza a **dos columnas** y no a una.
+
+Se dejo escrito el corte en sentido contrario, para que la reformulacion no se lea como una acusacion: la triada requisitos-diseño-tareas es anterior a los cinco por decadas, igual que `WHEN/THEN` desciende de Gherkin [R07]. Coincidir en un ancestro comun muy anterior no es difusion entre casos.
+
+**Kiro no toma columna en la tabla de veredictos**, y el motivo es de clase de evidencia y no de linaje: las ocho filas se contestaron leyendo archivos y con Kiro eso es imposible. Una columna suya pareceria del mismo tipo que las otras cuatro y no lo seria.
+
+### La candidata a instrumento v2 gana lo que le faltaba
+«La ceremonia escala con el tamaño del trabajo» pasa de tres casos a **cuatro contra uno**. Y con Kiro aparece el eje sobre el que discriminaria, que es lo que la volvia solo una coincidencia: **no coinciden en que escala**. Superpowers mantiene la compuerta fija por diseño explicito —«what scales with simplicity is the artifact, never the approval»— y Kiro la retira en `Quick Spec`, que genera los tres artefactos sin compuertas de aprobacion. Una dimension donde todos hacen lo mismo no informa; esta separa a dos casos en una decision de diseño nombrable.
+
+### Que cambio
+- `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia para Kiro con su exclusion motivada; §Limite del filtro reformulado entero; la dimension candidata a v2 ampliada con el cuarto caso y con su eje de discriminacion; bloque `[SDD-Check]` propio.
+- `software/ANALISIS-OPENSPEC.md`: su reserva ya estaba bien formulada —«tres semanas de anterioridad y un formato de requisitos emparentado no alcanzan para afirmar independencia total»— y solo se actualizo que Kiro dejo de estar ausente, con el resultado: la lectura **no la resolvio, la extendio** a Spec Kit.
+- `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: Kiro entra a la poblacion «con asterisco» y recibe ficha propia (§4 bis), encabezada por la asimetria de evidencia. Tres filas nuevas en la tabla de escenarios, incluida la que corre en su contra —«necesito poder auditar, forkear o llevarme el metodo: los cuatro **menos** Kiro»—, y una advertencia nueva que dice que Kiro esta peor verificado que los demas y por que.
+
+### El dato practico que aparecio al escribir la ficha
+Kiro es el unico caso donde **el metodo no se instala: la herramienta lo trae**. Entrada barata, sin scaffolding. Y su contracara exacta, que ningun otro tiene: **la salida es la mas cara de las cinco**, porque el flujo, las compuertas y los hooks *son* la herramienta. Los otros cuatro dejan archivos que sobreviven al producto; ademas son MIT o Apache 2.0 y se pueden leer enteros.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR) despues de cada edicion.
+
+### Deuda abierta
+- **La direccion Kiro -> Spec Kit / OpenSpec queda abierta** y exige marcadores de difusion, no fechas. Es el trabajo que la reformulacion deja planteado y no hace.
+- **Tessl sigue sin filtro de procedencia.**
+- **La asimetria de evidencia de Kiro no tiene remedio** mientras el producto sea cerrado: sus dimensiones de madurez, actividad y licencia se responden en prosa, no con datos comparables a los de los otros cuatro.
+- **Instrumento v2 sin decidir**, ahora con una candidata bastante mas fuerte que ayer.
+- Sigue abierto: M-40, M-41, M-42, el ecosistema del 1.0 de Spec Kit sin caracterizar.
+
+---
+
 ## Alta de ANALISIS-KIRO: el caso mas antiguo del corpus entra como metodo, sin clon posible (2026-09-05) — COMPLETADA
 
 **Accion**: alta de `software/ANALISIS-KIRO.md` con spec registrada antes de escribirlo, mas [R44] y [R45] en `REFERENCIAS.md`. Paga a medias una deuda declarada desde el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia». Tessl sigue pendiente.

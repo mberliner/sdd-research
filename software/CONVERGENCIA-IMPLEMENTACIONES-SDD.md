@@ -36,6 +36,7 @@ Las divergencias se reportan con el mismo detalle que las convergencias. Un rele
 | Superpowers [R37] | No cita, forkea ni deriva de los demás; ausentes los marcadores de difusión conocidos | Sí |
 | OpenSpec [R38] | Primer commit 2025-08-05, dieciséis días **anterior** al primer commit del repositorio de Spec Kit (2025-08-21); menciona a Spec Kit y a Kiro solo para diferenciarse comercialmente; ausentes los tres marcadores de difusión conocidos. Detalle y límites en `ANALISIS-OPENSPEC.md` | Sí, respecto de Spec Kit |
 | Testigo + este repo | El testigo deriva de este repositorio, con sesgo de confirmación declarado en B-06 | Sí, como un solo linaje |
+| Kiro [R44] | Anuncio 2025-07-14, **anterior a todos los demás casos**; no puede derivar de ninguno. La dirección contraria no queda descartada por fechas y no se investigó | **No toma columna** — por clase de evidencia: producto cerrado, sin clon vendored posible. Detalle en `ANALISIS-KIRO.md` |
 | sdd-first [R39] | Mismo autor; generaliza el tooling del testigo y arrastra vocabulario nacido acá (`[SDD-Check]`, el par `hibrido`/`casero` de B-07, la forma de principio de `../CONSTITUTION.md`) más la difusión desde Spec Kit ya declarada (`analyze`, `clarify`) | **No** como linaje — pero **sí** se lee dentro de la columna del linaje desde 2026-09-05; ver «Qué artefacto representa a nuestro linaje». Detalle en `ANALISIS-SDD-FIRST.md` |
 
 ### Qué artefacto representa a nuestro linaje (2026-09-05)
@@ -55,7 +56,15 @@ El testigo **no se retira**: es el artefacto que se leyó cuando el instrumento 
 
 **El filtro ejercido sobre un caso que no pasa (2026-08-15).** sdd-first es el primer caso al que la regla 1 se le aplica y lo rechaza. Se lo registra acá, y no en silencio, porque el corolario de esa regla —la mayoría de los métodos SDD nuevos no van a sumar linaje— solo es verificable si los rechazos quedan escritos junto a las aceptaciones. El conteo sigue siendo de cuatro linajes y ningún veredicto por fila cambia.
 
-**Límite del filtro.** La independencia de OpenSpec está establecida frente a Spec Kit por fechas verificables, no frente a Kiro, anunciado el 2025-07-14 y ausente del corpus. La notación `WHEN/THEN` compartida desciende de Gherkin [R07], ancestro común anterior a los cuatro, y por eso no cuenta como derivación entre casos. Mientras Kiro no se lea, la cuarta columna se sostiene sobre una independencia parcialmente verificada, y toda afirmación de invariancia que dependa **solo** de sumar OpenSpec MUST leerse con esa reserva.
+**Límite del filtro, reformulado el 2026-09-05 tras leer Kiro.** Kiro se leyó como método (`ANALISIS-KIRO.md`, [R44]) y el resultado obliga a decir la reserva de otra manera, más precisa y menos cómoda.
+
+La independencia de OpenSpec frente a Spec Kit sigue establecida por fechas verificables. Lo que cambió es el fondo: **Kiro se anunció el 2025-07-14, 22 días antes del primer commit de OpenSpec y 38 antes del de Spec Kit.** Es el caso más antiguo del corpus, y su anatomía declarada —tres artefactos, `requirements` → `design` → `tasks`— tiene la forma que dos de los cuatro casos comparten.
+
+Eso decide una sola cosa: **Kiro no puede derivar de ningún caso del corpus.** No decide la contraria, porque anterioridad no es derivación. Y hay un corte en sentido opuesto que conviene tener escrito: la tríada requisitos → diseño → tareas es anterior a los cinco por décadas —es la secuencia de manual—, igual que la notación `WHEN/THEN` desciende de Gherkin [R07]. Coincidir en un ancestro común muy anterior no es difusión entre casos.
+
+**Lo que se perdió es un argumento, no una conclusión.** Hasta hoy la reserva decía «mientras Kiro no se lea». Kiro se leyó, y lo que quedó no es una respuesta sino una pregunta mejor planteada: **la defensa por fecha no está disponible en la dirección Kiro → Spec Kit / OpenSpec, para ninguno de los dos.** Establecer o descartar esa derivación exige marcadores de difusión, no cronología, y ese trabajo no está hecho. Toda afirmación de invariancia de este documento MUST leerse con esa reserva, que ahora alcanza a dos columnas y no a una.
+
+**Kiro no toma columna en la tabla de veredictos**, y el motivo es de clase de evidencia, no de linaje: es producto cerrado, sin clon vendored posible, y las ocho filas se contestaron leyendo archivos. Una columna «Kiro» parecería del mismo tipo que las otras cuatro y no lo sería (`ANALISIS-KIRO.md`, C4).
 
 ---
 
@@ -124,8 +133,11 @@ Registradas por la regla 2 de la sección «Cómo se incorpora un caso nuevo»: 
   - *Spec Kit* tiene una escalera de cuatro opciones para features que no entran en un ciclo (`complex-features.md`), ordenada de más barata a más cara, que termina en el *spec of specs*.
   - *Nuestro linaje* declara tres niveles de profundidad de spec en `../SPECS_REGISTRY.md` y **no usa el más alto en ninguna de sus entradas** (`../agenda/MEJORAS-METODO.md` M-37): la escala existe declarada y no opera.
   - *OpenSpec* no expone un mecanismo de escala en lo leído.
+  - *Kiro* [R44], incorporado el 2026-09-05: `Feature Spec` con compuertas entre fases, en dos ordenamientos, frente a `Quick Spec`, que «auto-generate[s] all three artifacts without approval gates», más `Quick Plan`.
 
-  **Sin veredicto**, por la regla 2. Pero es hoy la **candidata más fuerte a instrumento v2**, por encima de «cómo llega el método al agente»: tres casos la ejercen contra uno, y los tres llegaron a mecanismos distintos, que es la forma que tiene una dimensión de ser informativa. Decidirlo es trabajo aparte y caro: abre v2 y obliga a re-correr los cuatro casos (regla 3).
+  **Sin veredicto**, por la regla 2. Pero es hoy la **candidata más fuerte a instrumento v2**, por encima de «cómo llega el método al agente»: la ejercen **cuatro casos contra uno**, con cuatro mecanismos distintos.
+
+  Y desde la incorporación de Kiro tiene además el eje sobre el que discriminaría, que es lo que le faltaba: **no coinciden en qué escala.** Superpowers mantiene la compuerta fija por diseño explícito —«what scales with simplicity is the artifact, never the approval»— y Kiro la retira en su variante rápida. Una dimensión donde todos hacen lo mismo no informa; ésta separa a dos casos en una decisión de diseño nombrable. Decidirlo sigue siendo trabajo aparte y caro: abre v2 y obliga a re-correr todos los casos (regla 3).
 
 ### La divergencia más informativa: el objeto del circuito de aprendizaje
 
@@ -172,6 +184,18 @@ Si un caso nuevo hace algo que ninguna de las ocho filas contempla, MUST NOT agr
 MUST — si una dimensión registrada demuestra importar, se fija un **instrumento v2** fechado y se re-corren **todos** los casos contra él, declarando la versión en cada lectura. MUST NOT ampliarse la v1 en caliente: leer unos casos con ocho filas y otros con nueve produce una tabla que no compara nada.
 
 Es el mismo régimen que el proyecto aplica a los experimentos sellados —enmienda fechada y motivada, nunca edición silenciosa (Principio V)—, trasladado a un instrumento de análisis. La diferencia con un experimento es que acá el costo de re-correr es leer documentos, no producir datos: es caro en atención, barato en todo lo demás.
+
+---
+
+[SDD-Check] — incorporacion de Kiro por procedencia 2026-09-05
+- Spec leida: SI (spec en `../SPECS_REGISTRY.md`; sin cambio de `incluye`/`excluye`: el filtro de procedencia y el registro de dimensiones fuera del instrumento ya estaban previstos)
+- Incluye/Excluye verificado: SI — Kiro pasa el filtro de procedencia, que este documento posee, y **no toma columna** en la tabla de veredictos; su caracterizacion vive en `ANALISIS-KIRO.md` y no se reproduce aca
+- Validaciones aplicadas: **el instrumento sigue en v1**, sin filas nuevas ni redefinidas; ningun veredicto cambio; la reserva del filtro se reformulo declarando **las dos** cosas —que las fechas cierran la direccion Kiro-hacia-atras y que **no** abren la contraria—, con el contraejemplo de la triada requisitos-diseño-tareas como ancestro comun anterior a los cinco, en paralelo al de Gherkin que ya estaba; la exclusion de Kiro de la tabla se motiva por **clase de evidencia** y no por linaje, para que no se lea como un rechazo del filtro; la fecha de anuncio se verifico en el blog de la propia fuente
+- SSOT afectado: este documento
+- Derivados a revisar: `software/ANALISIS-OPENSPEC.md` declara el mismo hueco de Kiro en su reserva de procedencia y **queda señalado**, sin modificar; `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` deberia incorporar a Kiro por adoptable, con la salvedad de que sus dimensiones de madurez y actividad no se calculan con `git` — **pendiente**
+- Cobertura: completa para la procedencia y para la dimension candidata a v2; **sin cubrir**: la incorporacion de Kiro a la orientacion practica, y la decision sobre abrir v2
+- Deuda arrastrada: **Tessl sigue sin pasar por el filtro**, y era la otra mitad de esta deuda; **la direccion Kiro -> Spec Kit / OpenSpec queda abierta y exige marcadores de difusion, no cronologia**, trabajo que no esta hecho; la reserva de independencia ahora alcanza a dos columnas y no a una. Lo previo sigue entero: corpus observacional de OpenSpec sin dar de alta, `LINEAS-INVESTIGACION.md` B6 sin reescribir, M-13, el testigo dormido
+- Riesgos/reservas: Kiro es el unico caso caracterizado **sin leer una linea de su implementacion**, y por eso se lo mantiene fuera de la tabla; que este fuera no lo vuelve irrelevante — al contrario, es el caso mas antiguo y su existencia debilita un argumento que este documento usaba
 
 ---
 

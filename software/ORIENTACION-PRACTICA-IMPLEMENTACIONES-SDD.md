@@ -19,6 +19,7 @@ Pregunta que origina el documento: *si quisiera usar una de estas herramientas, 
 | Superpowers [R37] | Sí | **Sí** | — |
 | Proyecto testigo | Sí, cuarto linaje | **No** | No es adoptable por terceros: es un proyecto testigo privado |
 | sdd-first [R39] | **No** suma linaje | **Sí** | Es un kit instalable. Su procedencia no importa para decidir si sirve; importa que exista y se pueda usar |
+| Kiro [R44] | **No** toma columna | **Sí, con asterisco** | Es adoptable —se instala y se usa— pero es producto cerrado, y eso cambia qué se puede afirmar. Ficha aparte en §4 bis |
 
 **Reserva sobre sdd-first, que MUST leerse antes de su ficha.** Es del mismo autor que este repositorio [R39]. Todo juicio favorable sobre él en un documento escrito acá es autocorrelación por construcción, y por eso su ficha se limita a hechos verificables del clon —conteos, fechas, mecanismos— sin ninguna valoración comparativa. Su factor de bus está escrito en la ficha y en la tabla.
 
@@ -148,6 +149,38 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 
 **Rasgo sin equivalente**: propagar el método a instalaciones derivadas a través de una frontera de repositorios, con detección de conflictos.
 
+### 4 bis. Kiro [R44] — el IDE con el método adentro, y el único que no se puede auditar
+
+> **Asterisco de población.** Kiro es **producto cerrado**: su repositorio público declara que no aloja el código del producto. Todo lo de abajo se cita de documentación oficial. Y **D9, D10 y D11 no se pueden calcular con `git`** como en los otros cuatro: no hay clon, no hay conteo de commits, ni de autores, ni de releases. Esa asimetría es en sí un dato práctico, y está al final de la ficha.
+
+**Orientación** `[declarado]`: el salto de prototipo a producción, formulado así — «prompt, prompt, prompt, and you have a working application. It's fun and feels like magic. But getting it to production requires more». Las specs sirven «anytime you need to think through a feature in-depth, refactor work that needs upfront planning, or when you want to understand the behavior of systems».
+
+**Objeto gobernado** `[derivado]`: código, dentro de un IDE. Es el único de los cinco donde el método **no se instala sobre tu herramienta**: la herramienta lo trae. No hay paso de scaffolding porque no hay nada que sembrar.
+
+**Unidad y comportamiento por tamaño** `[declarado]`: tres artefactos por spec —`requirements.md`, `design.md`, `tasks.md`— en `.kiro/specs/<feature>/` (esta ruta, atribuida a [R45]; la documentación oficial consultada no la expone). Y una escala de ceremonia con tres escalones: `Feature Spec` con compuertas de aprobación entre fases, `Quick Spec` que las **saltea** y `Quick Plan`.
+
+**Variantes y sus consecuencias**:
+
+| Variante | Qué cambia | Consecuencia |
+|---|---|---|
+| *Requirements-First* | requisitos → diseño → tareas | El orden de manual |
+| *Design-First* | diseño → requisitos → tareas | Para cuando la forma técnica precede al enunciado |
+| **Quick Spec** | Genera los tres artefactos **sin compuertas** | `[derivado]` Escala el artefacto **y** la aprobación a la vez. Superpowers hace lo contrario a propósito: «what scales with simplicity is the artifact, never the approval». Elegir Quick Spec es elegir que nadie mire antes de que se escriba código |
+
+**Requisitos en EARS** `[declarado]`: `WHEN <condición> THE SYSTEM SHALL <comportamiento>`, con `IF-THEN` reservado a condiciones de error. Es el único de los cinco que adopta una sintaxis de requisitos con nombre propio y reglas de patrón, en vez de acuñar la suya.
+
+**Persistencia** `[declarado]`: «Kiro's specs stay synced with your evolving codebase. Developers can author code and ask Kiro to update specs». Es el único que declara el camino **código → spec** como soportado por la herramienta. En los modelos de [R10] eso es *flow-back*, y hereda su riesgo declarado: «silent divergence».
+
+**Configuración** `[declarado]`: convenciones de proyecto en `.kiro/steering/`, compartidas entre todas las superficies; y *hooks* de agente, «event-driven automations that execute when you save or create files». El enforcement es por evento, no por compuerta de fase.
+
+**Modo de falla** `[derivado]`: si el equipo usa `Quick Spec` por defecto, el método queda sin compuertas y el artefacto se genera sin que nadie lo apruebe — que es el escenario que el resto del producto existe para evitar.
+
+**Costo de entrada y de salida** `[derivado]`: la entrada es baja, porque no hay que instalar ni configurar un método sobre tu editor. La salida es la más cara de las cinco: **el método está atado al producto**. Los otros cuatro dejan archivos que sobreviven a la herramienta; acá el flujo, las compuertas y los hooks son la herramienta.
+
+**Madurez, actividad, licencia y soporte** — y acá está la asimetría: anuncio del **2025-07-14**, lo que lo vuelve **el más antiguo del corpus**; respaldo de Amazon Web Services, el más grande de los cinco; documentación oficial extensa, tracker público de issues y material formativo propio en AWS Skill Builder. Pero **cerrado**: sin licencia abierta, sin historial auditable, sin conteo de contribuyentes, y sin posibilidad de forkearlo si el producto cambia de rumbo o de precio. Los otros cuatro son MIT o Apache 2.0 y se pueden leer entero.
+
+**Rasgo sin equivalente**: que el método no se instala. Y su contracara exacta: que tampoco se puede llevar a otro lado.
+
 ---
 
 ## 5. Orientación por escenario
@@ -166,11 +199,15 @@ Derivada de mecanismos declarados, **no de medición**. Si dos opciones parecen 
 | Repositorio sin código de producto | Modo `none` | sdd-first, **sin probar a escala** |
 | Necesito estabilidad y comunidad | 188 releases, 297 autores, respaldo institucional | Spec Kit |
 | Necesito la superficie de asistentes más ancha | 62 herramientas soportadas | OpenSpec |
+| Quiero el método sin instalar ni configurar nada | Viene dentro del IDE, sin scaffolding | Kiro, **cerrado** |
+| Necesito poder auditar, forkear o llevarme el método | Código abierto y archivos que sobreviven a la herramienta | Los cuatro **menos** Kiro |
+| Requisitos con una sintaxis formal y con nombre | EARS (`WHEN ... THE SYSTEM SHALL ...`) | Kiro |
 
 Dos advertencias sobre esta tabla `[derivado]`:
 
 - **Las filas no son excluyentes.** Superpowers gobierna el trabajo del agente y los otros tres gobiernan artefactos: combinarlo con cualquiera de ellos no es contradictorio, y la propia Spec Kit publica una extensión puente hacia él.
 - **La columna «caso» no dice «el mejor».** Dice cuál tiene un mecanismo escrito para esa situación. Que exista el mecanismo no dice que funcione.
+- **Kiro está peor verificado que los otros cuatro**, y no por casualidad: es el único cerrado. Sus filas salen de lo que declara su documentación; las de los demás, de leer archivos. Al comparar, esa asimetría corre en contra de Kiro en confianza y a favor en comodidad, y ninguna de las dos cosas se midió.
 
 ---
 
@@ -197,8 +234,8 @@ Dos advertencias sobre esta tabla `[derivado]`:
 - Spec leida: SI, y **registrada antes de escribir** (`../SPECS_REGISTRY.md` -> `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, mas fila en la Tabla SSOT)
 - Incluye/Excluye verificado: SI — no se emite veredicto de convergencia (remitido a su SSOT), no se reproduce la caracterizacion individual completa de ningun caso, no se toma ninguna decision de adopcion para este repositorio, y el testigo queda fuera por no ser adoptable
 - Validaciones aplicadas: las doce dimensiones estan fechadas y su procedencia declarada, **incluida la advertencia de que NO son anteriores a la lectura de los casos** y por que eso pesa distinto que en convergencia; cada afirmacion lleva `[declarado]` o `[derivado]` y ninguna se presenta como medida; los datos de D9, D10 y D11 salen de `git` sobre los clones vendored con la ventana declarada (90 dias desde 2026-06-07), no de la documentacion de las fuentes; la reserva de procedencia de [R39] esta escrita dos veces —en la poblacion y encabezando su ficha— y su factor de bus 1 figura en la tabla y en la ficha; las tres citas de consecuencias de Spec Kit son textuales; sin emoticones; fechas YYYY-MM-DD
-- SSOT afectado: este documento (alta) y `../SPECS_REGISTRY.md` (spec nueva mas fila en la Tabla SSOT)
+- SSOT afectado: este documento (alta el 2026-09-05; incorporacion de Kiro el mismo dia) y `../SPECS_REGISTRY.md` (spec nueva mas fila en la Tabla SSOT)
 - Derivados a revisar: ninguno registrado todavia. Señalados sin modificar: `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, cuya comparacion adoptar-contra-portar se hizo sobre un snapshot donde el ecosistema del 1.0 no existia, y `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, que posee la estadistica de adopcion que este documento no toca
 - Cobertura: completa — las doce dimensiones tienen fila en la tabla resumen y desarrollo en las cuatro fichas, y la seccion 6 enumera explicitamente lo que queda fuera del alcance de lo afirmable
-- Deuda arrastrada: **el ecosistema del 1.0 de Spec Kit sigue sin caracterizar en `ANALISIS-SPEC-KIT.md`**, y acá entra solo por su efecto practico (165 extensiones de comunidad, modelo de confianza), no como caracterizacion; ninguna fuente se corrio, asi que D6, D7 y D8 son lectura de mecanismo y no experiencia de uso. Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, y la decision sobre instrumento v2 de convergencia
-- Riesgos/reservas: el instrumento no es anterior a la lectura de los casos y eso esta declarado en la seccion 2 con su mitigacion, que es discutible; dos de las cuatro fuentes tienen interes comercial y una es del mismo autor que este repositorio; los conteos de actividad miden movimiento, no calidad ni idoneidad, y un proyecto con 97 autores en 90 dias no es por eso mejor que uno con 17; la seccion 5 es la mas facil de leer como recomendacion y es la que menos evidencia tiene, por lo que declara dos veces que no ordena por calidad
+- Deuda arrastrada: **Kiro entra con una asimetria de evidencia que no tiene remedio** —producto cerrado, sin clon, sin conteos de `git`— y sus tres dimensiones de madurez, actividad y licencia se responden en prosa y no con datos comparables; **el ecosistema del 1.0 de Spec Kit sigue sin caracterizar en `ANALISIS-SPEC-KIT.md`**, y acá entra solo por su efecto practico (165 extensiones de comunidad, modelo de confianza), no como caracterizacion; ninguna fuente se corrio, asi que D6, D7 y D8 son lectura de mecanismo y no experiencia de uso. Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, y la decision sobre instrumento v2 de convergencia
+- Riesgos/reservas: la poblacion tiene ahora cinco casos con **dos clases de evidencia distintas** —cuatro leidos en clones y uno leido en documentacion de producto—, y la ficha de Kiro lo declara arriba de todo para que nadie compare sus filas como si fueran del mismo tipo; el instrumento no es anterior a la lectura de los casos y eso esta declarado en la seccion 2 con su mitigacion, que es discutible; dos de las cuatro fuentes tienen interes comercial y una es del mismo autor que este repositorio; los conteos de actividad miden movimiento, no calidad ni idoneidad, y un proyecto con 97 autores en 90 dias no es por eso mejor que uno con 17; la seccion 5 es la mas facil de leer como recomendacion y es la que menos evidencia tiene, por lo que declara dos veces que no ordena por calidad
