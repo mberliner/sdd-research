@@ -740,14 +740,15 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD **adoptable**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia y soporte esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad y soporte esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
-  - la poblacion y por que difiere de la de convergencia: entra quien sea adoptable, no quien sume linaje
-  - las doce dimensiones, con su procedencia y la fecha en que se fijaron
-  - tabla resumen de las doce dimensiones sobre los cuatro casos
-  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, soporte y rasgo sin equivalente
+  - la poblacion y por que difiere de la de convergencia: entra quien alguien pueda evaluar o adoptar, no quien sume linaje. **Ni la apertura del codigo ni la disponibilidad son criterio de admision**: son dimensiones que se documentan
+  - las catorce dimensiones, con su procedencia y la fecha en que se fijaron
+  - tabla resumen de las catorce dimensiones sobre los cinco casos
+  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte y rasgo sin equivalente
+  - la distincion entre perder la **herramienta** y perder los **artefactos**, que es lo que la apertura decide en la practica
   - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
   - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
 - `excluye`:
@@ -755,11 +756,13 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - la caracterizacion individual completa de cada implementacion — vive en cada `software/ANALISIS-*.md`
   - la decision de adopcion de este repositorio — vive en `agenda/MEJORAS-METODO.md` y en `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`
   - estadistica de adopcion y popularidad — vive en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
-  - el proyecto testigo, que no es adoptable por terceros, y toda fuente no instalable
+  - el proyecto testigo, que no es un producto que un tercero pueda evaluar ni adoptar
 - `validacion`:
-  - [ ] las doce dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - [ ] las catorce dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - [ ] la apertura del codigo y la disponibilidad se documentan como dimensiones y **nunca** se usan para admitir o excluir un caso
+  - [ ] cada caso cerrado declara que artefactos quedan en el repositorio del usuario, para no confundir perder la herramienta con perder el trabajo
   - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
-  - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce, no de la documentacion de la fuente
+  - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
   - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
   - [ ] no hereda ningun encuadre de «estandar de referencia»
   - [ ] no duplica SSOT — referencia

@@ -4,6 +4,41 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Abierto o cerrado deja de ser filtro y pasa a ser dimension; Tessl entra a la orientacion practica (2026-09-05) — COMPLETADA
+
+**Accion**: correccion de un error de diseño propio en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, señalado por el usuario, con enmienda de spec. El documento se entrego ayer con doce dimensiones y cuatro casos; queda con **catorce dimensiones y seis casos**.
+
+### El error
+El criterio de poblacion declarado era la **adoptabilidad**, y bajo el se admitio a Kiro y se excluyo a Tessl por tener su Framework en beta cerrada. Dos cosas estaban mal:
+
+1. **Incoherencia visible.** Kiro tambien es producto cerrado y entraba. Leidas juntas, las dos filas hacian parecer que «cerrado» era lo que excluia, cuando el criterio declarado era otro. Un lector razonable concluia que el documento discrimina por apertura sin decirlo.
+2. **El criterio estaba mal elegido para el proposito.** El documento existe para ayudar a decidir, y dejaba afuera al **unico caso del corpus que regenera codigo desde la spec**. La entrega de ayer registro eso como «incomodidad»; era, en realidad, la señal de que el criterio no servia. Saber que una herramienta existe, que hace distinto y que todavia no se consigue **es** informacion para decidir.
+
+La observacion del usuario fue precisa: abierto o cerrado es una caracteristica mas a documentar, no una puerta.
+
+### Que cambio
+- **Enmienda de spec**: `proposito` pasa de «adoptable» a «que alguien pueda evaluar o adoptar»; `incluye` sube de doce a catorce dimensiones y suma la distincion entre perder la herramienta y perder los artefactos; `excluye` reformula por que el testigo sigue afuera —no es un producto, que es un motivo distinto—; `validacion` suma tres casillas, entre ellas que **la apertura y la disponibilidad nunca se usen para admitir o excluir**.
+- **D13 Apertura del codigo** y **D14 Disponibilidad**, nuevas. La seccion 2 declara por que se agregan: estaban implicitas y operando como filtro, que es la peor forma de tener una dimension — decidia admisiones sin figurar en ningun lado.
+- **Tessl entra** con ficha propia (§4 ter), encabezada por la clase de evidencia mas debil del documento: producto cerrado, Framework en beta cerrada, y su rasgo principal verificado por [R20] y no por la fuente.
+- **§4 quater, nueva**: que decide la apertura en la practica, separada en cuatro cosas que se deciden por separado —auditar el metodo, medir madurez y actividad, forkear, y conservar los artefactos—.
+- **Tabla resumen** ampliada a seis columnas y catorce filas. En los dos casos cerrados, D9 y D10 se declaran **no medibles** en vez de completarse con datos no comparables.
+
+### Una afirmacion propia corregida en su lugar
+La ficha de Kiro decia que su salida era «la mas cara de las cinco» porque «el metodo esta atado al producto». Era demasiado gruesa y confundia dos cosas: **un producto cerrado no te encierra los documentos, te encierra el motor.** `.kiro/specs/` y `.kiro/steering/` son markdown en el repositorio del usuario; lo que no se va con vos es el flujo de fases, las compuertas y los hooks. Lo mismo en Tessl con los `.spec.md`, con un agravante propio: el codigo generado lleva marca `DO NOT EDIT`, asi que si la herramienta deja de estar, lo que queda es codigo generado que nadie mantuvo nunca a mano. La correccion quedo escrita **en el lugar de la afirmacion anterior y con nota**, no reescrita en silencio.
+
+Tambien se corrigio una fila de la tabla de escenarios que decia «necesito poder auditar, forkear o llevarme el metodo: los cuatro **menos** Kiro». Mezclaba tres cosas distintas y la ultima era falsa.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR) despues de cada edicion.
+
+### Deuda abierta
+- **D9 y D10 no son medibles en los dos casos cerrados**, y no lo seran mientras no publiquen repositorio. Queda declarado en la tabla en vez de completado.
+- El *Framework* de Tessl sigue en beta cerrada: su ficha describe algo que hoy no se puede probar.
+- Su rasgo principal se conoce por [R20], no por la fuente.
+- Sigue abierto: M-40, M-41, M-42, el ecosistema del 1.0 de Spec Kit sin caracterizar, instrumento v2 sin decidir, y la pregunta que abre el no-determinismo observado, sin item.
+
+---
+
 ## Alta de ANALISIS-TESSL: el unico caso que regenera, y la deuda de procedencia queda saldada (2026-09-05) — COMPLETADA
 
 **Accion**: alta de `software/ANALISIS-TESSL.md` con spec registrada antes de escribirlo, alta de [R46], anotacion de [R20], y propagacion a tres documentos. Cierra la deuda abierta el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia».
