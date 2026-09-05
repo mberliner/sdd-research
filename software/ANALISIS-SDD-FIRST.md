@@ -2,7 +2,8 @@
 
 Fecha: 2026-08-15.
 Fuente: sdd-first v0.1.0, commit `ebfbd67` (2026-08-14), rama `main`, árbol limpio [R39]. Clon vendored en `../fuentes-externas/sdd-first/`.
-Re-consultado el 2026-08-30 en el commit `f032dce` (2026-08-17). El delta se lee en §Lo que el kit destiló después y en C7; el resto del documento vale para el commit original.
+Re-consultado el 2026-08-30 en el commit `f032dce` (2026-08-17). El delta se lee en §Lo que el kit destiló después y en C7.
+Re-consultado el 2026-09-05 en el commit `4a0851e` (2026-09-03). El delta se lee en §Los ocho arreglos que siguieron y en C8. El resto del documento vale para el commit original.
 Alcance: Línea B (software).
 
 ---
@@ -66,6 +67,25 @@ El encabezado de `PATRONES.md` declara para qué existe: es lo que conviene leer
 `docs/IDEAS.md` sumó además un §Índice de descartes: tabla de dos columnas —qué se descartó, dónde está escrito el motivo— que existe explícitamente «para no re-litigarlas», con el razonamiento remitido al ítem que lo produjo.
 
 Las convenciones del backlog que sostienen las tres piezas están escritas en su §Cómo se lee: IDs estables por tanda de origen, nunca renumerados ni reciclados —los citan specs, historial y comentarios de código—; la prioridad declarada **sólo** en la tabla, con los títulos agrupando por tanda «para que recalibrar un ítem no obligue a moverlo de lugar»; y un valor de prioridad `—` que significa «sin triage», con la aclaración de que no es «menos que P3» sino «sin medir».
+
+### Los ocho arreglos que siguieron (delta 2026-08-26/09-03)
+
+Ocho commits después del segundo corte, todos `fix:` contra specs propias, sin entrada de historial porque el kit reserva ese registro para cambios de método. Lo que los vuelve material de este análisis no es lo que arreglan sino **qué tenían en común**: seis de los ocho son un verificador que reportaba OK sin verificar nada, o una guarda que estaba abierta por un camino que nadie probó.
+
+| Commit | Qué reportaba salud sin mirarla |
+|---|---|
+| `d76e9e4` | El check de constitución exigía `/` o punto inicial para tratar un token como archivo, y los enforcements se escriben `check_naming.py`, `sdd_gate.py`: **ninguno se verificaba**. Una constitución que apunta a archivos inexistentes salía exit 0 |
+| `e385515` | El doctor daba el gate por cableado con `invocacion in contenido` sobre el archivo entero, así que **un comentario que decía lo contrario lo satisfacía**: un proyecto con `PreToolUse: []` obtenía «Instalación SDD sana» |
+| `92b22e9` | `NotebookEdit` estaba en el matcher del gate pero declara su ruta en `notebook_path`, que el gate no leía: caía en «payload sin ruta» y **permitía la edición**. El wiring prometía una cobertura que la política no daba, en silencio |
+| `a447da0` | La rama fail-closed del hook comparaba rutas con `/`, y en Windows el payload llega con backslashes: no encontraba root, salía 0 y **la edición pasaba sin ser mirada**. Fail-open en la plataforma donde el intérprete falta más seguido |
+| `85ffb5e` | La exclusión de carpetas de test estaba escrita a mano en tres capas; cuando una spec agregó `tests_e2e` nadie las actualizó, y el gate **bloqueaba editar los propios tests** — o sea impedía el rojo de TDD. Los siete casos de test usaban listas escritas a mano: las tres capas coincidían en estar mal y el test las daba por parejas |
+| `c92afe1` | El lado del disco y el del registro filtraban specs con criterios distintos, y de la asimetría salía «entrada apunta a archivo inexistente» **sobre un archivo presente** |
+
+Los otros dos son de otra clase: `bf7be7e` (un archivo ilegible terminaba el paso con un `UnicodeDecodeError` crudo, mostrado como `[FALLO] naming`, indistinguible de una violación real y sin nombrar el archivo) y `4a0851e` (la fecha se sustituía por contenido y no por marcador, comiéndose el placeholder que la plantilla de specs deja a propósito).
+
+Todos declaran la evidencia en el mismo lugar: el cuerpo del commit dice «Medido:» y describe el caso concreto que salía verde. No hay medición agregada ni cifra de efectividad — sigue valiendo la reserva de [R39].
+
+---
 
 ---
 
@@ -144,14 +164,36 @@ Dos consecuencias, y son de naturaleza distinta:
 
 Saldo aparte, que corrige un supuesto del ítem #15 de ese backlog: el cierre de T-1 midió el **FR pendiente** —escrito, sin fila en el Coverage mapping— y dio **0 en las 26 specs**, porque el flujo escribe la fila en la misma iteración. La unidad existe sólo *durante* la iteración: no hay lote que medir mirando el árbol en reposo.
 
+
+
+### C8. Los ocho arreglos caen adentro de la taxonomía que se escribió antes que ellos — seis de ocho
+
+`docs/PATRONES.md` se escribió el 2026-08-16 y no se tocó desde entonces; los ocho arreglos son del 2026-08-26 en adelante. O sea que la taxonomía es **anterior** a los defectos, y absorberlos no le costó una edición. Clasificados contra sus ocho clases:
+
+| Clase de `PATRONES.md` | Arreglos que caen adentro |
+|---|---|
+| 2 · La lista duplicada que nada ata | `85ffb5e`, `92b22e9`, `c92afe1` |
+| 4 · La carpeta que existe y ningún paso mira («no falla: **calla**») | `a447da0`, `d76e9e4` |
+| 5 · Validar existencia en vez de contenido | `e385515` |
+| ninguna | `bf7be7e`, `4a0851e` |
+
+Qué vale y qué no vale de esto, porque la diferencia es grande:
+
+- **No es un test predictivo.** Nadie predijo nada, la clasificación es post-hoc, la hice yo, y tengo el incentivo de que encaje. n=8, un solo clasificador, sin criterio escrito de antemano. Principio V no se viola —no se reformula ninguna hipótesis— pero tampoco se satisface: esto no es un experimento.
+- **Sí es fuera de muestra.** Las ocho clases citan como evidencia ítems cerrados antes del 2026-08-16, y estos seis defectos no están entre ellos. Es la primera vez que una de las piezas de método de este corpus se enfrenta a casos que no la formaron, y no le hicieron falta clases nuevas. Es débil, y es más de lo que había: hasta acá `PATRONES.md` era una buena idea sin ninguna muestra.
+
+**El hueco importa tanto como la cobertura.** Los dos que no encajan no son ruido: `bf7be7e` es un **rojo que no significa nada** —dos causas distintas, un archivo ilegible y una violación real, colapsadas en el mismo `[FALLO]` y sin nombrar el archivo—. Las ocho clases están enunciadas del lado del verde: el aviso que suena siempre, la carpeta que nadie mira, validar existencia en vez de contenido. **Ninguna cubre el canal de error.** Quien porte la taxonomía acá —C7 la propone como la pieza más portable— MUST NOT portarla como si estuviera completa.
+
+**Y una instancia propia, verificada.** La clase 2 es la más instanciada de las tres (3 de 6), y describe algo que este repositorio tiene: `METODO_FILES` de `../tools/check_docs.py` enumera a mano qué archivo es método, derivándolo literalmente de la enumeración del Principio VI de `../CONSTITUTION.md`. La lista es fiel a su fuente; **la fuente es la que está incompleta**. Sonda corrida el 2026-09-05: se agregó una línea a `../CONVENCIONES.md` —SSOT del léxico normativo, la forma de los documentos y el formato de commit—, se la dejó staged y el gate salió **0 ERROR**, sin pedir entrada de historial. Cambiar la definición de MUST/SHOULD del repositorio no cuenta como cambio de método. Dado de alta como `../agenda/MEJORAS-METODO.md` M-40.
+
 ---
 
 [SDD-Check]
 - Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc)
 - Incluye/Excluye verificado: SI - no se toca la lectura cruzada de convergencia (remitida a `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`), no se re-analiza ningun otro framework, no se toman decisiones de adopcion (las candidatas van a `../agenda/MEJORAS-METODO.md` como M-15/M-16/M-17 en estado Propuesta)
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R39] con commit `ebfbd67` y estado del arbol declarado, mas el commit `f032dce` para el delta del 2026-08-30 (§Lo que el kit destilo despues y C7, unicas secciones que valen para ese segundo anclaje); procedencia resuelta antes de la lectura y con conclusion explicita de que NO suma linaje, con tres clases de evidencia (mismo autor y misma cadena de tooling, vocabulario propio de este repo, difusion desde Spec Kit ya declarada); ninguna coincidencia del mapeo se presenta como convergencia y la advertencia esta escrita dos veces, en el encabezado de la tabla y en C6; la fuente no reporta ninguna medicion y eso queda dicho; cada rasgo citado declara su archivo de origen en el clon vendored; mapeo corrido sobre el instrumento v1 sin agregar ni redefinir filas; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R39] con commit `ebfbd67` y estado del arbol declarado, mas el commit `f032dce` para el delta del 2026-08-30 (§Lo que el kit destilo despues y C7) y el commit `4a0851e` para el delta del 2026-09-05 (§Los ocho arreglos que siguieron y C8); cada seccion vale para su anclaje y no para los otros dos; procedencia resuelta antes de la lectura y con conclusion explicita de que NO suma linaje, con tres clases de evidencia (mismo autor y misma cadena de tooling, vocabulario propio de este repo, difusion desde Spec Kit ya declarada); ninguna coincidencia del mapeo se presenta como convergencia y la advertencia esta escrita dos veces, en el encabezado de la tabla y en C6; la fuente no reporta ninguna medicion y eso queda dicho; cada rasgo citado declara su archivo de origen en el clon vendored, y cada arreglo del delta 2026-09-05 su hash de commit; la clasificacion de C8 declara que es post-hoc, de un solo clasificador y sin criterio escrito de antemano, en vez de presentarse como test; la sonda de M-40 se corrio y su resultado se reporta con el comando y el veredicto; mapeo corrido sobre el instrumento v1 sin agregar ni redefinir filas; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc operativo). `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` recibe una fila de procedencia que registra el caso como no-linaje, sin cambiar ningun veredicto ni el conteo de cuatro linajes
-- Derivados a revisar: `../agenda/MEJORAS-METODO.md` (M-02 incorpora el resultado negativo de C3; M-15/M-16/M-17 dadas de alta como Propuesta; en el delta del 2026-08-30, M-32 y M-33 dadas de alta y M-31 citando el patron 1 de `PATRONES.md`); `../agenda/BACKLOG-INVESTIGACION.md` #15 y #19 (el saldo de T-1 corrige un supuesto del primero, el segundo nace de C7); `../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4 (el fail-closed que la pregunta pide ya tiene una implementacion de referencia; la pregunta sigue abierta porque nadie midio su costo operativo) - señalado, sin modificar
-- Cobertura: completa - las siete conclusiónes mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio; las candidatas tienen ID de destino en `../agenda/MEJORAS-METODO.md` (M-15/M-16/M-17 en la entrega original; M-32 y M-33 en el delta) y la mitad de investigacion de C7 tiene item propio en `../agenda/BACKLOG-INVESTIGACION.md` #19
-- Deuda arrastrada: la de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sigue intacta y este documento no la toca (Kiro sin leer, dimension «como llega el metodo al agente» sin veredicto, corpus observacional de OpenSpec sin dar de alta, tercer eje propuesto y sin cerrar); se agrega una propia: **por que el kit dejo caer `[NEEDS CLARIFICATION]` no esta declarado en la fuente y este analisis no lo resuelve**; y M-15/M-16/M-17 quedan en Propuesta, sin aprobacion
-- Riesgos/reservas: el analisis lee documentos, specs, config e historial del clon, sin correr `sdd_init.py` ni el pipeline, asi que las capacidades descritas son las declaradas por la fuente y no verificadas por ejecucion; la fuente es del mismo autor que este repositorio, con sesgo de confirmacion estructural y no solo probable, y por eso ninguna de sus coincidencias se cuenta como evidencia; el clon vendored es un directorio de trabajo vivo, no un snapshot congelado, asi que la lectura vale para el commit declarado y puede desactualizarse sin aviso
+- Derivados a revisar: `../agenda/MEJORAS-METODO.md` (M-02 incorpora el resultado negativo de C3; M-15/M-16/M-17 dadas de alta como Propuesta; en el delta del 2026-08-30, M-32 y M-33 dadas de alta y M-31 citando el patron 1 de `PATRONES.md`; en el delta del 2026-09-05, M-40 dada de alta desde C8); `../agenda/BACKLOG-INVESTIGACION.md` #15 y #19 (el saldo de T-1 corrige un supuesto del primero, el segundo nace de C7); `../agenda/BACKLOG-INVESTIGACION.md` prioridad alta #4 (el fail-closed que la pregunta pide ya tiene una implementacion de referencia; la pregunta sigue abierta porque nadie midio su costo operativo) - señalado, sin modificar
+- Cobertura: completa - las siete conclusiónes mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio; las candidatas tienen ID de destino en `../agenda/MEJORAS-METODO.md` (M-15/M-16/M-17 en la entrega original; M-32 y M-33 en el delta) y la mitad de investigacion de C7 tiene item propio en `../agenda/BACKLOG-INVESTIGACION.md` #19; C8 tiene destino en M-40 y declara explicitamente que su mitad de evidencia NO se cierra aca
+- Deuda arrastrada: la de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sigue intacta y este documento no la toca (Kiro sin leer, dimension «como llega el metodo al agente» sin veredicto, corpus observacional de OpenSpec sin dar de alta, tercer eje propuesto y sin cerrar); se agrega una propia: **por que el kit dejo caer `[NEEDS CLARIFICATION]` no esta declarado en la fuente y este analisis no lo resuelve**; y M-15/M-16/M-17 quedan en Propuesta, sin aprobacion; se agrega otra: **el hueco de `PATRONES.md` del lado del canal de error —ninguna de sus ocho clases cubre un rojo que no significa nada— queda declarado en C8 y sin resolver**, y quien porte la taxonomia lo hereda
+- Riesgos/reservas: el analisis lee documentos, specs, config e historial del clon, sin correr `sdd_init.py` ni el pipeline, asi que las capacidades descritas son las declaradas por la fuente y no verificadas por ejecucion; la fuente es del mismo autor que este repositorio, con sesgo de confirmacion estructural y no solo probable, y por eso ninguna de sus coincidencias se cuenta como evidencia; el clon vendored es un directorio de trabajo vivo, no un snapshot congelado, asi que la lectura vale para el commit declarado y puede desactualizarse sin aviso; la coincidencia de C8 es debil por construccion (n=8, clasificacion post-hoc de una sola persona con incentivo a que encaje) y MUST NOT citarse como validacion de la taxonomia

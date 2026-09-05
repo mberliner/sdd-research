@@ -4,6 +4,41 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de sdd-first [R39]: la taxonomia ajena absorbe defectos que no la formaron, y devuelve un agujero propio (2026-09-05) — COMPLETADA
+
+**Accion**: fase B del re-anclaje, primera de cuatro. Diff dirigido de los 8 commits de sdd-first entre `f032dce` (2026-08-17) y `4a0851e` (2026-09-03) contra `software/ANALISIS-SDD-FIRST.md`. Ninguna conclusion previa (C1-C7) queda invalidada.
+
+### Que se encontro
+Los ocho commits son `fix:` contra specs propias, sin entrada de historial alla porque el kit reserva ese registro para cambios de metodo. Lo que los vuelve material no es lo que arreglan sino que **seis de los ocho son la misma cosa**: un verificador que reportaba OK sin verificar nada, o una guarda abierta por un camino que nadie probo. El check de constitucion no reconocia sus propios enforcements como rutas y salia exit 0; el doctor daba el gate por cableado con un comentario que decia lo contrario; el gate no leia `notebook_path` y permitia la edicion en silencio; la rama fail-closed del hook era fail-open en Windows.
+
+**El hallazgo no es ese, es el de arriba.** `docs/PATRONES.md` se escribio el 2026-08-16 y no se toco desde entonces; los defectos son del 2026-08-26 en adelante. La taxonomia es anterior y absorbe seis de los ocho sin necesitar una clase nueva. Es la primera vez que una pieza de metodo de este corpus se enfrenta a casos que no la formaron.
+
+Lo que eso vale esta escrito con el mismo cuidado en C8: **no es un test predictivo** —nadie predijo nada, la clasificacion es post-hoc, de un solo clasificador con incentivo a que encaje, n=8, sin criterio escrito de antemano— pero **si es fuera de muestra**, y hasta acá `PATRONES.md` era una buena idea sin ninguna muestra.
+
+Y el hueco importa tanto como la cobertura: los dos que no encajan estan del lado del canal de error (un `[FALLO]` que colapsa «archivo ilegible» con «violacion real»). Las ocho clases estan enunciadas del lado del verde. **Ninguna cubre un rojo que no significa nada**, y C7 propone portar esa taxonomia acá: quien la porte MUST NOT hacerlo como si estuviera completa.
+
+### Una instancia propia, verificada
+La clase mas instanciada del delta (3 de 6) es «la lista duplicada que nada ata», y describe algo que este repositorio tiene. `METODO_FILES` de `tools/check_docs.py` enumera a mano que archivo es metodo, derivandolo **literalmente** de la enumeracion del Principio VI. La lista es fiel; la fuente esta incompleta: `CONVENCIONES.md` no figura, y es el SSOT del lexico normativo, la forma de los documentos, los nombres y el formato de commit.
+
+**Sonda**: se agrego una linea a `CONVENCIONES.md`, se la dejo staged y se corrio `./tools/check_docs.py --staged` —el modo que invoca el gate—. Resultado **0 ERROR**, sin pedir entrada de historial. Un commit que redefine que significa MUST en este repositorio pasa sin dejar rastro. Revertido sin commitear.
+
+Es distinto de M-31: alla el check miraba mal, acá mira exactamente lo que le dijeron. Por eso el arreglo no empieza en el check.
+
+### Que cambio
+- `software/ANALISIS-SDD-FIRST.md`: §Los ocho arreglos que siguieron (tabla de los seis, con hash y el caso concreto que salia verde en cada uno) y **C8** nueva; encabezado con el tercer anclaje; bloque `[SDD-Check]` actualizado en cinco campos.
+- `agenda/MEJORAS-METODO.md`: alta de **M-40** (prioridad alta), con la sonda, la distincion respecto de M-31 y el orden de trabajo — decidir si `CONVENCIONES.md` es metodo, barrer el resto de la enumeracion antes de enmendar, y recien despues tocar `METODO_FILES`.
+- `REFERENCIAS.md`: [R39] gana el tercer anclaje y su reserva de vendorizado pasa a nombrar los tres commits con lo que cada uno sostiene.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Cada arreglo citado declara su hash; ninguna cifra de efectividad se toma de la fuente, que no reporta ninguna.
+
+### Deuda abierta
+- **M-40 sin decidir**, y mientras tanto la unica garantia mecanica del Principio VI tiene un agujero del tamaño del SSOT del lexico. La decision es del usuario: es enmienda de constitucion, no ajuste de check.
+- **El hueco de `PATRONES.md` del lado del canal de error** queda declarado y sin resolver; lo hereda quien porte la taxonomia (C7).
+- Faltan las tres fases B restantes: spec-kit, superpowers, OpenSpec.
+
+---
+
 ## Los cuatro clones vendored se re-anclan al estado del disco (2026-09-05) — COMPLETADA
 
 **Accion**: `git pull` deliberado de los cuatro clones de `fuentes-externas/` y re-anclaje de `REFERENCIAS.md` al estado real del disco. **No** es re-analisis: ningun documento de `software/` se toco.
