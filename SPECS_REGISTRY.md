@@ -689,21 +689,31 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/RELACION-SPEC-VS-EPICA.md
 - `path`: `software/RELACION-SPEC-VS-EPICA.md`
-- `proposito`: aclarar la relación y diferencias entre "spec" (en sus dos sentidos: Spec Kit y gobernanza local) y los artefactos ágiles épica e historia de usuario, con evidencia externa.
+- `proposito`: responder si una "spec" es análoga a una "épica" **como cuestión general**, fundada primero en el estatuto de cada artefacto según fuentes normativas y autoritativas, y recién después en cómo resuelve el eje de alcance cada implementación SDD del corpus; incluye la distinción de los dos sentidos de "spec" que el proyecto usa.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
+  - el encuadre general y previo a todo caso: qué estatuto tiene cada artefacto —la especificación de requisitos lo tiene normativo [R03], la épica no tiene definición autoritativa [R41][R42][R43]— y por qué eso hace que la pregunta compare objetos de distinto orden
+  - la distinción de los dos ejes: unidad de alcance del trabajo frente a contrato de gobernanza del artefacto
   - distinción de los dos sentidos de "spec" usados en el proyecto
-  - jerarquía de artefactos Spec Kit (Spec -> Plan -> Tasks) vs. ágil (Épica -> Historia -> Tarea)
+  - jerarquía de artefactos por implementación (Spec -> Plan -> Tasks y sus variantes) vs. ágil (Épica -> Historia -> Tarea)
+  - cómo resuelve el eje de alcance **cada implementación del corpus** ([R10][R37][R38][R39]), en calidad de evidencia del encuadre general y con la reserva de procedencia de [R39] escrita
   - tabla comparativa spec / épica / historia
   - síntesis de la discusión externa autoritativa con [Rxx]
+  - la sección datada que registra qué afirmaba una versión anterior del documento y qué se retiró, cuando una revisión invalide una afirmación previa
 - `excluye`:
-  - re-análisis del flujo interno de Spec Kit (vive en `ANALISIS-SPEC-KIT.md`; se referencia, no se copia)
+  - **la comparación entre frameworks SDD como tal**: acá las implementaciónes entran como evidencia de una cuestión general, nunca como lectura cruzada de casos. El veredicto de convergencia vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` y el análisis comparativo de frameworks queda diferido a un análisis posterior (decisión del 2026-09-05)
+  - re-análisis del flujo interno de cualquier implementación (viven en sus `ANALISIS-*.md`; se referencian, no se copian)
   - estadística de adopción de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
-  - duplicación del mapeo Spec Kit vs. protocolo (referencia `ANALISIS-SPEC-KIT.md`, no copia)
-  - transferencia del razonamiento a Línea A: el vocabulario ágil y Spec Kit son nativos de software (pregunta abierta en `agenda/BACKLOG-INVESTIGACION.md`). Estaba declarada sólo en el encabezado del documento hasta el 2026-08-23, cuando se trajo acá (M-05)
+  - duplicación del mapeo implementación vs. protocolo (referencia el `ANALISIS-*` que corresponda, no copia)
+  - transferencia del razonamiento a Línea A: el vocabulario ágil y las implementaciónes SDD son nativos de software (pregunta abierta en `agenda/BACKLOG-INVESTIGACION.md`). Estaba declarada sólo en el encabezado del documento hasta el 2026-08-23, cuando se trajo acá (M-05)
 - `validacion`:
   - [ ] cada afirmación externa tiene referencia [Rxx]
+  - [ ] el encuadre general precede a toda evidencia de implementación, y ninguna conclusión general se sostiene sólo en una implementación
+  - [ ] el estatuto asimétrico de los dos artefactos está fundado en fuente normativa o autoritativa, no en fuente secundaria
+  - [ ] ninguna implementación del mismo autor se cuenta como evidencia independiente (reserva de [R39])
+  - [ ] las implementaciónes se presentan como evidencia, y en ningún lugar como comparación entre frameworks
+  - [ ] toda afirmación retirada de una versión anterior queda registrada, no borrada
   - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
   - [ ] distingue explícitamente los dos sentidos de "spec"
   - [ ] no duplica SSOT — referencia
@@ -906,3 +916,13 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] cada fase tiene fecha y estado
   - [ ] archivos afectados listados por fase
+
+### comun/PRESENTACION-SDD-DOCS.md
+- `path`: `comun/PRESENTACION-SDD-DOCS.md`
+- `proposito`: Presentación corta en formato Marp para mostrar la idea de SDD aplicada exclusivamente a documentación asistida por IA, con énfasis en versionado y edición compartida.
+- `ssot_level`: `derivado`
+- `deriva_de`: `comun/SDD-ADAPTATIVO-VS-CASCADA.md`
+- `owner`: proyecto SDD
+- `validacion`:
+  - [ ] Usa formato y directivas Marp válidas (`marp: true`, delimitadores `---`).
+  - [ ] El contenido se enfoca en uso documental, versionado y colaboración de equipo.

@@ -4,6 +4,43 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## RELACION-SPEC-VS-EPICA se funda primero en norma y despues en implementaciónes; la spec se enmienda para permitirlo (2026-09-05) — COMPLETADA
+
+**Accion**: reestructuracion del documento y enmienda de su spec, a pedido del usuario, con cuatro criterios que el pedido fijo: fidelidad al estado de hoy sin perder la historia; el concepto general primero y las implementaciónes despues; libertad para cambiar estructura o alcance si mejora la calidad; y la comparacion entre frameworks explicitamente diferida a otro analisis.
+
+### El problema
+El documento era general en el titulo, en la tesis y en el veredicto de cierre, y su base empirica era **una sola implementacion** mas tres comentarios sobre esa misma implementacion ([R20], [R21], [R22]). Escrito el 2026-06-03, cuando eso era todo lo que el corpus tenia. Los otros tres casos se analizaron el 2026-08-02 y el 2026-08-15 y nunca entraron.
+
+Peor que estrecho: el lado **agil** estaba tan poco fundado como el lado SDD. La definicion de epica se atribuia a [R21], una consultora, no a una fuente de vocabulario.
+
+### Lo que devolvio ir a las fuentes
+La asimetria es mas fuerte de lo que el documento suponia, y es verificable:
+
+- `ISO/IEC/IEEE 29148:2018` declara en su alcance que «defines the construct of a good requirement» [R03]: la especificacion de requisitos tiene definicion normativa.
+- La **Scrum Guide (2020) no contiene las palabras «epic» ni «user story»**, en ninguna forma [R41]. Verificado en fuente. Su unidad es el *Product Backlog item*, ni siquiera definido formalmente.
+- La unica definicion disponible de epica es de glosario profesional, con origen datado en Cohn 2004 [R42], y su significado derivo: «In a case of Semantic Diffusion, the original definition of "epic" has weakened over the years», con dos usos hoy incompatibles y la herramienta moldeando la practica [R43].
+- Y el remate: las tres C de Jeffries (2001) nacieron «to distinguish "social" user stories from "documentary" requirements practices such as use cases» [R42]. **La historia de usuario se diseño para no ser una especificacion.** La pregunta original compara un artefacto cuya razon de ser es documentar con uno cuya razon de ser es reemplazar la documentacion por conversacion.
+
+Sobre esa base, las cuatro implementaciónes entran como **evidencia** y muestran tres respuestas distintas al eje de alcance: contencion (Spec Kit; sdd-first, que no cuenta), separacion estructural en dos directorios (OpenSpec), y ausencia de contenedor (Superpowers, verificado con `grep`: cero ocurrencias de historia o epica en su spec). Y el unico caso independiente que contiene documenta tambien la jerarquia inversa cuando la feature no entra en un ciclo.
+
+**Una afirmacion retirada**: «la posicion dominante es la de contencion/inversion de jerarquia». Sobre cuatro casos —uno de los cuales no cuenta por procedencia— no se sostiene.
+
+### Que cambio
+- `SPECS_REGISTRY.md` (**enmienda de spec, antes de escribir el documento**): `proposito` pasa a exigir el encuadre general primero; `incluye` suma el estatuto de los artefactos, el eje de alcance en las cuatro implementaciónes y la seccion datada de cambios; `excluye` incorpora **la comparacion entre frameworks**, diferida por decision del usuario; `validacion` suma cinco casillas, entre ellas que ninguna implementacion del mismo autor cuente como evidencia y que toda afirmacion retirada quede registrada.
+- `REFERENCIAS.md`: alta de **[R41]** (Scrum Guide, citada por ausencia), **[R42]** (glosario de Agile Alliance: epica y tres C) y **[R43]** (Thoughtworks sobre la difusion semantica). Correccion de **[R03]**, que apuntaba a la edicion **2011** y ahora apunta a la **2018** vigente, con su alcance textual.
+- `software/RELACION-SPEC-VS-EPICA.md`: reescrito en ocho secciones. La 1 es nueva y es el encuadre normativo; la 4 son las implementaciónes como evidencia, con su encabezado declarando que no es comparacion; la 8 registra que se retiro y que se conservo, para que la revision sea auditable. Los dos bloques `[SDD-Check]` previos se conservan bajo un encabezado que aclara que son registro datado.
+- `software/ANALISIS-SPEC-KIT.md`: la deuda «RELACION-SPEC-VS-EPICA sin actualizar», abierta esta misma sesion, queda **saldada** en los tres lugares donde estaba escrita.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR). Cada afirmacion externa nueva se verifico en fuente el 2026-09-05, salvo las dos que se declaran sin verificar donde se citan.
+
+### Deuda abierta
+- **La fuente primaria de Jeffries no se pudo alcanzar** (conexion rechazada); la atribucion de las tres C descansa en [R42] y eso esta escrito donde se cita. Lo mismo con la definicion de Cohn 2004, citada por atribucion, y con el texto completo de [R03], que es de pago.
+- **La comparacion entre frameworks queda diferida** por decision del usuario: sigue sin documento y sin item.
+- Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, el ecosistema del 1.0 de Spec Kit sin caracterizar, el hueco de `PATRONES.md` del lado del canal de error, y cuanto cuesta frenar sin medir.
+
+---
+
 ## Diff dirigido de OpenSpec [R38]: el repositorio de specs se separa del artefacto, y el punto ciego de M-41 reaparece (2026-09-05) — COMPLETADA
 
 **Accion**: fase B del re-anclaje, ultima de cuatro. Diff dirigido de OpenSpec entre `45cca5d` (v1.7.0, 2026-07-30) y `e062b95` (v1.12.0, 2026-09-03) contra `software/ANALISIS-OPENSPEC.md`. Con esto quedan cerradas las cuatro re-consultas.
