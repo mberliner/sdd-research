@@ -4,6 +4,50 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD: para que sirve cada herramienta, con doce dimensiones y sin una sola medicion (2026-09-05) — COMPLETADA
+
+**Accion**: documento nuevo, con spec registrada antes de escribirlo y fila propia en la Tabla SSOT. Responde la pregunta que quedo diferida el 2026-09-05 al reestructurar `software/RELACION-SPEC-VS-EPICA.md`: la comparacion entre frameworks, ahora en clave de uso y no de convergencia.
+
+### Por que documento nuevo y no una fila mas en convergencia
+`software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` debe su credibilidad a que su instrumento v1 es **anterior** a tres de los cuatro casos: «con libertad para elegir que comparar, la convergencia se fabrica». Las dimensiones que esta pregunta necesita solo pueden formularse despues de leer los cuatro, asi que alojarlas ahi destruiria justo esa propiedad, y su regla 2 lo prohibe. La regla 1 ya decia adonde va un caso con interes por «madurez, adopcion, ergonomia»: a otro lado.
+
+### La poblacion se invierte
+Convergencia pregunta de donde vino el metodo; acá, si lo podes instalar. Sale el **testigo** (no es adoptable por terceros) y entra **sdd-first** (es un kit instalable, aunque no sume linaje). Es el mismo caso mirado con dos criterios distintos, y las dos lecturas conviven sin contradecirse.
+
+### El limite, escrito donde se lee
+**Ninguna de las cuatro fuentes reporta medicion alguna** sobre su idoneidad. El documento lo declara en el encabezado y despues marca **cada** afirmacion como `[declarado]` —lo que la fuente dice de si misma— o `[derivado]` —consecuencia estructural de un mecanismo leible en el clon—. Sin esa marca el documento seria un recomendador sin evidencia, que es lo que convergencia prohibe en su seccion «Que se puede y que no se puede inferir».
+
+Y una honestidad que el instrumento de convergencia no necesita: **estas doce dimensiones NO son anteriores a la lectura de los casos**. La mitigacion declarada es su procedencia —salen de la pregunta de quien va a decidir, formulada antes de diseñar el instrumento—, y el documento dice que quien no la acepte lea la tabla como descriptiva y no como criterio de seleccion.
+
+### Lo que devolvieron los datos duros
+D9 a D11 salen de `git` sobre los clones, no de la documentacion de cada fuente. El contraste mas fuerte no estaba en los mecanismos sino acá:
+
+| | Spec Kit | OpenSpec | Superpowers | sdd-first |
+|---|---|---|---|---|
+| Primer commit | 2025-08-21 | 2025-08-05 | 2025-10-09 | **2026-08-01** |
+| Releases | 188 | 48 | 34 | **0** |
+| Autores 90d | 97 | 54 | 17 | **1** |
+| Licencia | MIT | MIT | MIT | Apache 2.0 |
+
+**sdd-first tiene factor de bus 1, un mes de vida y cero releases**, y eso queda escrito en la tabla y en su ficha sin suavizar, pese a ser del mismo autor que este repositorio. Su ficha ademas se limita a hechos del clon, sin ninguna valoracion comparativa, porque cualquier juicio favorable emitido acá seria autocorrelacion.
+
+Dato util del otro extremo: el catalogo de extensiones de Spec Kit tiene **165 de comunidad contra 4 oficiales**, y 34 presets contra 2. Su personalizacion real pasa por codigo de terceros, y por eso su modo de falla caracteristico se desplazo del metodo a la cadena de suministro — lo que explica que la propia fuente incorporara un modelo de confianza declarado para los catalogos.
+
+### Que cambio
+- `SPECS_REGISTRY.md`: spec nueva con doce dimensiones en `incluye`, la comparacion de convergencia y la decision de adopcion en `excluye`, y seis casillas de `validacion` —entre ellas que cada dato de madurez salga del clon con el comando que lo produce, y que la reserva de [R39] quede escrita—. Mas fila en la Tabla SSOT.
+- `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: alta. Poblacion y su inversion, las doce dimensiones con su procedencia y su limite, tabla resumen, ficha por caso, orientacion por escenario, y una seccion final que enumera lo que el documento **no puede** decir.
+
+### Validacion
+`tools/check_docs.py` en verde (0 ERROR), y bloqueando correctamente mientras la spec existia sin el archivo. Los conteos se reprodujeron con `git rev-list`, `git log` y lectura de los catalogos JSON.
+
+### Deuda abierta
+- **La seccion 5 (orientacion por escenario) es la mas facil de leer como recomendacion y la que menos evidencia tiene.** Declara dos veces que no ordena por calidad; si aparece un uso indebido, el remedio es podarla, no matizarla mas.
+- Ninguna fuente se corrio: D6, D7 y D8 son lectura de mecanismo, no experiencia de uso.
+- El ecosistema del 1.0 de Spec Kit sigue **sin caracterizar** en su analisis; acá entra solo por su efecto practico.
+- Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, y la decision sobre instrumento v2 de convergencia, cuya candidata mas fuerte —«la ceremonia escala con el tamaño del trabajo»— quedo registrada ayer.
+
+---
+
 ## Convergencia se re-corre contra las cuatro versiones nuevas; sdd-first entra a la columna del linaje (2026-09-05) — COMPLETADA
 
 **Accion**: propagacion al SSOT de convergencia de los cuatro diffs dirigidos de esta sesion, que se habia salteado. Mas la revision de que artefacto representa a nuestro linaje, a pedido del usuario.

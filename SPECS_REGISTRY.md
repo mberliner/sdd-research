@@ -90,6 +90,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
 | Docs/Investigacion | Protocolo de medición del piso de ruido de A-04, pasadas 1 y 1b (el «como») | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
 | Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
+| Software | Orientacion practica de uso de cada implementacion SDD adoptable | `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` | `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, `agenda/MEJORAS-METODO.md` |
 | Software | Analisis de la metodologia GitHub Spec Kit | `software/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
 | Software | Agenda línea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea B |
 | Software | Necesidades, métricas y riesgos línea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea B, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
@@ -686,6 +687,32 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] cada via tiene esfuerzo + ventajas + desventajas
   - [ ] la recomendación es condicionada (cuando A, cuando B)
   - [ ] no contradice `AGENTS.md` ni `SPECS_REGISTRY.md`
+
+### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
+- `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD **adoptable**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia y soporte esta cada una. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `ssot_level`: `SSOT`
+- `owner`: proyecto SDD
+- `incluye`:
+  - la poblacion y por que difiere de la de convergencia: entra quien sea adoptable, no quien sume linaje
+  - las doce dimensiones, con su procedencia y la fecha en que se fijaron
+  - tabla resumen de las doce dimensiones sobre los cuatro casos
+  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, soporte y rasgo sin equivalente
+  - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
+  - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
+- `excluye`:
+  - el veredicto de convergencia e invariancia entre implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT; aca se referencia
+  - la caracterizacion individual completa de cada implementacion — vive en cada `software/ANALISIS-*.md`
+  - la decision de adopcion de este repositorio — vive en `agenda/MEJORAS-METODO.md` y en `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`
+  - estadistica de adopcion y popularidad — vive en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
+  - el proyecto testigo, que no es adoptable por terceros, y toda fuente no instalable
+- `validacion`:
+  - [ ] las doce dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
+  - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce, no de la documentacion de la fuente
+  - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
+  - [ ] no hereda ningun encuadre de «estandar de referencia»
+  - [ ] no duplica SSOT — referencia
 
 ### software/RELACION-SPEC-VS-EPICA.md
 - `path`: `software/RELACION-SPEC-VS-EPICA.md`
