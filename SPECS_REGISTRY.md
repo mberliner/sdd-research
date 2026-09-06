@@ -68,7 +68,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - **Los runbooks de método NO están exentos (aclarado 2026-07-30).** Un runbook (`PRUEBA-*.md`) vive en `experimentos/` pero **no deriva de ningún template**: es un documento autorado de protocolo de medición, con definición operacional, roles y fases. Al no ser generado desde template, la exención de arriba no lo alcanza y MUST tener spec registrada. Hueco detectado el 2026-07-30: los dos runbooks de B-07 estaban sin spec y se venian modificando, contra la regla global «todo cambio documental MUST mapearse a una spec registrada». Criterio para clasificar un `.md` de `experimentos/`: ¿su estructura la fija un template del proyecto? Exento. ¿La fija su autor? Necesita spec.
   - **Excepcion dentro de la excepción (aclarado 2026-08-03, M-13; extendida a `RESULTADO-EXPERIMENTO-*.md` el 2026-08-22): un documento exento citado como `deriva_de` por otro documento MUST tener entrada minima** (`path`, `proposito`, `ssot_level: SSOT`, `owner`, `validacion`) en este registro, aunque conserve la exención de `incluye`/`excluye` detallados. Motivo: `deriva_de` MUST apuntar a un origen con `ssot_level` verificable (ver §Campo ssot_level); un documento sin entrada no lo tiene, aunque el resto del repositorio lo trate en prosa como SSOT. La exención de spec **detallada** para plantillas de experimento se mantiene; lo que deja de existir es la exención de **entrada** cuando ese documento funciona como origen de otro.
 - Codigo de verificacion en `tools/`: no es pieza documental autorada (Principio IV habla de documentos). Su contrato de uso se declara en `AGENTS.md` §Al cerrar una iteracion; lo que verifica y lo que MUST NOT pretender verificar vive en su docstring.
-- Repositorios externos clonados (vendored) en `fuentes-externas/` — material fuente de referencia, no autorado por el proyecto. La versión analizada se ancla en `REFERENCIAS.md`; el análisis propio si tiene spec (ver `software/ANALISIS-SPEC-KIT.md`).
+- Repositorios externos clonados (vendored) en `fuentes-externas/` — material fuente de referencia, no autorado por el proyecto. La versión analizada se ancla en `REFERENCIAS.md`; el análisis propio si tiene spec (ver `software/analisis/ANALISIS-SPEC-KIT.md`).
 
 ## Tabla SSOT
 
@@ -89,9 +89,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Docs/Investigacion | Plan experimental línea A | `docs-y-investigacion/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `experimentos/` de línea A al cerrar |
 | Docs/Investigacion | Hipotesis, métricas y criterio de éxito de A-04 (el «que») | `experimentos/a04-conducta-agente/EXPERIMENTO-A4-protocolo-conducta.md` | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`, `docs-y-investigacion/PLAN-PRUEBAS.md` |
 | Docs/Investigacion | Protocolo de medición del piso de ruido de A-04, pasadas 1 y 1b (el «como») | `experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md` | `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`; sello, sondas y bitacora del repo de datos `experimentosdd-a4/` |
-| Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
+| Software | Invariantes del método SDD entre implementaciones independientes | `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` | `software/analisis/ANALISIS-SPEC-KIT.md`, `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` |
 | Software | Orientacion practica de uso de cada implementacion SDD adoptable | `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` | `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, `agenda/MEJORAS-METODO.md` |
-| Software | Analisis de la metodologia GitHub Spec Kit | `software/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
+| Software | Analisis de la metodologia GitHub Spec Kit | `software/analisis/ANALISIS-SPEC-KIT.md` | `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`, `software/RELACION-FR-VS-SC-Y-COBERTURA.md` |
 | Software | Agenda línea B | `software/LINEAS-INVESTIGACION.md` | `PLAN-PRUEBAS.md`, `NECESIDADES-Y-METRICAS.md` línea B |
 | Software | Necesidades, métricas y riesgos línea B | `software/NECESIDADES-Y-METRICAS.md` | `PLAN-PRUEBAS.md` línea B, `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` |
 | Software | Plan experimental línea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (diseños y resultados B-06/B-07) |
@@ -492,8 +492,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] secuencia de inicio es accionable sin conocimiento previo del repo
   - [ ] no duplica contenido de SSOTs — referencia
 
-### software/ANALISIS-SPEC-KIT.md
-- `path`: `software/ANALISIS-SPEC-KIT.md`
+### software/analisis/ANALISIS-SPEC-KIT.md
+- `path`: `software/analisis/ANALISIS-SPEC-KIT.md`
 - `proposito`: SSOT del analisis de la metodologia de GitHub Spec Kit y su relacion con nuestra investigacion SDD en Linea B (software).
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
@@ -512,8 +512,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como candidatas vs. cambios aprobados
   - [ ] no duplica SSOT — referencia
 
-### software/ANALISIS-SUPERPOWERS.md
-- `path`: `software/ANALISIS-SUPERPOWERS.md`
+### software/analisis/ANALISIS-SUPERPOWERS.md
+- `path`: `software/analisis/ANALISIS-SUPERPOWERS.md`
 - `proposito`: analisis de la metodologia de Superpowers [R37] y su relacion con nuestra investigacion SDD en Linea B, con foco en los dos aportes que Spec Kit no tiene: la evaluacion conductual de documentacion y la posicion spec-anchored.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -526,7 +526,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - la lectura cruzada de las tres implementaciones — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
   - el diseño del experimento derivado — vive en `experimentos/` cuando exista
   - estadística de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
-  - re-análisis del flujo de Spec Kit (vive en `software/ANALISIS-SPEC-KIT.md`)
+  - re-análisis del flujo de Spec Kit (vive en `software/analisis/ANALISIS-SPEC-KIT.md`)
   - duplicacion del catalogo de frameworks (referencia, no copia)
 - `validacion`:
   - [ ] versión analizada anclada en `REFERENCIAS.md` [R37]
@@ -536,8 +536,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como candidatas vs. cambios aprobados
   - [ ] no duplica SSOT — referencia
 
-### software/ANALISIS-TESSL.md
-- `path`: `software/ANALISIS-TESSL.md`
+### software/analisis/ANALISIS-TESSL.md
+- `path`: `software/analisis/ANALISIS-TESSL.md`
 - `proposito`: analisis de Tessl [R46] **como metodo**: el unico caso del corpus que regenera codigo desde la spec, y por lo tanto el unico que ejerce la posicion que este repositorio venia leyendo solo como retorica en otras fuentes.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -561,8 +561,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] no reformula ni reinterpreta el resultado de B-07
   - [ ] no duplica SSOT — referencia
 
-### software/ANALISIS-KIRO.md
-- `path`: `software/ANALISIS-KIRO.md`
+### software/analisis/ANALISIS-KIRO.md
+- `path`: `software/analisis/ANALISIS-KIRO.md`
 - `proposito`: analisis de Kiro [R44] **como metodo**, no como herramienta, y de su lugar en el corpus: es el caso mas antiguo por fecha de anuncio y el unico de producto cerrado, sin clon vendored posible.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -586,8 +586,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medicion, y eso queda dicho
   - [ ] no duplica SSOT — referencia
 
-### software/ANALISIS-OPENSPEC.md
-- `path`: `software/ANALISIS-OPENSPEC.md`
+### software/analisis/ANALISIS-OPENSPEC.md
+- `path`: `software/analisis/ANALISIS-OPENSPEC.md`
 - `proposito`: analisis de la metodologia de OpenSpec [R38] y su relacion con nuestra investigacion SDD en Linea B, con foco en su rasgo sin equivalente en las otras fuentes: la instruccion de metodo servida por herramienta bajo demanda en vez de leida de un documento.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -599,7 +599,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - la lectura cruzada de los cuatro casos — vive en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, su SSOT
   - estadística de adopcion del framework (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
-  - re-análisis del flujo de Spec Kit (vive en `software/ANALISIS-SPEC-KIT.md`) ni de Superpowers (vive en `software/ANALISIS-SUPERPOWERS.md`)
+  - re-análisis del flujo de Spec Kit (vive en `software/analisis/ANALISIS-SPEC-KIT.md`) ni de Superpowers (vive en `software/analisis/ANALISIS-SUPERPOWERS.md`)
   - duplicacion del catalogo de frameworks (referencia, no copia)
 - `validacion`:
   - [ ] versión analizada anclada en `REFERENCIAS.md` [R38]
@@ -612,8 +612,8 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados
   - [ ] no duplica SSOT — referencia
 
-### software/ANALISIS-SDD-FIRST.md
-- `path`: `software/ANALISIS-SDD-FIRST.md`
+### software/analisis/ANALISIS-SDD-FIRST.md
+- `path`: `software/analisis/ANALISIS-SDD-FIRST.md`
 - `proposito`: analisis de sdd-first [R39] como caso **del propio linaje** — el metodo de este repositorio llevado a codigo ejecutable en un kit instalable — con foco en que mecanismos de ese kit son portables a un repositorio documental y cuales no.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
@@ -682,7 +682,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - que se puede y que no se puede inferir de la convergencia observada
   - el procedimiento de incorporación de un caso nuevo: filtro de linaje, tratamiento de las dimensiones que el instrumento no cubre, y regla de versionado del instrumento
 - `excluye`:
-  - la caracterización individual de cada implementacion (vive en `software/ANALISIS-SPEC-KIT.md`, `software/ANALISIS-SUPERPOWERS.md` y `software/ANALISIS-OPENSPEC.md`; se referencia, no se copia)
+  - la caracterización individual de cada implementacion (vive en `software/analisis/ANALISIS-SPEC-KIT.md`, `software/analisis/ANALISIS-SUPERPOWERS.md` y `software/analisis/ANALISIS-OPENSPEC.md`; se referencia, no se copia)
   - la comparación pareada Spec Kit vs. testigo en cinco dimensiones (vive en `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`)
   - decisiónes de adopcion (viven en `agenda/MEJORAS-METODO.md`)
   - estadística de adopcion de frameworks (ver `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
@@ -700,7 +700,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `path`: `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md`
 - `proposito`: comparacion entre GitHub Spec Kit (toolkit generico) y el proyecto testigo `evaluador-flujo-intent` (ex `agent-test-suite`; instancia que practica SDD) en cinco dimensiones: implementacion de SDD, artefactos, funcionalidad, beneficios y debilidades.
 - `ssot_level`: `derivado`
-- `deriva_de`: `software/ANALISIS-SPEC-KIT.md`
+- `deriva_de`: `software/analisis/ANALISIS-SPEC-KIT.md`
 - `owner`: proyecto SDD
 - `incluye`:
   - tabla comparativa por cada una de las cinco dimensiones
@@ -710,7 +710,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - resultados del experimento B-07 — cerrado 2026-07-28, viven en `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; aqui se referencia, no se copia
   - duplicacion del catalogo de frameworks (referencia `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, no copia)
 - `validacion`:
-  - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
+  - [ ] no contradice `software/analisis/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
   - [ ] caracteriza al testigo desde sus artefactos reales, no por inferencia
   - [ ] versión de Spec Kit anclada en [R10]
   - [ ] no duplica SSOT — referencia
@@ -801,7 +801,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] ninguna implementación del mismo autor se cuenta como evidencia independiente (reserva de [R39])
   - [ ] las implementaciónes se presentan como evidencia, y en ningún lugar como comparación entre frameworks
   - [ ] toda afirmación retirada de una versión anterior queda registrada, no borrada
-  - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
+  - [ ] no contradice `software/analisis/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
   - [ ] distingue explícitamente los dos sentidos de "spec"
   - [ ] no duplica SSOT — referencia
 
@@ -809,7 +809,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `path`: `software/RELACION-FR-VS-SC-Y-COBERTURA.md`
 - `proposito`: aclarar que la relación FR ↔ SC no es 1 a 1 (ejes distintos, cardinalidad N:M) y que la cobertura es muchos-a-muchos entre requisitos y verificadores, no "un test por requisito".
 - `ssot_level`: `derivado`
-- `deriva_de`: `software/ANALISIS-SPEC-KIT.md`
+- `deriva_de`: `software/analisis/ANALISIS-SPEC-KIT.md`
 - `owner`: proyecto SDD
 - `incluye`:
   - diferencia de ejes entre FR (contrato construido) y SC (valor observable)
@@ -822,7 +822,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - transferencia del razonamiento a Línea A: el FR/SC y el coverage mapping son nativos de la anatomía de spec de software (pregunta abierta en `agenda/BACKLOG-INVESTIGACION.md`)
 - `validacion`:
   - [ ] cada afirmación externa tiene referencia [Rxx]
-  - [ ] no contradice `software/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
+  - [ ] no contradice `software/analisis/ANALISIS-SPEC-KIT.md` ni `AGENTS.md`
   - [ ] distingue explícitamente eje FR vs. eje SC y la naturaleza no-1:1 de la cobertura
   - [ ] no duplica SSOT — referencia
 
@@ -839,7 +839,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - conexion con experimento Linea B
 - `excluye`:
   - transferencia a Linea A (diferido a `agenda/BACKLOG-INVESTIGACION.md`)
-  - re-análisis del flujo de Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`)
+  - re-análisis del flujo de Spec Kit (ver `software/analisis/ANALISIS-SPEC-KIT.md`)
   - duplicacion del catalogo de frameworks (referencia `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`)
 - `validacion`:
   - [ ] cada afirmacion externa tiene `[Rxx]`

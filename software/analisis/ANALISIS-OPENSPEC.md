@@ -1,16 +1,16 @@
 # Análisis: OpenSpec y su relación con nuestra investigación SDD (Línea B)
 
 Fecha: 2026-08-02.
-Fuente: OpenSpec v1.7.0, commit `45cca5d` (consultada 2026-08-02) [R38]. Clon local vendored en `../fuentes-externas/OpenSpec/`.
+Fuente: OpenSpec v1.7.0, commit `45cca5d` (consultada 2026-08-02) [R38]. Clon local vendored en `../../fuentes-externas/OpenSpec/`.
 Alcance: Línea B (software).
 
 ---
 
 ## Contexto
 
-OpenSpec es un sistema de SDD distribuido como CLI de npm (`@fission-ai/openspec`, MIT, respaldo de Fission AI). El agente no lee la metodología de un documento: la pide a la herramienta. Se instala en el proyecto, genera adaptadores para más de 30 asistentes (`../fuentes-externas/OpenSpec/docs/supported-tools.md`) y expone doce skills sobre un CLI que resuelve rutas, valida estructura y sirve las instrucciones de cada artefacto.
+OpenSpec es un sistema de SDD distribuido como CLI de npm (`@fission-ai/openspec`, MIT, respaldo de Fission AI). El agente no lee la metodología de un documento: la pide a la herramienta. Se instala en el proyecto, genera adaptadores para más de 30 asistentes (`../../fuentes-externas/OpenSpec/docs/supported-tools.md`) y expone doce skills sobre un CLI que resuelve rutas, valida estructura y sirve las instrucciones de cada artefacto.
 
-Este documento la caracteriza y la mapea contra nuestro protocolo (`../AGENTS.md`, `../SPECS_REGISTRY.md`) con el mismo instrumento de ocho filas que `ANALISIS-SPEC-KIT.md` y `ANALISIS-SUPERPOWERS.md`. La lectura cruzada de los cuatro casos **no** vive acá: su SSOT es `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
+Este documento la caracteriza y la mapea contra nuestro protocolo (`../../AGENTS.md`, `../../SPECS_REGISTRY.md`) con el mismo instrumento de ocho filas que `ANALISIS-SPEC-KIT.md` y `ANALISIS-SUPERPOWERS.md`. La lectura cruzada de los cuatro casos **no** vive acá: su SSOT es `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
 
 ---
 
@@ -55,8 +55,8 @@ Es el aporte distintivo de esta fuente y no tiene equivalente en Spec Kit, en Su
 
 Dos consecuencias que tocan deudas abiertas de este repositorio:
 
-- **Disuelve el problema que `M-04` intenta administrar.** `M-04` (`../agenda/MEJORAS-METODO.md`) trata el costo de contexto de los documentos de método, y Superpowers aportó la advertencia de que compactarlos tiene costo conductual medido [R37]. La entrega bajo demanda cambia el planteo: no se compacta el documento, se fragmenta la entrega. Nuestro `AGENTS.md` se inyecta entero en cada sesión aunque el noventa por ciento no aplique al cambio en curso.
-- **Cambia dónde puede fallar el cumplimiento.** Con documento leído, el modo de falla es que el agente no lo aplique; con instrucción servida, es que no corra el comando. Es un modo de falla distinto, y —esto importa— **observable desde afuera**: la ausencia de una llamada al CLI se detecta sin juzgar prosa. Es exactamente el tipo de señal independiente del artefacto que la prioridad alta #6 de `../agenda/BACKLOG-INVESTIGACION.md` declara faltante.
+- **Disuelve el problema que `M-04` intenta administrar.** `M-04` (`../../agenda/MEJORAS-METODO.md`) trata el costo de contexto de los documentos de método, y Superpowers aportó la advertencia de que compactarlos tiene costo conductual medido [R37]. La entrega bajo demanda cambia el planteo: no se compacta el documento, se fragmenta la entrega. Nuestro `AGENTS.md` se inyecta entero en cada sesión aunque el noventa por ciento no aplique al cambio en curso.
+- **Cambia dónde puede fallar el cumplimiento.** Con documento leído, el modo de falla es que el agente no lo aplique; con instrucción servida, es que no corra el comando. Es un modo de falla distinto, y —esto importa— **observable desde afuera**: la ausencia de una llamada al CLI se detecta sin juzgar prosa. Es exactamente el tipo de señal independiente del artefacto que la prioridad alta #6 de `../../agenda/BACKLOG-INVESTIGACION.md` declara faltante.
 
 Límite que MUST acompañar cualquier uso de esto: OpenSpec **no reporta ninguna medición**, ni interna ni externa, de que su forma de entrega funcione mejor. La ventaja es argumental. A diferencia de [R37], que al menos aporta evals autoreportados, acá no hay ni eso: se porta una idea de diseño, no un resultado.
 
@@ -68,13 +68,13 @@ Se usa el instrumento v1, las mismas ocho filas fijadas el 2026-05-24, sin agreg
 
 | Concepto | OpenSpec | Nuestro proyecto |
 |----------|----------|------------------|
-| Fuente de autoridad no-negociable | `openspec/config.yaml` (`context` + `rules` por artefacto), servido por el CLI en el momento de escribir. Orden de resolución declarado: flag > metadata del cambio > config del proyecto > default. **Sin constitución ni gate de principios** | `../CONSTITUTION.md` > `../SPECS_REGISTRY.md` > `../AGENTS.md`, leídos por el asistente al inicio de sesión |
-| Lenguaje normativo | `SHALL` en requisitos (registro ISO/IEC/IEEE 29148 [R03]), `MUST` y `IMPORTANT` en skills; sin referencia a RFC 2119 | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../AGENTS.md`) [R04] |
+| Fuente de autoridad no-negociable | `openspec/config.yaml` (`context` + `rules` por artefacto), servido por el CLI en el momento de escribir. Orden de resolución declarado: flag > metadata del cambio > config del proyecto > default. **Sin constitución ni gate de principios** | `../../CONSTITUTION.md` > `../../SPECS_REGISTRY.md` > `../../AGENTS.md`, leídos por el asistente al inicio de sesión |
+| Lenguaje normativo | `SHALL` en requisitos (registro ISO/IEC/IEEE 29148 [R03]), `MUST` y `IMPORTANT` en skills; sin referencia a RFC 2119 | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../../AGENTS.md`) [R04] |
 | Manejo de ambigüedad | Preguntar solo si el contexto es críticamente confuso; la guía explícita es "prefer making reasonable decisions to keep momentum". **Sin marcador de incertidumbre** | `[NEEDS CLARIFICATION: ...]` grep-able + MUST preguntar en lugar de interpretar (Principio VII) |
-| Validación de consistencia | Dos capas: `openspec validate [--strict]`, determinista sobre estructura de specs y deltas; y `/opsx:verify`, por juicio, en completitud / corrección / coherencia contra el código, con severidades CRITICAL / WARNING / SUGGESTION | Backstop determinista `../tools/check_docs.py` (ERROR/WARN) + bloque `[SDD-Check]` por entrega |
-| Trazabilidad requisito a verificador | Verifica requisito a código y escenario a test **por búsqueda heurística en el momento**, no por un mapeo mantenido; escenario sin cobertura emite WARNING | Campo `Cobertura` del `[SDD-Check]` + regla de propagación (`../SPECS_REGISTRY.md`) |
+| Validación de consistencia | Dos capas: `openspec validate [--strict]`, determinista sobre estructura de specs y deltas; y `/opsx:verify`, por juicio, en completitud / corrección / coherencia contra el código, con severidades CRITICAL / WARNING / SUGGESTION | Backstop determinista `../../tools/check_docs.py` (ERROR/WARN) + bloque `[SDD-Check]` por entrega |
+| Trazabilidad requisito a verificador | Verifica requisito a código y escenario a test **por búsqueda heurística en el momento**, no por un mapeo mantenido; escenario sin cobertura emite WARNING | Campo `Cobertura` del `[SDD-Check]` + regla de propagación (`../../SPECS_REGISTRY.md`) |
 | Circuito de aprendizaje | Sobre el contrato, y **automatizado**: archivar fusiona el delta aprobado en la spec vigente. Nada equivalente sobre sus documentos de método | Sobre las specs: propagación bidireccional (Principio III) y `Deuda arrastrada`, ambas manuales |
-| Registro de specs | `openspec/specs/<capacidad>/spec.md`, central por capacidad, consultable por CLI (`list`, `show`, `status`); estado implícito en la ubicación (vigente / en cambio / archivado), sin campo `estado` ni nivel SSOT | `../SPECS_REGISTRY.md` central por documento, con `estado` y `ssot_level` explícitos |
+| Registro de specs | `openspec/specs/<capacidad>/spec.md`, central por capacidad, consultable por CLI (`list`, `show`, `status`); estado implícito en la ubicación (vigente / en cambio / archivado), sin campo `estado` ni nivel SSOT | `../../SPECS_REGISTRY.md` central por documento, con `estado` y `ssot_level` explícitos |
 | Personalización | *Schemas* forkeables (`schema init/fork/validate`) que redefinen artefactos y dependencias, más adaptadores generados para más de 30 asistentes | Niveles de profundidad de spec y `ssot_level` |
 
 Lectura del mapeo: convergencia fuerte en lenguaje normativo y en validación de consistencia previa al cierre; convergencia parcial en autoridad, trazabilidad, registro y personalización; divergencia neta en manejo de ambigüedad, donde OpenSpec adopta la postura opuesta a nuestro Principio VII. El veredicto de invariancia leído sobre los cuatro casos vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, no acá.
@@ -93,7 +93,7 @@ Las ocho filas describen **qué** dice el método, nunca **cómo llega** al agen
 
 ### C3. La propagación automatizada es un espejo de nuestro Principio III
 
-Nuestra regla de propagación —los resultados suben al SSOT antes de bajar a sus derivados— es idéntica en intención a `archive`: el delta aprobado se fusiona en la spec vigente y el cambio pasa a histórico. La diferencia es de mecanismo, no de idea: allá lo ejecuta un comando, acá lo ejecuta una persona que se acuerda. Es el segundo linaje independiente que llega a la misma regla, lo cual la refuerza como invariante; y es evidencia de que la parte mecánica es automatizable. **Candidata**, no cambio aprobado: un repositorio documental sin CI (`../CONSTITUTION.md`) no tiene dónde correr esa automatización hoy, y `../tools/check_docs.py` verifica forma, no propagación.
+Nuestra regla de propagación —los resultados suben al SSOT antes de bajar a sus derivados— es idéntica en intención a `archive`: el delta aprobado se fusiona en la spec vigente y el cambio pasa a histórico. La diferencia es de mecanismo, no de idea: allá lo ejecuta un comando, acá lo ejecuta una persona que se acuerda. Es el segundo linaje independiente que llega a la misma regla, lo cual la refuerza como invariante; y es evidencia de que la parte mecánica es automatizable. **Candidata**, no cambio aprobado: un repositorio documental sin CI (`../../CONSTITUTION.md`) no tiene dónde correr esa automatización hoy, y `../../tools/check_docs.py` verifica forma, no propagación.
 
 ### C4. Corpus observacional con procedencia limpia
 
@@ -108,9 +108,9 @@ Nuestra regla de propagación —los resultados suben al SSOT antes de bajar a s
 ---
 
 [SDD-Check]
-- Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc)
+- Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md` para este doc)
 - Incluye/Excluye verificado: SI - la lectura cruzada de los cuatro casos queda excluida y remitida a `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`; no se re-analiza el flujo de Spec Kit ni el de Superpowers; no se toman decisiones de adopcion
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R38]; procedencia declarada antes de la lectura, con la fecha de primer commit verificada en ambos clones vendored; cada rasgo citado declara su archivo de origen o el comando que lo expone; la fuente se presenta sin evidencia de efectividad porque no reporta ninguna; mapeo corrido sobre el instrumento v1 sin agregar filas; la dimension no cubierta se registra fuera de la tabla (C2) por la regla 2 del SSOT de convergencia; refs internas verificadas; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: version anclada en `../../REFERENCIAS.md` [R38]; procedencia declarada antes de la lectura, con la fecha de primer commit verificada en ambos clones vendored; cada rasgo citado declara su archivo de origen o el comando que lo expone; la fuente se presenta sin evidencia de efectividad porque no reporta ninguna; mapeo corrido sobre el instrumento v1 sin agregar filas; la dimension no cubierta se registra fuera de la tabla (C2) por la regla 2 del SSOT de convergencia; refs internas verificadas; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc operativo)
 - Derivados a revisar: ninguno; `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` consume este documento como insumo, no deriva de el
 - Cobertura: completa - las cinco conclusiones mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio aprobado (ninguna lo es)
@@ -131,14 +131,14 @@ El delta se reparte en tres cosas.
 
 `docs-lab/multi-repo/stores.md` documenta una capacidad **en beta**: un *store* saca la carpeta `openspec/` del repositorio de codigo y la pone en un repositorio propio, que varios repositorios de codigo comparten. Tras una configuracion por maquina, `status`, `new change` y `archive` operan sobre el store desde cualquier directorio, y el store se comparte por git como cualquier repositorio — las specs reciben ramas y pull requests igual que el codigo. La fuente declara dos motivos de uso: una feature que toca frontend y backend alojados por separado, y un plan que necesita una sola casa en vez de dos mitades.
 
-Es un rasgo nuevo para el corpus: los otros tres casos y este repositorio alojan el metodo **adentro** del artefacto que gobierna. Y toca un problema que este repositorio tiene declarado y sin resolver, no una curiosidad ajena — `../historial/sdd.md` arrastra desde el 2026-08-23 que «la pieza 3 sigue fuera de este repositorio» para A-04; sdd-first resuelve la frontera con propagacion asistida (`core/sdd_update.py`, `../software/ANALISIS-SDD-FIRST.md` §Actualizacion de instalaciones derivadas); y [R40] es un fork del backstop de acá viviendo en otro repositorio. Tres formas distintas del mismo problema, ninguna con mecanismo.
+Es un rasgo nuevo para el corpus: los otros tres casos y este repositorio alojan el metodo **adentro** del artefacto que gobierna. Y toca un problema que este repositorio tiene declarado y sin resolver, no una curiosidad ajena — `../../historial/sdd.md` arrastra desde el 2026-08-23 que «la pieza 3 sigue fuera de este repositorio» para A-04; sdd-first resuelve la frontera con propagacion asistida (`core/sdd_update.py`, `software/analisis/ANALISIS-SDD-FIRST.md` §Actualizacion de instalaciones derivadas); y [R40] es un fork del backstop de acá viviendo en otro repositorio. Tres formas distintas del mismo problema, ninguna con mecanismo.
 
 Dos advertencias, porque la analogia es parcial y conviene no forzarla:
 
 - **La direccion no es la misma.** Un store centraliza specs de varios repositorios de codigo. Acá el caso es al reves: un repositorio de metodo cuyas piezas se ejecutan afuera. El mecanismo puede servir; la forma no se copia.
 - **Es beta y autodeclarada.** La fuente no reporta ninguna medicion —de este rasgo ni de ningun otro— y la reserva de [R38] sigue valiendo entera.
 
-**Lectura**, no candidata. Lo que si habilita es una pregunta que el corpus todavia no tiene planteada, y cuyo lugar es `../agenda/BACKLOG-INVESTIGACION.md`: si la frontera entre el repositorio de specs y el del artefacto es una decision de diseño con consecuencias medibles, o una comodidad de alojamiento. Se señala; no se da de alta acá, porque plantear bien esa pregunta es trabajo propio.
+**Lectura**, no candidata. Lo que si habilita es una pregunta que el corpus todavia no tiene planteada, y cuyo lugar es `../../agenda/BACKLOG-INVESTIGACION.md`: si la frontera entre el repositorio de specs y el del artefacto es una decision de diseño con consecuencias medibles, o una comodidad de alojamiento. Se señala; no se da de alta acá, porque plantear bien esa pregunta es trabajo propio.
 
 ### C7. La fuente reescribe su documentacion a mano y prohibe explicitamente arrastrar texto
 
@@ -152,18 +152,18 @@ Es una posicion explicita de un proyecto spec-driven sobre su **propia** documen
 
 En v1.11.0 la fuente corrigio que `openspec validate` **aprobaba** un `## Purpose` que seguia siendo el placeholder que `archive` escribe: el placeholder supera el piso de 50 caracteres, asi que el unico chequeo pensado para atrapar un Purpose que nadie escribio quedaba satisfecho por el texto exacto que dice que nadie lo escribio. Una spec con `Does stuff.` fallaba en `--strict` y una spec sin nada pasaba.
 
-Es la misma clase que `../agenda/MEJORAS-METODO.md` M-31 registra acá, y el detalle de su solucion es lo aprovechable: la deteccion es **angosta a proposito** —reconoce el placeholder por la misma definicion que lo escribe, y fuera de eso solo un `TBD`/`TODO` que abra el Purpose—, es WARN y no ERROR para que un proyecto con placeholders en disco siga validando, y el texto entre backticks no cuenta porque un documento que cita el placeholder no lo esta usando. Las cuatro decisiones son transferibles a M-31 sin traer una linea de codigo.
+Es la misma clase que `../../agenda/MEJORAS-METODO.md` M-31 registra acá, y el detalle de su solucion es lo aprovechable: la deteccion es **angosta a proposito** —reconoce el placeholder por la misma definicion que lo escribe, y fuera de eso solo un `TBD`/`TODO` que abra el Purpose—, es WARN y no ERROR para que un proyecto con placeholders en disco siga validando, y el texto entre backticks no cuenta porque un documento que cita el placeholder no lo esta usando. Las cuatro decisiones son transferibles a M-31 sin traer una linea de codigo.
 
 ### Y una recurrencia del punto ciego de M-41
 
 `docs-lab/` no aparece en el CHANGELOG: es infraestructura de documentacion, no una entrada de release. Un diff que hubiera leido solo el changelog no lo habria visto, igual que el del 2026-07-10 no vio `spec-persistence.md` en Spec Kit. **Segunda instancia del mismo modo de falla en la misma sesion**, en una fuente distinta, y esta vez evitada porque el procedimiento borrador de M-41 empieza por el arbol completo. Vale como evidencia de que M-41 no describe un descuido puntual.
 
 [SDD-Check] — actualizacion 2026-09-05
-- Spec leida: SI (spec de este doc en `../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
 - Incluye/Excluye verificado: SI — C6 y C7 caen en «conclusiónes accionables para Linea B» y ambas se marcan como lectura; la transferencia a Linea A que C7 haria posible **no se desarrolla**, por no estar en el `incluye`; no se toca la lectura cruzada de los cuatro casos ni se re-analiza ninguna otra fuente
 - Validaciones aplicadas: diff corrido sobre el arbol completo antes de mirar ningun archivo esperado (borrador de M-41); la invariancia de la anatomia `openspec/` se verifico con `git ls-tree` en los dos commits y no por lectura, lo que descarto por escrito una sospecha previa; cada rasgo citado declara su archivo de origen en el clon vendored y las dos citas de politica son textuales; la fuente no reporta medicion alguna y eso queda dicho en C6 y en C7; sus comparaciones con otros frameworks no se usaron; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc `operativo`)
-- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../agenda/MEJORAS-METODO.md` M-31 (las cuatro decisiones de diseño de la deteccion angosta) y `../agenda/BACKLOG-INVESTIGACION.md` (dos preguntas señaladas y **no** dadas de alta: la frontera entre repositorio de specs y repositorio del artefacto, y la postura sobre reescribir en vez de regenerar documentacion propia)
+- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../../agenda/MEJORAS-METODO.md` M-31 (las cuatro decisiones de diseño de la deteccion angosta) y `../../agenda/BACKLOG-INVESTIGACION.md` (dos preguntas señaladas y **no** dadas de alta: la frontera entre repositorio de specs y repositorio del artefacto, y la postura sobre reescribir en vez de regenerar documentacion propia)
 - Cobertura: **incompleta y declarada** — C6, C7 y la nota de M-31 tienen destino; las dos preguntas de investigacion quedan señaladas sin item, porque plantearlas bien es trabajo propio y darlas de alta a medias es peor que no darlas
 - Deuda arrastrada: la del documento original sigue casi intacta (**Kiro ya leido el 2026-09-05, pero la reserva de procedencia que lo nombra sigue abierta y ahora alcanza tambien a Spec Kit**; corpus observacional de C4 sin dar de alta). Se agregan las dos preguntas de arriba, sin item. Sigue abierto de las entradas previas: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, `RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar, el hueco de `PATRONES.md` del lado del canal de error, y cuanto cuesta frenar sin medir
 - Riesgos/reservas: la lectura sale de documentos, skills y changelog del clon, sin correr el CLI ni un store; `stores` es una capacidad **beta** y lo que se describe es lo que la fuente declara, no lo que se verifico funcionando; la analogia de C6 con el problema de este repositorio es parcial y corre en direccion contraria, y eso esta escrito en la propia conclusion

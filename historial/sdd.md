@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Los seis ANALISIS-* de linea B se mudan a software/analisis/ (2026-09-06) — COMPLETADA
+
+**Accion**: reorganizacion pura de rutas, sin cambio de contenido. Los seis documentos `ANALISIS-SPEC-KIT.md`, `ANALISIS-SUPERPOWERS.md`, `ANALISIS-OPENSPEC.md`, `ANALISIS-SDD-FIRST.md`, `ANALISIS-TESSL.md` y `ANALISIS-KIRO.md` pasan de `software/` a `software/analisis/`. Entra al historial porque toca `SPECS_REGISTRY.md` (archivo de metodo), no porque el metodo haya cambiado.
+
+### Que se pidio
+Evaluar si separar en subdirectorios los directorios con muchos archivos ayudaba a la administracion y revision, tomando `software/` (16 documentos) como caso. Antes de mover nada se pidio el mapa completo de referencias a tocar, para decidir con el costo a la vista.
+
+### Que cambio
+- Movidos los seis archivos a `software/analisis/` (`git mv`).
+- Los seis `path:` correspondientes en `SPECS_REGISTRY.md`.
+- Las 106 ocurrencias de `software/ANALISIS-*.md` como ruta absoluta-desde-raiz en el resto del repo (`AGENTS.md`, `REFERENCIAS.md`, `comun/*.md`, `agenda/*.md`, `experimentos/b07-formato-hibrido/*.md`, `software/*.md`, `historial/sdd.md` incluidas las entradas retroactivas que citaban la ruta vieja).
+- Los 94 backticks `../` internos de los seis archivos movidos, que pasan a `../../` por bajar un nivel (apuntaban a `AGENTS.md`, `SPECS_REGISTRY.md`, `CONSTITUTION.md`, `CONVENCIONES.md`, `REFERENCIAS.md`, `agenda/`, `comun/`, `experimentos/`, `fuentes-externas/`, `tools/`, `historial/`).
+- Un caso especial en `ANALISIS-OPENSPEC.md`: una referencia con `../` a `ANALISIS-SDD-FIRST.md` que ya era redundante antes del cambio (equivalente a la ruta absoluta-desde-raiz), corregida a `software/analisis/ANALISIS-SDD-FIRST.md`.
+- Los 4 links relativos de `software/00-INDEX.md` a los cuatro analisis que ya listaba.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR, el unico WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`). Confirma que ningun link ni ruta en backticks quedo roto.
+
+### Deuda abierta
+Ninguna nueva. `software/00-INDEX.md` ya no listaba `ANALISIS-TESSL.md` ni `ANALISIS-KIRO.md` antes de este cambio; ese hueco preexistente no se toco, por estar fuera de alcance de una reorganizacion de rutas.
+
+---
+
 ## Un paradigma por caso, derivado del instrumento y no de fuentes nuevas (2026-09-05) — COMPLETADA
 
 **Accion**: seccion 5 nueva en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, con enmienda de spec previa (tercera del documento en el dia). Las secciones de escenarios y de limites se renumeraron a 6 y 7.
@@ -94,7 +117,7 @@ Tambien se corrigio una fila de la tabla de escenarios que decia «necesito pode
 
 ## Alta de ANALISIS-TESSL: el unico caso que regenera, y la deuda de procedencia queda saldada (2026-09-05) — COMPLETADA
 
-**Accion**: alta de `software/ANALISIS-TESSL.md` con spec registrada antes de escribirlo, alta de [R46], anotacion de [R20], y propagacion a tres documentos. Cierra la deuda abierta el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia».
+**Accion**: alta de `software/analisis/ANALISIS-TESSL.md` con spec registrada antes de escribirlo, alta de [R46], anotacion de [R20], y propagacion a tres documentos. Cierra la deuda abierta el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia».
 
 ### La fuente que sostiene el hallazgo no era la propuesta
 El pedido traia dos URLs del blog de Tessl y una caracterizacion con directivas `@generate`/`@describe`/`@use` y tres recursos plans/specs/tests. **Ninguna de las dos URLs sostiene eso**: la nota de lanzamiento no enumera esos tres recursos, y el anuncio de productos describe specs que **guian** al agente, no que generen codigo. Lo que resolvio la cuestion fue **[R20] Fowler, que ya estaba en `REFERENCIAS.md` desde el 2026-06-03** y cuyo titulo nombra a Tessl, mas `docs.tessl.io`. La verificacion cambio la atribucion, no la conclusion: el encuadre del pedido era correcto y su fuente no.
@@ -113,10 +136,10 @@ Los cuatro casos de la tabla de convergencia son *spec-anchored*: ninguno regene
 
 ### Que cambio
 - `REFERENCIAS.md`: alta de **[R46]** con su clase de evidencia (Framework en beta cerrada, sin clon posible). **[R20] pasa a ser fuente de carga**: lleva ahora la taxonomia de tres niveles textual, la ubicacion de Tessl y la observacion de no-determinismo, con su estatuto declarado.
-- `SPECS_REGISTRY.md`: spec de `software/ANALISIS-TESSL.md`, con una casilla de validacion que dice explicitamente que el documento **no reformula B-07**.
-- `software/ANALISIS-TESSL.md`: alta.
+- `SPECS_REGISTRY.md`: spec de `software/analisis/ANALISIS-TESSL.md`, con una casilla de validacion que dice explicitamente que el documento **no reformula B-07**.
+- `software/analisis/ANALISIS-TESSL.md`: alta.
 - `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia; dimension «la spec como dependencia instalable» registrada fuera del instrumento; y un parrafo nuevo en §Que se puede inferir que dice que **un caso del corpus si regenera y no es ninguno de los cuatro de la tabla**. Instrumento sigue en v1.
-- `software/ANALISIS-SPEC-KIT.md`: precision en C3.
+- `software/analisis/ANALISIS-SPEC-KIT.md`: precision en C3.
 - `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: Tessl **queda fuera** por beta cerrada, con el motivo escrito y la incomodidad declarada — el documento excluye, por un criterio correcto, al caso mas distinto de todos.
 
 ### Validacion
@@ -133,7 +156,7 @@ Los cuatro casos de la tabla de convergencia son *spec-anchored*: ninguno regene
 
 ## Kiro se propaga a los tres documentos que lo esperaban, y debilita un argumento propio (2026-09-05) — COMPLETADA
 
-**Accion**: propagacion de `software/ANALISIS-KIRO.md` a los tres derivados que la entrega anterior dejo señalados. Cierra la deuda que ella misma abrio.
+**Accion**: propagacion de `software/analisis/ANALISIS-KIRO.md` a los tres derivados que la entrega anterior dejo señalados. Cierra la deuda que ella misma abrio.
 
 ### Lo que Kiro le hace al argumento de convergencia
 `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sostenia la independencia de OpenSpec «frente a Spec Kit por fechas verificables» y declaraba la reserva «mientras Kiro no se lea». Kiro se leyo, y el resultado **no es la confirmacion que la reserva esperaba**: Kiro se anuncio 22 dias antes del primer commit de OpenSpec y 38 antes del de Spec Kit. Es el caso mas antiguo del corpus.
@@ -149,7 +172,7 @@ Se dejo escrito el corte en sentido contrario, para que la reformulacion no se l
 
 ### Que cambio
 - `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia para Kiro con su exclusion motivada; §Limite del filtro reformulado entero; la dimension candidata a v2 ampliada con el cuarto caso y con su eje de discriminacion; bloque `[SDD-Check]` propio.
-- `software/ANALISIS-OPENSPEC.md`: su reserva ya estaba bien formulada —«tres semanas de anterioridad y un formato de requisitos emparentado no alcanzan para afirmar independencia total»— y solo se actualizo que Kiro dejo de estar ausente, con el resultado: la lectura **no la resolvio, la extendio** a Spec Kit.
+- `software/analisis/ANALISIS-OPENSPEC.md`: su reserva ya estaba bien formulada —«tres semanas de anterioridad y un formato de requisitos emparentado no alcanzan para afirmar independencia total»— y solo se actualizo que Kiro dejo de estar ausente, con el resultado: la lectura **no la resolvio, la extendio** a Spec Kit.
 - `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: Kiro entra a la poblacion «con asterisco» y recibe ficha propia (§4 bis), encabezada por la asimetria de evidencia. Tres filas nuevas en la tabla de escenarios, incluida la que corre en su contra —«necesito poder auditar, forkear o llevarme el metodo: los cuatro **menos** Kiro»—, y una advertencia nueva que dice que Kiro esta peor verificado que los demas y por que.
 
 ### El dato practico que aparecio al escribir la ficha
@@ -169,7 +192,7 @@ Kiro es el unico caso donde **el metodo no se instala: la herramienta lo trae**.
 
 ## Alta de ANALISIS-KIRO: el caso mas antiguo del corpus entra como metodo, sin clon posible (2026-09-05) — COMPLETADA
 
-**Accion**: alta de `software/ANALISIS-KIRO.md` con spec registrada antes de escribirlo, mas [R44] y [R45] en `REFERENCIAS.md`. Paga a medias una deuda declarada desde el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia». Tessl sigue pendiente.
+**Accion**: alta de `software/analisis/ANALISIS-KIRO.md` con spec registrada antes de escribirlo, mas [R44] y [R45] en `REFERENCIAS.md`. Paga a medias una deuda declarada desde el 2026-08-02: «Kiro y Tessl siguen sin pasar por el filtro de procedencia». Tessl sigue pendiente.
 
 ### La clase de evidencia es distinta, y eso condiciona todo
 Kiro es **producto cerrado**: su repositorio publico declara «The Kiro product source code is not hosted here» y aloja solo issues. **No hay clon vendored y no puede haberlo.** Los otros cuatro casos se caracterizaron leyendo archivos; este se caracteriza leyendo documentacion de producto. Por eso el documento no emite ningun veredicto comparativo y la advertencia encabeza el texto en vez de ir en las reservas.
@@ -190,8 +213,8 @@ Se verificaron las siete. Las oficiales (blog, docs y tracker de `kiro.dev` / Gi
 
 ### Que cambio
 - `REFERENCIAS.md`: alta de **[R44]** (Kiro oficial, con la clase de evidencia y la prohibicion de usarlo como efectividad) y **[R45]** (SDD Observatory, con su uso acotado a un dato).
-- `SPECS_REGISTRY.md`: spec de `software/ANALISIS-KIRO.md`, con cinco casillas de validacion, entre ellas que la procedencia declare que las fechas cierran una direccion y no abren la contraria.
-- `software/ANALISIS-KIRO.md`: alta.
+- `SPECS_REGISTRY.md`: spec de `software/analisis/ANALISIS-KIRO.md`, con cinco casillas de validacion, entre ellas que la procedencia declare que las fechas cierran una direccion y no abren la contraria.
+- `software/analisis/ANALISIS-KIRO.md`: alta.
 
 ### Validacion
 `tools/check_docs.py` en verde (0 ERROR). Las cuatro citas textuales se verificaron en la pagina que las contiene el 2026-09-05.
@@ -304,7 +327,7 @@ Sobre esa base, las cuatro implementaciónes entran como **evidencia** y muestra
 - `SPECS_REGISTRY.md` (**enmienda de spec, antes de escribir el documento**): `proposito` pasa a exigir el encuadre general primero; `incluye` suma el estatuto de los artefactos, el eje de alcance en las cuatro implementaciónes y la seccion datada de cambios; `excluye` incorpora **la comparacion entre frameworks**, diferida por decision del usuario; `validacion` suma cinco casillas, entre ellas que ninguna implementacion del mismo autor cuente como evidencia y que toda afirmacion retirada quede registrada.
 - `REFERENCIAS.md`: alta de **[R41]** (Scrum Guide, citada por ausencia), **[R42]** (glosario de Agile Alliance: epica y tres C) y **[R43]** (Thoughtworks sobre la difusion semantica). Correccion de **[R03]**, que apuntaba a la edicion **2011** y ahora apunta a la **2018** vigente, con su alcance textual.
 - `software/RELACION-SPEC-VS-EPICA.md`: reescrito en ocho secciones. La 1 es nueva y es el encuadre normativo; la 4 son las implementaciónes como evidencia, con su encabezado declarando que no es comparacion; la 8 registra que se retiro y que se conservo, para que la revision sea auditable. Los dos bloques `[SDD-Check]` previos se conservan bajo un encabezado que aclara que son registro datado.
-- `software/ANALISIS-SPEC-KIT.md`: la deuda «RELACION-SPEC-VS-EPICA sin actualizar», abierta esta misma sesion, queda **saldada** en los tres lugares donde estaba escrita.
+- `software/analisis/ANALISIS-SPEC-KIT.md`: la deuda «RELACION-SPEC-VS-EPICA sin actualizar», abierta esta misma sesion, queda **saldada** en los tres lugares donde estaba escrita.
 
 ### Validacion
 `tools/check_docs.py` en verde (0 ERROR). Cada afirmacion externa nueva se verifico en fuente el 2026-09-05, salvo las dos que se declaran sin verificar donde se citan.
@@ -318,7 +341,7 @@ Sobre esa base, las cuatro implementaciónes entran como **evidencia** y muestra
 
 ## Diff dirigido de OpenSpec [R38]: el repositorio de specs se separa del artefacto, y el punto ciego de M-41 reaparece (2026-09-05) — COMPLETADA
 
-**Accion**: fase B del re-anclaje, ultima de cuatro. Diff dirigido de OpenSpec entre `45cca5d` (v1.7.0, 2026-07-30) y `e062b95` (v1.12.0, 2026-09-03) contra `software/ANALISIS-OPENSPEC.md`. Con esto quedan cerradas las cuatro re-consultas.
+**Accion**: fase B del re-anclaje, ultima de cuatro. Diff dirigido de OpenSpec entre `45cca5d` (v1.7.0, 2026-07-30) y `e062b95` (v1.12.0, 2026-09-03) contra `software/analisis/ANALISIS-OPENSPEC.md`. Con esto quedan cerradas las cuatro re-consultas.
 
 ### Que se encontro
 Lo analizado no se movio, y en un punto se verifico contra una sospecha propia: `git ls-tree` en los dos commits devuelve la misma anatomia `openspec/`, asi que la lectura preliminar del relevamiento —que tomaba `initiatives/`, `explorations/` y `work/` por estructura nueva— era falsa y quedo descartada antes de escribirse. Las 12 skills siguen siendo 12 y el argumento de procedencia por fecha no depende de nada que haya cambiado. C1-C5 intactas.
@@ -334,7 +357,7 @@ Toca un problema que acá esta declarado y sin resolver, en tres formas distinta
 **Y una recurrencia.** `docs-lab/` no figura en el CHANGELOG —es infraestructura de documentacion, no entrada de release—, asi que un diff que leyera solo el changelog no lo habria visto, igual que el del 2026-07-10 no vio `spec-persistence.md`. **Segunda instancia del modo de falla de M-41 en la misma sesion y en otra fuente**, esta vez evitada porque el procedimiento borrador empieza por el arbol completo. M-41 deja de describir un descuido puntual.
 
 ### Que cambio
-- `software/ANALISIS-OPENSPEC.md`: §Actualizacion 2026-09-05 con **C6**, **C7**, la nota de M-31, la recurrencia de M-41 y bloque `[SDD-Check]` propio con `Cobertura` declarada **incompleta**.
+- `software/analisis/ANALISIS-OPENSPEC.md`: §Actualizacion 2026-09-05 con **C6**, **C7**, la nota de M-31, la recurrencia de M-41 y bloque `[SDD-Check]` propio con `Cobertura` declarada **incompleta**.
 - `agenda/MEJORAS-METODO.md`: M-31 recibe las cuatro decisiones de diseño ajenas.
 - `REFERENCIAS.md`: [R38] pasa de «diff pendiente» a re-consulta cerrada.
 
@@ -350,7 +373,7 @@ Toca un problema que acá esta declarado y sin resolver, en tres formas distinta
 
 ## Diff dirigido de Superpowers [R37]: la ceremonia escala, la compuerta no, y la precedencia se usa para no frenar (2026-09-05) — COMPLETADA
 
-**Accion**: fase B del re-anclaje, tercera de cuatro. Diff dirigido de Superpowers entre `44c9b2d` (v6.2.0, 2026-08-02) y `b36e082` (v6.3.0, 2026-08-12) contra `software/ANALISIS-SUPERPOWERS.md`. Primer diff que aplica el borrador de procedimiento de M-41: `git diff --stat` sobre el arbol completo antes de mirar ningun archivo esperado.
+**Accion**: fase B del re-anclaje, tercera de cuatro. Diff dirigido de Superpowers entre `44c9b2d` (v6.2.0, 2026-08-02) y `b36e082` (v6.3.0, 2026-08-12) contra `software/analisis/ANALISIS-SUPERPOWERS.md`. Primer diff que aplica el borrador de procedimiento de M-41: `git diff --stat` sobre el arbol completo antes de mirar ningun archivo esperado.
 
 ### Que se encontro
 Un unico commit de release, 40 archivos, +2888 lineas. Las 14 skills siguen siendo 14 y la tesis central —no hay Power Inversion— no se mueve. El peso esta en dos skills, y cada una devuelve algo que este repositorio no tiene.
@@ -366,7 +389,7 @@ Acá el Principio VII manda lo contrario, y **no se propone cambiarlo**: es cons
 Refuerzo de C1 sin cambiarla: los planes llevan un puntero `Spec:` y la skill lee la spec al armar el trabajo, asi que la fuente es **mas** spec-anchored que en v6.2.0 y sigue sin regenerar nada.
 
 ### Que cambio
-- `software/ANALISIS-SUPERPOWERS.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la nota de refuerzo a C1/C4, y bloque `[SDD-Check]` propio.
+- `software/analisis/ANALISIS-SUPERPOWERS.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la nota de refuerzo a C1/C4, y bloque `[SDD-Check]` propio.
 - `agenda/MEJORAS-METODO.md`: alta de **M-42**, con lo que propone y —escrito aparte— lo que NO propone. Verificado que el patron `CLARIFICACION` del backstop captura todo el interior del corchete, asi que los dos campos nuevos no cuestan una linea de codigo.
 - `REFERENCIAS.md`: [R37] pasa de «diff pendiente» a re-consulta cerrada.
 
@@ -382,7 +405,7 @@ Refuerzo de C1 sin cambiarla: los planes llevan un puntero `Spec:` y la skill le
 
 ## Diff dirigido de Spec Kit [R10]: la tesis no se movio, y el material que la califica llevaba dos meses invisible (2026-09-05) — COMPLETADA
 
-**Accion**: fase B del re-anclaje, segunda de cuatro. Diff dirigido de Spec Kit entre `983a87f` (v0.12.11.dev0, 2026-07-10) y `4a7341a` (v1.0.5.dev0, 2026-09-04) contra `software/ANALISIS-SPEC-KIT.md`, que es SSOT. 560 commits, con el 1.0.0 liberado el 2026-08-21.
+**Accion**: fase B del re-anclaje, segunda de cuatro. Diff dirigido de Spec Kit entre `983a87f` (v0.12.11.dev0, 2026-07-10) y `4a7341a` (v1.0.5.dev0, 2026-09-04) contra `software/analisis/ANALISIS-SPEC-KIT.md`, que es SSOT. 560 commits, con el 1.0.0 liberado el 2026-08-21.
 
 ### Que se encontro
 **Nada de lo analizado se movio, y esta vez se verifico en vez de afirmarse**: `git diff 983a87f..HEAD -- spec-driven.md` sale vacio. La Power Inversion y los nueve articulos son el mismo texto. Los diez comandos siguen ahi. C1-C5 intactas.
@@ -400,7 +423,7 @@ Lo que estuvo perdido dos meses no era decorativo:
 **Lo que no se caracterizo, dicho**: entre v0.12 y v1.0.4 la superficie que mas crecio es la plataforma —extensiones, presets, bundler, catalogos de comunidad con modelo de confianza—. Queda fuera por alcance de la spec, y con su efecto sobre `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar.
 
 ### Que cambio
-- `software/ANALISIS-SPEC-KIT.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la correccion de `--require-spec`, lo que el 1.0 agrega y no se caracteriza, y la revision explicita de los dos derivados registrados. Bloque `[SDD-Check]` propio, con `Cobertura` declarada **incompleta**.
+- `software/analisis/ANALISIS-SPEC-KIT.md`: §Actualizacion 2026-09-05 con **C6** y **C7**, la correccion de `--require-spec`, lo que el 1.0 agrega y no se caracteriza, y la revision explicita de los dos derivados registrados. Bloque `[SDD-Check]` propio, con `Cobertura` declarada **incompleta**.
 - `agenda/MEJORAS-METODO.md`: alta de **M-41** — el procedimiento de re-consulta de fuentes no esta escrito, y el que se improviso el 2026-07-10 tenia un punto ciego que costo dos meses. Trae tres pasos de borrador, ya ejecutados a mano en este diff.
 - `REFERENCIAS.md`: [R10] pasa de «diff pendiente» a re-consulta cerrada, con lo que vale y lo que no.
 
@@ -423,7 +446,7 @@ Fuera del registro de derivados, un hallazgo que alcanza a otro documento: `docs
 
 ## Diff dirigido de sdd-first [R39]: la taxonomia ajena absorbe defectos que no la formaron, y devuelve un agujero propio (2026-09-05) — COMPLETADA
 
-**Accion**: fase B del re-anclaje, primera de cuatro. Diff dirigido de los 8 commits de sdd-first entre `f032dce` (2026-08-17) y `4a0851e` (2026-09-03) contra `software/ANALISIS-SDD-FIRST.md`. Ninguna conclusion previa (C1-C7) queda invalidada.
+**Accion**: fase B del re-anclaje, primera de cuatro. Diff dirigido de los 8 commits de sdd-first entre `f032dce` (2026-08-17) y `4a0851e` (2026-09-03) contra `software/analisis/ANALISIS-SDD-FIRST.md`. Ninguna conclusion previa (C1-C7) queda invalidada.
 
 ### Que se encontro
 Los ocho commits son `fix:` contra specs propias, sin entrada de historial alla porque el kit reserva ese registro para cambios de metodo. Lo que los vuelve material no es lo que arreglan sino que **seis de los ocho son la misma cosa**: un verificador que reportaba OK sin verificar nada, o una guarda abierta por un camino que nadie probo. El check de constitucion no reconocia sus propios enforcements como rutas y salia exit 0; el doctor daba el gate por cableado con un comentario que decia lo contrario; el gate no leia `notebook_path` y permitia la edicion en silencio; la rama fail-closed del hook era fail-open en Windows.
@@ -442,7 +465,7 @@ La clase mas instanciada del delta (3 de 6) es «la lista duplicada que nada ata
 Es distinto de M-31: alla el check miraba mal, acá mira exactamente lo que le dijeron. Por eso el arreglo no empieza en el check.
 
 ### Que cambio
-- `software/ANALISIS-SDD-FIRST.md`: §Los ocho arreglos que siguieron (tabla de los seis, con hash y el caso concreto que salia verde en cada uno) y **C8** nueva; encabezado con el tercer anclaje; bloque `[SDD-Check]` actualizado en cinco campos.
+- `software/analisis/ANALISIS-SDD-FIRST.md`: §Los ocho arreglos que siguieron (tabla de los seis, con hash y el caso concreto que salia verde en cada uno) y **C8** nueva; encabezado con el tercer anclaje; bloque `[SDD-Check]` actualizado en cinco campos.
 - `agenda/MEJORAS-METODO.md`: alta de **M-40** (prioridad alta), con la sonda, la distincion respecto de M-31 y el orden de trabajo — decidir si `CONVENCIONES.md` es metodo, barrer el resto de la enumeracion antes de enmendar, y recien despues tocar `METODO_FILES`.
 - `REFERENCIAS.md`: [R39] gana el tercer anclaje y su reserva de vendorizado pasa a nombrar los tres commits con lo que cada uno sostiene.
 
@@ -477,7 +500,7 @@ Los cuatro clones estan en `main` con arbol limpio.
 ### Que cambio en `REFERENCIAS.md`
 - Cada una de las cuatro entradas gana una linea **Estado del clon vendored** separada de **Version analizada**, con el par origen → destino y su fecha. La separacion es el punto: el analisis vale para el snapshot, el disco esta en otro lado, y ahora las dos cosas se leen por separado en vez de confundirse en una sola frase.
 - Cada linea nueva declara que el diff dirigido esta **pendiente**, para que el re-anclaje no se lea como re-analisis.
-- `[R10]`: corregido un pendiente que ya no lo era — la linea decia «pendiente incorporar `/speckit.converge` y articulos IV-VI *project-defined*» y ambos estan incorporados a `software/ANALISIS-SPEC-KIT.md` desde el 2026-07-10.
+- `[R10]`: corregido un pendiente que ya no lo era — la linea decia «pendiente incorporar `/speckit.converge` y articulos IV-VI *project-defined*» y ambos estan incorporados a `software/analisis/ANALISIS-SPEC-KIT.md` desde el 2026-07-10.
 - `[R37]`: los harnesses pasaron de 11 a 14 (Devin CLI, Hermes Agent, Grok Build CLI); las 14 skills no cambiaron.
 - `[R38]`: `docs/supported-tools.md` paso de mas de 30 a 62 filas; la anatomia de `openspec/` y las 12 skills no cambiaron. Se verifico con `git ls-tree` contra `45cca5d` que `initiatives/`, `explorations/` y `work/` **ya existian** en el commit analizado: una lectura preliminar los tomo por estructura nueva y quedo descartada antes de escribirse.
 - `[R39]`: la reserva de vendorizado decia «anclarse al commit declarado arriba» y arriba ahora hay dos; pasa a nombrar cual sirve para que (`ebfbd67` la version analizada, `f032dce` el delta del 2026-08-30) y a prohibir explicitamente citar contra el estado del clon.
@@ -508,7 +531,7 @@ Una lectura preliminar erronea quedo corregida y escrita: el campo `Verificador:
 - `REFERENCIAS.md`: alta de [R40] como **fuente reservada** con su restriccion de uso escrita; [R39] gana el anclaje del segundo commit para el delta del 2026-08-16/17.
 - `agenda/MEJORAS-METODO.md`: alta de M-31 a M-34; M-16, M-17 y M-30 anotados con la evidencia de campo y con lo que de cada uno queda abierto.
 - `agenda/BACKLOG-INVESTIGACION.md`: alta de los items 17, 18 y 19; correccion del inventario de corpus de Linea A del item #15, que declaraba un solo corpus cuando hay dos.
-- `software/ANALISIS-SDD-FIRST.md`: §Lo que el kit destilo despues y conclusion C7, ambas ancladas al segundo commit.
+- `software/analisis/ANALISIS-SDD-FIRST.md`: §Lo que el kit destilo despues y conclusion C7, ambas ancladas al segundo commit.
 - `SPECS_REGISTRY.md` + `docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md` + `docs-y-investigacion/00-INDEX.md`: alta del analisis del caso, con spec que incorpora cuatro checks de validacion sin precedente en el registro — los que sostienen la anonimizacion.
 
 ### Como se valido
@@ -1230,7 +1253,7 @@ Lo que el check **no** cubre del principio: el caso en que el asistente interpre
 **Acción**: enmienda constitucional (v0.1.0 → v0.2.0) más un check nuevo, aprobada por el usuario tras el análisis de sdd-first.
 
 ### Qué se encontró
-Los siete principios declaraban `Enforcement:` y los siete nombraban prosa: «revisión editorial», «checks de post-generación de `AGENTS.md`», «campo `validacion` de cada spec». `tools/check_docs.py` existía desde M-01 y cubría parte de eso, pero ningún principio lo nombraba: nada distinguía un principio con mecanismo de uno que depende de que alguien se acuerde. Origen del patrón: sdd-first [R39] SPEC-020, que nació al descubrir que declarar un principio nuevo producía «enforcement decorativo» sin aviso (`software/ANALISIS-SDD-FIRST.md`, C1).
+Los siete principios declaraban `Enforcement:` y los siete nombraban prosa: «revisión editorial», «checks de post-generación de `AGENTS.md`», «campo `validacion` de cada spec». `tools/check_docs.py` existía desde M-01 y cubría parte de eso, pero ningún principio lo nombraba: nada distinguía un principio con mecanismo de uno que depende de que alguien se acuerde. Origen del patrón: sdd-first [R39] SPEC-020, que nació al descubrir que declarar un principio nuevo producía «enforcement decorativo» sin aviso (`software/analisis/ANALISIS-SDD-FIRST.md`, C1).
 
 Además, `AGENTS.md` afirmaba que el repositorio no tenía verificación determinista — falso desde el 2026-07-31 y en contradicción con su propia §Al cerrar una iteración, que obliga a correr el backstop.
 
@@ -1262,7 +1285,7 @@ Los siete principios de `CONSTITUTION.md` declaran `Enforcement:` y los siete no
 
 Propuesta: que cada principio nombre el check de `check_docs.py` que lo cubre, o `ninguno` cuando nada lo cubra, y que `check_docs.py` verifique que los nombrados existen. Lo que produce no es enforcement universal —un repositorio documental sin CI no puede mecanizar «no formular una hipótesis después de ver el resultado»— sino **visibilidad de qué principio tiene mecanismo y cuál depende de que alguien se acuerde**.
 
-Origen: sdd-first [R39] declara ese vínculo en el config y verifica que el paso esté cableado y haya corrido; su SPEC-020 nació justamente al descubrir que un principio nuevo obtenía «enforcement decorativo» sin aviso (`software/ANALISIS-SDD-FIRST.md` C1). Contraparte de investigación: `BACKLOG-INVESTIGACION.md` prioridad alta #4 (gates que fallan abierto) y #3 (umbral de control manual a automatizado).
+Origen: sdd-first [R39] declara ese vínculo en el config y verifica que el paso esté cableado y haya corrido; su SPEC-020 nació justamente al descubrir que un principio nuevo obtenía «enforcement decorativo» sin aviso (`software/analisis/ANALISIS-SDD-FIRST.md` C1). Contraparte de investigación: `BACKLOG-INVESTIGACION.md` prioridad alta #4 (gates que fallan abierto) y #3 (umbral de control manual a automatizado).
 
 **Hecha el 2026-08-15.** Qué principio tiene verificador hoy y cuál declara `ninguno` se lee en `CONSTITUTION.md`, campo `Verificador:`; este backlog no lo reproduce, porque el conteo cambia cada vez que se cierra una mejora.
 
@@ -1279,7 +1302,7 @@ Hallazgo con consecuencia inmediata: el chequeo de **mtime** que M-02 daba por d
 
 ### Qué se cambió
 - `REFERENCIAS.md`: alta de [R39], con versión anclada, naturaleza declarada (repositorio propio, no fuente externa; MUST NOT contarse como linaje ni citarse como evidencia) y reserva de vendorizado (el enlace apunta a un directorio de trabajo vivo, no a un snapshot).
-- `software/ANALISIS-SDD-FIRST.md`: documento nuevo, con la procedencia resuelta antes de la lectura, el mapeo sobre el instrumento v1 sin filas nuevas y seis conclusiones marcadas como lectura o candidata (ninguna aprobada).
+- `software/analisis/ANALISIS-SDD-FIRST.md`: documento nuevo, con la procedencia resuelta antes de la lectura, el mapeo sobre el instrumento v1 sin filas nuevas y seis conclusiones marcadas como lectura o candidata (ninguna aprobada).
 - `SPECS_REGISTRY.md`: spec del documento nuevo, con validación explícita de que ninguna coincidencia se presente como convergencia.
 - `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: fila de procedencia que registra el caso como **No** — primer rechazo escrito de la regla 1, anotado para que el corolario «la mayoría de los métodos nuevos no suman linaje» sea verificable. Ningún veredicto por fila cambia.
 - `agenda/MEJORAS-METODO.md`: M-02 incorpora la corrección de diseño (mtime descartado, criterio de contenido en su lugar, tres modos de falla adicionales); alta de M-15, M-16 y M-17 en estado `Propuesta`.
@@ -1337,7 +1360,7 @@ Un octavo caso (`RELACION-SPEC-VS-EPICA.md` → `ANALISIS-SPEC-KIT.md`) resultó
 ### Qué se cambió
 - `SPECS_REGISTRY.md` §Campo ssot_level: `deriva_de` ya no exige que el origen sea `SSOT` — MUST ser `SSOT` o `derivado` (permite cadena de más de un salto), nunca `operativo` ni un documento sin entrada. Se documentó el criterio para distinguir cadena legítima (cada eslabón declara una faceta distinta: qué/cómo/valores) de mal modelado (forzar una relación para evitar clasificar el rol real).
 - `SPECS_REGISTRY.md` §Docs excluidos: excepción nueva — un `EXPERIMENTO-*.md` citado como `deriva_de` por otro documento MUST tener entrada mínima en el registro (conserva la exención de `incluye`/`excluye` detallados).
-- `software/ANALISIS-SPEC-KIT.md` reclasificado de `operativo` a `SSOT` (resuelve 2 de los 7 casos) y sumado a la Tabla SSOT.
+- `software/analisis/ANALISIS-SPEC-KIT.md` reclasificado de `operativo` a `SSOT` (resuelve 2 de los 7 casos) y sumado a la Tabla SSOT.
 - Alta de `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` en el registro, `ssot_level: SSOT`, entrada mínima por la excepción nueva (resuelve otros 2 casos) y sumado a la Tabla SSOT.
 - Los 2 casos de derivado-de-derivado quedan cubiertos por la regla de cadena, sin tocar sus specs.
 - `tools/check_docs.py`: `check_spec_fields` ahora valida que el destino de `deriva_de` tenga spec registrada y `ssot_level` en `{SSOT, derivado}`, no solo que exista en disco y no cicle.
@@ -1496,7 +1519,7 @@ Límite heredado y declarado en el propio docstring: **verifica presencia y form
 
 ### Qué encontró la primera corrida
 41 documentos, 6 ERROR y 22 WARN. Desglose honesto:
-- **2 ERROR eran deriva real**, ambos de la misma clase y ambos de un día de antigüedad: `software/ANALISIS-SPEC-KIT.md` C4 decía «nuestra precedencia `SPECS_REGISTRY.md`» y `templates/RESULTADO-EXPERIMENTO.md` decía «Es precedencia 1» sobre el registro, que desde la Fase 8 es precedencia 2. Los dos documentos habían sido revisados a mano el mismo día, dentro de la propagación de la Fase 8, y los dos se escaparon.
+- **2 ERROR eran deriva real**, ambos de la misma clase y ambos de un día de antigüedad: `software/analisis/ANALISIS-SPEC-KIT.md` C4 decía «nuestra precedencia `SPECS_REGISTRY.md`» y `templates/RESULTADO-EXPERIMENTO.md` decía «Es precedencia 1» sobre el registro, que desde la Fase 8 es precedencia 2. Los dos documentos habían sido revisados a mano el mismo día, dentro de la propagación de la Fase 8, y los dos se escaparon.
 - **1 ERROR era un hueco anterior**: `experimentos/b07-formato-hibrido/PREREG-B7.md` sin spec registrada. Es un pre-registro autorado, no generado desde template, así que la exención de `experimentos/` no lo alcanza — el mismo criterio que el 2026-07-30 obligó a registrar los runbooks. Se le escribió spec (`derivado` de `PRUEBA-REGENERABILIDAD-B7.md`), con la advertencia explícita de que describe un documento sellado y MUST NOT usarse para reescribirlo.
 - **3 ERROR eran falsos positivos** del check de precedencia: disparaba dentro de bloques de código, no reconocía «esta constitución» escrito en prosa, y usaba una ventana que no miraba hacia atrás. Corregido: se ignoran los fences, se acepta la palabra además del nombre de archivo, y la ventana va de −4 a +12 líneas.
 - **20 WARN eran ruido de diseño**: «spec sin campo `owner`» en casi todas. En un repo de un solo equipo, escribir 25 veces el mismo owner es ruido; se declaró en el registro que `owner` ausente significa `proyecto SDD` y se quitó el check. Los 2 WARN restantes (specs sin `proposito` en bloques que declaran dos paths) se corrigieron escribiendo el campo.
@@ -1568,7 +1591,7 @@ Comparación del repo contra el testigo (HEAD `ded63e5`). La higiene documental 
 - **Regla de alcance en un solo lugar** (`SPECS_REGISTRY.md` §Reglas globales, operativa del Principio I): `proposito`/`incluye`/`excluye`/`validacion` viven solo en el registro; el índice declara **rol**, no propósito; el encabezado de un doc puede llevar una línea de identidad pero no enumerar incluye/excluye. Migración oportunística para los encabezados preexistentes.
 - **`00-INDEX.md` a navegación pura**: se eliminó la columna «Contenido» y también el «Mapa de SSOTs», que duplicaba la tabla SSOT del registro. La tabla quedó en el registro y no en el índice porque de ella depende la regla de propagación, y ahí tiene precedencia 2.
 - **`AGENTS.md` reescrito** (119 → 118 líneas, con más contenido y menos duplicación): orden de lectura que arranca por la constitución, sección «Al cerrar una iteración» (registro, historial, commit), sección «Qué NO hacer» con cada ítem anclado a su principio. Se eliminó la reproducción de la regla de propagación —que el propio documento declaraba delegada al registro tres líneas antes— y las convenciones de forma, ahora referenciadas.
-- **Propagación**: `software/ANALISIS-SPEC-KIT.md` (fila de autoridad del mapeo + nota fechada en C4: se adoptó la parte declarativa del patrón, no la ejecutable, y la pregunta de C4 sigue abierta); `software/00-INDEX.md` y `docs-y-investigacion/00-INDEX.md` (repetían la cadena de precedencia sin la constitución); `README.md`.
+- **Propagación**: `software/analisis/ANALISIS-SPEC-KIT.md` (fila de autoridad del mapeo + nota fechada en C4: se adoptó la parte declarativa del patrón, no la ejecutable, y la pregunta de C4 sigue abierta); `software/00-INDEX.md` y `docs-y-investigacion/00-INDEX.md` (repetían la cadena de precedencia sin la constitución); `README.md`.
 
 ### Cómo se validó
 Links internos: 0 rotos antes y después. Cadena de precedencia coherente en los cuatro documentos que la mencionan. La medición de divergencia del `proposito` se hizo con script contra el registry, no a ojo. La spec de `CONSTITUTION.md` se escribió en el mismo lote que el documento — inversión del Principio IV que se declara acá como excepción de bootstrap, no como precedente.
@@ -1677,7 +1700,7 @@ En la única feature que discriminó (F013) el formato **casero** superó al hí
 
 **Acción**: `git pull` deliberado del clon vendored `fuentes-externas/spec-kit/` (`a08af08` 2026-05-22 → `983a87f` 2026-07-10; 374 commits, 4 versiones menores 0.9→0.12).
 
-### Diff dirigido contra `software/ANALISIS-SPEC-KIT.md` (basado en snapshot v0.8.13)
+### Diff dirigido contra `software/analisis/ANALISIS-SPEC-KIT.md` (basado en snapshot v0.8.13)
 - **Ninguna conclusión invalidada.** Tesis "Power Inversion", coverage mapping de `/speckit.analyze` (C1), C2 y C3 siguen vigentes.
 - **Cambio conceptual 1 — Artículos IV, V y VI ahora explícitamente *project-defined governance*** (`spec-driven.md` upstream; CHANGELOG 0.11.6). Refuerza, no contradice, el enfoque del testigo (gate de integridad de la constitución). La estructura de 9 artículos se mantiene estable.
 - **Cambio conceptual 2 — comando nuevo `/speckit.converge`** (0.11.2, documentado 0.11.10). No cubierto por el análisis; candidato a incorporar si se re-analiza el set de comandos.
@@ -1740,10 +1763,10 @@ Las cifras de [R28] son de fuente divulgativa (secundaria); marcadas como tales 
 Se introduce el directorio `fuentes-externas/` para repositorios externos clonados (vendored), separandolos de los docs autorados por el proyecto. El clon `software/spec-kit/` se movio a `fuentes-externas/spec-kit/` (con su `.git` intacto para `git pull` en re-analisis). Registrado como exclusion en `SPECS_REGISTRY.md`.
 
 ### Archivos creados
-- `software/ANALISIS-SPEC-KIT.md` — analisis del flujo de Spec Kit, mapeo contra nuestro protocolo y conclusiones C1-C5 para Linea B. Linea A diferida.
+- `software/analisis/ANALISIS-SPEC-KIT.md` — analisis del flujo de Spec Kit, mapeo contra nuestro protocolo y conclusiones C1-C5 para Linea B. Linea A diferida.
 
 ### Archivos modificados
-- `SPECS_REGISTRY.md`: exclusion de `fuentes-externas/`; spec nueva para `software/ANALISIS-SPEC-KIT.md`.
+- `SPECS_REGISTRY.md`: exclusion de `fuentes-externas/`; spec nueva para `software/analisis/ANALISIS-SPEC-KIT.md`.
 - `REFERENCIAS.md`: [R10] anclado a version v0.8.13 (consultada 2026-05-21) + ruta del clon vendored y politica de actualizacion.
 - `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` (SSOT): entrada Spec Kit enriquecida con flujo de comandos y link al analisis.
 - `software/00-INDEX.md`: seccion "Analisis de frameworks" con link al doc.

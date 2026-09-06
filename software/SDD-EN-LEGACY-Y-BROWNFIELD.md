@@ -8,7 +8,7 @@ Spec: ver `SPECS_REGISTRY.md` → `software/SDD-EN-LEGACY-Y-BROWNFIELD.md`.
 
 Responder cuándo y cómo conviene escribir **specs retrospectivas** (retro-specs)
 para código legacy, y con qué forma. El análisis se ancla en evidencia externa y
-se diferencia del análisis del flujo de Spec Kit (`software/ANALISIS-SPEC-KIT.md`).
+se diferencia del análisis del flujo de Spec Kit (`software/analisis/ANALISIS-SPEC-KIT.md`).
 
 Terminología: *legacy* se usa aquí en el sentido de Michael Feathers —código sin
 red de pruebas automáticas de regresión— no como sinónimo de "código viejo" [R23].

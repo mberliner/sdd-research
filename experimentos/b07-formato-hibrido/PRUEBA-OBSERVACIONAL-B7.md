@@ -227,7 +227,7 @@ Contraparte del check 3 de `../../templates/RESULTADO-EXPERIMENTO.md` §Propagac
 - `../../software/LINEAS-INVESTIGACION.md` §B7 — SSOT de agenda; su pregunta 2 (cobertura) queda respondida y su pregunta 3 ya está marcada como no respondible.
 - `../../software/PLAN-PRUEBAS.md` §B-07 — estado del experimento.
 - `../../software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `../../software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` — ambos declaran deuda abierta por el corpus observacional.
-- `../../software/ANALISIS-SPEC-KIT.md` — hueco C1 (cobertura), que `H1` mide.
+- `../../software/analisis/ANALISIS-SPEC-KIT.md` — hueco C1 (cobertura), que `H1` mide.
 - `RESULTADO-EXPERIMENTO-B7.md` — su §Deuda arrastrada nombra `H1` y `H3` sin medir.
 
 ## Referencias
@@ -235,7 +235,7 @@ Contraparte del check 3 de `../../templates/RESULTADO-EXPERIMENTO.md` §Propagac
 - SSOT de hipótesis, métricas y criterio: `EXPERIMENTO-B7-formato-hibrido.md`
 - Runbook de la métrica primaria, hermano de este: `PRUEBA-REGENERABILIDAD-B7.md`
 - Resultado de la métrica primaria: `RESULTADO-EXPERIMENTO-B7.md`
-- Hueco C1 (cobertura) y C3: `../../software/ANALISIS-SPEC-KIT.md`
+- Hueco C1 (cobertura) y C3: `../../software/analisis/ANALISIS-SPEC-KIT.md`
 - Anti-patrones del marco: `../../agenda/BACKLOG-INVESTIGACION.md`
 - Plantillas: `../../templates/EXPERIMENTO.md`, `../../templates/RESULTADO-EXPERIMENTO.md`
 

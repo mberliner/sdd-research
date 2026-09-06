@@ -13,10 +13,10 @@ Como aplicar SDD para convertir especificaciones en software confiable, verifica
 3. [PLAN-PRUEBAS.md](./PLAN-PRUEBAS.md)
 
 ## Análisis de frameworks
-- [ANALISIS-SPEC-KIT.md](./ANALISIS-SPEC-KIT.md) — análisis de GitHub Spec Kit. Fuente vendored en [../fuentes-externas/spec-kit/](../fuentes-externas/spec-kit/).
-- [ANALISIS-SUPERPOWERS.md](./ANALISIS-SUPERPOWERS.md) — análisis de Superpowers. Fuente vendored en [../fuentes-externas/superpowers/](../fuentes-externas/superpowers/).
-- [ANALISIS-OPENSPEC.md](./ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente vendored en [../fuentes-externas/OpenSpec/](../fuentes-externas/OpenSpec/).
-- [ANALISIS-SDD-FIRST.md](./ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente vendored en [../fuentes-externas/sdd-first/](../fuentes-externas/sdd-first/).
+- [ANALISIS-SPEC-KIT.md](./analisis/ANALISIS-SPEC-KIT.md) — análisis de GitHub Spec Kit. Fuente vendored en [../fuentes-externas/spec-kit/](../fuentes-externas/spec-kit/).
+- [ANALISIS-SUPERPOWERS.md](./analisis/ANALISIS-SUPERPOWERS.md) — análisis de Superpowers. Fuente vendored en [../fuentes-externas/superpowers/](../fuentes-externas/superpowers/).
+- [ANALISIS-OPENSPEC.md](./analisis/ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente vendored en [../fuentes-externas/OpenSpec/](../fuentes-externas/OpenSpec/).
+- [ANALISIS-SDD-FIRST.md](./analisis/ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente vendored en [../fuentes-externas/sdd-first/](../fuentes-externas/sdd-first/).
 - [CONVERGENCIA-IMPLEMENTACIONES-SDD.md](./CONVERGENCIA-IMPLEMENTACIONES-SDD.md) — convergencia entre implementaciones de SDD, leído sobre los tres análisis de arriba y el testigo.
 - [COMPARATIVA-SPECKIT-VS-TESTIGO.md](./COMPARATIVA-SPECKIT-VS-TESTIGO.md) — comparación Spec Kit vs. proyecto testigo.
 - [DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md](./DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md) — decisión adoptar vs. portar Spec Kit.

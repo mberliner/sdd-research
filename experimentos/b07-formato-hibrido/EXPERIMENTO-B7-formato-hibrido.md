@@ -14,7 +14,7 @@
 H (B7, ver `../../software/LINEAS-INVESTIGACION.md`): adoptar la **anatomía de spec de GitHub Spec Kit** [R10] (User Story con prioridad + `FR-NNN MUST` [R04] + `SC-NNN` medibles + Given/When/Then + *coverage mapping*) sobre el flujo casero del testigo mejora de forma medible la calidad del artefacto-spec respecto a la baseline casera, **sin** un sobrecosto de redacción que anule la mejora.
 
 Sub-hipotesis:
-- **H1 (cobertura)**: el *coverage mapping* reduce "requisitos sin derivado/tarea" — cierra el hueco C1 de `../../software/ANALISIS-SPEC-KIT.md`.
+- **H1 (cobertura)**: el *coverage mapping* reduce "requisitos sin derivado/tarea" — cierra el hueco C1 de `../../software/analisis/ANALISIS-SPEC-KIT.md`.
 - **H2 (ambigüedad temprana) — DEGRADADA a descriptiva (2026-07-29, decisión del usuario)**: `[NEEDS CLARIFICATION]` + Given/When/Then surfacean ambigüedad **antes** de codear → menos revisiones reactivas de spec durante la implementación (contraste con la divergencia SPEC-002↔SPEC-003 hallada en casero, B-06). **MUST NOT integrar ningún criterio de éxito**; se reporta como observación descriptiva/cualitativa. Dos motivos independientes, ambos estructurales: (a) el **ratio upfront/reactivo no es computable** — `[NEEDS CLARIFICATION]` no existe como categoría en la anatomía casero, y su ausencia es `N/A`, no `0`; (b) **confusión de visibilidad** — la variable de salida (revisiones de spec documentadas) *es ella misma un artefacto documental*, y el tratamiento *es un régimen de documentación más estricto*, así que el formato altera la visibilidad de su propio resultado; sin fuente independiente (git no cubre la ventana del corpus) no se puede separar "revisó menos" de "documentó menos sus revisiones". Los conteos crudos van en la dirección contraria a H2 (entradas de `## Historial`: media 6.0 en casero vs 7.0 en híbrido), lo que es consistente con un artefacto de medición, no con evidencia. **Lo que conserva valor es cualitativo:** *qué* tuvo que agregar cada brazo después — en casero las revisiones llegan como bloques `**Pendiente (rev.…)**` que suman criterios de aceptación faltantes, diagnóstico de lo que el formato dejó pasar. Anti-patrón generalizado registrado en `../../agenda/BACKLOG-INVESTIGACION.md`.
 - **H3 (fronteras)**: la independencia de User Stories fuerza fronteras de módulo más limpias.
 - **H4 (regenerabilidad / "Power Inversion")**: las specs híbridas permiten **regenerar el código desde la spec sola** con menos errores que las casero. Es la tesis fuerte de Spec Kit (C3 de `ANALISIS-SPEC-KIT`): la spec como artefacto primario que genera el código, no como guía.
@@ -226,7 +226,7 @@ El testigo implementó y cerró las specs de tratamiento SPEC-004/005/006/008 (m
 ## Referencias
 - **Protocolo de ejecución de la métrica primaria (runbook 2×2)**: `PRUEBA-REGENERABILIDAD-B7.md`
 - Hipotesis B7: `../../software/LINEAS-INVESTIGACION.md`
-- Análisis Spec Kit (C1 cobertura, C3 Power Inversion): `../../software/ANALISIS-SPEC-KIT.md`
+- Análisis Spec Kit (C1 cobertura, C3 Power Inversion): `../../software/analisis/ANALISIS-SPEC-KIT.md`
 - Baseline observacional y deuda arrastrada: `../../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`
 - Plan experimental y criterio de adopción: `../../software/PLAN-PRUEBAS.md`
 - Specs del sujeto: `agent-test-suite/specs/` (SPEC-004/005/006/008 híbridas; SPEC-001/002/003 casero)

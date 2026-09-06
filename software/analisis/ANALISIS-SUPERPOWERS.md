@@ -1,7 +1,7 @@
 # Análisis: Superpowers y su relación con nuestra investigación SDD (Línea B)
 
 Fecha: 2026-08-02.
-Fuente: Superpowers v6.2.0, commit `44c9b2d` (consultada 2026-08-02) [R37]. Clon local vendored en `../fuentes-externas/superpowers/`.
+Fuente: Superpowers v6.2.0, commit `44c9b2d` (consultada 2026-08-02) [R37]. Clon local vendored en `../../fuentes-externas/superpowers/`.
 Alcance: Línea B (software).
 
 ---
@@ -10,7 +10,7 @@ Alcance: Línea B (software).
 
 Superpowers es una metodología de desarrollo empaquetada como skills componibles para agentes de codificación, con respaldo comercial (Prime Radiant) y distribución por marketplace de plugins. Se sirve a 11 harnesses desde un set único de 14 skills, con un archivo de protocolo `AGENTS.md` y adaptadores finos por asistente.
 
-Este documento la caracteriza y la mapea contra nuestro protocolo (`../AGENTS.md`, `../SPECS_REGISTRY.md`), del mismo modo y con el mismo instrumento que `ANALISIS-SPEC-KIT.md` hizo con GitHub Spec Kit [R10]. La lectura cruzada de las tres implementaciones —Spec Kit, Superpowers y el proyecto testigo— **no** vive acá: es un tema propio, con su SSOT en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
+Este documento la caracteriza y la mapea contra nuestro protocolo (`../../AGENTS.md`, `../../SPECS_REGISTRY.md`), del mismo modo y con el mismo instrumento que `ANALISIS-SPEC-KIT.md` hizo con GitHub Spec Kit [R10]. La lectura cruzada de las tres implementaciones —Spec Kit, Superpowers y el proyecto testigo— **no** vive acá: es un tema propio, con su SSOT en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
 
 Importa por qué se la mira ahora. La afirmación de convergencia que este proyecto viene sosteniendo se apoyaba en dos puntos, y uno de ellos —el testigo— deriva de este repositorio, con sesgo de confirmación declarado en B-06. Superpowers es el primer punto que no nació ni de nuestro método ni del de Spec Kit.
 
@@ -48,17 +48,17 @@ Rasgos de diseño relevantes:
 
 Es el aporte distintivo de esta fuente y no tiene equivalente en Spec Kit ni en el testigo.
 
-`../fuentes-externas/superpowers/skills/writing-skills/testing-skills-with-subagents.md` define un ciclo RED→GREEN→REFACTOR aplicado a documentos de método: correr escenarios de presión **sin** el documento y capturar las racionalizaciones textuales del agente; escribir el documento contra esas fallas concretas; correr **con** el documento y verificar cumplimiento; cerrar las racionalizaciones nuevas que aparezcan. El criterio de diseño de los escenarios es combinar tres o más presiones simultáneas (tiempo, costo hundido, autoridad, agotamiento) y forzar una elección explícita entre opciones concretas.
+`../../fuentes-externas/superpowers/skills/writing-skills/testing-skills-with-subagents.md` define un ciclo RED→GREEN→REFACTOR aplicado a documentos de método: correr escenarios de presión **sin** el documento y capturar las racionalizaciones textuales del agente; escribir el documento contra esas fallas concretas; correr **con** el documento y verificar cumplimiento; cerrar las racionalizaciones nuevas que aparezcan. El criterio de diseño de los escenarios es combinar tres o más presiones simultáneas (tiempo, costo hundido, autoridad, agotamiento) y forzar una elección explícita entre opciones concretas.
 
 Dos propiedades lo vuelven relevante para las deudas metodológicas de este repositorio:
 
-- **La variable de salida es conducta observada en sesión fresca**, no un artefacto documental: qué opción eligió el agente, cuántas herramientas gastó. Es una fuente independiente del artefacto, que es justamente lo que el anti-patrón de confusión de visibilidad —`../agenda/BACKLOG-INVESTIGACION.md`, prioridad alta #6— declara faltante.
+- **La variable de salida es conducta observada en sesión fresca**, no un artefacto documental: qué opción eligió el agente, cuántas herramientas gastó. Es una fuente independiente del artefacto, que es justamente lo que el anti-patrón de confusión de visibilidad —`../../agenda/BACKLOG-INVESTIGACION.md`, prioridad alta #6— declara faltante.
 - **Corre repeticiones por celda con scoring manual.** El eval de workspace usó 5 subagentes frescos por brazo, 25 repeticiones en total, cada respuesta leída entera. Es el procedimiento que la prioridad alta #7 del mismo backlog pide para conocer el piso de ruido antes de reportar una brecha.
 
 Dos casos concretos, con su archivo de origen para que sean re-verificables:
 
-- **Efecto medido de borrar prosa** (`../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.2.0): eliminar una sección argumentativa de la skill de TDD degradó la conducta test-first de 8/10 a 5/10 bajo presión, corroborado en dos familias de modelos. Revirtieron el corte y conservaron los argumentos redistribuidos. Es un tamaño de efecto de referencia y una advertencia directa para `M-04` de `../agenda/MEJORAS-METODO.md`: compactar documentos de método tiene un costo conductual que hoy no medimos.
-- **Un cierre que no reescribió su hipótesis** (`../fuentes-externas/superpowers/docs/superpowers/specs/2026-07-06-sdd-plan-scoped-workspace-eval-results.md`): la falla hipotetizada —adopción ciega de un registro de progreso ajeno— **no se reprodujo** en ninguna de las 25 repeticiones. En vez de reformular, el documento declara qué reclama y qué no ("what this GREEN round claims, and only claims"), reporta que el mecanismo cambió pero el conteo crudo de herramientas no bajó, y deja el cambio apoyado en razones estructurales con firma del mantenedor. Es Principio V ejecutado por un tercero.
+- **Efecto medido de borrar prosa** (`../../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.2.0): eliminar una sección argumentativa de la skill de TDD degradó la conducta test-first de 8/10 a 5/10 bajo presión, corroborado en dos familias de modelos. Revirtieron el corte y conservaron los argumentos redistribuidos. Es un tamaño de efecto de referencia y una advertencia directa para `M-04` de `../../agenda/MEJORAS-METODO.md`: compactar documentos de método tiene un costo conductual que hoy no medimos.
+- **Un cierre que no reescribió su hipótesis** (`../../fuentes-externas/superpowers/docs/superpowers/specs/2026-07-06-sdd-plan-scoped-workspace-eval-results.md`): la falla hipotetizada —adopción ciega de un registro de progreso ajeno— **no se reprodujo** en ninguna de las 25 repeticiones. En vez de reformular, el documento declara qué reclama y qué no ("what this GREEN round claims, and only claims"), reporta que el mecanismo cambió pero el conteo crudo de herramientas no bajó, y deja el cambio apoyado en razones estructurales con firma del mantenedor. Es Principio V ejecutado por un tercero.
 
 Límite que MUST acompañar cualquier uso de esto: los evals son internos y autoreportados, con n chico y scoring del propio equipo [R37]. Se porta el **procedimiento**; los resultados no se asumen.
 
@@ -70,13 +70,13 @@ Se usa el mismo instrumento de ocho filas que `ANALISIS-SPEC-KIT.md`, fijado el 
 
 | Concepto | Superpowers | Nuestro proyecto |
 |----------|-------------|------------------|
-| Fuente de autoridad no-negociable | Precedencia declarada: instrucciones del usuario > skills > conducta por defecto. La autoridad última es el humano, no un artefacto del proyecto | `../CONSTITUTION.md` > `../SPECS_REGISTRY.md` > `../AGENTS.md`: la autoridad es del proyecto y sobrevive al cambio de asistente |
-| Lenguaje normativo | `MUST`, `ALWAYS`/`NEVER`, bloques `<HARD-GATE>` y "Iron Law"; sin referencia a RFC 2119 | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../AGENTS.md`) [R04] |
-| Manejo de ambigüedad | Conversacional: una pregunta por mensaje antes de escribir, con gate de aprobación. **Sin marcador de incertidumbre dentro del documento** | `[NEEDS CLARIFICATION: ...]` grep-able + MUST preguntar (`../AGENTS.md`) |
-| Validación de consistencia | `verification-before-completion` (evidencia fresca antes de toda afirmación) + revisión por subagente contra la spec en cada tarea y al cerrar la rama | Bloque `[SDD-Check]` por entrega + backstop determinista `../tools/check_docs.py` |
-| Trazabilidad requisito a tarea | Ledger de progreso por plan y revisión por tarea contra su spec; **sin coverage mapping** requisito a verificador | Campo `Cobertura` del `[SDD-Check]` + regla de propagación (`../SPECS_REGISTRY.md`) |
+| Fuente de autoridad no-negociable | Precedencia declarada: instrucciones del usuario > skills > conducta por defecto. La autoridad última es el humano, no un artefacto del proyecto | `../../CONSTITUTION.md` > `../../SPECS_REGISTRY.md` > `../../AGENTS.md`: la autoridad es del proyecto y sobrevive al cambio de asistente |
+| Lenguaje normativo | `MUST`, `ALWAYS`/`NEVER`, bloques `<HARD-GATE>` y "Iron Law"; sin referencia a RFC 2119 | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../../AGENTS.md`) [R04] |
+| Manejo de ambigüedad | Conversacional: una pregunta por mensaje antes de escribir, con gate de aprobación. **Sin marcador de incertidumbre dentro del documento** | `[NEEDS CLARIFICATION: ...]` grep-able + MUST preguntar (`../../AGENTS.md`) |
+| Validación de consistencia | `verification-before-completion` (evidencia fresca antes de toda afirmación) + revisión por subagente contra la spec en cada tarea y al cerrar la rama | Bloque `[SDD-Check]` por entrega + backstop determinista `../../tools/check_docs.py` |
+| Trazabilidad requisito a tarea | Ledger de progreso por plan y revisión por tarea contra su spec; **sin coverage mapping** requisito a verificador | Campo `Cobertura` del `[SDD-Check]` + regla de propagación (`../../SPECS_REGISTRY.md`) |
 | Circuito de aprendizaje | Fuerte, pero **sobre los documentos de método**: evals, tablas de racionalización, bucle de corrección con cortacircuitos. La spec de proyecto es un documento fechado que no se revisa tras la ejecución | Sobre las specs: propagación bidireccional (Principio III) y `Deuda arrastrada` |
-| Registro de specs | Archivos fechados en `docs/superpowers/specs/`; sin registro central, sin campo de estado, sin nivel SSOT | `../SPECS_REGISTRY.md` central por documento, con `estado` y `ssot_level` |
+| Registro de specs | Archivos fechados en `docs/superpowers/specs/`; sin registro central, sin campo de estado, sin nivel SSOT | `../../SPECS_REGISTRY.md` central por documento, con `estado` y `ssot_level` |
 | Personalización | Plugins independientes + adaptadores por harness; el núcleo rechaza explícitamente lo específico de dominio | Niveles de profundidad de spec y `ssot_level` |
 
 Lectura del mapeo: convergencia fuerte en lenguaje normativo y en validación de consistencia; parcial en autoridad, ambigüedad y personalización; divergencia en trazabilidad, registro y —la más interesante— en el **objeto** del circuito de aprendizaje. El veredicto de invariancia leído sobre las tres implementaciones vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, no acá.
@@ -87,11 +87,11 @@ Lectura del mapeo: convergencia fuerte en lenguaje normativo y en validación de
 
 ### C1. La posición spec-anchored tiene un caso de producción
 
-C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers ocupa el punto medio deliberadamente y con producto vivo. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
+C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers ocupa el punto medio deliberadamente y con producto vivo. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
 
 ### C2. El circuito de aprendizaje puede correr sobre el método, no solo sobre las specs
 
-Nuestro Principio III instrumenta propagación sobre las specs y sus derivados. Superpowers instrumenta un bucle sobre sus propios documentos de método, con medición conductual. Son loops complementarios, no rivales: nosotros no tenemos ninguno del segundo tipo, y `../CONSTITUTION.md` declara que su enforcement es humano y a pedido. La pregunta que esto abre está dada de alta en `../agenda/BACKLOG-INVESTIGACION.md` (prioridad alta #8).
+Nuestro Principio III instrumenta propagación sobre las specs y sus derivados. Superpowers instrumenta un bucle sobre sus propios documentos de método, con medición conductual. Son loops complementarios, no rivales: nosotros no tenemos ninguno del segundo tipo, y `../../CONSTITUTION.md` declara que su enforcement es humano y a pedido. La pregunta que esto abre está dada de alta en `../../agenda/BACKLOG-INVESTIGACION.md` (prioridad alta #8).
 
 ### C3. Ausencia de marcador de ambigüedad, con el mismo principio detrás
 
@@ -99,7 +99,7 @@ Superpowers llega al mismo principio que nosotros —no asumir, preguntar— por
 
 ### C4. Evidencia externa para la portabilidad entre asistentes
 
-Superpowers sirve 11 harnesses desde un set único con adaptadores finos, y su documentación de aceptación exige demostrar que el bootstrap carga en sesión real, no que los archivos estén copiados. Es evidencia externa de que el patrón `AGENTS.md` como SSOT más adaptadores —que este repositorio y el testigo ya practican— escala más allá de un caso propio, y sostiene `M-03` de `../agenda/MEJORAS-METODO.md`.
+Superpowers sirve 11 harnesses desde un set único con adaptadores finos, y su documentación de aceptación exige demostrar que el bootstrap carga en sesión real, no que los archivos estén copiados. Es evidencia externa de que el patrón `AGENTS.md` como SSOT más adaptadores —que este repositorio y el testigo ya practican— escala más allá de un caso propio, y sostiene `M-03` de `../../agenda/MEJORAS-METODO.md`.
 
 ### C5. Lo que NO conviene adoptar tal cual
 
@@ -110,9 +110,9 @@ Superpowers sirve 11 harnesses desde un set único con adaptadores finos, y su d
 ---
 
 [SDD-Check]
-- Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc)
+- Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md` para este doc)
 - Incluye/Excluye verificado: SI - la lectura cruzada de tres implementaciones queda excluida y remitida a `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`; el diseño del experimento derivado queda fuera; no se re-analiza el flujo de Spec Kit
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R37]; cada cifra citada declara su archivo de origen en el clon vendored; los evals se presentan como precedente de metodo y no como evidencia de efectividad; mapeo corrido sobre las ocho filas fijadas el 2026-05-24; refs internas verificadas; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: version anclada en `../../REFERENCIAS.md` [R37]; cada cifra citada declara su archivo de origen en el clon vendored; los evals se presentan como precedente de metodo y no como evidencia de efectividad; mapeo corrido sobre las ocho filas fijadas el 2026-05-24; refs internas verificadas; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc operativo)
 - Derivados a revisar: ninguno; `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` consume este documento como insumo, no deriva de el
 - Cobertura: completa - las cinco conclusiones mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es candidata o solo lectura
@@ -138,30 +138,30 @@ Lo que hace al mecanismo interesante no es la clasificacion sino las cuatro guar
 3. **La compuerta no escala**: los tres caminos terminan en aprobacion humana explicita antes de implementar. «What scales with simplicity is the artifact, never the approval.»
 4. **El atajo tiene nombre de anti-patron**: «Reaching for a label to skip work IS the doubt — take the heavier path», en una tabla de racionalizaciones que incluye «lo entiendo, asi que es bounded» respondido con «bounded mide el repositorio, no tu familiaridad».
 
-Este repositorio declara tres niveles de profundidad de spec en `../SPECS_REGISTRY.md` §Profundidad de spec, y `../agenda/MEJORAS-METODO.md` M-37 midio que el nivel mas alto no lo usa **ninguna** de las 46 entradas. O sea: la escala existe declarada y no opera. Superpowers no resuelve ese hueco —su clasificacion es de tarea, no de documento— pero muestra las tres piezas que a nuestra tabla le faltan para operar: quien elige, cuando lo anuncia, y que impide elegir hacia abajo. **Lectura para M-37**, no candidata: nuestra tabla clasifica documentos y la de ellos clasifica trabajo, y confundir las dos cosas seria portar la forma sin el mecanismo.
+Este repositorio declara tres niveles de profundidad de spec en `../../SPECS_REGISTRY.md` §Profundidad de spec, y `../../agenda/MEJORAS-METODO.md` M-37 midio que el nivel mas alto no lo usa **ninguna** de las 46 entradas. O sea: la escala existe declarada y no opera. Superpowers no resuelve ese hueco —su clasificacion es de tarea, no de documento— pero muestra las tres piezas que a nuestra tabla le faltan para operar: quien elige, cuando lo anuncia, y que impide elegir hacia abajo. **Lectura para M-37**, no candidata: nuestra tabla clasifica documentos y la de ellos clasifica trabajo, y confundir las dos cosas seria portar la forma sin el mecanismo.
 
 ### C7. La precedencia se usa para **no frenar**, y eso corre en direccion contraria a nuestro Principio VII
 
 `subagent-driven-development` incorpora una regla que declara sin rodeos: «**Rulings, not stalls.** A running plan does not wait on a human.» Un conflicto entre el plan y lo que el implementador encuentra ya no detiene el trabajo: se resuelve contra la spec —«the spec is the binding authority, the plan is its argument»—, se registra el fallo en el ledger con la forma `Ruling: <que se decidio> — <por que> — <cuanto cuesta si esta mal>`, y se sigue. Solo lo destructivo o irreversible sigue frenando para un humano.
 
-La fuente declara el costo que lo motivo: una sesion donada estuvo bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido (`../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.3.0). Es un dato autoreportado, de un caso, sin medicion agregada: **MUST NOT citarse como evidencia de efectividad**, en linea con la reserva de [R37].
+La fuente declara el costo que lo motivo: una sesion donada estuvo bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido (`../../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.3.0). Es un dato autoreportado, de un caso, sin medicion agregada: **MUST NOT citarse como evidencia de efectividad**, en linea con la reserva de [R37].
 
 El contraste con este repositorio es directo y vale escribirlo con precision, porque no es una mejora disponible:
 
-- `../AGENTS.md` §Disambiguación dice que ante ambiguedad el asistente MUST preguntar, y que una solicitud que contradice la spec MUST detener el trabajo sin proponer alternativas. Es el Principio VII de `../CONSTITUTION.md`.
+- `../../AGENTS.md` §Disambiguación dice que ante ambiguedad el asistente MUST preguntar, y que una solicitud que contradice la spec MUST detener el trabajo sin proponer alternativas. Es el Principio VII de `../../CONSTITUTION.md`.
 - Superpowers hace lo contrario para el conflicto no-catastrofico, y lo hace **usando la precedencia**: hay una autoridad vinculante declarada, asi que el conflicto tiene resolucion y no hace falta un humano para arbitrarlo.
 - Nuestro Principio VII y su marcador `[NEEDS CLARIFICATION]` tienen la mitad del mecanismo: la pregunta se marca y es grep-able. Lo que no tienen es la otra mitad —**decidir provisionalmente y registrar el costo de equivocarse**— ni ninguna medicion de lo que cuesta frenar.
 
-**No se propone cambiar el Principio VII**: es constitucional, su enmienda tiene procedimiento propio, y ademas los dos diseños responden a riesgos distintos —ellos protegen una corrida autonoma larga, acá el riesgo es que el asistente interprete en silencio—. Lo que si es portable sin tocar nada es la **forma de tres campos del ruling**: nuestro marcador registra la pregunta y nada mas, y agregarle «que se asumio» y «que cuesta si esta mal» no relaja la obligacion de preguntar, la documenta mejor. Dado de alta como `../agenda/MEJORAS-METODO.md` M-42.
+**No se propone cambiar el Principio VII**: es constitucional, su enmienda tiene procedimiento propio, y ademas los dos diseños responden a riesgos distintos —ellos protegen una corrida autonoma larga, acá el riesgo es que el asistente interprete en silencio—. Lo que si es portable sin tocar nada es la **forma de tres campos del ruling**: nuestro marcador registra la pregunta y nada mas, y agregarle «que se asumio» y «que cuesta si esta mal» no relaja la obligacion de preguntar, la documenta mejor. Dado de alta como `../../agenda/MEJORAS-METODO.md` M-42.
 
 Nota aparte, que refuerza C1 sin cambiarla: los planes llevan ahora un puntero `Spec:` y la skill lee la spec al armar el trabajo. La spec pasa de documento de diseño fechado a autoridad consultada durante la ejecucion — **mas** spec-anchored que en v6.2.0, no menos, y sigue sin haber regeneracion.
 
 [SDD-Check] — actualizacion 2026-09-05
-- Spec leida: SI (spec de este doc en `../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
 - Incluye/Excluye verificado: SI — C6 y C7 caen en «conclusiónes accionables para Linea B»; no se re-analiza Spec Kit ni se toca la lectura cruzada de convergencia; el diseño experimental sigue diferido
 - Validaciones aplicadas: diff corrido sobre el arbol completo con `git diff --stat 44c9b2d..HEAD` y no sobre los archivos esperados, siguiendo el borrador de procedimiento de M-41; toda cita declara su archivo de origen en el clon vendored y es textual; el caso de las nueve horas se presenta como autoreportado, de un caso y sin medicion agregada, con la prohibicion de usarlo como efectividad escrita al lado; C7 declara explicitamente que NO propone enmendar el Principio VII; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc `operativo`)
-- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../agenda/MEJORAS-METODO.md` M-37 (C6 le aporta las tres piezas que a la tabla de profundidad le faltan para operar) y M-42, dada de alta desde C7
+- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../../agenda/MEJORAS-METODO.md` M-37 (C6 le aporta las tres piezas que a la tabla de profundidad le faltan para operar) y M-42, dada de alta desde C7
 - Cobertura: completa — C6 y C7 tienen destino declarado (M-37 como lectura, M-42 como candidata), y el refuerzo de C1 y C4 se registra sin abrir item porque no pide nada
 - Deuda arrastrada: la del documento original sigue intacta; se agrega una: **cuanto cuesta frenar no esta medido acá**, y sin ese dato el contraste de C7 describe dos diseños sin poder compararlos. Sigue abierto de las entradas previas: M-40 sin decidir, M-41 sin escribir, `RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar
 - Riesgos/reservas: la lectura sale de las skills y las release notes del clon, sin correr el sistema; la fuente es autoreportada, con interes comercial y sin peer review; el mapeo de C6 contra nuestra tabla de profundidad compara dos cosas que clasifican objetos distintos —trabajo contra documento— y eso queda escrito en la propia conclusion para que no se porte la forma sin el mecanismo

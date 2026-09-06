@@ -1,14 +1,14 @@
 # Analisis: GitHub Spec Kit y su relacion con nuestra investigacion SDD (Linea B)
 
 Fecha: 2026-05-24.
-Fuente: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]. Clon local vendored en `../fuentes-externas/spec-kit/`.
-Alcance: Linea B (software). La transferencia de conceptos a Linea A (docs/investigacion) queda diferida — ver `../agenda/BACKLOG-INVESTIGACION.md`.
+Fuente: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]. Clon local vendored en `../../fuentes-externas/spec-kit/`.
+Alcance: Linea B (software). La transferencia de conceptos a Linea A (docs/investigacion) queda diferida — ver `../../agenda/BACKLOG-INVESTIGACION.md`.
 
 ---
 
 ## Contexto
 
-Spec Kit ya estaba catalogado como framework de referencia en `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` [R10], pero solo a nivel de mencion. Este documento analiza el repositorio real para extraer su metodologia operativa, mapearla contra nuestro protocolo SDD (`../AGENTS.md`, `../SPECS_REGISTRY.md`) y derivar conclusiones accionables para Linea B.
+Spec Kit ya estaba catalogado como framework de referencia en `../../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` [R10], pero solo a nivel de mencion. Este documento analiza el repositorio real para extraer su metodologia operativa, mapearla contra nuestro protocolo SDD (`../../AGENTS.md`, `../../SPECS_REGISTRY.md`) y derivar conclusiones accionables para Linea B.
 
 Spec Kit es un toolkit open-source de GitHub que materializa SDD mediante una CLI (`specify`) y un conjunto de comandos slash para 30+ agentes de IA. Es **Linea-B-nativo**: todas sus plantillas (`spec`, `plan`, `tasks`, `constitution`, `checklist`) son centradas en software (data-model, contracts, API endpoints, tech stack). No ofrece soporte nativo para documentos de analisis o conocimiento.
 
@@ -16,13 +16,13 @@ Spec Kit es un toolkit open-source de GitHub que materializa SDD mediante una CL
 
 ## Tesis central: "Power Inversion"
 
-El documento de filosofia (`../fuentes-externas/spec-kit/spec-driven.md`) plantea que SDD invierte la jerarquia tradicional: la spec deja de ser andamiaje desechable y se convierte en el **artefacto primario** que genera el codigo; el codigo pasa a ser "la ultima milla" regenerable.
+El documento de filosofia (`../../fuentes-externas/spec-kit/spec-driven.md`) plantea que SDD invierte la jerarquia tradicional: la spec deja de ser andamiaje desechable y se convierte en el **artefacto primario** que genera el codigo; el codigo pasa a ser "la ultima milla" regenerable.
 
 - Mantener software = evolucionar specs.
 - Depurar = corregir la spec o el plan que genero codigo incorrecto.
 - Pivotar = regenerar desde la spec, no reescribir a mano.
 
-Esta tesis es mas radical que nuestra posicion actual. Nuestro proyecto trata la spec como **mejor representacion actual del conocimiento** (ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`), no necesariamente como generador automatico del entregable. La diferencia se discute en Conclusiones.
+Esta tesis es mas radical que nuestra posicion actual. Nuestro proyecto trata la spec como **mejor representacion actual del conocimiento** (ver `../../comun/SDD-ADAPTATIVO-VS-CASCADA.md`), no necesariamente como generador automatico del entregable. La diferencia se discute en Conclusiones.
 
 ---
 
@@ -77,14 +77,14 @@ Esto refuerza la lectura de C4 (mas abajo): el valor no esta en *tener* una cons
 
 | Concepto | Spec Kit | Nuestro proyecto |
 |----------|----------|------------------|
-| Fuente de autoridad no-negociable | `memory/constitution.md` + Constitution Check gate | `../CONSTITUTION.md` (desde 2026-07-31) > `../SPECS_REGISTRY.md` > `../AGENTS.md` |
-| Lenguaje normativo | `MUST` en FR/plantillas [R04] | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../AGENTS.md`) [R04] |
-| Manejo de ambiguedad | `[NEEDS CLARIFICATION]` + `/speckit.clarify` (<=5 preguntas) | "MUST preguntar al usuario si la spec tiene ambiguedad" (`../AGENTS.md`, seccion Disambiguacion) |
-| Validacion de consistencia | `/speckit.analyze`: duplicacion, ambiguedad, gaps de cobertura, conflictos | Bloque `[SDD-Check]` por entrega + checks post-generacion (`../AGENTS.md`) |
-| Trazabilidad requisito->tarea | Coverage mapping FR/SC -> task IDs | Regla de propagacion SSOT -> derivados (`../SPECS_REGISTRY.md`) |
-| Circuito de aprendizaje | "Bidirectional Feedback": metricas/incidentes -> spec | Circuitos de aprendizaje y disparadores por tiempo/evento/anomalia (`../comun/SDD-ADAPTATIVO-VS-CASCADA.md`) |
+| Fuente de autoridad no-negociable | `memory/constitution.md` + Constitution Check gate | `../../CONSTITUTION.md` (desde 2026-07-31) > `../../SPECS_REGISTRY.md` > `../../AGENTS.md` |
+| Lenguaje normativo | `MUST` en FR/plantillas [R04] | `MUST`/`SHOULD`/`MAY` al inicio de sentencia (`../../AGENTS.md`) [R04] |
+| Manejo de ambiguedad | `[NEEDS CLARIFICATION]` + `/speckit.clarify` (<=5 preguntas) | "MUST preguntar al usuario si la spec tiene ambiguedad" (`../../AGENTS.md`, seccion Disambiguacion) |
+| Validacion de consistencia | `/speckit.analyze`: duplicacion, ambiguedad, gaps de cobertura, conflictos | Bloque `[SDD-Check]` por entrega + checks post-generacion (`../../AGENTS.md`) |
+| Trazabilidad requisito->tarea | Coverage mapping FR/SC -> task IDs | Regla de propagacion SSOT -> derivados (`../../SPECS_REGISTRY.md`) |
+| Circuito de aprendizaje | "Bidirectional Feedback": metricas/incidentes -> spec | Circuitos de aprendizaje y disparadores por tiempo/evento/anomalia (`../../comun/SDD-ADAPTATIVO-VS-CASCADA.md`) |
 | Registro de specs | Carpeta `specs/[###-feature]/` por feature | `SPECS_REGISTRY.md` central por documento |
-| Personalizacion | presets / extensions | niveles de profundidad de spec y `ssot_level` (`../SPECS_REGISTRY.md`) |
+| Personalizacion | presets / extensions | niveles de profundidad de spec y `ssot_level` (`../../SPECS_REGISTRY.md`) |
 
 Hay coincidencias notables entre las dos columnas, pero **este documento no es el lugar donde se juzga la convergencia**: leer un mapeo pareado como evidencia de invariancia sobreestima lo que un solo par puede mostrar. El veredicto sobre qué elementos son invariantes entre implementaciones independientes, contado por linajes y con las divergencias al mismo peso, vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (SSOT del tema desde 2026-08-02).
 
@@ -101,24 +101,24 @@ Hay coincidencias notables entre las dos columnas, pero **este documento no es e
 > pero ya no por falta de datos. El motivo medido es que la **direccion de `H1` depende de la convencion de
 > conteo** y que el **piso de ruido del instrumento es de 5 a 8 veces la brecha** buscada. Consecuencia
 > para C1: el *coverage mapping* se conserva por su valor de metodo y MUST NOT presentarse como practica
-> con superioridad de cobertura medida. Ver `../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` §Resultado del
+> con superioridad de cobertura medida. Ver `../../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md` §Resultado del
 > criterio (b).
 
 Spec Kit independientemente disenó un comando de consistencia cruzada read-only cuyas pasadas de deteccion (duplicacion, ambiguedad, subespecificacion, conflicto con constitution, gaps de cobertura, inconsistencia) son casi un superconjunto de nuestros checks post-generacion. Esto sugiere que nuestro `[SDD-Check]` esta en el camino correcto, pero es mas debil en **coverage mapping** (mapear cada requisito a su tarea/derivado). Mejora candidata: anadir a `[SDD-Check]` una linea de cobertura "requisitos sin derivado/tarea asociada".
 
 ### C2. Marcadores `[NEEDS CLARIFICATION]` son adoptables ya
 
-Nuestro protocolo dice "MUST preguntar al usuario", pero no tiene un marcador estandar para incertidumbre *dentro* del documento. El patron `[NEEDS CLARIFICATION: ...]` de Spec Kit es liviano, grep-able y compatible con nuestro contexto sin CI. Candidato a incorporarse a las convenciones de `../AGENTS.md`.
+Nuestro protocolo dice "MUST preguntar al usuario", pero no tiene un marcador estandar para incertidumbre *dentro* del documento. El patron `[NEEDS CLARIFICATION: ...]` de Spec Kit es liviano, grep-able y compatible con nuestro contexto sin CI. Candidato a incorporarse a las convenciones de `../../AGENTS.md`.
 
 ### C3. La "Power Inversion" es una posicion mas fuerte que la nuestra — y es una tension a investigar
 
 > **Precision del 2026-09-05.** Esta conclusion quedo doblemente acotada. Primero por C6: el manifiesto de Spec Kit afirma la inversion y su documentacion de referencia declara que **no impone** ningun modelo de persistencia. Y despues desde afuera: existe un caso del corpus que **si** regenera codigo desde la spec —Tessl [R46], `tessl build`, con el archivo generado marcado `// GENERATED FROM SPEC - DO NOT EDIT`, ubicado por [R20] como el unico que «is even exploring the spec-as-source level of SDD»— y no es Spec Kit. Al citar «la posicion mas fuerte» MUST nombrarse a quien se le atribuye: **la fuente que la enuncia y la que la ejerce no son la misma** (`ANALISIS-TESSL.md`, C1).
 
-Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, trata la spec como representacion del conocimiento, no como generador automatico. Esta no es una deficiencia: es una decision deliberada para contexto sin CI (`../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`). Pero plantea una pregunta de investigacion: hasta que punto conviene mover el entregable hacia "regenerable desde spec" vs. "editado a mano con spec como guia". Conecta con el backlog "umbral de control manual a automatizado".
+Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, trata la spec como representacion del conocimiento, no como generador automatico. Esta no es una deficiencia: es una decision deliberada para contexto sin CI (`../../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`). Pero plantea una pregunta de investigacion: hasta que punto conviene mover el entregable hacia "regenerable desde spec" vs. "editado a mano con spec como guia". Conecta con el backlog "umbral de control manual a automatizado".
 
 ### C4. Constitution Check confirma el valor de un gate de autoridad explicito
 
-El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno) es el equivalente operativo de nuestra cadena de precedencia, que desde 2026-07-31 encabeza `../CONSTITUTION.md` y sigue con `../SPECS_REGISTRY.md` y `../AGENTS.md`. Spec Kit lo hace *ejecutable* en el flujo del agente; nosotros lo aplicamos por protocolo. Validar si formalizar nuestra precedencia como un paso explicito reduce violaciones.
+El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno) es el equivalente operativo de nuestra cadena de precedencia, que desde 2026-07-31 encabeza `../../CONSTITUTION.md` y sigue con `../../SPECS_REGISTRY.md` y `../../AGENTS.md`. Spec Kit lo hace *ejecutable* en el flujo del agente; nosotros lo aplicamos por protocolo. Validar si formalizar nuestra precedencia como un paso explicito reduce violaciones.
 
 ### C5. Lo que NO conviene adoptar tal cual
 
@@ -130,7 +130,7 @@ El Constitution Check como gate previo a Phase 0 (y re-chequeado tras el diseno)
 
 ## Transferencia a Linea A (diferida)
 
-Spec Kit no tiene funcion nativa para documentos de analisis/conocimiento. Los unicos conceptos transferibles a Linea A son `/speckit.checklist` ("unit tests for English": valida completitud y claridad de requisitos en prosa) y el modelo de presets/extensions como via de adaptacion. Esta transferencia se desarrollara solo si Linea B avanza y aporta claridad — registrada como item de backlog en `../agenda/BACKLOG-INVESTIGACION.md`.
+Spec Kit no tiene funcion nativa para documentos de analisis/conocimiento. Los unicos conceptos transferibles a Linea A son `/speckit.checklist` ("unit tests for English": valida completitud y claridad de requisitos en prosa) y el modelo de presets/extensions como via de adaptacion. Esta transferencia se desarrollara solo si Linea B avanza y aporta claridad — registrada como item de backlog en `../../agenda/BACKLOG-INVESTIGACION.md`.
 
 ---
 
@@ -156,7 +156,7 @@ Diferencias con el Constitution Check de Spec Kit [R10], relevantes para Linea B
 
 Implicacion para nuestro propio marco: formalizar la precedencia `SPECS_REGISTRY.md` como un paso ejecutable (no solo protocolo en `AGENTS.md`) tiene ahora un precedente operativo de bajo costo. Sigue siendo mejora candidata, no cambio aprobado; su evaluacion formal como experimento propio queda fuera de este analisis (candidato de backlog, hermano de B-07 pero sobre gobernanza, no formato).
 
-**Adoptado en este repositorio (2026-07-31, cambio aprobado):** el patron *invariante en la constitucion, detalle en el SSOT* se porto aca — `../CONSTITUTION.md` v0.1.0 encabeza la precedencia, con siete principios que declaran invariante + `Enforcement` + `Detalle`. Es la parte **declarativa** del patron; la parte **ejecutable** (gate y check deterministas, equivalentes a `tools/check_constitution.py`) sigue sin portarse, y por eso la constitucion declara su enforcement como humano y a pedido. La pregunta de C4 —si formalizar la precedencia reduce violaciones— queda igual de abierta: adoptar el artefacto no la responde.
+**Adoptado en este repositorio (2026-07-31, cambio aprobado):** el patron *invariante en la constitucion, detalle en el SSOT* se porto aca — `../../CONSTITUTION.md` v0.1.0 encabeza la precedencia, con siete principios que declaran invariante + `Enforcement` + `Detalle`. Es la parte **declarativa** del patron; la parte **ejecutable** (gate y check deterministas, equivalentes a `tools/check_constitution.py`) sigue sin portarse, y por eso la constitucion declara su enforcement como humano y a pedido. La pregunta de C4 —si formalizar la precedencia reduce violaciones— queda igual de abierta: adoptar el artefacto no la responde.
 
 **Respaldo upstream (v0.11.6+):** Spec Kit hizo explicito en su filosofia que los articulos IV, V y VI de su constitucion de ejemplo son *project-defined governance* — slots que cada proyecto rellena, no principios prescritos por el framework [R10] (`spec-driven.md`, "Articles IV, V & VI: Project-Defined Governance"; commit `3cfc81f`). Es una aclaracion de docs, no de comportamiento (la plantilla `constitution-template.md` ya era 100% placeholders en v0.8.13), y **converge con la posicion del testigo**: la estructura la fija el framework, el contenido no-negociable lo posee el proyecto. Corrobora C4 y el enfoque "gate de autoridad del proyecto, no del agente". Ademas, `/speckit.analyze` evalua la constitucion *concreta*, de modo que los articulos project-defined participan de los compliance checks igual que los prescritos — el mismo mecanismo de *consistency propagation* que el gate de integridad del testigo aplica en version liviana.
 
@@ -203,7 +203,7 @@ Lo que cambio esta en otro lado, y son tres cosas de peso muy distinto.
 
 `docs/concepts/` reune hoy cuatro documentos. `sdd.md` es `spec-driven.md` con otro titulo. Los otros tres son material conceptual nuevo: `spec-persistence.md` (2026-06-09), `spec-of-specs.md` y `complex-features.md` (ambos 2026-07-22).
 
-**`spec-persistence.md` ya estaba en el arbol el 2026-07-10 y el diff de esa fecha no lo vio.** Su propio `[SDD-Check]` declara el metodo que lo explica: «diff basado en CHANGELOG + spec-driven.md». Un documento agregado sin linea de changelog es invisible a ese procedimiento, y este lo era. Es la misma clase de defecto que `../fuentes-externas/sdd-first/docs/PATRONES.md` llama «la carpeta que existe y ningun paso mira»: no falla, calla. Consecuencia de metodo dada de alta en `../agenda/MEJORAS-METODO.md` M-41.
+**`spec-persistence.md` ya estaba en el arbol el 2026-07-10 y el diff de esa fecha no lo vio.** Su propio `[SDD-Check]` declara el metodo que lo explica: «diff basado en CHANGELOG + spec-driven.md». Un documento agregado sin linea de changelog es invisible a ese procedimiento, y este lo era. Es la misma clase de defecto que `../../fuentes-externas/sdd-first/docs/PATRONES.md` llama «la carpeta que existe y ningun paso mira»: no falla, calla. Consecuencia de metodo dada de alta en `../../agenda/MEJORAS-METODO.md` M-41.
 
 ### C6. Spec Kit adopta la taxonomia de [R30] y declara que **no fuerza** ninguno de sus tres niveles
 
@@ -232,9 +232,9 @@ Entre v0.12 y v1.0.4 la superficie que mas crecio no es el flujo SDD sino la pla
 - **`RELACION-SPEC-VS-EPICA.md`** (no es derivado registrado, pero el hallazgo lo alcanza) — su §Estado de la discusion externa afirma que «la posicion dominante es la de contencion/inversion de jerarquia», con la spec conteniendo historias, y que no se hallo fuente que sostenga la equivalencia estricta. `docs/concepts/spec-of-specs.md` no la sostiene tampoco, pero **escribe la epica por encima de la spec**: un roadmap descompone una feature grande —que el documento llama «the epic»— en sub-specs, cada una con su propio ciclo. Es la direccion contraria a la contencion, condicionada al tamaño. La fuente ademas ordena esa opcion como **la mas cara de cuatro** en `complex-features.md`, a usar solo cuando las otras tres no alcanzan. **Requirió actualizar ese documento**, y se hizo el 2026-09-05 en una entrega propia: su spec se enmendó para poner el encuadre general por delante y la evidencia de implementaciónes después, y la afirmación de «posición dominante» se retiró. Ver `RELACION-SPEC-VS-EPICA.md` §8.
 
 [SDD-Check] — actualizacion 2026-09-05
-- Spec leida: SI (spec de este doc en `../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
 - Incluye/Excluye verificado: SI — C6 y C7 caen en «conclusiónes accionables para Linea B»; el ecosistema de extensiones del 1.0 queda declarado como fuera de alcance en vez de caracterizado a medias; el veredicto de convergencia no se toca (vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`); Linea A sigue diferida
-- Validaciones aplicadas: la no-invalidacion de la tesis central se verifico con `git diff 983a87f..HEAD -- spec-driven.md` (vacio) y no por lectura comparada; cada documento citado declara su ruta en el clon vendored y su fecha de alta; la cita de `spec-persistence.md` es textual; el candidato `--require-spec` se verifico en el script y se reporta la correccion en vez de dejarla caer; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: la no-invalidacion de la tesis central se verifico con `git diff 983a87f..HEAD -- spec-driven.md` (vacio) y no por lectura comparada; cada documento citado declara su ruta en el clon vendored y su fecha de alta; la cita de `spec-persistence.md` es textual; el candidato `--require-spec` se verifico en el script y se reporta la correccion en vez de dejarla caer; refs internas verificadas con `../../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: este documento (`ssot_level: SSOT`)
 - Derivados a revisar: **revisados los dos registrados** — `COMPARATIVA-SPECKIT-VS-TESTIGO.md` (sin contradiccion; gana vocabulario de C7) y `RELACION-FR-VS-SC-Y-COBERTURA.md` (sin impacto). Fuera del registro de derivados: `RELACION-SPEC-VS-EPICA.md` **actualizado el 2026-09-05**, con enmienda de spec, y `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` queda señalado por el ecosistema del 1.0
 - Cobertura: **incompleta y declarada** — C6, C7, la correccion de `--require-spec` y la consecuencia de metodo (M-41) tienen destino; el ecosistema de extensiones/presets del 1.0 queda sin caracterizar por alcance; la actualizacion de `RELACION-SPEC-VS-EPICA.md` queda sin ejecutar

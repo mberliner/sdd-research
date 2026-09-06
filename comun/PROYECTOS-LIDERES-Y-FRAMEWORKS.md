@@ -22,21 +22,21 @@
 ### GitHub Spec Kit
 - Tipo: flujo spec-first para trabajo asistido por IA; toolkit Linea-B-nativo (CLI `specify` + comandos slash constitution/specify/clarify/plan/tasks/analyze/implement). Sin soporte nativo para documentos de analisis/conocimiento (transferencia a Linea A diferida — ver `../agenda/BACKLOG-INVESTIGACION.md`).
 - Valor: convenciones claras de idea a especificacion antes de ejecutar; gate de autoridad (constitution), manejo explicito de ambiguedad (`[NEEDS CLARIFICATION]`) y validacion de consistencia continua (`/speckit.analyze`).
-- Analisis detallado y mapeo contra nuestro protocolo: `../software/ANALISIS-SPEC-KIT.md`.
+- Analisis detallado y mapeo contra nuestro protocolo: `../software/analisis/ANALISIS-SPEC-KIT.md`.
 - Fuente: [R10].
 
 ### Superpowers (obra/superpowers)
 
 - Tipo: metodología SDD empaquetada como skills componibles para agentes de codificación, servida a múltiples asistentes desde un set único. Flujo: `brainstorming` (elicitar la spec por diálogo, con gate duro que prohíbe escribir código antes de la aprobación) → `writing-plans` → `subagent-driven-development` (un subagente fresco por tarea, más revisión por tarea y revisión final de rama).
 - Valor: tercera implementación de SDD independiente de Spec Kit y del proyecto testigo, que converge en gate de autoridad, lenguaje normativo y verificación con evidencia antes de declarar completitud. Diverge en un punto de interés: no regenera el código desde la spec (*spec-anchored*, no *spec-as-source* [R30]), de modo que la posición intermedia queda documentada en producción. Practica evaluación conductual de sus propios documentos con subagentes frescos.
-- Analisis detallado y mapeo contra nuestro protocolo: `../software/ANALISIS-SUPERPOWERS.md`.
+- Analisis detallado y mapeo contra nuestro protocolo: `../software/analisis/ANALISIS-SUPERPOWERS.md`.
 - Fuente: [R37].
 
 ### OpenSpec (Fission-AI/OpenSpec)
 
 - Tipo: sistema SDD distribuido como CLI npm, con adaptadores generados para más de 30 asistentes. Flujo: `/opsx:explore` (opcional, sin compromiso) → `/opsx:propose` (genera en un paso propuesta, delta de specs, diseño y tareas) → `/opsx:apply` → `/opsx:verify` → `/opsx:archive`. Separa `openspec/specs/` (verdad vigente) de `openspec/changes/` (deltas propuestos), y al archivar fusiona el delta aprobado en la spec.
 - Valor: cuarto caso del relevamiento de convergencia y linaje independiente de Spec Kit por fecha de origen. Su rasgo distintivo es de entrega y no de contenido: la instrucción de método no se lee de un documento sino que la sirve una herramienta bajo demanda (`openspec instructions <artefacto> --json`), con las reglas del proyecto en `openspec/config.yaml`. Se posiciona explícitamente como brownfield-first frente al sesgo greenfield de los otros toolkits. Es *spec-anchored*, no *spec-as-source* [R30].
-- Analisis detallado y mapeo contra nuestro protocolo: `../software/ANALISIS-OPENSPEC.md`.
+- Analisis detallado y mapeo contra nuestro protocolo: `../software/analisis/ANALISIS-OPENSPEC.md`.
 - Fuente: [R38].
 
 ### OpenAPI Initiative

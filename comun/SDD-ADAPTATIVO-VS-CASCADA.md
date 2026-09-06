@@ -99,7 +99,7 @@ La cadencia correcta es una variable del proyecto, no un estandar fijo. SHOULD a
 
 ### Aclaracion: invertir la jerarquia no es anticipar el conocimiento
 
-Un SDD **generativo** —donde la spec es el artefacto primario que genera el codigo y el codigo es "ultima milla" regenerable (la "Power Inversion"; ver `../software/ANALISIS-SPEC-KIT.md` [R10])— se confunde a veces con Big Design Up Front. No lo es. La inversion afecta la **jerarquia** (la spec manda sobre el codigo), no el **momento** en que se adquiere el conocimiento.
+Un SDD **generativo** —donde la spec es el artefacto primario que genera el codigo y el codigo es "ultima milla" regenerable (la "Power Inversion"; ver `../software/analisis/ANALISIS-SPEC-KIT.md` [R10])— se confunde a veces con Big Design Up Front. No lo es. La inversion afecta la **jerarquia** (la spec manda sobre el codigo), no el **momento** en que se adquiere el conocimiento.
 
 - Un SDD generativo sigue siendo iterativo: incorpora feedback bidireccional (la realidad de produccion -> evolucion de la spec), descompone el alcance en slices incrementales y usa marcadores de incertidumbre (`[NEEDS CLARIFICATION]`) en vez de suposiciones [R03][R10].
 - Lo que exige no es conocer **todo el producto** por adelantado, sino que el conocimiento **disponible para cada slice** este explicito y desambiguado en la spec antes de generar ese slice. Es "spec completa por slice", no "spec completa del producto".

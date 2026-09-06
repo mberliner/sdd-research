@@ -83,7 +83,7 @@ Este documento aclara la cardinalidad **dentro** de una spec (FR/SC/cobertura). 
 - Spec leida: SI (spec propuesta y registrada en `../SPECS_REGISTRY.md` para este doc, derivada de `ANALISIS-SPEC-KIT.md`)
 - Incluye/Excluye verificado: SI (foco en cardinalidad FR↔SC y naturaleza de la cobertura; no re-analiza el flujo de Spec Kit ni duplica el mapeo spec/épica de `RELACION-SPEC-VS-EPICA.md`; Línea A diferida)
 - Validaciones aplicadas: afirmaciones externas ancladas en [R04][R10]; refs internas verificadas (ANALISIS-SPEC-KIT, RELACION-SPEC-VS-EPICA, DECISION-ADOPTAR-VS-PORTAR-SPECKIT); ejemplos tomados del testigo (SPEC-008/SPEC-007) sin copiar su contenido; sin emoticones; fechas YYYY-MM-DD; ortografía del español con tildes
-- SSOT afectado: ninguno (derivado de `software/ANALISIS-SPEC-KIT.md`)
+- SSOT afectado: ninguno (derivado de `software/analisis/ANALISIS-SPEC-KIT.md`)
 - Derivados a revisar: ninguno
 - Cobertura: completa — cada afirmación mapea a una fuente [Rxx] o a un ejemplo verificable del testigo
 - Deuda arrastrada: ninguna

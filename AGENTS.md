@@ -33,7 +33,7 @@ principios (`CONSTITUTION.md`, campo `Verificador:`). Todo lo demás de este pro
 
 - MUST preguntar al usuario si la spec tiene ambigüedad, en lugar de interpretar.
 - MUST NOT anticipar ambigüedad agregando texto a la spec sin aprobación.
-- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able y MUST resolverse antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/ANALISIS-SPEC-KIT.md`, C2).
+- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able y MUST resolverse antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/analisis/ANALISIS-SPEC-KIT.md`, C2).
 
 ## Post-generación (salida obligatoria)
 
@@ -58,7 +58,7 @@ MUST — toda entrega cierra con este bloque:
 - Riesgos/reservas: <texto breve>
 ```
 
-- `Cobertura` espeja el *coverage mapping* de `/speckit.analyze` [R10]: declara si todo requisito o afirmación del cambio queda respaldado por un derivado/tarea, o lista los huecos. Convención adoptada de GitHub Spec Kit (ver `software/ANALISIS-SPEC-KIT.md`, C1).
+- `Cobertura` espeja el *coverage mapping* de `/speckit.analyze` [R10]: declara si todo requisito o afirmación del cambio queda respaldado por un derivado/tarea, o lista los huecos. Convención adoptada de GitHub Spec Kit (ver `software/analisis/ANALISIS-SPEC-KIT.md`, C1).
 - `Deuda arrastrada` lista lo diferido; MUST re-explicitarse en entregas siguientes hasta resolverse (anti-cascada). Derivado del experimento B-06 (`experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`).
 
 ## Al cerrar una iteración
