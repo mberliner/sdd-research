@@ -668,6 +668,28 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados, con ID de destino
   - [ ] no duplica SSOT — referencia
 
+### docs-y-investigación/ANALISIS-EDICION-COLABORATIVA-IA.md
+- `path`: `docs-y-investigacion/ANALISIS-EDICION-COLABORATIVA-IA.md`
+- `proposito`: resumen y analisis de Lehmann, Shauchenka & Buschek, "Collaborative Document Editing with Multiple Users and AI Agents" (ACM CHI 2026; [R53]) — el antecedente academico mas directo sobre compartir la edicion de documentos entre humanos y agentes de IA — con foco en que hallazgos son relevantes como hipotesis para Linea A.
+- `ssot_level`: `operativo`
+- `owner`: proyecto SDD
+- `incluye`:
+  - contexto del estudio (RQs, prototipo, metodologia: N=30, 14 equipos, technology probe de una semana)
+  - los hallazgos centrales: perfiles de agente como territorio del creador vs. agentes/outputs como recurso compartido; preferencia por control manual sobre autonomia; deliberacion sobre cantidad de agentes (funcional vs. perspectivas); agentes no tratados como miembros del equipo
+  - las decisiones de diseño del prototipo con razon explicita (respuesta por comentario, agente por defecto)
+  - que de esto es transferible como hipotesis y que no, distinguido explicitamente de lo ya validado
+  - limites explicitos del estudio (cualitativo, sin baseline, muestra academica) para no sobre-generalizar
+- `excluye`:
+  - decisiones de adopcion de metodo — irian a `agenda/MEJORAS-METODO.md` o `agenda/BACKLOG-INVESTIGACION.md` si se llega a proponer un experimento
+  - detalle de implementacion tecnica del prototipo ajeno al hallazgo (UI, arquitectura del sistema)
+  - cifras del prototipo (aceptacion de comentarios, SUS/CSI) presentadas como medicion de este repositorio
+- `validacion`:
+  - [ ] version anclada en `REFERENCIAS.md` [R53], con vendored en `fuentes-externas/arXiv-2509.11826v2/`
+  - [ ] toda cifra citada es del paper, marcada como tal
+  - [ ] distincion explicita entre lo que el estudio midio y lo que es lectura propia para Linea A
+  - [ ] ninguna comparacion con este repositorio se presenta como evidencia
+  - [ ] no duplica SSOT — referencia
+
 ### software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
 - `proposito`: SSOT de que elementos del metodo SDD son invariantes entre implementaciones independientes y cuales no, leido sobre cuatro casos (Spec Kit, Superpowers, OpenSpec y el proyecto testigo) con un instrumento comun.
@@ -1006,10 +1028,14 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### comun/PRESENTACION-SDD-DOCS.md
 - `path`: `comun/PRESENTACION-SDD-DOCS.md`
-- `proposito`: Presentación corta en formato Marp para mostrar la idea de SDD aplicada exclusivamente a documentación asistida por IA, con énfasis en versionado y edición compartida.
+- `proposito`: Presentación corta en formato Marp para mostrar la idea de SDD aplicada a documentación asistida por IA, con énfasis en versionado, edición compartida, hallazgos empíricos propios y adopción conocida en la industria.
 - `ssot_level`: `derivado`
 - `deriva_de`: `comun/SDD-ADAPTATIVO-VS-CASCADA.md`
 - `owner`: proyecto SDD
+- `incluye`: uso documental, versionado, colaboración humano-IA; hallazgos empíricos citables de experimentos ya cerrados de este repositorio; menciones de adopción o herramientas conocidas de la industria, cada una con referencia `[Rxx]`.
+- `excluye`: detalle metodológico de los experimentos citados (vive en su documento propio dentro de `experimentos/`); comparación línea A vs línea B (vive en `comun/MARCO-COMPARATIVO-DOS-LINEAS.md`); catálogo extendido de frameworks (vive en los `ANALISIS-*` de `software/analisis/`).
 - `validacion`:
   - [ ] Usa formato y directivas Marp válidas (`marp: true`, delimitadores `---`).
   - [ ] El contenido se enfoca en uso documental, versionado y colaboración de equipo.
+  - [ ] Todo hallazgo citado referencia su experimento de origen en el repo, sin reproducir su detalle metodológico.
+  - [ ] Toda mención de adopción o herramienta de industria cita `[Rxx]` de `REFERENCIAS.md`.

@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta del analisis CHI 2026 sobre edicion colaborativa con IA (2026-09-06) — COMPLETADA
+
+**Accion**: alta de spec y documento nuevo en Linea A. Entra al historial porque toca `SPECS_REGISTRY.md` (archivo de metodo), no porque el metodo haya cambiado.
+
+### Que se pidio
+Un resumen para Linea A de una fuente externa (arXiv 2509.11826v2, ACM CHI 2026, ya citada puntualmente como [R53] en `comun/PRESENTACION-SDD-DOCS.md`), analogo a los `ANALISIS-*.md` que Linea B ya tiene en `software/analisis/`, en un directorio propio a definir.
+
+### Que se decidio antes de escribir
+No habia spec para el documento nuevo; se propuso una minima (proposito, incluye/excluye, validacion) siguiendo el precedente de `docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md` — que fija el patron de Linea A: el analisis vive directo en `docs-y-investigacion/`, sin subdirectorio `analisis/` (eso es convencion de Linea B). El usuario aprobo con un ajuste: el analisis queda independiente, sin referenciar `comun/PRESENTACION-SDD-DOCS.md`.
+
+### Que cambio
+- `docs-y-investigacion/ANALISIS-EDICION-COLABORATIVA-IA.md`: documento nuevo. Caracteriza el estudio (RQs, prototipo, metodologia N=30/14 equipos/technology probe de una semana), sus cinco hallazgos centrales y dos decisiones de diseño con razon explicita, y separa lo transferible como hipotesis para Linea A de lo que no lo es.
+- `SPECS_REGISTRY.md`: spec nueva para el documento.
+- `docs-y-investigacion/00-INDEX.md`: entrada nueva en §Analisis de casos.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR, el unico WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`).
+
+### Deuda abierta
+Ninguna. El documento no da de alta items de agenda: la hipotesis de disenar un experimento con mas de un autor humano, que la seccion de transferibilidad sugiere, queda anotada ahi mismo como candidata futura, no como item abierto de `agenda/BACKLOG-INVESTIGACION.md`.
+
+---
+
 ## Los seis ANALISIS-* de linea B se mudan a software/analisis/ (2026-09-06) — COMPLETADA
 
 **Accion**: reorganizacion pura de rutas, sin cambio de contenido. Los seis documentos `ANALISIS-SPEC-KIT.md`, `ANALISIS-SUPERPOWERS.md`, `ANALISIS-OPENSPEC.md`, `ANALISIS-SDD-FIRST.md`, `ANALISIS-TESSL.md` y `ANALISIS-KIRO.md` pasan de `software/` a `software/analisis/`. Entra al historial porque toca `SPECS_REGISTRY.md` (archivo de metodo), no porque el metodo haya cambiado.
