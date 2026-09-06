@@ -137,6 +137,26 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Contraparte de método:** si el resultado da señal, la consecuencia es un documento de patrones propio, y eso entra por `MEJORAS-METODO.md` con su `M-NN`. El ítem no lo abre por adelantado: sería anticipar el resultado.
 
+20. **¿Cuánto varía el código regenerado desde la misma spec, y qué propiedad de la spec mueve esa varianza? (alta, 2026-09-06).** Origen: `../software/analisis/ANALISIS-TESSL.md` C3, que lo dejó explícitamente como candidata a alta y no la dio de alta para no plantearla a medias. La observación disponible es de un practicante identificado [R20], textual —«even at this low abstraction level I have seen the non-determinism in action though, when I generated code multiple times from the same spec»—, **sin diseño, sin repeticiones declaradas y sin criterio de medida**: no es una medición y MUST NOT usarse como tal.
+
+    **Por qué importa y no es curiosidad técnica.** Si regenerar desde la spec no es determinista, la posición *spec-as-source* cambia de sentido: el artefacto que se versiona deja de determinar el que se ejecuta, y lo que el equipo revisó no es necesariamente lo que corre. Es el único caso del corpus que ejerce esa posición (Tessl [R46]), y el riesgo lo hereda cualquiera que adopte «el código es salida, marcada `DO NOT EDIT`».
+
+    **Lo que cambió el 2026-09-06:** [R55] mide determinismo léxico entre corridas frías independientes sobre cuatro condiciones de especificación y dos modelos, con hipótesis preregistradas. Aporta **instrumento y dirección** —el formato de la spec mueve el determinismo, y las citas por línea lo bajan contra su propio control—, y **no** aporta evidencia sobre este ítem: sus condiciones son formatos de spec dentro de un harness propio, el código se genera una vez por corrida y no se regenera, y ninguna de las cuatro es Tessl. Sirve como diseño a portar, no como respuesta.
+
+    **Riesgo de diseño ya identificado, que evita repetir el error de la fuente:** LSS confunde similitud de contenido con la de estilo, límite que [R55] declara. Una réplica propia SHOULD medir equivalencia conductual o similitud de AST —que es lo que [R56] usa, en otro dominio— y no similitud léxica.
+
+    **Recaudo:** B-07 está cerrado y este ítem MUST NOT reinterpretarlo (Principio V). Es una pregunta nueva sobre una herramienta que regenera de verdad, no una relectura de aquel resultado.
+
+21. **El corpus observacional de OpenSpec: circuito de aprendizaje medido sobre un linaje que no es el nuestro (alta, 2026-09-06).** Origen: `../software/analisis/ANALISIS-OPENSPEC.md` C4, donde figura como «no dado de alta» desde el 2026-08-02 porque antes hay que decidir qué se mide. El corpus está vendorizado: **83 cambios archivados**, cada uno con propuesta, diseño, tareas y delta de specs, más 725 commits desde 2025-08-05 y 36 specs vigentes con su estado final.
+
+    **Lo que este corpus tiene y ninguno de los otros:** no es del mismo autor. El inventario del ítem #15 declara que todos los corpus disponibles son propios, así que sumarlos agrava la autocorrelación en vez de aliviarla. Éste es el primero de un linaje que no toca al nuestro, y es la única vía disponible para empezar a separar «propiedad del método» de «propiedad de quien lo ejerce».
+
+    **Y una segunda propiedad, que lo vuelve más valioso de lo que parecía:** en OpenSpec, archivar **fusiona el delta aprobado en la spec vigente** por comando. La revisión posterior a la ejecución queda registrada por la herramienta y no por la disciplina de quien documenta, así que la variable de salida no depende de que alguien haya decidido escribirla. Es el caso más limpio disponible contra el anti-patrón #6 de esta lista, que declara inutilizable toda métrica donde el tratamiento altera la observabilidad del resultado.
+
+    **Qué MUST decidirse antes de mirar el corpus** (Principio V: ya está en disco). Dos métricas candidatas, sin elegir: la proporción de cambios archivados que **modifican** una spec vigente contra los que sólo agregan, y la distancia entre el delta propuesto y el delta finalmente archivado — cuánto cambió la propuesta al ejecutarse, que es el circuito de aprendizaje medido sobre el contrato.
+
+    **Confundido declarado e inseparable:** es *dogfooding* del equipo que construye la herramienta. Mide el uso más favorable posible, no el típico, y MUST NOT presentarse como evidencia sobre adopción de OpenSpec por terceros. Es la misma reserva que el ítem #17, por el mismo motivo.
+
 ## Prioridad media
 1. Evaluar impacto de lenguaje normativo (MUST/SHOULD/MAY) en calidad de salida.
 2. Analizar costo/beneficio de contract-first en servicios legacy.
