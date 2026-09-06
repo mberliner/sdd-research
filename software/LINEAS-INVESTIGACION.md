@@ -31,6 +31,13 @@ Preguntas:
 
 Base: circuitos de aprendizaje SDD — ver `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`. Evidencia de feedback loops en entrega: [R09].
 
+**Estado de la evidencia (2026-09-06).** Es una anotación, no una reformulación: el enunciado de arriba **no se toca**, porque B-06 ya lo evaluó y reescribir una hipótesis después de ver el resultado que la evalúa está prohibido (`../CONSTITUTION.md`, Principio V). Lo que se agrega es qué la sostiene hoy y hasta dónde llega cada pieza.
+
+- **Evidencia propia, de un caso.** B-06 dio B6 por SOSTENIDA en el proyecto testigo, con muestra mínima y sesgo de confirmación declarado: `../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`. Es un caso observado, no una tasa.
+- **La convergencia entre frameworks no la respalda, y ese límite tiene dueño.** Vive en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` §Qué se puede y qué no se puede inferir, y no se reproduce acá: coincidir en el diseño respalda que el problema es reconocido de forma independiente, nunca el mecanismo.
+- **Hay una primera medición externa, y mide la mitad de al lado** [R54]. Sobre 90 bugs reales, obligar al agente a escribir una especificación semi-formal antes de generar los tests sube la detección de esos bugs (+9,8 pp con k=5) y la cobertura de ramas (+2,5 pp), con las dos reservas que la referencia obliga a arrastrar: sólo es significativo con presupuesto de ejecución alto, y la parte cualitativa la juzga un LLM. Eso mide que **la spec mejora los tests** — la mitad anterior del circuito. B6 hipotetiza la siguiente: que esos tests **detecten la divergencia entre contrato y realidad a lo largo del tiempo**. B6 MUST NOT darse por respaldada por [R54] sin cruzar esa distancia.
+- **Pregunta que abre [R54] y esta agenda no tenía:** si el beneficio del spec-first depende del presupuesto de ejecución, ¿a partir de qué presupuesto deja de pagarse en un equipo que no es Google?
+
 ## B5. Gobernanza de cambios
 Hipotesis: ADR + politica de versionado + reglas de compatibilidad disminuyen incidentes por cambios mayores.
 
