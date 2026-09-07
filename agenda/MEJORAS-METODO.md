@@ -39,6 +39,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
 | M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/analisis/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-43 | El protocolo se declara cross-asistente y nadie verificó que lo sea | media | Propuesta (2026-09-06) | [R56] (portabilidad de specs entre agentes) | `../AGENTS.md` (encabezado y §Excepciones) |
+| M-45 | Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero | media | Propuesta (2026-09-07) | B-07 (relajación del 2026-07-29) y revisión pre-sello de B-09 (2026-09-07) | `../templates/EXPERIMENTO.md` §Criterio de exito |
 | M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -453,6 +454,18 @@ Tres salidas, y hoy no hay dato para elegir entre las dos primeras:
 3. **Acotar la declaración por escrito** a los asistentes con los que efectivamente se ejerció. Es la barata y la honesta mientras no haya sonda, y no cierra ninguna de las otras dos.
 
 **Contraparte de investigación**: el ítem 1 de prioridad alta de `BACKLOG-INVESTIGACION.md` («medir variabilidad entre asistentes IA») es la misma pregunta del lado del conocimiento. Acá se decide qué hace el repositorio con su propia declaración mientras esa pregunta siga abierta.
+
+### M-45 — Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero
+
+`../templates/EXPERIMENTO.md` §Criterio de exito exige una condición, sus métricas y una comprobación de satisfacibilidad, pero no dice **cómo se decide que dos grupos difieren**. Cada experimento lo resuelve por su cuenta, y con `n` de un dígito esa decisión determina el veredicto más que el dato.
+
+Ya pasó dos veces. B-07 abrió con **no-solapamiento de rangos** y lo derogó el 2026-07-29, antes de contar: con `n` = 3 vs. 4 la regla dejaba el resultado en no concluyente *«por construcción y no por el dato»*. Lo reemplazó por comparación de medianas con tres obligaciones —distribución completa, solapamiento declarado dentro del enunciado del veredicto, y sensibilidad *leave-one-out*— y declaró el costo evidencial de la relajación. B-09 se escribió dos meses después con `n` = 3 por celda y **volvió a poner no-solapamiento**, además de dejar dos formulaciones distintas conviviendo en el mismo documento. La revisión pre-sello del 2026-09-07 lo detectó y B-09 heredó la regla de B-07 citándola; el ítem existe porque nada impide que el próximo experimento repita el ciclo.
+
+Qué haría falta: que el template ofrezca la regla de comparación como **decisión ya tomada con su fundamento**, no como hueco a llenar — la regla, sus tres obligaciones, y la obligación de declarar que bajan la probabilidad de emitir dirección.
+
+**Por qué queda `Propuesta` y no se aplica ya.** La regla tiene un solo uso cerrado (B-07, corpus observacional de 3 vs. 4 specs) y un uso abierto (B-09, aún sin correr). Promoverla a norma del template con esa base sería exactamente lo que el Principio VI prohíbe en la dirección inversa: mover el método por un hallazgo que todavía no se sostiene. **Se decide después de correr B-09**, que es el primer caso donde la regla gobierna un veredicto cuantitativo con celdas y rondas, y donde va a verse si las tres obligaciones dejan algo afirmable o si el diseño cierra sin dirección. Si B-09 cierra NO CONCLUYENTE por las obligaciones y no por el dato, el ítem cambia de contenido: la pregunta pasaría a ser si `n` = 3 admite alguna regla de comparación, no cuál.
+
+**Contraparte de investigación**: el ítem #7 de `BACKLOG-INVESTIGACION.md` —piso de ruido antes de reportar una brecha— es la misma tensión del lado del conocimiento. Acá se decide qué regla escribe el repositorio; allá, cuánta señal hace falta para que la regla tenga algo que leer.
 
 ### M-08 — Emoticones en `PREREG-B7.md`
 
