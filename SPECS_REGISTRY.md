@@ -774,7 +774,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - **uso y reputacion en redes (D15)**: atencion acumulada medida en los repositorios publicos, y reportes de practica de terceros identificables —objeciones fundadas y verificaciones de buen comportamiento— con sus tres canales y sus sesgos declarados
   - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte, uso y reputacion reportada, y rasgo sin equivalente
   - la distincion entre perder la **herramienta** y perder los **artefactos**, que es lo que la apertura decide en la practica
-  - **el paradigma de cada caso (seccion 5)**, derivado de las dimensiones ya establecidas y de ninguna fuente nueva: que es la spec, donde vive la autoridad, donde vive el enforcement y que se paga. Es caracterizacion de cada caso por separado, **nunca** veredicto de convergencia, invariancia ni linaje
+  - **el paradigma de cada caso (seccion 5)**, derivado de las dimensiones ya establecidas y de ninguna fuente nueva: que rol tiene la spec en la cadena spec→codigo, quien gana ante discrepancia entre spec y codigo, que verifica el enforcement y que se paga. Los cuatro predicados MUST ser uniformes: cada columna responde la **misma** pregunta para los seis casos. Es caracterizacion de cada caso por separado, **nunca** veredicto de convergencia, invariancia ni linaje
+  - **la escala de vinculacion (seccion 5)**: tres niveles de que verifica el enforcement —nada mecanico, la forma del proceso, la correspondencia spec↔codigo— con los seis casos ubicados. Es un orden **descriptivo de grado de vinculacion**, MUST NOT presentarse como orden de calidad ni de idoneidad
+  - **la prueba del nombre (seccion 5)**: si el nombre de un paradigma sigue nombrando algo real al quitarle la palabra «spec», ese paradigma no es privativo de SDD, y el documento MUST declararlo caso por caso
   - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
   - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
 - `excluye`:
@@ -790,7 +792,10 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
   - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
   - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
-  - [ ] cada paradigma se deriva de dimensiones enunciadas en este mismo documento y no introduce fuente ni dato nuevo; ninguno se presenta como juicio de calidad ni como puesto en un orden
+  - [ ] cada paradigma se deriva de dimensiones enunciadas en este mismo documento y no introduce fuente ni dato nuevo; ninguno se presenta como juicio de calidad ni de idoneidad
+  - [ ] las cuatro columnas de la seccion 5 usan un predicado **uniforme**: ninguna contesta en una fila *cuando*, en otra *de que habla* y en otra *de quien es*. «Autoridad» se declara en un solo sentido —quien gana ante discrepancia spec↔codigo— y ninguna columna repite lo que dice otra
+  - [ ] la escala de vinculacion ordena por **grado de vinculacion de la spec sobre el codigo**, no por calidad, y lo declara en la propia seccion; el hecho de que casi todo el corpus quede en el nivel mas bajo se escribe sin atenuar y sin convertirlo en veredicto
+  - [ ] cada paradigma pasa por la prueba del nombre, y los que no son privativos de SDD lo declaran
   - [ ] la seccion de paradigmas declara que la lista **no es una particion**: el caso que gobierna el trabajo del agente es ortogonal a los que gobiernan artefactos
   - [ ] toda afirmacion de D15 lleva `[reportado]`, cita [R47], [R48], [R49] o [R50], y **nunca** se presenta como medicion ni como proporcion de usuarios
   - [ ] las metricas de atencion (estrellas, forks, issues) declaran la fecha y el comando que las produce, y declaran que miden atencion y no uso

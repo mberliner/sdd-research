@@ -46,6 +46,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
 | M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
 | M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
+| M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
 | M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
 | M-05 | Limpiar encabezados que restatan su alcance | baja | **Hecha** (2026-08-23) | regla de alcance, Fase 8 | `../software/RELACION-SPEC-VS-EPICA.md` |
@@ -557,6 +558,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-19 | «M-19 — Cablear el backstop al commit, fail-closed y versionado» |
 | M-20 | «M-20 — Verificador ejecutable para el Principio VI» |
 | M-44 | «M-44 — Los índices de línea no listan experimentos, y eso nunca se escribió» |
+| M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |
 | M-23 | «`excluded-field` deja de mirar solo tablas» |
 | M-24 | «`normative-block` pasa a llamarse `sdd-check-fields`» |
 | M-27 | «`sdd-check-fields` pasa a mirar `templates/`» |

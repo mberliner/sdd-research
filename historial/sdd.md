@@ -4,6 +4,45 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas (2026-09-07) — COMPLETADA
+
+**Accion**: se corrige el instrumento de la seccion 5 de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` y se enmienda su spec. Entra al historial porque enmienda `SPECS_REGISTRY.md` (archivo de metodo), Principio VI. El contenido del documento cambia como consecuencia, no como hallazgo nuevo: no se leyo ninguna fuente que no estuviera ya en el documento.
+
+### Que se pidio
+El usuario pidio repasar las tres primeras columnas de la tabla de paradigmas —«que es la spec», «donde vive la autoridad», «donde vive el enforcement»— porque «algunas lucen debiles», y preguntar si los paradigmas son demasiado abiertos: un «proceso ceremonial» puede aplicarse a casi todo.
+
+### Que se verifico antes de decidir
+Las dos sospechas se confirmaron leyendo la tabla contra si misma, sin fuente nueva:
+
+- **La columna 1 mezclaba cuatro predicados.** Contestaba *cuando* en Spec Kit («una etapa»), *de que habla* en OpenSpec («el estado vigente»), *para que sirve* en sdd-first («un permiso») y *de quien es* en Kiro («un artefacto del entorno»). Un encabezado con cuatro predicados describe, pero no discrimina.
+- **«Autoridad» se usaba en tres sentidos incompatibles**: quien gana ante discrepancia, quien define el metodo (Kiro: «el flujo de fases es el IDE», que es propiedad de la herramienta y no autoridad sobre el proyecto) y quien autoriza avanzar. Ademas repetia: en `sdd-first`, «en el gate» y «codigo fail-closed» eran la misma frase en dos columnas.
+- **La columna 3 mezclaba enforcement del metodo con enforcement de la spec sobre el codigo**, y al mezclarlos escondia que hay tres niveles y no seis mecanismos equivalentes.
+- **Cinco de los seis nombres de paradigma sobreviven si se les quita la palabra «spec»** y siguen nombrando algo real: RUP, ITIL, TDD, policy-as-code, un IDE opinado. Solo «compilacion desde la especificacion» no sobrevive.
+
+### Que se decidio y por que no la opcion contraria
+Se fija **un predicado por columna** y se define «autoridad» en un solo sentido —quien gana ante discrepancia entre spec y codigo—, que es el unico de los tres que es propio de SDD y no de cualquier metodologia. Se agrega una **escala de vinculacion** de tres niveles (N0 nada mecanico; N1 la forma del proceso; N2 la correspondencia) y la **prueba del nombre**.
+
+La opcion contraria era dejar la tabla y solo desambiguar en una nota. Se descarto porque el defecto no era de redaccion: una columna que en cada fila responde otra pregunta no se arregla explicando que lo hace. La otra opcion descartada era no construir la escala, para no rozar `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`. Se descarto porque el patron —cinco de seis casos sin comprobar la correspondencia— es exactamente lo que el usuario pidio buscar, y ocultarlo por prudencia de frontera habria sido peor que declararlo con la reserva escrita, que es lo que se hizo.
+
+**La spec prohibia presentar los paradigmas «como puesto en un orden», y la escala es un orden.** Por eso la enmienda es previa al documento: se distinguio orden **de calidad** —que sigue prohibido— de orden **de grado de vinculacion**, que es descriptivo y verificable en el mecanismo.
+
+### Que cambio
+- `SPECS_REGISTRY.md`, spec de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: `incluye` reformula el bullet de paradigmas (predicado uniforme obligatorio, cuatro predicados renombrados) y suma dos bullets —escala de vinculacion y prueba del nombre—; `validacion` suma tres casillas y afina la que hablaba de «puesto en un orden».
+- `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5: tabla reescrita con las cuatro columnas uniformes, nota de correccion fechada que registra que afirmaba la version anterior, escala de vinculacion, prueba del nombre, y cuarta advertencia. §7 suma una linea sobre lo que la escala no puede decir.
+- `agenda/MEJORAS-METODO.md`: alta de M-46 en la tabla de estado y en la de items cerrados.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR. El unico WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`, M-08).
+
+Verificacion manual, porque el backstop no la cubre: que las cuatro columnas respondan la misma pregunta en las seis filas, y que ninguna celda de la columna 2 repita lo que dice la 1 o la 3.
+
+### Deuda abierta
+**Nada verifica la uniformidad de predicado de una columna.** Es la casilla nueva de `validacion`, y como las 196 anteriores no la mira nadie. A diferencia de otras, esta probablemente **no** sea automatizable: decidir si dos celdas contestan la misma pregunta es juicio, no sintaxis. Se declara asi en vez de proponerla como candidato de M-31 o M-35.
+
+**El defecto es de clase, no de este documento.** La tabla corregida era la mas cuidada del repositorio y el defecto sobrevivio a tres enmiendas de spec en un dia. Ninguna otra tabla comparativa del corpus fue auditada con este criterio, y hay varias: `comun/MARCO-COMPARATIVO-DOS-LINEAS.md` y `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md` al menos. **No se auditaron acá** —seria alcance ajeno a lo pedido— y queda como pendiente sin item propio.
+
+---
+
 ## M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio (2026-09-06) — COMPLETADA
 
 **Accion**: se asienta por escrito una regla que ya se cumplia. Entra al historial porque enmienda una spec de `SPECS_REGISTRY.md` (archivo de metodo), Principio VI.
