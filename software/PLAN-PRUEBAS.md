@@ -67,6 +67,22 @@ Sujeto experimental oficial de Linea B: `evaluador-flujo-intent` (ex `agent-test
 - Diseno completo: pendiente en `../experimentos/` usando `../templates/EXPERIMENTO.md`.
 - Base conceptual: `SDD-EN-LEGACY-Y-BROWNFIELD.md`.
 
+## Experimento B-09: competencia de implementaciones SDD sobre objetivo sintetico
+- Estado: **BORRADOR PRE-SELLO** (abierto 2026-09-06). Hipotesis escritas y **no selladas**; ningun brazo tratamiento corre antes del sello.
+- Tipo: experimento comparativo controlado sobre implementaciones **ajenas**, no sobre el proyecto testigo. Es el primero de linea B que no usa al testigo como sujeto.
+- Pregunta: `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §7 — «ninguna se corrio» y «ninguna fuente reporta medicion». Agenda: `../agenda/BACKLOG-INVESTIGACION.md` §Prioridad alta 22.
+- Brazos: control sin metodo, Spec Kit [R10], OpenSpec [R38], sdd-first [R39], Superpowers [R37]. Kiro [R44] y Tessl [R46] quedan fuera de la poblacion, el primero por imposibilidad de sello y el segundo por indisponibilidad.
+- Diseno: enunciado sintetico y suite e2e propios, ambos sellados y nunca visibles para los brazos; dos rondas por rep —R1 greenfield y R2 evolucion sobre el workspace que dejo ese mismo rep—; 3 reps por celda.
+- Metrica primaria: proporcion de tests end-to-end sellados que aprueban, por harness, brazo y ronda.
+- Metricas secundarias: regresion en R2 (e2e de R1 que aprobaban y fallan), costo en tokens, tiempo de pared, tasa de corridas nulas.
+- Costo con protocolo propio: frontera de corrida declarada, atribucion obligatoria del consumo de subagentes a la corrida padre, y descomposicion en entrada fresca / lectura de cache / salida. Sin eso el costo mide el regimen de contabilidad del harness y no el metodo.
+- Replicacion: el harness MAY ser mas de uno, y el que corre **corre la bateria completa**. Solo son comparables los deltas dentro de cada harness, nunca las tasas absolutas entre ellos (regla heredada de A-04).
+- Fases previas al sello: **0.A** caracterizacion de interfaces por brazo (entrada, secuencia de invocacion oficial, condicion de termino, tope duro, artefacto entregado, contabilidad de costo) mas ensayo general sobre un **enunciado descartable**, con veredicto go/no-go por brazo; **0.B** calibracion de dificultad contra banda declarada, viendo **solo** datos del brazo control.
+- Riesgo principal: techo del brazo control, que cerro A-04 dos veces; mitigacion = la banda de Fase 0.B, con tope de rondas de ajuste declarado de antemano.
+- Regla de imposibilidad sobrevenida, escrita antes de que el caso exista: brazo no invocable antes del sello sale de la poblacion y se reporta como hecho sobre la herramienta; despues del sello se declara INEJECUTABLE, sus celdas se anulan y la bateria continua, sin tocar el fixture ni corregir su secuencia de invocacion. Agotar el tope duro es entrega fallida y **puntua**; VOID es solo falla del instrumento.
+- Diseno completo: `../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md`.
+- Pendiente: runbook de medicion, que es documento autorado y **necesita spec registrada** antes de escribirse.
+
 ## Duracion recomendada
 - 6 a 8 semanas por ciclo experimental.
 
@@ -90,6 +106,8 @@ La numeracion de experimentos (`B-0N`) es independiente de la de hipotesis (`BN`
 B1 y B5 quedan sin experimento por ahora (no es un hueco de numeracion, sino agenda pendiente); priorizarlos es decision de backlog.
 
 B-08 (retro-spec en legacy) es un experimento tematico que no cubre ninguna hipotesis B1-B7; su base es `SDD-EN-LEGACY-Y-BROWNFIELD.md`. Por eso no aparece en la tabla de cobertura.
+
+B-09 (competencia de implementaciones) tampoco entra en la tabla, y por un motivo distinto: no evalua una **practica** de las hipotesis B1-B7 sino **herramientas ajenas que empaquetan varias practicas a la vez**. Su base es `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, y es el unico experimento de linea B cuyo sujeto no es el proyecto testigo.
 
 ## Plantillas
 - [template de experimento](../templates/EXPERIMENTO.md)
