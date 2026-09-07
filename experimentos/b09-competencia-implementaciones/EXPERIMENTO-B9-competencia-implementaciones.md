@@ -13,15 +13,18 @@
 
 ## Hipotesis
 
-Tres, independientes, cada una evaluada por separado. Ninguna se funde con otra en el veredicto.
+Cuatro, independientes, cada una evaluada por separado. Ninguna se funde con otra en el veredicto. **Cada una declara sobre qué rondas se evalúa**: un cuantificador implícito es un grado de libertad que se resuelve al ver los datos.
 
-- **H1 (primaria).** Al menos un brazo con metodo SDD alcanza una proporcion de e2e sellados aprobados **mayor** que el brazo control sin metodo, en al menos una de las dos rondas.
-- **H2.** En la ronda de evolucion (R2), los brazos cuyo mecanismo es **estado o enforcement** —OpenSpec (contabilidad de capacidades) y sdd-first (gate fail-closed)— producen **menos regresion** sobre los e2e de R1 que el control y que Spec Kit (ceremonia orquestada).
-- **H3.** Superpowers consume **mas tokens por corrida** que cualquier otro brazo, con independencia de su resultado en H1.
+- **H1 (primaria).** Al menos un brazo con método SDD alcanza una proporción de e2e sellados aprobados **mayor** que el brazo control sin método, **en al menos una** de las dos rondas.
+- **H2a (OpenSpec).** **En R2**, OpenSpec —contabilidad de capacidades— produce **menos regresión** sobre los e2e de R1 que el control y que Spec Kit (ceremonia orquestada).
+- **H2b (sdd-first).** **En R2**, sdd-first —gate fail-closed— produce **menos regresión** sobre los e2e de R1 que el control y que Spec Kit.
+- **H3.** Superpowers consume **más tokens por corrida** que cualquier otro brazo, **en las dos rondas**, con independencia de su resultado en H1.
 
-H3 no es una hipotesis sobre SDD: es la unica objecion de terceros del corpus que se puede convertir en medicion barata en este mismo diseño (`ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 quinquies, [R47]). Entra porque el dato se produce igual, no porque el experimento exista para eso.
+**Por qué H2 está partida en dos, y la decisión es pre-sello.** La redacción inicial afirmaba de una sola vez que los dos mecanismos de estado o *enforcement* —OpenSpec y sdd-first— regresionan menos, lo que exigía la conjunción simultánea de cuatro desigualdades sobre dos herramientas distintas. Si un mecanismo reducía la regresión y el otro no, no había veredicto definido. Son dos mecanismos y son dos afirmaciones: se evalúan por separado, como ya se hace entre H1 y H3. Ninguna corrida de tratamiento existía al decidirlo.
 
-**Lo que ninguna de las tres afirma.** Ninguna dice cual metodo es mejor. H1 pregunta si el metodo compra algo contra no tener metodo; H2 pregunta si dos mecanismos distintos se comportan distinto en la ronda donde su mecanismo aplica. Un resultado nulo en H1 —ningun brazo supera al control— es un resultado, y probablemente el mas importante que este diseño puede producir.
+H3 no es una hipótesis sobre SDD: es la única objeción de terceros del corpus que se puede convertir en medición barata en este mismo diseño (`ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 quinquies, [R47]). Entra porque el dato se produce igual, no porque el experimento exista para eso. Su cuantificador es **las dos rondas** porque «este método consume más» es una afirmación sobre el método: un brazo que sólo es el más caro en una de las dos rondas no la sostiene.
+
+**Lo que ninguna de las cuatro afirma.** Ninguna dice cuál método es mejor. H1 pregunta si el método compra algo contra no tener método; H2a y H2b preguntan si un mecanismo se comporta distinto en la ronda donde ese mecanismo aplica. Un resultado nulo en H1 —ningún brazo supera al control— es un resultado, y probablemente el más importante que este diseño puede producir.
 
 ## Diseno
 
@@ -164,7 +167,10 @@ La condicion no es burocratica. Si un harness pudiera correr solo algunos brazos
 
 - **Primaria — `P`**: proporcion de e2e de la suite sellada que aprueban, por brazo y por ronda.
 - **Secundarias**:
-  - **`S1` regresion**: cantidad de e2e de R1 que aprobaban en R1 y fallan en R2, dentro del **mismo rep**.
+  - **`S1` regresion**: e2e que aprobaban en R1 y fallan en R2, dentro del **mismo rep**, contados sobre el **subconjunto común** del par comparado: los e2e de R1 que **los dos brazos** de esa comparación aprobaron en R1. El subconjunto se recomputa para cada par y es, por construcción, idéntico para los dos miembros del par.
+    - **Por qué no es un conteo crudo sobre toda la suite.** Un brazo con mal desempeño en R1 tiene techo de regresión bajo —si aprobó 1 de 10, su `S1` máximo es 1— y uno con buen R1 puede acumular más regresión en términos absolutos aunque su mecanismo de evolución sea mejor. Un conteo crudo premiaría estructuralmente al brazo que rindió peor en R1, que es lo contrario de lo que H2a y H2b preguntan.
+    - **Por qué el subconjunto común y no una tasa.** Normalizar por la base de cada brazo (`regresados / aprobados-en-R1`) arregla el techo pero introduce el sesgo inverso —romper 1 de 1 da 100%, romper 1 de 8 da 12,5%— y vuelve a `S1` una función del valor de `P` en R1. El subconjunto común iguala el denominador **por construcción** y no por división: los dos brazos se miden sobre exactamente los mismos e2e.
+    - **No computable.** Si el subconjunto común de un par tiene menos de **3** e2e —valor propuesto, a sellar—, ese par no es comparable en ese rep. Consecuencias en §Criterio de exito, «Admisibilidad por hipotesis».
   - **`S2` costo**: tokens consumidos por corrida, reportados en tres componentes —entrada fresca, lectura de cache, salida— mas su total, que es el valor primario. Protocolo en §Protocolo de medicion de costo.
   - **`S3` reloj**: tiempo de pared por corrida.
   - **`S4` nulidad**: proporcion de corridas VOID por brazo.
@@ -180,6 +186,10 @@ Sin esto `S2` no mide el costo del **metodo** sino el regimen de contabilidad de
 | comandos de scaffolding del propio brazo (`specify init`, `openspec init`, siembra de sdd-first) | nuestra instrumentacion: hashes, montaje del workspace, copia del tratamiento |
 | todos los turnos del agente, incluidos los reintentos que el brazo decida por su cuenta | la corrida de la suite e2e, que ocurre fuera del workspace y no es costo del brazo |
 | **todo lo consumido por subagentes**, atribuido a la corrida que los lanzo | las corridas VOID, que se re-corren y no acumulan |
+
+**El tope de tokens es comun a todos los brazos, y ese es el unico campo de la ficha que no admite variacion por brazo.** El tope duro (§Fase 0.A, ficha de interfaz) fija límites de turnos, tokens y reloj. Los de turnos y reloj MAY fijarse por brazo: no son la unidad de `S2`. El de **tokens** MUST ser único, común y sellado, porque `S2` se cuenta hasta la condición de término **o el tope**, y un tope por brazo haría que H3 —la hipótesis de que un brazo consume más que los demás— se decidiera por un parámetro que fija el operador brazo por brazo. Un tope más bajo para T4 la refuta por construcción; uno más alto la confirma por construcción. El valor se calibra en Fase 0.A —la primera vez que se conoce el costo real de una corrida— y se fija **generoso**: su función es impedir que un brazo bloquee la tanda, no discriminar entre brazos.
+
+**`S2` censurado.** Una corrida que alcanza el tope de tokens produce un `S2` que es una **cota inferior**, no un valor, y se marca como censurado en el dato crudo. H3 MUST NOT sostenerse sobre celdas censuradas: si T4 topea y los demás no, lo afirmable es «T4 alcanzó el techo de tokens y ningún otro brazo lo alcanzó», que es categórico y más fuerte que comparar números truncados. La censura no cambia el trato de esa corrida para `P`: agotar el tope sigue siendo entrega fallida y puntúa (§Definicion operacional).
 
 **La linea de subagentes no es un tecnicismo: decide H3.** El modo de falla reportado de Superpowers es precisamente lanzar muchos subagentes ([R47], «it started a workflow that spawned like a 100 sub agents»). Un contador que no atribuya el consumo del subagente a la corrida padre subcontaria de forma sistematica **justo al brazo del que trata H3**. Fase 0.A MUST verificarlo explicitamente, no asumirlo.
 
@@ -203,7 +213,7 @@ El motivo no es prolijidad. Los brazos ceremoniales releen su propia spec muchas
 |---|---|---|
 | `../../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §7 | «Como se comportan en un proyecto real. Ninguna se corrio» y «Cual funciona mejor. Ninguna fuente reporta medicion» | Cualquier veredicto de H1, incluido el nulo: pasaria a existir una medicion propia, con su alcance declarado |
 | `../../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6 | La tabla de orientacion por escenario dice cual mecanismo atiende cada situacion, y declara dos veces que no ordena por calidad | Un resultado con señal daria, por primera vez, dato de desempeño para alguna de esas filas — o confirmaria que no lo hay |
-| `../../software/PLAN-PRUEBAS.md` | Criterio de adopcion: «adoptar practica cuando mejora al menos 2 metricas clave» | H1 y H2 son las primeras metricas de esa clase medidas sobre implementaciones ajenas y no sobre el testigo |
+| `../../software/PLAN-PRUEBAS.md` | Criterio de adopcion: «adoptar practica cuando mejora al menos 2 metricas clave» | H1, H2a y H2b son las primeras metricas de esa clase medidas sobre implementaciones ajenas y no sobre el testigo |
 | `../../agenda/BACKLOG-INVESTIGACION.md` #6 | Que toda metrica cuyo tratamiento altere la observabilidad del resultado es inutilizable, y que faltan fuentes independientes del artefacto | Un e2e que pasa o falla es independiente del artefacto documental de cualquier brazo. Si el diseño se sostiene, es el primer caso del corpus que escapa al anti-patron |
 
 SHOULD — cada documento listado declara la espera en su propio `Deuda arrastrada`, nombrando `B-09`.
@@ -220,23 +230,59 @@ SHOULD — cada documento listado declara la espera en su propio `Deuda arrastra
 - **Granularidad de reporte.** Por **celda** — harness × brazo × ronda —, que es la unidad de la metrica. No se reporta un valor agregado por brazo entre rondas: R1 y R2 miden cosas distintas y promediarlas mezcla unidades no comparables. Tampoco se agrega entre harnesses, por el mismo motivo y con mas fuerza (§Replicacion por harness).
 - **Admisibilidad de reconciliaciones.** Ninguna sobre el codigo entregado, nunca. El contrato de invocacion es parte del enunciado sellado, asi que el desajuste que en otros diseños obligaria a reconciliar aca esta eliminado por construccion. MAY reconciliarse un unico caso: que el brazo entregue el ejecutable en una ruta distinta a la declarada **habiendola documentado**; se reporta la variante cruda **y** la reconciliada, con el criterio primario sobre la cruda.
 - **Regla de agregacion.** Veredicto **por celda**. H1 se evalua brazo contra `C0` dentro de la misma ronda **y dentro del mismo harness**. MUST NOT agregarse brazos entre si, ni rondas entre si, ni harnesses entre si. Con mas de un harness apto, el veredicto se emite **por harness** y despues se declara si las direcciones **replican** — lectura categorica de dos palabras, replica o no replica, nunca una diferencia de magnitud.
-- **Tratamiento del empate.** Empate, o solapamiento entre el rango de los 3 reps de los dos brazos comparados, se declara **NO CONCLUYENTE**. Nunca refutacion.
-- **Independencia entre metricas.** `S1` (regresion) y `P` de R2 **comparten datos**: los e2e de R1 estan en el denominador de `P` en R2. `S1` MUST NOT computarse como evidencia adicional sobre `P` de R2. H2 se evalua contra `S1` y H1 contra `P`; ningun veredicto usa las dos para la misma afirmacion.
+- **Tratamiento del empate.** Empate de medianas entre los dos brazos comparados se declara **NO CONCLUYENTE**, nunca refutacion. El **solapamiento de rangos** no produce por si solo no-veredicto: se declara dentro del enunciado y el veredicto queda sujeto a la sensibilidad *leave-one-out* (§Criterio de exito, «Regla de comparacion»), que es donde vive la regla completa.
+- **Independencia entre metricas.** `S1` (regresion) y `P` de R2 **comparten datos**: los e2e de R1 estan en el denominador de `P` en R2. `S1` MUST NOT computarse como evidencia adicional sobre `P` de R2. H2a y H2b se evaluan contra `S1` y H1 contra `P`; ningun veredicto usa las dos para la misma afirmacion.
+  - **Acoplamiento residual del subconjunto común, declarado.** El denominador de `S1` se **selecciona** con los resultados de R1 de los dos brazos comparados, así que depende de `P` en R1 — no de `P` en R2, que es la que el párrafo anterior protege. El acoplamiento es de **selección de ítems**, no de valor: qué e2e entran al conteo lo deciden los datos de R1, y cuánto regresiona cada brazo lo deciden los de R2. MUST declararse junto a cualquier lectura de H2a o H2b, y es el precio de igualar el denominador por construcción en vez de por división.
 - **Denominador y frontera de `S2`.** No es una proporcion sino un conteo, y su definicion operacional completa —que entra, que no, descomposicion en tres componentes, fuente primaria y cruzada, y esquema de contabilidad versionado— vive en §Protocolo de medicion de costo. MUST resolverse en Fase 0.A.
 - **Quien mide.** Nadie. La puntuacion de `P` y `S1` es el codigo de salida de la suite; `S2` y `S3` los reporta el harness bajo el protocolo de §Protocolo de medicion de costo. La unica decision humana es declarar VOID, y su regla se sella antes de correr. Es la primera metrica de este repositorio que no requiere acuerdo entre puntuadores — la deuda que A-04 arrastro dos pasadas.
 
 ## Criterio de exito
 
-- **Condicion H1.** Sostenida si **al menos un brazo tratamiento** supera a `C0` en `P`, en al menos una ronda, y la diferencia entre las medianas de los 3 reps es **mayor que el rango intra-brazo** de los dos brazos comparados. Solapamiento ⇒ NO CONCLUYENTE.
+### Regla de comparacion, comun a las cuatro hipotesis
+
+Toda comparación entre dos brazos —tratamiento contra `C0`, o tratamiento contra tratamiento— se resuelve con la **misma** regla, declarada una sola vez acá y referenciada por cada condición:
+
+> La dirección se lee sobre la **mediana de los 3 reps** de la celda. Sostenerla exige además las tres obligaciones de abajo; si alguna no se cumple, el veredicto es **NO CONCLUYENTE**.
+
+1. **Distribución completa.** MUST reportarse los 3 reps de cada brazo, no sólo la mediana.
+2. **Solapamiento declarado dentro del enunciado del veredicto**, no en nota al pie. Redacción obligada cuando los rangos solapan: «tendencia consistente con `Hn`, con rangos solapados».
+3. **Sensibilidad *leave-one-out*.** Si al quitar **cualquiera** de los 3 reps la dirección de la mediana se invierte, el veredicto es NO CONCLUYENTE.
+
+**De donde sale, y por que no es no-solapamiento de rangos.** Se hereda de B-07 (`../b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` §Criterio de exito (b)), que llegó a esta regla **derogando** la anterior: con `n` chico, exigir no-solapamiento de rangos deja el resultado en NO CONCLUYENTE **por construcción y no por el dato**. B-09 corre con `n`=3 por celda —el mismo problema— así que hereda la solución en lugar de repetir el error. La decisión se toma sin ninguna corrida de tratamiento a la vista.
+
+**Ambiguedad que esta regla cierra.** Las dos formulaciones que convivían en este documento no son la misma prueba: `A = {0, 4, 10}` contra `B = {11, 12, 21}` tiene diferencia de medianas 8, **menor** que el rango intra-brazo de 10, y sin embargo los rangos `[0,10]` y `[11,21]` **no solapan**. Queda una sola regla; los demás lugares la referencian y no la reproducen.
+
+**Costo declarado.** Las tres obligaciones **bajan la probabilidad de que este experimento emita dirección**, y eso se acepta a sabiendas: una dirección que sólo sobrevive eligiendo el rep favorable no es un resultado. Es la misma comprobación que B-07 se obligó a hacer al relajar la regla.
+
+### Admisibilidad por hipotesis
+
+Cada hipótesis necesita brazos distintos vivos, así que la población mínima no es un número global:
+
+| hipotesis | brazos que MUST estar vivos | por que |
+|---|---|---|
+| H1 | `C0` + al menos un tratamiento | se evalúa con los tratamientos que sobrevivan |
+| H2a | `C0`, T1, T2 | T1 es **comparador** de la condición, no contexto |
+| H2b | `C0`, T1, T3 | idem |
+| H3 | los cinco | la condición es «supera a los otros cuatro»: con un brazo caído es incomputable |
+
+- **Tercera categoria de veredicto: NO EVALUABLE POR POBLACION.** Si un brazo requerido no sobrevive a Fase 0.A, o cae INEJECUTABLE durante las tandas, la hipótesis que lo necesita se declara **no evaluable por población**. Es distinto de refutada y distinto de NO CONCLUYENTE, que son veredictos **sobre el dato**; éste es un veredicto sobre la población y MUST NOT leerse como evidencia en ninguna dirección. Cae en la misma categoría la hipótesis cuyo par comparado quede **no computable** por subconjunto común insuficiente (§Metricas, `S1`) en la mayoría de los reps.
+- **Piso de poblacion para sellar.** MUST sobrevivir `C0` y **al menos dos tratamientos de autoría ajena**. Si entre los tratamientos sólo sobrevive T3, B-09 **no sella** y reporta hallazgo de factibilidad: la única mitigación declarada del confundido de autoría (§Brazos, «sdd-first entra sin castigo previo») es la comparación contra tratamientos que no escribió quien evalúa, y sin al menos dos de ellos el diseño pierde lo que sostiene su lectura.
+
+### Condiciones
+
+- **Condicion H1.** Sostenida si **al menos un brazo tratamiento** supera a `C0` en `P` **en al menos una ronda**, bajo la §Regla de comparacion.
   - Metricas que la componen: `P`.
-  - Satisfacibilidad: si. Existe un resultado posible del diseño que la cumple (p. ej. `C0` en 50% con rango 5 puntos, T1 en 75% con rango 5 puntos) y otro que la niega.
-- **Condicion H2.** Sostenida si `S1` de T2 y de T3 es **menor** que `S1` de `C0` **y** que `S1` de T1, bajo la misma regla de solapamiento.
+  - Satisfacibilidad: si. Existe un resultado posible del diseño que la cumple (p. ej. `C0` con reps 48/50/52 y T1 con 72/75/78: medianas 50 y 75, estable bajo *leave-one-out*) y otro que la niega.
+- **Condicion H2a (OpenSpec) y H2b (sdd-first).** Cada una sostenida si, **en R2**, `S1` del brazo es **menor** que `S1` de `C0` **y** que `S1` de T1 —cada par sobre su propio subconjunto común (§Metricas)— bajo la §Regla de comparacion. Se evalúan por separado y ningún veredicto de una condiciona al de la otra.
+  - **Conjuncion parcial.** Si el brazo cumple contra uno de los dos comparadores y no contra el otro, la hipótesis **no está sostenida** —la condición es una conjunción— y el veredicto MUST declarar contra cuál comparador se dio la dirección. No es refutación del mecanismo: es una condición que no se cumplió, y la mitad que sí se cumplió se reporta como tal.
   - Metricas que la componen: `S1`.
-  - Satisfacibilidad: si. Requiere que la calibracion deje margen de regresion posible — si ningun brazo regresiona, H2 es NO CONCLUYENTE por piso, y eso MUST verificarse en Fase 0.B antes de sellar.
-- **Condicion H3.** Sostenida si `S2` de T4 supera a `S2` de los otros cuatro brazos, bajo la misma regla de solapamiento.
+  - Satisfacibilidad: si. Requiere que la calibracion deje margen de regresion posible — si ningun brazo regresiona, la hipótesis es NO CONCLUYENTE por piso, y eso MUST verificarse en Fase 0.B antes de sellar.
+- **Condicion H3.** Sostenida si el `S2` total de T4 supera al de los otros cuatro brazos **en las dos rondas**, bajo la §Regla de comparacion.
+  - **Divergencia entre rondas ⇒ NO CONCLUYENTE**, con las dos direcciones declaradas por ronda. «Este método consume más» es una afirmación sobre el método; un brazo que sólo es el más caro en una de las dos rondas no la sostiene.
+  - **Celdas censuradas.** H3 MUST NOT sostenerse sobre celdas donde algún brazo alcanzó el tope de tokens: ahí `S2` es cota inferior y no valor (§Protocolo de medicion de costo). Lo afirmable en ese caso es categórico —qué brazos alcanzaron el techo y cuáles no— y se reporta así.
   - Metricas que la componen: `S2`.
-  - Satisfacibilidad: si.
-- **Regla de cierre.** B-09 cierra con **tres veredictos independientes**, nunca fundidos, y la decision declara el peso relativo. H1 pesa mas que H2 y H3: es la unica que responde la pregunta que origina el experimento.
+  - Satisfacibilidad: si, condicionada a que Fase 0.A valide la contabilidad de costo; si no la valida, H3 se retira del criterio antes del sello (§Protocolo de medicion de costo, punto 3).
+- **Regla de cierre.** B-09 cierra con **cuatro veredictos independientes** —H1, H2a, H2b, H3—, nunca fundidos, y la decision declara el peso relativo. H1 pesa mas que las otras tres: es la unica que responde la pregunta que origina el experimento. H2a y H2b pesan igual entre si; que una se sostenga y la otra no es un resultado sobre **mecanismos distintos**, no una contradiccion.
 - **Regla de cierre con mas de un harness apto.** Los tres veredictos se emiten **por harness** y despues se declara, para cada hipotesis, si la direccion **replica**. Escala de lo afirmable, de menor a mayor: un harness ⇒ «bajo este harness»; dos o mas que replican ⇒ la direccion no se explica solo por el harness ni solo por la familia de modelo; dos o mas que **no** replican ⇒ el resultado es **propiedad del andamiaje y no del metodo**, que es un hallazgo y no un fracaso, y probablemente el mas util que este diseño puede producir para el resto de la agenda.
 
 ## Riesgos
@@ -245,7 +291,7 @@ SHOULD — cada documento listado declara la espera en su propio `Deuda arrastra
 2. **Piso** — el enunciado es tan dificil que todos los brazos quedan cerca de 0 y el instrumento tampoco discrimina. La misma banda de Fase 0.B lo cubre por el otro extremo.
 3. **Efecto de operador** — un brazo pierde porque lo manejamos mal, no porque su metodo sea peor. Mitigado sellando la ficha de interfaz de cada brazo, con su secuencia de invocacion tomada de la documentacion oficial de esa fuente. **No queda eliminado**: la habilidad para conducir cada herramienta es parte de lo medido y MUST declararse.
 3-bis. **Un brazo no se puede invocar, o su producto no se puede medir.** Es el riesgo que Fase 0.A existe para descubrir **antes** del sello, y la razon por la que esa fase corre primero y sobre un enunciado descartable. Si aparece igual a mitad de tanda, la regla ya esta escrita —brazo INEJECUTABLE, celdas anuladas, bateria sigue, fixture intacto— y su valor es justamente estar escrita de antemano: improvisarla con datos a la vista es el grado de libertad post-hoc mas facil de cometer sin notarlo.
-3-ter. **La contabilidad de tokens no es identica entre brazos, o no incluye subagentes.** Si Fase 0.A muestra que `S2` no se lee del mismo modo para todos, **H3 no se puede evaluar** y MUST retirarse del criterio de exito antes del sello, no al ver los datos. El caso mas probable y mas dañino es que el contador no atribuya el consumo de subagentes a la corrida padre, porque subcontaria justo al brazo del que trata H3. No afecta a H1 ni a H2. Detalle en §Protocolo de medicion de costo.
+3-ter. **La contabilidad de tokens no es identica entre brazos, o no incluye subagentes.** Si Fase 0.A muestra que `S2` no se lee del mismo modo para todos, **H3 no se puede evaluar** y MUST retirarse del criterio de exito antes del sello, no al ver los datos. El caso mas probable y mas dañino es que el contador no atribuya el consumo de subagentes a la corrida padre, porque subcontaria justo al brazo del que trata H3. No afecta a H1, H2a ni H2b. Detalle en §Protocolo de medicion de costo.
 3-quater. **`S2` como numero unico puede medir el harness y no el metodo.** Los brazos ceremoniales releen su propia spec y generan mucha lectura de cache; un total que la pondere a peso completo los castiga por una propiedad del regimen de cache, y uno que la excluya los favorece por lo mismo. Mitigado publicando siempre los tres componentes por separado, de modo que la ponderacion quede a la vista y sea recomputable. **No queda eliminado**: la primaria sigue siendo un total y esa eleccion es discutible.
 4. **Confundido de harness y familia de modelo** — inseparable **dentro** de cada harness, escalon 3, declarado. Mitigable solo por replicacion de la bateria entera en un segundo harness, que no lo separa pero lo vuelve menos plausible como explicacion unica.
 5. **Autoria del fixture** — enunciado y suite los escribe quien evalua, y quien evalua tambien escribio T3. Acotado por sellado previo, invisibilidad de la suite para los brazos y puntuacion sin juicio; **no eliminado**.
