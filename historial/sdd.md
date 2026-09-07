@@ -4,6 +4,42 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio (2026-09-06) — COMPLETADA
+
+**Accion**: se asienta por escrito una regla que ya se cumplia. Entra al historial porque enmienda una spec de `SPECS_REGISTRY.md` (archivo de metodo), Principio VI.
+
+### Que se pidio
+Explicar y despues resolver una deuda que la apertura de B-09 arrastro tres entregas seguidas: si un experimento entra al indice de su linea. Al abrir B-09 hubo que decidirlo de hecho —quedo afuera— sin ninguna norma donde apoyarse.
+
+### Que se verifico antes de decidir
+Barrido de los tres indices, y el resultado desarmo la premisa con la que se habia planteado la deuda. No es un caso ambiguo con dos caminos razonables:
+
+- `software/00-INDEX.md` no lista B-06 ni B-07, cerrados desde julio.
+- `docs-y-investigacion/00-INDEX.md` no lista A-04. Ni una mencion.
+- `00-INDEX.md` global **si** lista el directorio: la fila `experimentos/<id>-<nombre>/`, glosada «disenos, runbooks y resultados, una carpeta por experimento».
+
+O sea que la practica es uniforme en tres experimentos, dos lineas y varios meses, y la navegacion ya esta resuelta en dos saltos que no duplican nada: el indice global apunta al directorio y el `PLAN-PRUEBAS.md` de cada linea apunta a cada experimento **con su estado**. Lo unico que faltaba era escribirlo.
+
+### Que se decidio y por que no la opcion contraria
+Los indices de linea **no listan experimentos, abiertos ni cerrados**. Listarlos agregaria un tercer lugar donde el estado de un experimento puede quedar viejo, que es exactamente el defecto que M-14 cerro para los documentos: `software/00-INDEX.md` habia quedado con `Estado: Borrador` cuando el registro ya declaraba `Activo`. El caso de B-09 lo vuelve concreto: esta en BORRADOR PRE-SELLO, y listarlo invita a anotar ese estado al lado del link — el campo que M-14 prohibio.
+
+### Que cambio
+- `SPECS_REGISTRY.md`, spec de `docs-y-investigacion/00-INDEX.md` y `software/00-INDEX.md`: bullet nuevo en `excluye` con la regla y su motivo, mas una casilla nueva de `validacion` («ningun link apunta a un documento de `experimentos/`»).
+- `agenda/MEJORAS-METODO.md`: alta de M-44 en la tabla de estado y en la tabla de items cerrados.
+- Ningun indice se edito: los tres ya cumplian.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR. El unico WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`, M-08).
+
+Verificacion manual, porque el backstop no la cubre: se releyeron los tres indices y ninguno enlaza a `experimentos/`.
+
+### Deuda abierta
+**La casilla nueva de `validacion` no la mira nadie.** Es una de las 195 casillas que M-35 ya declaro nunca marcadas y sin verificador — este cambio suma la 196.ª en vez de resolver el problema de fondo, y eso se declara en vez de disimularse. El check seria barato (ningun link de un indice de linea resuelve dentro de `experimentos/`) y entra naturalmente por M-31 o por M-35, no por aca.
+
+**El alcance es de los indices de linea, no del global.** El `00-INDEX.md` global sigue listando el directorio de experimentos y debe seguir haciendolo: es lo que sostiene el primero de los dos saltos. Si alguna vez se toca esa fila, esta regla se queda sin la mitad de su fundamento.
+
+---
+
 ## Alta del analisis CHI 2026 sobre edicion colaborativa con IA (2026-09-06) — COMPLETADA
 
 **Accion**: alta de spec y documento nuevo en Linea A. Entra al historial porque toca `SPECS_REGISTRY.md` (archivo de metodo), no porque el metodo haya cambiado.

@@ -336,12 +336,14 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `excluye`:
   - el `proposito` de cada documento listado — vive en este registro; junto a cada link va a lo sumo un puntero breve de que tipo de contenido es, no una síntesis de que dice
   - `estado` y `ssot_level`/rol de cada documento listado — caso particular de la regla global §Reglas globales, que reserva los ocho campos de spec a este registro. Motivo concreto acá: `software/00-INDEX.md` quedo con "Estado: Borrador" para `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` cuando el registro ya declaraba `Activo` (detectado 2026-08-03, M-14)
+  - **los experimentos, abiertos o cerrados (asentado 2026-09-06, M-44)** — la navegacion ya esta cubierta en dos saltos que no duplican nada: `00-INDEX.md` global lista el directorio `experimentos/<id>-<nombre>/`, y el `PLAN-PRUEBAS.md` de cada linea lista cada experimento con su estado. Listarlos aca agregaria un tercer lugar donde el estado de un experimento puede quedar viejo, que es el defecto que M-14 cerro para los documentos. No es regla nueva: es la practica vigente en las dos lineas —ningun indice de linea listo nunca a A-04, B-06 ni B-07— puesta por escrito, para que su ausencia no siga siendo indistinguible de un olvido
 - `validacion`:
   - [ ] links vigentes
   - [ ] direccionan a SSOT de su línea
   - [ ] las descripciones junto a cada link no parafrasean el `proposito` registrado del documento enlazado
   - [ ] ningún link anota `estado`
   - [ ] ningún link ni tabla anota `ssot_level`/rol
+  - [ ] ningún link apunta a un documento de `experimentos/`
 
 ### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md
 - `path`: `templates/EXPERIMENTO.md`
