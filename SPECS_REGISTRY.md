@@ -97,6 +97,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Software | Plan experimental línea B | `software/PLAN-PRUEBAS.md` | `00-INDEX.md` global y de línea; `software/LINEAS-INVESTIGACION.md`; `experimentos/` (diseños y resultados B-06/B-07) |
 | Software | Hipotesis, métricas y criterio de éxito de B-07 (el «que») | `experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md` | `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md`, `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md` |
 | Software | Protocolo de medición de B-07 (el «como») | `experimentos/b07-formato-hibrido/PRUEBA-REGENERABILIDAD-B7.md` (métrica primaria) y `experimentos/b07-formato-hibrido/PRUEBA-OBSERVACIONAL-B7.md` (corpus observacional) | `experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`; enmiendas y bitacora del repo de datos `experimentosdd-b7/` |
+| Software | Capacidades de aislamiento y autenticacion de los harnesses de B-09 | `experimentos/b09-competencia-implementaciones/ENTORNO-HARNESS-B9.md` | `experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md`; el runbook de B-09 cuando exista |
 
 ## Specs registradas (MVP)
 
@@ -1023,6 +1024,28 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] toda cifra citada del artefacto es verificable en el corte declarado, no en el texto vigente
   - [ ] no redefine hipótesis ni criterio — referencia a su SSOT
   - [ ] el techo de conclusión declarado (descriptivo) no se excede
+
+### experimentos/b09-competencia-implementaciones/ENTORNO-HARNESS-B9.md
+- `path`: `experimentos/b09-competencia-implementaciones/ENTORNO-HARNESS-B9.md`
+- `proposito`: capacidades **verificadas** de aislamiento y autenticacion de los harnesses de B-09, y la forma de invocacion que se sella. Documento vivo hasta el sello inicial; despues, testigo de lo que se sello.
+- `ssot_level`: `SSOT`
+- `estado`: `Borrador`
+- `incluye`:
+  - por harness: como se aisla la configuracion, los plugins y el estado entre reps
+  - por harness: modos de autenticacion no interactiva disponibles, y cual se usa
+  - la linea de invocacion por brazo, con cada opcion justificada
+  - contradicciones entre fuentes oficiales, declaradas como tales y sin resolver por preferencia
+- `excluye`:
+  - hipotesis, metricas, criterio de exito y reglas de sello (viven en `EXPERIMENTO-B9-competencia-implementaciones.md` — referencia, no copia)
+  - el procedimiento de medicion por fases (vive en el runbook de B-09 cuando exista)
+  - las siete fichas de interfaz por brazo, que son producto de Fase 0.A y se sellan con el fixture
+  - datos, transcripts y workspaces (viven en el repo de datos `experimentosdd-b9/`, fuera de este repo)
+- `validacion`:
+  - [ ] cada capacidad afirmada declara su fuente: ayuda del binario, documentacion oficial citada, o verificacion propia fechada
+  - [ ] distingue verificado, inferido y contradictorio; una lectura por omision MUST NOT presentarse como verificada
+  - [ ] no reproduce reglas del diseño (Principio I): las decisiones viven en `EXPERIMENTO-B9-competencia-implementaciones.md`
+  - [ ] toda desviacion respecto del canal oficial de una herramienta esta declarada con su motivo
+  - [ ] al sello inicial: `estado` pasa a `Activo` y el contenido queda congelado
 
 ### historial/sdd.md
 - `path`: `historial/sdd.md`

@@ -4,6 +4,43 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Alta de ENTORNO-HARNESS-B9: lo que el harness puede hacer se separa de lo que el experimento decide (2026-09-09) — COMPLETADA
+
+**Accion**: se registra una spec nueva en `SPECS_REGISTRY.md` y se da de alta el documento que describe. Entra al historial porque toca un archivo de metodo, Principio VI. No hay hallazgo de investigacion: es relevamiento de instrumento.
+
+### Que se pidio
+Planificando las fases previas de B-09 aparecio que tres de los cinco brazos se **instalan** —herramienta global o plugin del harness— y por lo tanto dejan estado fuera del workspace. El usuario pidio investigar como invocar los dos harnesses previstos sin `HOME`, o con un directorio puntual como `HOME`, y que modos de autenticacion admiten; y despues, que eso quedara anotado en un directorio del experimento como instrucciones vivas hasta el sello inicial.
+
+### Que se verifico antes de decidir
+Contra la ayuda de los binarios instalados y la documentacion oficial vigente, no de memoria:
+
+- El primer harness tiene una variable que **relocaliza settings, historial de sesiones y plugins**. Su documentacion no menciona las credenciales en esa lista, lo que daria aislamiento por rep sin cortar la autenticacion — pero eso es **lectura por omision** y quedo marcado como pendiente de verificacion empirica, no como hecho.
+- Su **modo minimo**, que a primera vista era el regimen de aislamiento ideal, saltea hooks y sincronizacion de plugins: desactiva el mecanismo por el que uno de los brazos se activa.
+- Existe una opcion que **carga un plugin desde un directorio solo para esa sesion**, que resuelve a la vez el estado residual, la ausencia de hash y la falta de pin de version.
+- El segundo harness **no tiene via no interactiva confirmada**: dos paginas de su documentacion oficial se contradicen entre si y el pedido sigue abierto en su repositorio, asignado y sin fecha.
+
+### Que se decidio y por que no la opcion contraria
+Un documento **propio** para el entorno, con spec y `ssot_level: SSOT` de un tema acotado —que puede hacer cada harness—, separado del diseño del experimento.
+
+La opcion contraria era escribirlo dentro del diseño de B-09, que ya existe y esta exento de spec. Se descarto por dos motivos. Primero, Principio I: el diseño dice **que se mide y con que reglas**, y esto dice **que permite el instrumento**; son dos preguntas distintas y fundirlas obliga a reeditar el diseño cada vez que cambia una version de harness. Segundo, ciclo de vida: el diseño se sella y no se toca, mientras esto es explicitamente vivo hasta el sello inicial. La otra opcion descartada era dejarlo como nota de sesion, exenta de spec por §Docs excluidos: se descarto porque va a usarse como instrucciones de corrida y porque el runbook de B-09 va a necesitar citarlo como origen, y un documento sin entrada no puede ser `deriva_de`.
+
+**La marca de procedencia por afirmacion es la parte que no es burocracia.** Cada linea declara si es del binario, de documentacion con URL y fecha, inferida por omision, o contradictoria entre fuentes. El motivo esta escrito en el propio documento: una lectura por omision presentada como verificada es por donde se cuela una premisa falsa al sello, y hay exactamente una de esas en el texto, marcada.
+
+### Que cambio
+- `SPECS_REGISTRY.md`: alta de la spec de `experimentos/b09-competencia-implementaciones/ENTORNO-HARNESS-B9.md` y fila nueva en la tabla SSOT.
+- `experimentos/b09-competencia-implementaciones/ENTORNO-HARNESS-B9.md`: documento nuevo.
+- `experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md`: dos decisiones que son de diseño y no de operacion —el brazo distribuido como plugin entra cargado por sesion desde un directorio local, desviacion declarada; y se descarta autenticar el segundo harness por clave de API porque cambiaria su familia de modelo, que es variable del experimento—, mas la entrada correspondiente en su registro de cambios.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR. El unico WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`, M-08).
+
+El backstop atrapo dos cosas que se habian pasado por alto y **las dos son el caso de uso para el que existe**: el encabezado de la primera version del documento nuevo anotaba `estado`, campo que vive en el registro; y el gate de commit bloqueo la entrega por cambiar metodo sin esta entrada.
+
+### Deuda abierta
+**Seis verificaciones empiricas quedan abiertas y el sello no puede apoyarse en ellas**, listadas al pie del documento nuevo. La mas importante es la lectura por omision del primer harness: si relocalizar la configuracion **si** corta la autenticacion, el regimen de aislamiento hay que rehacerlo entero.
+
+**El segundo harness queda admitido con una dependencia que no se sella** —autenticado una vez de forma interactiva, corriendo despues contra el almacen de credenciales de la maquina—. Cumple el criterio de que la credencial sea lo unico que cruza el aislamiento, pero cualquier lectura de replicacion que lo incluya MUST declararlo.
+
 ## M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas (2026-09-07) — COMPLETADA
 
 **Accion**: se corrige el instrumento de la seccion 5 de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` y se enmienda su spec. Entra al historial porque enmienda `SPECS_REGISTRY.md` (archivo de metodo), Principio VI. El contenido del documento cambia como consecuencia, no como hallazgo nuevo: no se leyo ninguna fuente que no estuviera ya en el documento.
