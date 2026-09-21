@@ -765,7 +765,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una; y **que paradigma encarna cada una**, derivado de esas mismas dimensiones. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una; y **que paradigma encarna cada una**, derivado de esas mismas dimensiones, mas **su nivel en la taxonomia de tres niveles de [R20]**, asignado por declaracion propia de cada fuente. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
@@ -778,6 +778,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - **el paradigma de cada caso (seccion 5)**, derivado de las dimensiones ya establecidas y de ninguna fuente nueva: que rol tiene la spec en la cadena spec→codigo, quien gana ante discrepancia entre spec y codigo, que verifica el enforcement y que se paga. Los cuatro predicados MUST ser uniformes: cada columna responde la **misma** pregunta para los seis casos. Es caracterizacion de cada caso por separado, **nunca** veredicto de convergencia, invariancia ni linaje
   - **la escala de vinculacion (seccion 5)**: tres niveles de que verifica el enforcement —nada mecanico, la forma del proceso, la correspondencia spec↔codigo— con los seis casos ubicados. Es un orden **descriptivo de grado de vinculacion**, MUST NOT presentarse como orden de calidad ni de idoneidad
   - **la prueba del nombre (seccion 5)**: si el nombre de un paradigma sigue nombrando algo real al quitarle la palabra «spec», ese paradigma no es privativo de SDD, y el documento MUST declararlo caso por caso
+  - **el encuadre externo de la seccion 5**: la taxonomia de tres niveles de [R20] —*spec-first*, *spec-anchored*, *spec-as-source*— aplicada a los seis casos. Es la **unica** subseccion de la seccion 5 que introduce fuente externa, y MUST declararlo; la restriccion de derivacion sigue rigiendo para los paradigmas, la tabla de cuatro columnas y la escala de vinculacion. El nivel de cada caso se asigna por **lo que la fuente declara de si misma**, con apoyo textual de su propia ficha; la ubicacion que hace un tercero se marca `[reportado]` y MUST NOT desplazar la declaracion propia — donde difieren, quedan escritas las dos. MUST declararse tambien donde este encuadre y el instrumento propio **no coinciden**
   - una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion
   - la advertencia, en el encabezado, de que ninguna fuente reporta medicion alguna
 - `excluye`:
@@ -797,6 +798,10 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] las cuatro columnas de la seccion 5 usan un predicado **uniforme**: ninguna contesta en una fila *cuando*, en otra *de que habla* y en otra *de quien es*. «Autoridad» se declara en un solo sentido —quien gana ante discrepancia spec↔codigo— y ninguna columna repite lo que dice otra
   - [ ] la escala de vinculacion ordena por **grado de vinculacion de la spec sobre el codigo**, no por calidad, y lo declara en la propia seccion; el hecho de que casi todo el corpus quede en el nivel mas bajo se escribe sin atenuar y sin convertirlo en veredicto
   - [ ] cada paradigma pasa por la prueba del nombre, y los que no son privativos de SDD lo declaran
+  - [ ] el encuadre externo declara que introduce fuente ([R20]) y que es la unica subseccion de la seccion 5 que lo hace; ningun paradigma, ninguna columna de la tabla de cuatro y ningun nivel de la escala de vinculacion se apoya en esa fuente
+  - [ ] cada nivel asignado sale de una declaracion de la propia fuente citada en su ficha; toda ubicacion de tercero va marcada `[reportado]`, y cuando contradice a la declaracion propia **las dos quedan escritas** en vez de elegir en silencio
+  - [ ] el encuadre externo declara que la taxonomia y la escala de vinculacion **no son el mismo eje** —autoridad contra comprobacion— y nombra donde cada una colapsa lo que la otra separa; la coincidencia entre ambas se declara lectura repetida del mismo mecanismo, no confirmacion
+  - [ ] el nivel externo **no** se presenta como orden de calidad ni como veredicto de convergencia
   - [ ] la seccion de paradigmas declara que la lista **no es una particion**: el caso que gobierna el trabajo del agente es ortogonal a los que gobiernan artefactos
   - [ ] toda afirmacion de D15 lleva `[reportado]`, cita [R47], [R48], [R49] o [R50], y **nunca** se presenta como medicion ni como proporcion de usuarios
   - [ ] las metricas de atencion (estrellas, forks, issues) declaran la fecha y el comando que las produce, y declaran que miden atencion y no uso

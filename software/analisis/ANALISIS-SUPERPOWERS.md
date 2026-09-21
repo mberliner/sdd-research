@@ -20,7 +20,9 @@ Importa por qué se la mira ahora. La afirmación de convergencia que este proye
 
 Spec Kit plantea que la spec es el artefacto primario que **genera** el código, y el código la última milla regenerable (`ANALISIS-SPEC-KIT.md`, Power Inversion). Superpowers no sostiene eso. Su spec es un documento de diseño fechado (`docs/superpowers/specs/YYYY-MM-DD-<tema>-design.md`) que produce un plan, y el plan produce código que después se mantiene: nada se regenera desde la spec.
 
-En la taxonomía de Piskala [R30] es **spec-anchored**, no *spec-as-source*. Esto importa para C3 de `ANALISIS-SPEC-KIT.md`, que dejaba abierta la tensión entre "spec como generador" y "spec como representación del conocimiento": Superpowers documenta que la posición intermedia se sostiene en un producto real y activo, no solo como concesión de un contexto sin CI.
+En la taxonomía de tres niveles [R20] es **spec-first**, no *spec-anchored* ni *spec-as-source*. Esto importa para C3 de `ANALISIS-SPEC-KIT.md`, que dejaba abierta la tensión entre "spec como generador" y "spec como representación del conocimiento": Superpowers documenta que **no regenerar** se sostiene en un producto real y activo, no solo como concesión de un contexto sin CI.
+
+> **Rectificación del nivel, 2026-09-20.** Este documento venía rotulando a Superpowers *spec-anchored* y atribuyendo la taxonomía a [R30]. Las dos cosas se corrigen. La fuente primaria es [R20] (`../../REFERENCIAS.md`), y la asignación estaba hecha **por contraste** —no es *spec-as-source*, entonces es *anchored*—, que es leer como binaria una taxonomía de tres valores. Por la definición textual del nivel, *anchored* exige que «the spec is kept even after the task is complete, to continue using it for evolution and maintenance», y acá el documento de diseño es fechado, no gobierna el trabajo siguiente y nada se deriva de él. El puntero `Spec:` de v6.3.0 lo vuelve autoridad **durante** la ejecución, no después: refuerza la vinculación dentro de la tarea, no la persistencia entre tareas. **Reserva:** de los seis casos ubicados en `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5, éste es el de asignación menos limpia, porque la fuente no declara ningún régimen de persistencia y el nivel sale de leer el mecanismo.
 
 ---
 
@@ -85,9 +87,9 @@ Lectura del mapeo: convergencia fuerte en lenguaje normativo y en validación de
 
 ## Conclusiones para Línea B
 
-### C1. La posición spec-anchored tiene un caso de producción
+### C1. La posición sin regeneración tiene un caso de producción
 
-C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers ocupa el punto medio deliberadamente y con producto vivo. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
+C3 de `ANALISIS-SPEC-KIT.md` dejó abierto hasta dónde conviene mover el entregable hacia "regenerable desde spec". Superpowers no regenera nada, y lo hace deliberadamente y con producto vivo. **Corregido el 2026-09-20:** su nivel es *spec-first* y no *spec-anchored*, así que el caso de producción que aporta es el de **no regenerar**, no el del punto medio de la taxonomía; los casos *anchored* del corpus entraron después —OpenSpec el 2026-08-02 y Kiro el 2026-09-05—. Sumado a que B-07 cerró sin ventaja del formato híbrido en regenerabilidad (`../../experimentos/b07-formato-hibrido/RESULTADO-EXPERIMENTO-B7.md`), refuerza que la posición intermedia de este proyecto es una elección defendible y no una carencia. **Candidata**, no cambio aprobado: no hay medición comparada entre las tres posiciones.
 
 ### C2. El circuito de aprendizaje puede correr sobre el método, no solo sobre las specs
 
@@ -154,7 +156,7 @@ El contraste con este repositorio es directo y vale escribirlo con precision, po
 
 **No se propone cambiar el Principio VII**: es constitucional, su enmienda tiene procedimiento propio, y ademas los dos diseños responden a riesgos distintos —ellos protegen una corrida autonoma larga, acá el riesgo es que el asistente interprete en silencio—. Lo que si es portable sin tocar nada es la **forma de tres campos del ruling**: nuestro marcador registra la pregunta y nada mas, y agregarle «que se asumio» y «que cuesta si esta mal» no relaja la obligacion de preguntar, la documenta mejor. Dado de alta como `../../agenda/MEJORAS-METODO.md` M-42.
 
-Nota aparte, que refuerza C1 sin cambiarla: los planes llevan ahora un puntero `Spec:` y la skill lee la spec al armar el trabajo. La spec pasa de documento de diseño fechado a autoridad consultada durante la ejecucion — **mas** spec-anchored que en v6.2.0, no menos, y sigue sin haber regeneracion.
+Nota aparte, que refuerza C1 sin cambiarla: los planes llevan ahora un puntero `Spec:` y la skill lee la spec al armar el trabajo. La spec pasa de documento de diseño fechado a autoridad consultada durante la ejecucion — **mas** vinculada que en v6.2.0, no menos, y sigue sin haber regeneracion. Eso no lo mueve de *spec-first*: la autoridad es durante la tarea, no despues (ver la rectificacion del 2026-09-20 en §Tesis central).
 
 [SDD-Check] — actualizacion 2026-09-05
 - Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)

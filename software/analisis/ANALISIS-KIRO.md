@@ -87,7 +87,7 @@ La posición declarada es explícita y bidireccional:
 
 Situada en las taxonomías que este repositorio ya usa:
 
-- En la de [R30]: **spec-anchored**, no *spec-as-source*. La spec sobrevive a la implementación y sirve para el cambio siguiente, pero el código no se regenera desde ella.
+- En la de [R20]: **spec-anchored**, no *spec-as-source*. La spec sobrevive a la implementación y sirve para el cambio siguiente, pero el código no se regenera desde ella. La asignación sale de la declaración de la fuente, citada arriba. **Divergencia con el tercero, declarada el 2026-09-20:** [R20] reserva *anchored* a Tessl entre los tres casos que analiza, así que ubica a Kiro por debajo. Es lectura fundada de su autor, no medición, y no desplaza la declaración propia: quedan escritas las dos (regla en `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5).
 - En los modelos de persistencia de [R10] (`spec-persistence.md`): **flow-back**, porque las ediciones pueden empezar en cualquier artefacto y después se reconcilian. Y con eso hereda el riesgo que esa fuente le atribuye al modelo, «silent divergence».
 
 Notable: Kiro es el único caso del corpus que declara la sincronización desde el código hacia la spec como camino previsto y soportado por la herramienta, en vez de como deriva a evitar.

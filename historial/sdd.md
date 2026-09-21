@@ -4,6 +4,47 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Los tres niveles de autoridad de la spec pasan de prosa suelta a eje declarado, con dueño único (2026-09-20) — COMPLETADA
+
+**Accion**: se enmienda la spec de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, se le agrega una subsección de encuadre externo, se fija la fuente primaria de la taxonomía en `REFERENCIAS.md` y se rectifican dos asignaciones que estaban mal o citadas a la fuente equivocada. Entra al historial porque enmienda una spec y fija una regla de cita, Principio VI.
+
+### Que se pidio
+Revisar las comparaciones entre frameworks y métodos de trabajo y decir si había lugar para agregar las categorías *spec-first*, *spec-anchored* y *spec-as-source*. Al ver la revisión, el usuario eligió tres de las cuatro opciones —mapeo en la sección 5, uniformar `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`, corregir atribución y Superpowers— y agregó una regla de método: **el nivel de cada caso se asigna por su propia descripción**, y las fuentes de terceros son opiniones fundadas de su autor.
+
+### Que se verifico antes de decidir
+Que la taxonomía **ya estaba en el repositorio** y el pedido no era incorporarla sino ubicarla. Estaba en `REFERENCIAS.md` con su definición textual, en prosa en ocho documentos, y en ninguna tabla comparativa. De ahí salieron cuatro hallazgos:
+
+- **Doble atribución sin regla.** `REFERENCIAS.md` declaraba a [R20] la fuente de la taxonomía; cuatro documentos la citaban a [R30]. Ninguna cita era falsa —las dos fuentes la traen— y nadie había declarado cuál era primaria.
+- **Se estaba usando como binaria.** «*spec-anchored*, no *spec-as-source*» aparecía como si el primer nivel no existiera, y así se asignó a Superpowers un nivel que su propio mecanismo no sostiene: documento de diseño fechado que no gobierna la tarea siguiente es *spec-first* por la definición textual del nivel.
+- **La sección 5 ya contestaba la misma pregunta con instrumento propio** —rol de la spec, quién gana ante discrepancia, escala N0/N1/N2— y nunca nombraba la taxonomía externa.
+- **La única población donde el eje discrimina es la de seis casos** de ese documento: dos *spec-first*, tres *spec-anchored*, uno *spec-as-source*.
+
+### Que se decidio y por que no la opcion contraria
+El eje entra en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5, con dueño único de la asignación, y **no** en `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
+
+La opción contraria era abrir fila en el instrumento de convergencia. Se descartó por sus propias reglas: agregar fila abre instrumento v2 y obliga a re-correr los cuatro casos (regla 3), y la fila **no discriminaría** —ninguna de las cuatro columnas regenera, y el único caso *spec-as-source* no toma columna por clase de evidencia—. Es el mismo argumento con que ese documento frena a su candidata más fuerte. Lo que sí se hizo allí es corregir una afirmación de prosa que llamaba *spec-anchored* a las cuatro columnas, mezclando dos niveles.
+
+En `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` se eligió **puntero sin valor** en vez de repetir el nivel por entrada: reproducir la asignación en dos documentos es exactamente la colisión que el Principio I prohíbe.
+
+**La regla de asignación es la parte que no es etiquetado.** El nivel sale de lo que la fuente declara de sí misma, con apoyo textual de su ficha; la ubicación de un tercero se marca `[reportado]` y no desplaza la declaración propia. Donde difieren, quedan escritas las dos — y hay un caso así: [R20] reserva *anchored* a Tessl entre los tres que analiza, de modo que ubica a Kiro por debajo de lo que Kiro declara.
+
+### Que cambio
+- `SPECS_REGISTRY.md`: spec de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` enmendada por quinta vez — `proposito` suma el nivel por caso, `incluye` suma el bullet del encuadre externo con su regla de asignación, y `validacion` suma cuatro casillas.
+- `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: subsección nueva en §5 con la tabla de seis casos, la regla de asignación y las cuatro divergencias entre este encuadre y el instrumento propio.
+- `REFERENCIAS.md`: [R20] queda declarada **fuente primaria** de la taxonomía y [R30] concurrente; la relevancia de [R37] se rectifica de *spec-anchored* a *spec-first*.
+- `software/analisis/ANALISIS-SUPERPOWERS.md`: nivel rectificado con nota fechada, título de C1 y su cuerpo corregidos —el caso de producción que aporta es el de no regenerar, no el del punto medio—, y la nota del puntero `Spec:` acotada.
+- `software/analisis/ANALISIS-KIRO.md`: cita movida de [R30] a [R20] y divergencia con el tercero declarada.
+- `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: precisión de prosa; el instrumento **sigue en v1** y ningún veredicto cambia.
+- `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`: puntero único al dueño de la asignación; se quitan las dos menciones sueltas.
+
+### Como se valido
+`tools/check_docs.py`: 0 ERROR. El único WARN es preexistente y ajeno (emoji en `experimentos/b07-formato-hibrido/PREREG-B7.md`, M-08). Cada nivel asignado se verificó contra la definición textual de [R20] y contra la cita que ya estaba en la ficha del caso, no contra la etiqueta que el repositorio venía usando.
+
+### Deuda abierta
+La asignación de Superpowers es la **menos limpia de las seis** y queda declarada como tal: la fuente no declara régimen de persistencia y el nivel sale de leer el mecanismo. Los tres niveles **no se aplicaron a Línea A**: no existe encuadre para documentos ni caso conocido de *doc-as-source*, y la pregunta no está dada de alta en `agenda/BACKLOG-INVESTIGACION.md`. `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` sigue **sin entradas para Kiro y Tessl**, así que su puntero remite a una asignación de seis casos desde un documento que lista tres.
+
+---
+
 ## Alta de ENTORNO-HARNESS-B9: lo que el harness puede hacer se separa de lo que el experimento decide (2026-09-09) — COMPLETADA
 
 **Accion**: se registra una spec nueva en `SPECS_REGISTRY.md` y se da de alta el documento que describe. Entra al historial porque toca un archivo de metodo, Principio VI. No hay hallazgo de investigacion: es relevamiento de instrumento.
