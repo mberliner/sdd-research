@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## La orientación práctica deja de decir que combinar Superpowers sale gratis, y deja de atribuirle a Spec Kit un puente ajeno (2026-09-30) — COMPLETADA
+
+**Acción**: corrección de dos afirmaciones de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, que es SSOT, señaladas al leer el informe externo sobre la combinación Spec Kit + Superpowers.
+
+### Qué estaba mal
+- **§6, cuarta advertencia**: decía que combinar Superpowers con otro caso «no es contradictorio». Es cierto en el paradigma y falso en las reglas: con Spec Kit chocan cinco reglas escritas (dos compuertas de diseño, dos formatos de plan, tests opcionales contra TDD obligatorio, posturas opuestas ante la ambigüedad, dos motores de ejecución).
+- **La misma frase** decía que «la propia Spec Kit publica una extensión puente». Son tres extensiones de terceros en su catálogo de comunidad, ninguna verificada, y Spec Kit declara que listar no es respaldar.
+
+### Qué cambió
+- §6: la advertencia enumera las cinco fricciones, cada una con la regla de la fuente que la produce y puntero al SSOT que la caracteriza, y corrige la autoría de las extensiones.
+- §5: la advertencia de ortogonalidad remite a §6 en vez de repetir la lista.
+- `[SDD-Check]` propio al final del documento.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). Cada fricción se verificó en el clon, y el informe externo no se cita.
+
+### Deuda abierta
+- Los conteos de Superpowers en la ficha y en §6 (14 skills y 14 harnesses; hoy 15 y 16) y los datos de madurez de todas las fichas son del corte del 2026-09-05. Se difieren a una re-medición completa de D9 y D10, para no mezclar fechas.
+- La práctica propia de Spec Kit (`analisis/ANALISIS-SPEC-KIT.md` C8) sigue señalada para §5.
+- Las tres extensiones puente, sin leer.
+
+---
+
 ## Convergencia queda con los cuatro casos en un solo corte (2026-09-30) — COMPLETADA
 
 **Acción**: propagación de las re-consultas de OpenSpec y sdd-first a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`. La entrega de convergencia de más temprano, ese mismo día, había dejado dos columnas en el corte del 2026-09-05 y dos en el nuevo; con esta, las cuatro quedan en el mismo.

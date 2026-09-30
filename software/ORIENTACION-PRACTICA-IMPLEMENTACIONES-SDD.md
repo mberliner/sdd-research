@@ -334,7 +334,7 @@ Esa coincidencia entre la prueba del nombre y la escala de vinculación **no es 
 
 - **Un paradigma no es un juicio de calidad.** Son respuestas distintas a preguntas distintas. Nada de lo anterior dice cuál conviene, y este documento no tiene con qué decirlo (§7).
 - **La escala de vinculación sí es un orden, y hay que leerla como lo que es.** Ordena por grado de vinculación de la spec sobre el código, que es descriptivo y verificable en el mecanismo. No ordena por calidad, y la sección lo declara en su propio cierre. Es la única parte de este documento que ordena los seis casos en una línea, y por eso es la más fácil de citar mal.
-- **La lista no es una partición.** Superpowers gobierna el trabajo del agente y los otros cinco gobiernan artefactos: es **ortogonal** a ellos, no una alternativa. Combinarlo con cualquiera de los otros es coherente con ambos paradigmas.
+- **La lista no es una partición.** Superpowers gobierna el trabajo del agente y los otros cinco gobiernan artefactos: es **ortogonal** a ellos, no una alternativa. Combinarlo con cualquiera de los otros es coherente con ambos paradigmas; coherente no quiere decir sin fricción, y lo que choca en la práctica está en §6.
 - **Esto no es un veredicto de convergencia**, y la escala de vinculación es donde más cerca pasa: agrupar tres casos en N0 se parece a afirmar que comparten algo. **No lo afirma.** Dice que a tres mecanismos distintos, leídos con el mismo criterio, les corresponde el mismo nivel de comprobación — que es una propiedad de cada uno por separado, no un vínculo entre ellos. Si convergen, derivan uno de otro o comparten linaje se decide con otro instrumento y otra población, en `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
 
 ---
@@ -395,7 +395,14 @@ Derivada de mecanismos declarados, **no de medición**. Si dos opciones parecen 
 
 Cuatro advertencias sobre esta tabla `[derivado]`:
 
-- **Las filas no son excluyentes.** Superpowers gobierna el trabajo del agente y los otros tres gobiernan artefactos: combinarlo con cualquiera de ellos no es contradictorio, y la propia Spec Kit publica una extensión puente hacia él.
+- **Las filas no son excluyentes, pero combinarlas no sale gratis.** Superpowers gobierna el trabajo del agente y los otros tres gobiernan artefactos, así que combinarlo con cualquiera de ellos es coherente en el paradigma. En la práctica, con Spec Kit —el único par cuyos mecanismos están leídos de los dos lados— chocan cinco reglas escritas, y ninguna bloquea la ejecución, pero todas le quitan algo:
+  - **Dos compuertas de diseño.** `using-superpowers` manda pasar por `brainstorming` antes de planificar y ante un pedido del tipo «Let's build X» (`skills/using-superpowers/SKILL.md`) [R37], y `brainstorming` escribe su propio documento de diseño. Sin una instrucción del proyecto que lo impida, el agente puede reabrir el diseño que `spec.md` ya cerró. La salida la da la propia fuente: las instrucciones del usuario (`AGENTS.md`, `CLAUDE.md`) «take precedence over skills».
+  - **Dos formatos de plan.** El `tasks.md` de Spec Kit no trae lo que el plan de Superpowers lleva desde v6.4.1 —la sección `Review Focus` y los pasos de test explícitos—; sin esa sección, los modos de falla que la spec implica sin nombrar quedan sin revisión explícita (`analisis/ANALISIS-SUPERPOWERS.md` C9).
+  - **Tests opcionales contra TDD obligatorio.** Spec Kit sólo genera tareas de test si se piden [R10]; Superpowers aplica TDD a toda tarea. Sin pedir tests en Spec Kit, Superpowers los escribe igual, pero sin la guía de la spec sobre qué probar (`CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, dimensión «si el método obliga a que el verificador sea un test»).
+  - **Posturas opuestas ante la ambigüedad.** Una ambigüedad que sobrevive a `/speckit.clarify` no vuelve al humano en ejecución: Superpowers la decide y la registra como `Ruling:` (fila 3 de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`). Si se combinan, esos registros son lo que hay que revisar al cerrar.
+  - **Dos motores de ejecución.** `/speckit.implement` y las skills de ejecución de Superpowers hacen el mismo trabajo; hay que elegir uno y declararlo.
+
+  Para ese puente hay tres extensiones de **terceros** en el catálogo de comunidad de Spec Kit —`speckit-superpowers-bridge`, `superb` y `superspec`—, ninguna marcada como verificada (`extensions/catalog.community.json`) [R10]. Spec Kit las lista, no las publica: «Catalog discovery does not audit or endorse community code» (`docs/guides/agentic-sdlc.md`). Ninguna se leyó.
 - **La columna «caso» no dice «el mejor».** Dice cuál tiene un mecanismo escrito para esa situación. Que exista el mecanismo no dice que funcione.
 - **D15 no ordena por calidad.** Un caso sin reportes no es limpio: es desconocido. Y el caso con más atención acumulada es también el que reúne el rechazo más explícito.
 - **Los dos casos cerrados están peor verificados que los cuatro abiertos**, y no por casualidad. Sus filas salen de lo que declara su documentación —y en Tessl, el rasgo principal, de un tercero—; las de los demás, de leer archivos. Esa asimetría es consecuencia de D13 y hay que tenerla presente al comparar: no dice que sean peores, dice que se sabe menos de ellos.
@@ -453,3 +460,15 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 - Cobertura: completa para lo pedido — los seis casos tienen nivel, regla de asignacion y divergencias declaradas. **Hueco declarado**: los tres niveles no se aplican a Linea A, y la pregunta no esta dada de alta en ningun backlog
 - Deuda arrastrada: la asignacion de Superpowers es la **menos limpia de las seis** —la fuente no declara persistencia y el nivel sale del mecanismo—; `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` no tiene entradas para Kiro ni Tessl, asi que su puntero remite a seis casos desde un documento que lista tres; sigue entera la deuda del bloque anterior, incluida la espera del resultado de B-09
 - Riesgos/reservas: el eje nuevo es **el mas facil de citar como jerarquia de calidad** de todo el documento, y por eso lo niega en su cierre y lo repite la escala de vinculacion; el nivel de Tessl es mas alto que el que le da la unica fuente de tercero que lo observo, y eso queda escrito en su propia fila; la asignacion la hizo la misma mano que escribio los paradigmas, asi que la coherencia entre los dos instrumentos es interna y no evidencia
+
+---
+
+[SDD-Check] — combinabilidad de Superpowers 2026-09-30
+- Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md`; sin enmienda: la advertencia cae en «orientación por escenario, marcada como derivada de mecanismos declarados»)
+- Incluye/Excluye verificado: SI — las fricciones se enuncian con puntero a su SSOT (`analisis/ANALISIS-SUPERPOWERS.md` C9, `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` fila 3 y dimensión de tests) sin reproducirlos; no hay decisión de adopción
+- Validaciones aplicadas: cada fricción sale de una regla leída en el clon ([R10] en `d2ddd910`, [R37] en `8ca22db`), citada con su archivo; las tres extensiones puente se verificaron en el catálogo de comunidad, con autor y estado de verificación; se corrige la afirmación de que Spec Kit publica la extensión; el informe externo que señaló las fricciones no se cita ni sostiene ninguna
+- SSOT afectado: este documento
+- Derivados a revisar: ninguno registrado
+- Cobertura: completa para las dos afirmaciones de combinabilidad (§5 y §6); las fricciones se declaran sólo para el par Spec Kit + Superpowers, el único con mecanismos leídos de los dos lados
+- Deuda arrastrada: la ficha de Superpowers y la tabla de §6 siguen diciendo 14 skills y 14 harnesses (hoy 15 y 16), y los datos de madurez de todas las fichas son del 2026-09-05: actualizar sólo los conteos mezclaría fechas de medición, así que se difiere a una re-medición completa de D9 y D10, con corte nuevo; la práctica propia de Spec Kit (`analisis/ANALISIS-SPEC-KIT.md` C8) queda señalada para §5 sin incorporar; las tres extensiones puente sin leer
+- Riesgos/reservas: las fricciones son `[derivado]` de reglas escritas, no observadas corriendo los dos sistemas juntos; ninguna fuente reporta cuánto degrada el resultado cada una
