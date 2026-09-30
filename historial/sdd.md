@@ -4,6 +4,29 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Convergencia se re-corre contra Spec Kit y Superpowers; «el verificador tiene que ser un test» queda registrada fuera del instrumento (2026-09-30) — COMPLETADA
+
+**Acción**: propagación de las dos re-consultas del mismo día a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que es SSOT. El instrumento sigue en v1.
+
+### Qué cambió
+- **Tres celdas de la columna Superpowers**: fila 3 (la regla de no frenar cubre los dos modos de ejecución), fila 5 (`Review Focus` mapea lo que la spec implica, no lo que declara) y fila 8 (16 harnesses). Ningún veredicto se da vuelta. Firmado en §Qué cambió al re-consultar Spec Kit y Superpowers.
+- **Una dimensión nueva fuera de la tabla**: si el método obliga a que el verificador sea un test. Spec Kit la exige en el manifiesto y la vuelve opcional en la plantilla; Superpowers la exige siempre; OpenSpec (en su anclaje) exige un verificador por tarea sin que tenga que ser un test; nuestro linaje la exige por script en el código y acá no aplica. Registrada por la regla 2, con dos reservas: solapa con la fila 5 y nació de un contraste ya conocido.
+- **Una observación sobre la fila candidata a v2**: Superpowers ahora multiplica las aprobaciones en el camino pesado. Roza la parte (b) de la definición operacional sin cumplir el disparador, que pide un quinto caso.
+- **Una lectura cruzada sin veredicto**: Spec Kit no conserva sus propias specs y OpenSpec se desarrolla sobre las suyas.
+
+### Por qué no se abrió una fila
+El informe externo que motivó la revisión planteaba el contraste de tests como hallazgo, y la tentación era sumarlo a la tabla. La regla 2 del propio documento lo prohíbe, precisamente para casos así: una fila fabricada después de ver el contraste garantiza que los casos que la motivaron se separen en ella.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). OpenSpec se citó en `e062b95` con `git show`, porque su clon se movió y todavía no se re-ancló.
+
+### Deuda abierta
+- **Decisión del usuario, abierta**: si la observación sobre la compuerta de Superpowers obliga a re-leer la definición operacional de la fila candidata.
+- OpenSpec y sdd-first sin re-anclar; sus celdas describen el 2026-09-05.
+- Señalados sin modificar: `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5 y líneas 337 y 398; M-42.
+
+---
+
 ## Diff dirigido de Spec Kit [R10] v1.0.14.dev0: la fuente se usa a sí misma en una feature y no conserva sus specs (2026-09-30) — COMPLETADA
 
 **Acción**: re-anclaje y diff dirigido de Spec Kit entre `4a7341a` (v1.0.5.dev0, 2026-09-04) y `d2ddd910` (v1.0.14.dev0, 2026-09-30), 172 commits, contra `software/analisis/ANALISIS-SPEC-KIT.md`, que es SSOT. Segunda de las dos re-consultas que disparó el mismo informe externo (ver la entrada siguiente, de Superpowers).
