@@ -4,6 +4,26 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de sdd-first [R39] `0e09037`: adopción en brownfield «de acá en adelante» (2026-09-30) — COMPLETADA
+
+**Acción**: re-anclaje y diff de sdd-first entre `4a0851e` (2026-09-03) y `0e09037` (2026-09-07), contra `software/analisis/ANALISIS-SDD-FIRST.md`. Es parte de dejar las cuatro fuentes del corpus en el mismo corte: Spec Kit y Superpowers se re-anclaron más temprano el mismo día, y dejar dos atrás habría mezclado cortes en la tabla de convergencia.
+
+### Qué se encontró
+Un commit, un archivo: una sección del `README.md` sobre adopción en proyectos existentes, sin specs retrospectivas y con el gate cubriendo sólo el trabajo nuevo. Es la posición contraria a la de los casos que levantan specs del código existente. Ninguna conclusión se mueve.
+
+### Qué cambió
+- `software/analisis/ANALISIS-SDD-FIRST.md`: encabezado con el cuarto anclaje y §Actualización 2026-09-30.
+- `REFERENCIAS.md`: [R39] gana el anclaje a `0e09037`.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR).
+
+### Deuda abierta
+- Lo que el README afirma del instalador no se verificó ejecutándolo.
+- Falta OpenSpec para completar el corte.
+
+---
+
 ## Convergencia se re-corre contra Spec Kit y Superpowers; «el verificador tiene que ser un test» queda registrada fuera del instrumento (2026-09-30) — COMPLETADA
 
 **Acción**: propagación de las dos re-consultas del mismo día a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que es SSOT. El instrumento sigue en v1.

@@ -3,7 +3,8 @@
 Fecha: 2026-08-15.
 Fuente: sdd-first v0.1.0, commit `ebfbd67` (2026-08-14), rama `main`, árbol limpio [R39]. Clon vendored en `../../fuentes-externas/sdd-first/`.
 Re-consultado el 2026-08-30 en el commit `f032dce` (2026-08-17). El delta se lee en §Lo que el kit destiló después y en C7.
-Re-consultado el 2026-09-05 en el commit `4a0851e` (2026-09-03). El delta se lee en §Los ocho arreglos que siguieron y en C8. El resto del documento vale para el commit original.
+Re-consultado el 2026-09-05 en el commit `4a0851e` (2026-09-03). El delta se lee en §Los ocho arreglos que siguieron y en C8.
+Re-consultado el 2026-09-30 en el commit `0e09037` (2026-09-07). El delta se lee en §Actualización 2026-09-30. El resto del documento vale para el commit original.
 Alcance: Línea B (software).
 
 ---
@@ -197,3 +198,23 @@ Qué vale y qué no vale de esto, porque la diferencia es grande:
 - Cobertura: completa - las siete conclusiónes mapean a filas del mapeo o a secciones de caracterizacion, y cada una declara si es lectura, candidata o cambio; las candidatas tienen ID de destino en `../../agenda/MEJORAS-METODO.md` (M-15/M-16/M-17 en la entrega original; M-32 y M-33 en el delta) y la mitad de investigacion de C7 tiene item propio en `../../agenda/BACKLOG-INVESTIGACION.md` #19; C8 tiene destino en M-40 y declara explicitamente que su mitad de evidencia NO se cierra aca
 - Deuda arrastrada: la de `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` sigue intacta y este documento no la toca (Kiro sin leer, dimension «como llega el metodo al agente» sin veredicto, corpus observacional de OpenSpec sin dar de alta, tercer eje propuesto y sin cerrar); se agrega una propia: **por que el kit dejo caer `[NEEDS CLARIFICATION]` no esta declarado en la fuente y este analisis no lo resuelve**; y M-15/M-16/M-17 quedan en Propuesta, sin aprobacion; se agrega otra: **el hueco de `PATRONES.md` del lado del canal de error —ninguna de sus ocho clases cubre un rojo que no significa nada— queda declarado en C8 y sin resolver**, y quien porte la taxonomia lo hereda
 - Riesgos/reservas: el analisis lee documentos, specs, config e historial del clon, sin correr `sdd_init.py` ni el pipeline, asi que las capacidades descritas son las declaradas por la fuente y no verificadas por ejecucion; la fuente es del mismo autor que este repositorio, con sesgo de confirmacion estructural y no solo probable, y por eso ninguna de sus coincidencias se cuenta como evidencia; el clon vendored es un directorio de trabajo vivo, no un snapshot congelado, asi que la lectura vale para el commit declarado y puede desactualizarse sin aviso; la coincidencia de C8 es debil por construccion (n=8, clasificacion post-hoc de una sola persona con incentivo a que encaje) y MUST NOT citarse como validacion de la taxonomia
+
+---
+
+## Actualización: revisión contra el commit `0e09037` (2026-09-30)
+
+Un solo commit después de `4a0851e`: `0e09037` (2026-09-07), que agrega 62 líneas al `README.md` y no toca nada más (`git diff --stat 4a0851e..HEAD`, un archivo). Ninguna conclusión se mueve, C1-C8 incluidas.
+
+Lo que agrega es una postura de adopción en proyectos existentes, y su regla central es: «No necesitás escribir specs retrospectivas para el código que ya funciona. La disciplina spec-first entra en vigencia a partir del momento en que instalás el kit». Lo previo convive sin spec, y el gate sólo cubre el trabajo nuevo.
+
+Vale registrarlo porque es la posición contraria a la de los casos que levantan specs de lo que ya existe —`/speckit.converge` en Spec Kit, `@describe` en Tessl—, que `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 ter cuenta como camino de adopción en brownfield. **Lectura, no candidata.** Y dos reservas: es texto de README sin código nuevo detrás —las capacidades que menciona, como la autodetección de carpetas de código y de tests por el instalador, no se verificaron ejecutando `sdd_init.py`—, y la fuente es del mismo autor que este repositorio.
+
+[SDD-Check] — actualizacion 2026-09-30
+- Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — la postura de adopción se registra como lectura; la comparación con los otros casos queda señalada a su documento, no hecha acá
+- Validaciones aplicadas: diff sobre el árbol completo (un archivo); cita textual del `README.md` en `0e09037`; lo que el README afirma del instalador se declara no verificado
+- SSOT afectado: ninguno (doc operativo)
+- Derivados a revisar: ninguno registrado. Señalado sin modificar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 ter (adopción en brownfield)
+- Cobertura: completa — el delta es un único archivo y queda leído entero
+- Deuda arrastrada: la del documento sigue intacta
+- Riesgos/reservas: fuente del mismo autor que este repositorio; la postura es declarada, sin uso reportado en un proyecto existente
