@@ -4,6 +4,34 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de Superpowers [R37] v6.4.2: el humano pasa al principio y la ejecución deja de pausar (2026-09-30) — COMPLETADA
+
+**Acción**: re-anclaje y diff dirigido de Superpowers entre `b36e082` (v6.3.0, 2026-08-12) y `8ca22db` (v6.4.2, 2026-09-25) contra `software/analisis/ANALISIS-SUPERPOWERS.md`, en una sola entrega porque son dos commits de release.
+
+### Por qué ahora
+Nadie hizo `git pull` a propósito: el clon ya estaba en v6.4.2 y `REFERENCIAS.md` seguía anclando v6.3.0. Se detectó porque un informe externo sobre la combinación Spec Kit + Superpowers, ajeno al repositorio, citaba el clon en esa versión. Es el modo de falla que la entrada del 2026-09-05 sobre el re-anclaje dejó escrito como deuda —«los cuatro clones son directorios vivos y pueden volver a moverse sin aviso»— y se cumplió. El informe no se usa como fuente: todo lo que se incorporó se leyó en el clon.
+
+### Qué se encontró
+La tesis no se mueve y las skills pasan a ser 15. Dos conclusiones nuevas:
+
+- **C8** — la aprobación humana se parte por etapas (spec, plan, modo de ejecución) y se concentra antes de ejecutar; `executing-plans` se reconstruye sin pausas y con «Rulings, not stalls». C7 pasa de ser la regla de una skill a ser el régimen de los dos modos de ejecución. Suma una segunda instancia de forma a M-42 (`brainstorming` separa lo dicho de lo asumido).
+- **C9** — el plan registra decisiones en vez de transcribir código, y lleva `Review Focus`: hasta cinco modos de falla que la spec implica y ningún test cubre, con una regla contra la sección vacía por omisión. Es la pregunta simétrica a nuestro campo `Cobertura`; queda como lectura.
+
+### Qué cambió
+- `software/analisis/ANALISIS-SUPERPOWERS.md`: §Actualización 2026-09-30 con C8, C9, lo no caracterizado y su `[SDD-Check]`.
+- `REFERENCIAS.md`: [R37] gana el anclaje a `8ca22db`.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). `git diff --stat` sobre el árbol completo antes de abrir archivos (borrador de M-41); cada cita es textual y declara su archivo en el clon.
+
+### Deuda abierta
+- **La versión del brazo T4 de B-09 no está fijada** en el diseño, que sigue sin sellar; el clon se movió dos releases entre el diseño y hoy.
+- **Tampoco se asentaron los otros clones**: Spec Kit (172 commits después de `4a7341a`; va en la entrega siguiente), OpenSpec (123 commits después de `e062b95`) y sdd-first (1 commit después de `4a0851e`).
+- Señalado sin verificar para M-43: la fuente afirma que Claude Code lee `AGENTS.md` sólo si no existe `CLAUDE.md`.
+- Siguen abiertas M-40, M-41 y M-42; cuánto cuesta frenar sigue sin medirse.
+
+---
+
 ## Los tres niveles de autoridad de la spec pasan de prosa suelta a eje declarado, con dueño único (2026-09-20) — COMPLETADA
 
 **Accion**: se enmienda la spec de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, se le agrega una subsección de encuadre externo, se fija la fuente primaria de la taxonomía en `REFERENCIAS.md` y se rectifican dos asignaciones que estaban mal o citadas a la fuente equivocada. Entra al historial porque enmienda una spec y fija una regla de cita, Principio VI.

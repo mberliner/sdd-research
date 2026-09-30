@@ -167,3 +167,48 @@ Nota aparte, que refuerza C1 sin cambiarla: los planes llevan ahora un puntero `
 - Cobertura: completa — C6 y C7 tienen destino declarado (M-37 como lectura, M-42 como candidata), y el refuerzo de C1 y C4 se registra sin abrir item porque no pide nada
 - Deuda arrastrada: la del documento original sigue intacta; se agrega una: **cuanto cuesta frenar no esta medido acá**, y sin ese dato el contraste de C7 describe dos diseños sin poder compararlos. Sigue abierto de las entradas previas: M-40 sin decidir, M-41 sin escribir, `RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar
 - Riesgos/reservas: la lectura sale de las skills y las release notes del clon, sin correr el sistema; la fuente es autoreportada, con interes comercial y sin peer review; el mapeo de C6 contra nuestra tabla de profundidad compara dos cosas que clasifican objetos distintos —trabajo contra documento— y eso queda escrito en la propia conclusion para que no se porte la forma sin el mecanismo
+
+---
+
+## Actualización: revisión contra Superpowers v6.4.2 (2026-09-30)
+
+Clon vendored movido v6.3.0 `b36e082` (2026-08-12) → v6.4.2 `8ca22db` (2026-09-25), dos commits de release: v6.4.1 (2026-09-18; la v6.4.0 no se publicó) y v6.4.2. Diff sobre el árbol completo, siguiendo el borrador de M-41: 81 archivos, +5668 / −487 líneas. **La tesis central no se mueve**: el documento de diseño sigue siendo fechado y el plan se sigue guardando en `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md` (`skills/writing-plans/SKILL.md`); nada se regenera desde la spec y el nivel sigue siendo *spec-first*. Las skills pasan de 14 a **15** —entra `diagnosing-superpowers`— y los harnesses de 14 a **16** (Qwen Code y Muse; OpenCode 2.0 es una versión nueva de uno que ya estaba).
+
+Qué disparó esta revisión, para que quede registrado: no fue un `git pull` deliberado sino un informe externo sobre la combinación Spec Kit + Superpowers (fuera del repositorio, sin `[Rxx]`) que citaba el clon en v6.4.2. El clon se había movido sin que ninguna entrada lo asentara. El informe no se usa como fuente: cada afirmación de esta sección se leyó en el clon.
+
+### C8. La aprobación humana se parte por etapas y se concentra antes de ejecutar; la ejecución se queda sin humano
+
+Tres cambios que, leídos juntos, mueven al humano del medio del trabajo hacia el principio:
+
+1. **Cada aprobación vale sólo para la etapa que se presentó.** `brainstorming` lo escribe así: «A reply approves the stage actually presented. Approval of an idea or feature scope does not approve artifacts that do not exist yet», y en el camino *architectural* separa tres aprobaciones —spec escrita, plan escrito, elección del modo de ejecución— donde antes había una. El caso que la fuente da como motivo: una sesión tomó «that scope is ok» como permiso para generar el andamiaje (`RELEASE-NOTES.md`, v6.4.1).
+2. **El plan se revisa ya guardado, antes de correr** (`RELEASE-NOTES.md`, v6.4.1: «You review the saved plan before anything runs»).
+3. **Y una vez que corre, no para.** `executing-plans` se reconstruyó —en `b36e082` era un stub de 64 líneas— y ahora declara «Continuous execution: Do not pause to check in with your human partner» y adopta la misma regla «Rulings, not stalls» que C7 leyó en `subagent-driven-development` (`skills/executing-plans/SKILL.md`). Las decisiones tomadas se listan en el mensaje final bajo «Rulings I made».
+
+C7 describía una regla de una skill; ahora es el régimen de los dos modos de ejecución, y viene acompañado de más compuertas del lado del diseño. El contraste con nuestro Principio VII se vuelve más nítido y no cambia de signo: allá el humano decide todo lo que puede antes y nada después; acá el asistente pregunta cuando aparece la ambigüedad, sin importar la fase. **No se propone nada nuevo**: la lectura sigue siendo la de C7 y su destino sigue siendo M-42.
+
+Un detalle que sí suma a M-42: el paso 2 de `brainstorming` pide ahora «Separate what they said from assumptions» al devolver lo entendido (`skills/brainstorming/SKILL.md`). Es la segunda vez que la fuente escribe por separado lo afirmado y lo asumido, que es justo lo que M-42 propone agregarle al marcador `[NEEDS CLARIFICATION]`. Es un refuerzo de forma, no evidencia de que funcione.
+
+### C9. El plan deja de ser una transcripción del código y declara lo que ningún test cubre
+
+`writing-plans` cambió de premisa en v6.4.2. El plan ahora registra decisiones —firma exacta, archivo, aserciones del test, valores de la spec— y sólo incluye el cuerpo del código cuando esas decisiones no lo determinan. Su lector ya no es «zero context [...] questionable taste» sino un ingeniero capaz, y el paso deja de medirse en «2-5 minutes» para pasar a ser «one action with a checkable result». La fila 2 de la tabla de §Flujo de trabajo describe el snapshot de v6.2.0 y queda como estaba; esta nota es la que dice qué cambió.
+
+La pieza portable es otra. El plan lleva una sección **`## Review Focus`**: hasta cinco clases de entrada o modos de falla que la spec implica y que ningún test de ninguna tarea ejercita, y cada línea de la sección obliga a agregar su test en la tarea dueña del código. La regla de autorrevisión cierra el hueco obvio: «An empty section means you checked and found none, not that you skipped the check» (`skills/writing-plans/SKILL.md`). La fuente lo motiva con un eval propio en el que todos los implementadores entregaron el mismo crash ante una entrada que la spec implicaba sin nombrarla (`RELEASE-NOTES.md`, v6.4.1). Como los demás evals de la fuente, es autoreportado y **MUST NOT citarse como evidencia de efectividad**. Lo mismo vale para las cifras que acompañan los cambios: 9/9 contra defectos plantados en v6.4.2, y 11 de 12 corridas que sólo ejecutaban el archivo de test nombrado en v6.4.1.
+
+Por qué importa acá: nuestro campo `Cobertura` del `[SDD-Check]` pregunta qué requisito declarado quedó sin derivado. `Review Focus` hace la pregunta simétrica —qué implica la spec sin nombrarlo y quedó sin verificador— y le pone un tope (cinco) y una regla contra la sección vacía por omisión. **Lectura, no candidata**: el campo es SSOT de `../../AGENTS.md`, y cambiarlo es un cambio de método con procedimiento propio.
+
+### Lo que el delta agrega y este análisis no caracteriza
+
+- **`diagnosing-superpowers`**: lee las transcripciones de una sesión desde disco y reporta qué salió mal, con evidencia `path:line` en cada hallazgo. No se caracteriza: es herramienta de soporte del producto, no método de SDD.
+- **El controlador anidado** de `subagent-driven-development` en Claude Code, que corre sobre un modelo intermedio y, según la fuente, cuesta la mitad. Es una variante de costo y no mueve ninguna conclusión.
+- **La afirmación sobre Claude Code** con la que la fuente justifica haber borrado su `CLAUDE.md`: «Claude Code now reads `AGENTS.md` directly, but only when no `CLAUDE.md` exists» (`RELEASE-NOTES.md`, v6.4.2). Toca la arquitectura de nuestro propio protocolo (`../../CLAUDE.md` importa `../../AGENTS.md`), pero **no se verificó** y la fuente no dice cómo la comprobó. Queda señalada para M-43, sin propuesta.
+- La prohibición de despachar subagentes de implementación en paralelo («Never dispatch multiple implementation subagents in parallel (conflicts)», `skills/subagent-driven-development/SKILL.md`) **no es del delta**: ya estaba en `b36e082`. Se registra porque el informe que disparó esta revisión la presentaba como corrección a otra fuente, y la ejecución secuencial no figuraba en este documento.
+
+[SDD-Check] — actualizacion 2026-09-30
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — C8 y C9 caen en «conclusiónes accionables para Linea B» y cada una declara si es candidata o lectura; la lectura cruzada con Spec Kit no se hace acá (vive en `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`)
+- Validaciones aplicadas: diff sobre el árbol completo con `git diff --stat b36e082..HEAD` antes de abrir ningún archivo (borrador de M-41); la no-invalidación de la tesis se verificó en la skill que fija dónde vive el plan, no en las release notes; toda cita es textual y declara su archivo en el clon; cada cifra de la fuente lleva su reserva al lado; lo que afirmaba el informe externo se verificó en el clon antes de usarlo, y el informe no se cita
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../../agenda/MEJORAS-METODO.md` M-42 (C8 le suma una segunda instancia de la forma) y M-43 (la afirmación sin verificar sobre `CLAUDE.md`); `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md` fila 3, cuya celda de Superpowers habla de «ejecución» y ahora la regla cubre los dos modos
+- Cobertura: completa — C8 y C9 tienen destino (M-42 y la lectura sobre `Cobertura`); lo no caracterizado queda listado con su motivo
+- Deuda arrastrada: **cuánto cuesta frenar sigue sin medirse acá**, y C8 lo vuelve más visible; la versión del brazo T4 de B-09 no está fijada en el diseño; siguen abiertas M-40, M-41 y M-42
+- Riesgos/reservas: lectura de skills y release notes, sin correr el sistema; fuente autoreportada, con interés comercial y sin peer review; C8 junta tres cambios en una sola tendencia, y esa unión es interpretación nuestra: la fuente no la declara
