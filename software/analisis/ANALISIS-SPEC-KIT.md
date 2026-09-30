@@ -240,3 +240,56 @@ Entre v0.12 y v1.0.4 la superficie que mas crecio no es el flujo SDD sino la pla
 - Cobertura: **incompleta y declarada** — C6, C7, la correccion de `--require-spec` y la consecuencia de metodo (M-41) tienen destino; el ecosistema de extensiones/presets del 1.0 queda sin caracterizar por alcance; la actualizacion de `RELACION-SPEC-VS-EPICA.md` queda sin ejecutar
 - Deuda arrastrada: R33/R34/R30/R25 sin verificar en fuente completa (independiente de este doc); se agrega una: **el ecosistema del 1.0 sin caracterizar** (la de `RELACION-SPEC-VS-EPICA.md` se salda el 2026-09-05 en entrega propia) con su efecto sobre `DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar
 - Riesgos/reservas: el diff leyo CHANGELOG, `git diff` sobre los documentos conceptuales y los scripts citados, sin correr el CLI ni un ciclo completo; el snapshot conceptual del cuerpo del documento sigue anclado a v0.8.13 y cada actualizacion queda marcada con su version de origen; C6 describe una tension entre dos documentos de la misma fuente y no una posicion declarada por ella — la fuente no dice en ningun lado que su manifiesto y su referencia difieran
+
+---
+
+## Actualización: revisión contra Spec Kit v1.0.14.dev0 (2026-09-30)
+
+Clon vendored movido v1.0.5.dev0 `4a7341a` (2026-09-04) → v1.0.14.dev0 `d2ddd910` (2026-09-30), 172 commits; la última versión liberada del tramo es la 1.0.13 (2026-09-29). Nadie hizo `git pull` a propósito: el movimiento se detectó porque un informe externo sobre la combinación Spec Kit + Superpowers, ajeno al repositorio, citaba el clon en `987c9b8b`, que ya había quedado siete commits atrás. El informe no se usa como fuente.
+
+Procedimiento, el borrador de M-41 completo: `git diff --stat 4a7341a..HEAD` sobre el árbol entero (591 archivos) antes de abrir nada, y `git diff 4a7341a..HEAD -- spec-driven.md`, que **sale vacío**. La tesis central y los nueve artículos siguen siendo el texto analizado, y C1-C7 quedan en pie. El grueso del tramo vuelve a ser plataforma —`src/specify_cli/` (bundles, extensiones, integraciones, presets, workflows) y sus tests—, que sigue fuera de alcance. Fuera del código de la CLI cambian las diez plantillas de comando, con ajustes chicos, y aparecen cinco guías y dos referencias nuevas en `docs/`. Una de esas guías es la que importa.
+
+### C8. La fuente se usa a sí misma para una feature, y no conserva sus specs
+
+`docs/guides/agentic-sdlc.md` (alta el 2026-09-28) es un caso de estudio de cómo se desarrolla Spec Kit, y es la primera vez que la fuente describe su propia práctica en vez de la del usuario. Lo que dice, textual:
+
+- **El SDD completo se usó en una feature.** «The bundler feature used Spec Kit's SDD process to produce its specification, plan, and tasks» (junio de 2026), y la guía lo presenta como «evidence of SDD dogfooding for that feature». Los cambios acotados van por issue y PR: «For a bounded change, that may be enough; it does not have to become an SDD `spec.md`».
+- **Las specs no se versionan.** «Generated `specs/` artifacts are normally gitignored; the linked commit preserves a historical snapshot». El `.gitignore` del repositorio ya excluía `specs/` en `4a7341a`: lo nuevo no es la práctica, es que la fuente la declare.
+- **La adopción no se midió.** La guía cierra con «the timeline shows adoption rather than measured time savings».
+
+Esto extiende C6 sin cambiarle el signo. C6 encontró que el manifiesto afirma la Power Inversion y que la referencia (`spec-persistence.md`) deja la persistencia a criterio de cada equipo. Ahora la tercera pieza —lo que el proyecto hace consigo mismo— cae del lado de la referencia: en su propio repositorio, la spec es entrada del ciclo de una feature grande y después no se conserva. En la taxonomía de [R20] esa práctica es *spec-first*, que es exactamente el nivel que el manifiesto dice superar. **La reserva que MUST acompañar esta lectura**: la guía describe la práctica de un proyecto open-source con un modelo de confianza particular y aclara que «Spec Kit's production mix is not a prescribed recipe»; no es una recomendación al usuario, y no dice que el nivel *anchored* no funcione, sólo que este proyecto no lo usa para sí.
+
+Señalado sin tocar, porque la lectura cruzada no vive acá: OpenSpec se desarrolla con su propio corpus de specs vigentes y cambios archivados (`ANALISIS-OPENSPEC.md`). Los dos casos quedan en posiciones opuestas sobre la misma pregunta, y eso es materia de `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
+
+### Ajustes de plantilla que no llegan a conclusión
+
+Todos leídos en `git diff 4a7341a..HEAD -- templates/commands/`:
+
+- **`converge`** deja de fiarse de las casillas: «completion claims are not evidence». Verifica el comportamiento actual contra spec, plan, tareas y constitución, y busca tanto lo incumplido como la implementación que «contradicts, exceeds, or falls outside the stated intent». Ataca el mismo defecto que domina los arreglos de sdd-first leídos en `ANALISIS-SDD-FIRST.md` C8 —un verificador que da por hecho lo que no verificó—, esta vez del lado de la fuente.
+- **`tasks`** manda citar textual en la tarea toda restricción de `data-model.md` (largo máximo, nulabilidad, enums, reglas de validación), para que no quede a criterio de quien implementa.
+- **`clarify`** achica lo que se puede diferir a planificación: sólo lo que es de método de implementación, comparación de stack o desglose de tareas.
+- **`constitution`** declara que el *Sync Impact Report* es material temporal para revisar la enmienda, «not governance content», y que se borra antes de commitear la constitución enmendada. Nuestro procedimiento de enmienda hace lo contrario: la trazabilidad vive en `../../historial/sdd.md` y se conserva.
+
+### Lo que no es del delta y este documento no decía
+
+- **Los tests son opcionales**: «Tests are OPTIONAL: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach» (`../../fuentes-externas/spec-kit/templates/commands/tasks.md`). Ya estaba en `4a7341a`. Este documento sólo registraba *test-first* como principio de la constitución de ejemplo, y las dos cosas no son lo mismo: la constitución lo propone y la plantilla de tareas no lo aplica salvo que se pida.
+- **La extensión `bug`** (assess, fix, test) también estaba en `4a7341a`, y es parte del ecosistema que sigue sin caracterizarse. La guía nueva agrega un dato sobre ella: los workflows de bugs del propio repositorio «do not consume Spec Kit's bundled `bug` extension».
+
+### Lo que el delta agrega y este análisis NO caracteriza
+
+`docs/guides/contract-driven-development.md` (2026-09-17), que se engancha al flujo desde `docs/concepts/sdd.md`; los *bundles* `assess` y `bugfix` con sus workflows; y el resto de la plataforma. Siguen fuera por alcance, con su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar.
+
+### Revisión de derivados (regla de propagación)
+
+- **`../COMPARATIVA-SPECKIT-VS-TESTIGO.md`** — revisado. Sin contradicción: C8 es consistente con la lectura de la carpeta por feature como efímera frente al registro central, y no cambia ningún dato del documento.
+- **`../RELACION-FR-VS-SC-Y-COBERTURA.md`** — revisado. Sin impacto: el delta no toca la relación FR↔SC ni el modelo de cobertura.
+
+[SDD-Check] — actualizacion 2026-09-30
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — C8 y los ajustes de plantilla caen en «síntesis del flujo» y «conclusiónes accionables para Linea B»; el ecosistema sigue fuera por alcance; la lectura cruzada con OpenSpec queda señalada para su SSOT, no hecha acá
+- Validaciones aplicadas: borrador de M-41 completo (`git diff --stat` sobre el árbol entero y `git diff -- spec-driven.md`, vacío); cada cita es textual y declara su archivo; lo que ya estaba en `4a7341a` se verificó con `git show` y se separó del delta; el informe externo que disparó la revisión no se cita
+- SSOT afectado: este documento (`ssot_level: SSOT`)
+- Derivados a revisar: **revisados los dos registrados** — `../COMPARATIVA-SPECKIT-VS-TESTIGO.md` (sin contradicción) y `../RELACION-FR-VS-SC-Y-COBERTURA.md` (sin impacto). Señalados sin modificar: `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (C8 contra el dogfooding de OpenSpec; el contraste entre tests opcionales y TDD obligatorio, que no tiene fila) y `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5 (el nivel de Spec Kit en la taxonomía, a la luz de C8)
+- Cobertura: **incompleta y declarada** — C8, los ajustes de plantilla y los dos hechos previos tienen destino; la guía de contratos, los bundles y el resto de la plataforma quedan sin caracterizar por alcance
+- Deuda arrastrada: R33/R34/R30/R25 sin verificar en fuente completa (independiente de este doc); el ecosistema sin caracterizar, ahora con una guía conceptual más, y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar
+- Riesgos/reservas: lectura de plantillas, guías y `.gitignore`, sin correr el CLI; C8 se apoya en lo que el proyecto declara de sí mismo, y un caso de estudio escrito por la fuente puede seleccionar lo que muestra; el clon es un directorio vivo y volvió a moverse mientras se escribía otra fuente

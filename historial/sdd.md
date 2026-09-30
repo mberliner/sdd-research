@@ -4,6 +4,35 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de Spec Kit [R10] v1.0.14.dev0: la fuente se usa a sí misma en una feature y no conserva sus specs (2026-09-30) — COMPLETADA
+
+**Acción**: re-anclaje y diff dirigido de Spec Kit entre `4a7341a` (v1.0.5.dev0, 2026-09-04) y `d2ddd910` (v1.0.14.dev0, 2026-09-30), 172 commits, contra `software/analisis/ANALISIS-SPEC-KIT.md`, que es SSOT. Segunda de las dos re-consultas que disparó el mismo informe externo (ver la entrada siguiente, de Superpowers).
+
+### Qué se encontró
+El borrador de M-41 se aplicó completo y funcionó en las dos direcciones. `git diff -- spec-driven.md` sale vacío, así que la tesis no se movió, y el `--stat` sobre el árbol entero mostró una guía conceptual nueva que el CHANGELOG no destaca:
+
+- **C8** — `docs/guides/agentic-sdlc.md` es el primer texto donde la fuente describe su propia práctica: SDD completo en una sola feature (el bundler, junio de 2026), cambios acotados por issue y PR, `specs/` en `.gitignore` y la adopción sin medir. Extiende C6: manifiesto *as-source*, referencia neutral, y ahora una práctica propia que es *spec-first*. Con la reserva escrita al lado: es la práctica de un proyecto y la fuente aclara que no es receta.
+- **Ajustes de plantilla**: `converge` deja de tomar las casillas marcadas como evidencia; `tasks` cita textual las restricciones del modelo de datos; el *Sync Impact Report* de `constitution` pasa a ser material temporal.
+- **Dos hechos previos al delta** que el análisis no registraba: los tests son opcionales en la plantilla de tareas, y la extensión `bug` ya estaba en `4a7341a`. Los dos se separaron del delta con `git show` contra el ancla.
+
+### Qué cambió
+- `software/analisis/ANALISIS-SPEC-KIT.md`: §Actualización 2026-09-30, revisión de los dos derivados registrados y su `[SDD-Check]`.
+- `REFERENCIAS.md`: [R10] gana el anclaje a `d2ddd910`.
+
+### Revisión de derivados (regla de propagación)
+`COMPARATIVA-SPECKIT-VS-TESTIGO.md`: sin contradicción. `RELACION-FR-VS-SC-Y-COBERTURA.md`: sin impacto. Señalados sin modificar: `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (C8 contra el dogfooding de OpenSpec, y el contraste entre tests opcionales y TDD obligatorio, que no tiene fila) y `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §5.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). Cada cita es textual y declara su archivo en el clon.
+
+### Deuda abierta
+- **La versión del brazo T1 de B-09 no está fijada** en el diseño, igual que la de T4.
+- La fila de tests (opcionales contra obligatorios) y la lectura cruzada de C8 esperan decisión sobre `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que tiene el instrumento en v1: sumar una fila es cambiar el instrumento.
+- OpenSpec (123 commits después de `e062b95`) y sdd-first (1 commit después de `4a0851e`) siguen sin re-anclar.
+- El ecosistema del 1.0 sigue sin caracterizar, ahora con una guía más (contratos).
+
+---
+
 ## Diff dirigido de Superpowers [R37] v6.4.2: el humano pasa al principio y la ejecución deja de pausar (2026-09-30) — COMPLETADA
 
 **Acción**: re-anclaje y diff dirigido de Superpowers entre `b36e082` (v6.3.0, 2026-08-12) y `8ca22db` (v6.4.2, 2026-09-25) contra `software/analisis/ANALISIS-SUPERPOWERS.md`, en una sola entrega porque son dos commits de release.
