@@ -4,6 +4,26 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Convergencia queda con los cuatro casos en un solo corte (2026-09-30) — COMPLETADA
+
+**Acción**: propagación de las re-consultas de OpenSpec y sdd-first a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`. La entrega de convergencia de más temprano, ese mismo día, había dejado dos columnas en el corte del 2026-09-05 y dos en el nuevo; con esta, las cuatro quedan en el mismo.
+
+### Qué cambió
+- **Fila 3, columna OpenSpec**: separa la decisión ante la ambigüedad del permiso para escribir. Leída junto con Superpowers, la divergencia se precisa: los dos linajes que deciden avanzan con consentimiento humano, y lo que los separa del nuestro es qué hace el agente con una ambigüedad de contenido una vez autorizado. El veredicto no cambia.
+- **Fila 8, columna OpenSpec**: la cifra de 62 herramientas queda con su reserva (árbol de documentación abandonado por la fuente).
+- **Dimensión de tests**: la celda de OpenSpec pasa al corte nuevo; el test se vuelve obligatorio cuando el trabajo lo pide.
+- La sección de cambios firmada pasa a llamarse «Qué cambió al re-consultar los cuatro casos (2026-09-30)». La entrada anterior de este historial la cita con su nombre viejo y queda como estaba, porque el historial no se reescribe.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). El instrumento sigue en v1.
+
+### Deuda abierta
+- Decisión del usuario, abierta: si la observación sobre la compuerta de Superpowers obliga a re-leer la definición operacional de la fila candidata.
+- La cifra de herramientas de OpenSpec, sin reconciliar.
+- Versiones de T1 y T4 sin fijar en B-09, y ahora también las de los brazos de OpenSpec y sdd-first.
+
+---
+
 ## Diff dirigido de OpenSpec [R38] v1.13.2: dos pasajes que no coincidían volvían la conducta del agente dependiente de cuál leyera (2026-09-30) — COMPLETADA
 
 **Acción**: re-anclaje y diff de OpenSpec entre `e062b95` (v1.12.0, 2026-09-03) y `c879d13d` (v1.13.2, 2026-09-29), 123 commits, contra `software/analisis/ANALISIS-OPENSPEC.md`. Con esta entrega las cuatro fuentes del corpus quedan en el corte del 2026-09-30.
