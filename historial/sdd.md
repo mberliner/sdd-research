@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Diff dirigido de OpenSpec [R38] v1.13.2: dos pasajes que no coincidían volvían la conducta del agente dependiente de cuál leyera (2026-09-30) — COMPLETADA
+
+**Acción**: re-anclaje y diff de OpenSpec entre `e062b95` (v1.12.0, 2026-09-03) y `c879d13d` (v1.13.2, 2026-09-29), 123 commits, contra `software/analisis/ANALISIS-OPENSPEC.md`. Con esta entrega las cuatro fuentes del corpus quedan en el corte del 2026-09-30.
+
+### Qué se encontró
+Anatomía y skills sin cambios; el tramo es casi todo corrección de bugs y soporte de herramientas nuevas. Tres cosas para el análisis:
+
+- **C8** — la fuente documenta que dos pasajes de `openspec-explore` se contradecían y que la misma petición escribía artefactos o se detenía a preguntar según cuál pesara el agente. Lo arregló resolviendo la contradicción en el texto. Es el modo de falla que el Principio I previene en los documentos, visto del lado de la conducta; queda como lectura para A-04.
+- **Tests por grupo de tareas**: se endurece la obligación, pero sigue condicionada a lo que el trabajo requiera.
+- **Nota de la familia de M-31**: `validate --strict` salía en verde con claves de configuración que había descartado sin avisar (corregido en `main`, sin liberar).
+
+Y una cifra heredada: las «62 herramientas» salen de un árbol de documentación que la fuente abandonó; queda declarada sin reconciliar.
+
+### Qué cambió
+- `software/analisis/ANALISIS-OPENSPEC.md`: §Actualización 2026-09-30.
+- `REFERENCIAS.md`: [R38] gana el anclaje a `c879d13d`.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR). Anatomía verificada con `git ls-tree`; lo previo al delta, separado con `git show`.
+
+### Deuda abierta
+- Propagar a `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`: matiz de la fila 3, celda de OpenSpec en la dimensión de tests, cifra de la fila 8.
+- La cifra de herramientas soportadas, sin reconciliar.
+
+---
+
 ## Diff dirigido de sdd-first [R39] `0e09037`: adopción en brownfield «de acá en adelante» (2026-09-30) — COMPLETADA
 
 **Acción**: re-anclaje y diff de sdd-first entre `4a0851e` (2026-09-03) y `0e09037` (2026-09-07), contra `software/analisis/ANALISIS-SDD-FIRST.md`. Es parte de dejar las cuatro fuentes del corpus en el mismo corte: Spec Kit y Superpowers se re-anclaron más temprano el mismo día, y dejar dos atrás habría mezclado cortes en la tabla de convergencia.

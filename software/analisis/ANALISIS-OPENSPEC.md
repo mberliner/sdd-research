@@ -167,3 +167,43 @@ Es la misma clase que `../../agenda/MEJORAS-METODO.md` M-31 registra acá, y el 
 - Cobertura: **incompleta y declarada** — C6, C7 y la nota de M-31 tienen destino; las dos preguntas de investigacion quedan señaladas sin item, porque plantearlas bien es trabajo propio y darlas de alta a medias es peor que no darlas
 - Deuda arrastrada: la del documento original sigue casi intacta (**Kiro ya leido el 2026-09-05, pero la reserva de procedencia que lo nombra sigue abierta y ahora alcanza tambien a Spec Kit**; corpus observacional de C4 sin dar de alta). Se agregan las dos preguntas de arriba, sin item. Sigue abierto de las entradas previas: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, `RELACION-SPEC-VS-EPICA.md` sin actualizar, el ecosistema del 1.0 de Spec Kit sin caracterizar, el hueco de `PATRONES.md` del lado del canal de error, y cuanto cuesta frenar sin medir
 - Riesgos/reservas: la lectura sale de documentos, skills y changelog del clon, sin correr el CLI ni un store; `stores` es una capacidad **beta** y lo que se describe es lo que la fuente declara, no lo que se verifico funcionando; la analogia de C6 con el problema de este repositorio es parcial y corre en direccion contraria, y eso esta escrito en la propia conclusion
+
+---
+
+## Actualización: revisión contra OpenSpec v1.13.2 (2026-09-30)
+
+Clon vendored movido v1.12.0 `e062b95` (2026-09-03) → `c879d13d` (2026-09-29), 123 commits, con v1.13.0, v1.13.1 y v1.13.2 publicadas y 25 *changesets* todavía sin liberar en `.changeset/`. Diff sobre el árbol completo antes de abrir nada (borrador de M-41): 362 archivos. **La anatomía no se mueve**: `git ls-tree HEAD openspec/` devuelve las mismas seis entradas, las 12 skills siguen siendo las mismas 12 y ninguna se agrega ni se borra. El tramo es, en su enorme mayoría, corrección de bugs y soporte de herramientas nuevas. Esta vez el CHANGELOG sí refleja lo que importa, porque no hay árbol de documentación nuevo: `docs-lab/` sólo tiene modificaciones.
+
+Motivo de la revisión: dejar las cuatro fuentes del corpus en el mismo corte. Spec Kit y Superpowers se re-anclaron el mismo día, y sin OpenSpec la tabla de convergencia mezclaría cortes.
+
+### C8. Dos pasajes defendibles de la misma instrucción producían dos conductas distintas, y la fuente lo arregló en el texto
+
+El caso está en v1.13.1 (#1832, que cierra #1828). La skill `openspec-explore` decía dos veces que, antes de la primera acción que escribe, el agente debía hacer una pregunta de sí o no y esperar la respuesta en otro mensaje. Pero la rama de captura le indicaba pasar «seamlessly» a `openspec new change` sin ningún paso de confirmación. La fuente lo describe así: «Both readings were defensible from the text, so the same "capture this as a change" request either wrote `.openspec.yaml` plus several artifacts immediately or stopped and asked, depending on which passage the agent weighed» (`CHANGELOG.md`, 1.13.1).
+
+La corrección no agregó un control: resolvió la contradicción en el texto. Un pedido explícito de captura cuenta como la confirmación, y sólo para lo que el pedido nombra. Si la propuesta de capturar sale del agente, o el trabajo excede lo pedido, sigue preguntando, y «answers to design or clarifying questions are still never consent to write».
+
+Por qué importa acá: es el primer caso del corpus donde una fuente documenta que **dos pasajes de su propio método que no coincidían hicieron que la conducta del agente dependiera de cuál leyó con más peso**. Es el modo de falla que el Principio I previene del lado de los documentos —una regla dicha dos veces termina dicha de dos maneras—, visto acá del lado de la conducta. **Lectura**, con la reserva de siempre para esta fuente: es un caso, autoreportado y sin medición. Queda señalado para A-04, que mide conducta del agente frente al protocolo, sin proponer nada.
+
+Un matiz para la fila 3 de convergencia, que sale del mismo cambio y de #1940 (v1.13.2): OpenSpec sigue decidiendo ante la ambigüedad —«If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum» (`skills/openspec-ff-change/SKILL.md`)—, pero separa esa decisión del **permiso para escribir**, que exige confirmación explícita en `explore`, y de la aprobación del desglose de tareas, que `onboard` pide antes de guardarlo. Resuelve la ambigüedad del contenido sin preguntar, pero no escribe sin consentimiento.
+
+### Tests por grupo de tareas
+
+v1.13.2 (#1955) agrega a la instrucción de tareas que cada grupo entregue los tests y la documentación que su propio trabajo requiere, en vez de dejarlos para un grupo final: «Each task group MUST land the tests and documentation its own work calls for» (`schemas/spec-driven/schema.yaml`). Un grupo cuyo trabajo no los requiere, como el andamiaje, no los lleva. Lo que ya estaba en `e062b95` sigue igual: cada tarea MUST decir cómo se verifica, y el test es una de cuatro formas admitidas. La obligación del test se vuelve más fuerte, pero sigue condicionada a lo que el trabajo requiera.
+
+### Nota menor, otra vez de la familia de M-31
+
+Un *changeset* todavía no liberado (`.changeset/warn-unknown-change-metadata-keys.md`, 2026-09-29) corrige que las claves desconocidas de `.openspec.yaml` se descartaban sin aviso: `status` seguía exigiendo el artefacto de diseño y `validate --strict` salía con 0. Es un verificador en verde sobre una configuración que no había leído, la misma clase que la nota del 2026-09-05. Ahora las nombra y `--strict` falla.
+
+### Una cifra que este análisis heredó sin verificar su fuente
+
+La fila 8 de convergencia y [R38] dicen «62 herramientas» a partir de `docs/supported-tools.md`. Ese árbol quedó abandonado a favor de `docs-lab/` (C7), y `docs-lab/reference/supported-tools.md` es otra tabla, con otro recorte (48 líneas de tabla en `HEAD`, 38 en `e062b95`). El número no se corrige acá porque no se reconcilió qué cuenta cada tabla; queda declarado que el 62 sale del árbol que la fuente ya no mantiene.
+
+[SDD-Check] — actualizacion 2026-09-30
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — C8, la nota de tests y la nota menor caen en «conclusiónes accionables para Linea B»; el matiz de la fila 3 se señala para `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que es donde se juzga
+- Validaciones aplicadas: diff sobre el árbol completo antes de abrir nada (borrador de M-41); anatomía verificada con `git ls-tree` y conteo de skills sobre el árbol; citas textuales con archivo, o entrada de CHANGELOG y número de PR; lo que ya estaba en `e062b95` se separó con `git show` de lo nuevo
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: ninguno registrado. Señalados sin modificar: `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md` (matiz de la fila 3, celda de OpenSpec en la dimensión de tests, cifra de la fila 8) y `../../agenda/BACKLOG-INVESTIGACION.md` (C8 como caso para A-04)
+- Cobertura: **incompleta y declarada** — el soporte de herramientas nuevas y las correcciones de CLI sin efecto sobre el método no se caracterizan; la cifra de herramientas queda sin reconciliar
+- Deuda arrastrada: la de la entrega anterior (corpus observacional de C4 sin dar de alta; las dos preguntas señaladas sin ítem); se agrega la cifra de herramientas sin reconciliar
+- Riesgos/reservas: lectura de skills, schema y changelog sin correr el CLI; C8 descansa en la descripción que la propia fuente hace del defecto, sin reproducirlo; 25 *changesets* describen cambios en `main` que ninguna versión publicada trae todavía
