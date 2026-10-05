@@ -59,6 +59,19 @@ Dos lugares editables por skill —el playbook en `docs/playbooks/` (contenido, 
 
 `core/sdd_update.py` propaga versiones nuevas del kit a un proyecto ya instalado: muestra el plan sin escribir salvo `--apply`, nunca pisa una plantilla editada y deja la versión nueva como `<archivo>.kit-new` para fusionar a mano. Es propagación de método a través de una frontera de repositorios, con detección de conflictos.
 
+### El formato de spec que siembra (leído en `0e09037`, 2026-10-05)
+
+Su SSOT es `../../fuentes-externas/sdd-first/templates/docs/SPEC-FORMAT.md`, y la plantilla que consume `sdd_spec.py` es `specs/SPEC-TEMPLATE.md`. La fuente se declara «Adaptación del enfoque híbrido estilo GitHub Spec Kit»: la anatomía base —User Story con prioridad e *Independent Test*, escenarios Given/When/Then, `FR-NNN`, `SC-NNN`— es la de `ANALISIS-SPEC-KIT.md` y no se repite acá. Es **difusión**, por la misma cadena que la sección anterior: el par `hibrido`/`casero` es el factor de B-07.
+
+Lo que el kit cambia sobre esa base son cuatro cosas, y ninguna es de redacción:
+
+- **El verbo normativo es un prefijo del FR, no un término dentro de la frase**: `FR-001 MUST: ...`, con `SHOULD:` y `MAY:` admitidos. En specs con varias historias el ID lleva la historia, `FR-USk-NNN`. Los `SC-NNN` se exigen binarios y agnósticos de implementación, y la relación FR↔SC se declara N:M.
+- **El coverage mapping vive dentro de la spec y lo exige el backstop.** En Spec Kit es un reporte que produce `/speckit.analyze` y mapea FR/SC a tareas; acá es una sección `| Requisito | Cubierto por |` que mapea cada FR a sus tests, obligatoria en specs `hibrido` + `active`. Desde SPEC-024 el ID tiene que aparecer como token dentro del test (C2).
+- **La spec declara su relación con las demás**: seis campos en tres pares simétricos, con reciprocidad y coherencia de estado verificadas por script (fila 7 del mapeo).
+- **`casero` es la salida del formato**: una spec sin estructura exigida y sin coverage mapping. En el corpus propio del kit la usa **una de 26** —`SPEC-000`, la de nomenclatura, que se genera desde config— (`specs/SPECS_REGISTRY.md`). La salida existe declarada y casi no se ejerce.
+
+**Lectura.** De lo que se agrega sobre Spec Kit, las tres primeras son la misma decisión: mover a la spec, para que un script las verifique, cosas que Spec Kit deja en un comando de juicio.
+
 ### Lo que el kit destiló después (delta 2026-08-16/17)
 
 Dieciséis commits después del corte original, el kit partió su backlog en tres documentos y destiló el tercero. `docs/IDEAS.md` conserva lo abierto; `docs/IDEAS-CERRADAS.md` recibe cada ítem cerrado **con su post-mortem** —«donde vive la mayor parte del conocimiento», dice su encabezado—; y `docs/PATRONES.md` destila de esos post-mortems ocho clases de defecto recurrentes, cada una citando los ítems que la evidencian y sin reproducir su razonamiento.
@@ -218,3 +231,13 @@ Vale registrarlo porque es la posición contraria a la de los casos que levantan
 - Cobertura: completa — el delta es un único archivo y queda leído entero
 - Deuda arrastrada: la del documento sigue intacta
 - Riesgos/reservas: fuente del mismo autor que este repositorio; la postura es declarada, sin uso reportado en un proyecto existente
+
+[SDD-Check] — formato de spec 2026-10-05
+- Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye: el formato de spec que el kit siembra se lee como parte de la «síntesis del andamiaje»)
+- Incluye/Excluye verificado: SI — la anatomía base de Spec Kit se referencia a `ANALISIS-SPEC-KIT.md` y no se reproduce; la coincidencia se declara difusión, no convergencia
+- Validaciones aplicadas: lectura de `../../fuentes-externas/sdd-first/templates/docs/SPEC-FORMAT.md`, `../../fuentes-externas/sdd-first/specs/SPEC-TEMPLATE.md` y `../../fuentes-externas/sdd-first/specs/SPECS_REGISTRY.md` en `0e09037`; conteo 25 `hibrido` / 1 `casero` sobre el registro del kit
+- SSOT afectado: ninguno (doc operativo)
+- Derivados a revisar: ninguno registrado. `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 (ficha sdd-first) no se toca: su mención a `FR-US1-004` sigue siendo correcta como ejemplo de spec multi-HU
+- Cobertura: completa — las cinco secciones obligatorias del formato quedan cubiertas, por referencia o por diferencia
+- Deuda arrastrada: la del documento sigue intacta
+- Riesgos/reservas: formato declarado y plantilla, no specs leídas una por una; fuente del mismo autor que este repositorio
