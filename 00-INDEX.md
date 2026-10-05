@@ -39,4 +39,4 @@ El **alcance** de cada documento, los campos de su spec y el **mapa tema → SSO
 | `templates/` | operativo — plantillas de experimento y de cierre |
 | `historial/` | operativo — log evolutivo de fases y cambios de método; incluye `ROADMAP-MEJORAS-SDD.md`, registro histórico cerrado (2026-06-01) |
 | `tools/` | verificación determinista del repositorio (`check_docs.py`) |
-| `fuentes-externas/` | material fuente externo (vendored); fuera del registro y del versionado |
+| — | el material fuente externo no vive en este repositorio: se cita según `CONVENCIONES.md` §Citas a fuentes externas, con la versión anclada en `REFERENCIAS.md` |

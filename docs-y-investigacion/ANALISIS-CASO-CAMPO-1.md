@@ -1,7 +1,7 @@
 # Análisis: caso de campo 1 — el método de este repositorio aplicado a un cuerpo documental ajeno (Línea A)
 
 Fecha: 2026-08-30.
-Fuente: caso de campo 1 [R40], commit `c3dd480` (2026-08-29), rama `main`. Fuente reservada; extracto saneado de su capa de método en `../fuentes-externas/caso-campo-1/`, con el mapeo de anonimización en su `PROCEDENCIA.md`.
+Fuente: caso de campo 1 [R40], commit `c3dd480` (2026-08-29), rama `main`. Fuente reservada; extracto saneado de su capa de método, tampoco público, con el mapeo de anonimización en su `PROCEDENCIA.md`.
 Alcance: Línea A (docs e investigación).
 
 ---
@@ -142,7 +142,7 @@ De todo lo que el caso aporta, lo más caro de conseguir por cuenta propia es lo
 
 ### C3. Un backstop puede reportar salud sobre un check que ya no corre
 
-Verificado en nuestro propio código el 2026-08-30. La clase de defecto —el mecanismo correcto que los casos nuevos no adoptan— está nombrada en `../fuentes-externas/sdd-first/docs/PATRONES.md` y tiene instancia acá. Candidata en M-31.
+Verificado en nuestro propio código el 2026-08-30. La clase de defecto —el mecanismo correcto que los casos nuevos no adoptan— está nombrada en `sdd-first:docs/PATRONES.md` y tiene instancia acá. Candidata en M-31.
 
 ### C4. La estructura de la regla viaja; la sintaxis, no
 
@@ -159,7 +159,7 @@ Los tres parsers reescritos son la evidencia más limpia que el corpus tiene sob
 [SDD-Check]
 - Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc, dada de alta en la misma iteracion)
 - Incluye/Excluye verificado: SI - no se cita ni parafrasea contenido normativo del caso, no se nombra la organizacion ni sus areas, las decisiónes de adopcion se remiten a `../agenda/MEJORAS-METODO.md` y los diseños de experimento a `../agenda/BACKLOG-INVESTIGACION.md`, y la lectura cruzada de convergencia queda en su SSOT
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R40] con commit `c3dd480` y fecha; procedencia resuelta antes de la lectura, con la particularidad de que la fuente declara ella misma la portacion en el docstring de su backstop; ninguna coincidencia se presenta como convergencia y la advertencia esta escrita dos veces, en §Procedencia y en C5; la fuente no reporta medición y eso queda dicho; documentos y areas nombrados por rol, sin nombre propio ni saneado; cifras citadas son conteos y fechas del corpus; cada mecanismo citado se verifica en `../fuentes-externas/caso-campo-1/`; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
+- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R40] con commit `c3dd480` y fecha; procedencia resuelta antes de la lectura, con la particularidad de que la fuente declara ella misma la portacion en el docstring de su backstop; ninguna coincidencia se presenta como convergencia y la advertencia esta escrita dos veces, en §Procedencia y en C5; la fuente no reporta medición y eso queda dicho; documentos y areas nombrados por rol, sin nombre propio ni saneado; cifras citadas son conteos y fechas del corpus; cada mecanismo citado se verifica en el extracto saneado de [R40]; refs internas verificadas con `../tools/check_docs.py`; sin emoticones; fechas YYYY-MM-DD
 - SSOT afectado: ninguno (doc operativo)
 - Derivados a revisar: `../agenda/MEJORAS-METODO.md` (M-16, M-17 y M-30 anotados con evidencia de campo; M-31 y M-34 dados de alta) y `../agenda/BACKLOG-INVESTIGACION.md` (items 17 y 18 dados de alta; inventario de corpus de #15 corregido) - los dos ya modificados en esta misma iteracion, no solo señalados
 - Cobertura: completa - las cinco conclusiónes mapean a secciones de caracterizacion, y las cuatro accionables tienen ID de destino ya creado

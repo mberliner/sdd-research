@@ -1,7 +1,7 @@
 # Analisis: GitHub Spec Kit y su relacion con nuestra investigacion SDD (Linea B)
 
 Fecha: 2026-05-24.
-Fuente: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]. Clon local vendored en `../../fuentes-externas/spec-kit/`.
+Fuente: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10].
 Alcance: Linea B (software). La transferencia de conceptos a Linea A (docs/investigacion) queda diferida — ver `../../agenda/BACKLOG-INVESTIGACION.md`.
 
 ---
@@ -16,7 +16,7 @@ Spec Kit es un toolkit open-source de GitHub que materializa SDD mediante una CL
 
 ## Tesis central: "Power Inversion"
 
-El documento de filosofia (`../../fuentes-externas/spec-kit/spec-driven.md`) plantea que SDD invierte la jerarquia tradicional: la spec deja de ser andamiaje desechable y se convierte en el **artefacto primario** que genera el codigo; el codigo pasa a ser "la ultima milla" regenerable.
+El documento de filosofia (`spec-kit:spec-driven.md`) plantea que SDD invierte la jerarquia tradicional: la spec deja de ser andamiaje desechable y se convierte en el **artefacto primario** que genera el codigo; el codigo pasa a ser "la ultima milla" regenerable.
 
 - Mantener software = evolucionar specs.
 - Depurar = corregir la spec o el plan que genero codigo incorrecto.
@@ -203,7 +203,7 @@ Lo que cambio esta en otro lado, y son tres cosas de peso muy distinto.
 
 `docs/concepts/` reune hoy cuatro documentos. `sdd.md` es `spec-driven.md` con otro titulo. Los otros tres son material conceptual nuevo: `spec-persistence.md` (2026-06-09), `spec-of-specs.md` y `complex-features.md` (ambos 2026-07-22).
 
-**`spec-persistence.md` ya estaba en el arbol el 2026-07-10 y el diff de esa fecha no lo vio.** Su propio `[SDD-Check]` declara el metodo que lo explica: «diff basado en CHANGELOG + spec-driven.md». Un documento agregado sin linea de changelog es invisible a ese procedimiento, y este lo era. Es la misma clase de defecto que `../../fuentes-externas/sdd-first/docs/PATRONES.md` llama «la carpeta que existe y ningun paso mira»: no falla, calla. Consecuencia de metodo dada de alta en `../../agenda/MEJORAS-METODO.md` M-41.
+**`spec-persistence.md` ya estaba en el arbol el 2026-07-10 y el diff de esa fecha no lo vio.** Su propio `[SDD-Check]` declara el metodo que lo explica: «diff basado en CHANGELOG + spec-driven.md». Un documento agregado sin linea de changelog es invisible a ese procedimiento, y este lo era. Es la misma clase de defecto que `sdd-first:docs/PATRONES.md` llama «la carpeta que existe y ningun paso mira»: no falla, calla. Consecuencia de metodo dada de alta en `../../agenda/MEJORAS-METODO.md` M-41.
 
 ### C6. Spec Kit adopta la taxonomia de [R30] y declara que **no fuerza** ninguno de sus tres niveles
 
@@ -272,7 +272,7 @@ Todos leídos en `git diff 4a7341a..HEAD -- templates/commands/`:
 
 ### Lo que no es del delta y este documento no decía
 
-- **Los tests son opcionales**: «Tests are OPTIONAL: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach» (`../../fuentes-externas/spec-kit/templates/commands/tasks.md`). Ya estaba en `4a7341a`. Este documento sólo registraba *test-first* como principio de la constitución de ejemplo, y las dos cosas no son lo mismo: la constitución lo propone y la plantilla de tareas no lo aplica salvo que se pida.
+- **Los tests son opcionales**: «Tests are OPTIONAL: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach» (`spec-kit:templates/commands/tasks.md`). Ya estaba en `4a7341a`. Este documento sólo registraba *test-first* como principio de la constitución de ejemplo, y las dos cosas no son lo mismo: la constitución lo propone y la plantilla de tareas no lo aplica salvo que se pida.
 - **La extensión `bug`** (assess, fix, test) también estaba en `4a7341a`, y es parte del ecosistema que sigue sin caracterizarse. La guía nueva agrega un dato sobre ella: los workflows de bugs del propio repositorio «do not consume Spec Kit's bundled `bug` extension».
 
 ### Lo que el delta agrega y este análisis NO caracteriza

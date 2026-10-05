@@ -103,7 +103,7 @@ Tres reservas antes de darla por diseñada:
 2. **Qué hacer cuando el escalón 2 dispara.** Abortar es lo correcto para un rep suelto; para una tanda a mitad de camino la decisión —re-correr la pasada, o contarla con la confusión declarada— es de diseño y no la toma un script. El verificador MUST detener y explicitar, MUST NOT elegir.
 3. **Retorno decreciente del escalón 1.** Cada mecanismo de prevención es otra cosa sellada que alguien debería verificar. Regla práctica: prevenir donde el mecanismo cueste menos que el check —el caso del tratamiento, donde extraer de un commit cuesta lo mismo que copiar un archivo— y verificar donde no. No construir una fortaleza para proteger diez reps.
 
-**Caso que la originó** (evidencia, no alcance). Pasada 1b de A-04: el sello fijaba «Claude Code 2.1.233»; T1 corrió el 2026-08-16 bajo esa versión y T2 corrió el 2026-08-19 bajo 2.1.234 en los reps 01-06 y bajo **2.1.235** en los 07-10 —la CLI se auto-actualizó entre tandas y otra vez a mitad de tanda—. Ningún rep de T2 corrió bajo el entorno sellado, y la desviación se descubrió tres días después, al preparar la Fase 4, porque el barajado obligó a mirar los campos del transcript que delatan la tanda (`../../experimentosdd-a4/T2-1B.md`). Lo instructivo es la asimetría: el script ya abortaba por hash del fixture, por configuración de asistente presente y por ancestros, y el único componente del sello que podía cambiar sin intervención era justo el que nadie miraba. El verificador propuesto habría abortado en el rep 01, con la pasada dentro de la ventana de 12-72 h y con 2.1.233 aún instalable.
+**Caso que la originó** (evidencia, no alcance). Pasada 1b de A-04: el sello fijaba «Claude Code 2.1.233»; T1 corrió el 2026-08-16 bajo esa versión y T2 corrió el 2026-08-19 bajo 2.1.234 en los reps 01-06 y bajo **2.1.235** en los 07-10 —la CLI se auto-actualizó entre tandas y otra vez a mitad de tanda—. Ningún rep de T2 corrió bajo el entorno sellado, y la desviación se descubrió tres días después, al preparar la Fase 4, porque el barajado obligó a mirar los campos del transcript que delatan la tanda (`experimentosdd-a4:T2-1B.md`). Lo instructivo es la asimetría: el script ya abortaba por hash del fixture, por configuración de asistente presente y por ancestros, y el único componente del sello que podía cambiar sin intervención era justo el que nadie miraba. El verificador propuesto habría abortado en el rep 01, con la pasada dentro de la ventana de 12-72 h y con 2.1.233 aún instalable.
 
 Contraparte de investigación: caso concreto de `BACKLOG-INVESTIGACION.md` prioridad alta #4, «cómo detectar que un gate está caído». Acá el gate no estaba caído — nunca existió, y lo que lo hizo visible fue un procedimiento posterior que necesitaba el mismo dato por otro motivo. Vale como observación sobre qué hace visible un hueco de verificación, distinta de la que M-19 ya registró.
 
@@ -145,7 +145,7 @@ Qué hace falta, en dos pasos:
 1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o si devolvió cero filas. Es el hueco verificado y es barato.
 2. **Auditar el resto de las derivaciones** y declarar la regla: todo insumo derivado de otro documento MUST fallar ruidosamente cuando la derivación no produce nada, en vez de degradar a no-op. Sin la regla escrita, la guarda número cuatro nace sin ella igual que nació ésta.
 
-Es una instancia del patrón 1 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («el mecanismo correcto que los casos nuevos no adoptan»): lo que sostiene el fix no es haber puesto dos guardas, es un barrido que falle nombrando a la que falta.
+Es una instancia del patrón 1 de `sdd-first:docs/PATRONES.md` («el mecanismo correcto que los casos nuevos no adoptan»): lo que sostiene el fix no es haber puesto dos guardas, es un barrido que falle nombrando a la que falta.
 
 #### Segunda forma, verificada el mismo día: el alcance más angosto que el nombre
 
@@ -226,7 +226,7 @@ Sobre esas 241 se corrió una muestra con el criterio, la población, el tamaño
 #### Los dos resultados, y se cancelan entre sí
 
 1. **La solución declarativa no es viable acá.** El grafo declarado no está incompleto por descuido: está incompleto por un orden de magnitud, y ningún esfuerzo de disciplina cierra un factor de 17. Por eso el arreglo de [R40] —que funciona sobre siete aristas— no es portable: su corpus es un árbol, con 4 de sus 7 aristas colgando de un mismo origen. El nuestro es una malla sin raíz, donde ningún documento tiene cero citas entrantes.
-2. **El grafo real es inservible como disparador.** 137 aristas sobre 51 documentos es un aviso en casi cada commit, que es exactamente el patrón «el aviso que suena siempre enseña que el verde no significa nada» (`../fuentes-externas/sdd-first/docs/PATRONES.md`, 3).
+2. **El grafo real es inservible como disparador.** 137 aristas sobre 51 documentos es un aviso en casi cada commit, que es exactamente el patrón «el aviso que suena siempre enseña que el verde no significa nada» (`sdd-first:docs/PATRONES.md`, 3).
 
 Juntos dejan a M-16 sin salida por la vía que tenía planteada: **no le falta trabajo, le falta una idea distinta**. Un grafo mejor no la desbloquea, porque el problema deja de ser el grafo apenas el grafo es bueno.
 
@@ -267,7 +267,7 @@ El Principio VI de `../CONSTITUTION.md` enumera qué cuenta como método: «prot
 
 Lo que hace a este ítem distinto de M-31 —con el que comparte familia— es dónde está el defecto. En M-31 el check miraba mal. Acá **el check mira exactamente lo que le dijeron**: la lista es fiel, la fuente está incompleta. Arreglar `METODO_FILES` sin tocar el Principio VI deja la constitución diciendo una cosa y el verificador otra, que es justo la divergencia que la fidelidad de la lista evitaba.
 
-Es una instancia de la clase 2 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
+Es una instancia de la clase 2 de `sdd-first:docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
 
 Qué hace falta, en este orden:
 
@@ -287,7 +287,7 @@ Reserva: en un repo documental la fricción puede ser desproporcionada. Conviene
 
 **Corrección de diseño incorporada el 2026-08-15 (origen: sdd-first [R39], `../software/analisis/ANALISIS-SDD-FIRST.md` C3).** El chequeo de mtime del párrafo anterior MUST NOT implementarse: se implementó en sdd-first y falló en las dos direcciones —bloqueó flujo legítimo (una spec trabajada en varios commits, `git checkout`, `clone`, y el ciclo stash/restore del propio `pre-commit`, que renueva mtimes) y no detuvo a nadie, porque un `touch` lo satisfacía. El criterio que lo reemplazó es de **contenido**: la spec declarada debe existir, figurar en el registro con un estado que habilite trabajo, y tener al menos un requisito con texto propio además del keyword; los placeholders de la plantilla no cuentan. Se conserva el enunciado original arriba, tachado por esta nota y no borrado, porque el error es el dato. Tres modos de falla adicionales ya documentados por esa fuente y transferibles a `.sdd/current-doc`: el gate debe fallar cerrado incluso sobre un harness fail-open; la escritura por `Bash` escapa a todo hook `PreToolUse` y se cubre corriendo la capa al commit, no parseando la línea de comandos; un reset post-commit evita que una declaración quede vigente por descuido.
 
-**Nota de diseño a investigar (2026-08-24).** El gate no puede exigir spec para todo `.md` editado: tiene que replicar el criterio de `../SPECS_REGISTRY.md` §Docs excluidos antes de bloquear, o corta flujo legítimo sobre material exento —`fuentes-externas/` (vendored, no autorado), `EXPERIMENTO-*.md`/`RESULTADO-EXPERIMENTO-*.md` generados desde template, notas de sesión sin estructura formal, archivos fuente originales. El caso fino es `experimentos/`: no alcanza con el prefijo de carpeta, porque un runbook de método (`PRUEBA-*.md`) vive ahí sin derivar de ningún template y sí necesita spec — el criterio real es «¿la estructura la fija un template del proyecto, o su autor?», ya escrito en esa sección y no re-derivable por regla de ruta simple. Sin este filtro, la primera vez que el gate corra sobre una edición a `fuentes-externas/` o a un experimento generado, el falso bloqueo lo va a descubrir por fricción — precedente ya vivido con M-21.
+**Nota de diseño a investigar (2026-08-24).** El gate no puede exigir spec para todo `.md` editado: tiene que replicar el criterio de `../SPECS_REGISTRY.md` §Docs excluidos antes de bloquear, o corta flujo legítimo sobre material exento —material fuente externo (no autorado; desde 2026-10-05 ni siquiera vive en el repositorio), `EXPERIMENTO-*.md`/`RESULTADO-EXPERIMENTO-*.md` generados desde template, notas de sesión sin estructura formal, archivos fuente originales. El caso fino es `experimentos/`: no alcanza con el prefijo de carpeta, porque un runbook de método (`PRUEBA-*.md`) vive ahí sin derivar de ningún template y sí necesita spec — el criterio real es «¿la estructura la fija un template del proyecto, o su autor?», ya escrito en esa sección y no re-derivable por regla de ruta simple. Sin este filtro, la primera vez que el gate corra sobre una edición a material fuente externo o a un experimento generado, el falso bloqueo lo va a descubrir por fricción — precedente ya vivido con M-21.
 
 **Tres convergencias con el relevamiento del 2026-08-30, y una pregunta sin responder.** La nota de arriba toca tres cosas que ese relevamiento midió, y ninguna estaba disponible cuando el ítem se escribió:
 
@@ -332,7 +332,7 @@ Consecuencia para este ítem, y cambió el 2026-08-30: **M-16 está bloqueada po
 
 ### M-17 — Portar el modelo de skills multi-asistente desde una fuente única
 
-Contraparte concreta de M-03, que declara la incoherencia (investigamos SDD multi-asistente y el tooling es Claude-only) pero no el mecanismo. sdd-first sirve siete skills a cuatro asistentes desde una fuente única: playbook agnóstico como SSOT del contenido, `SKILL.md` fuente como wrapper, y adaptadores generados y committeados con cabecera «NO EDITAR A MANO». Sin symlinks a propósito: se degradan en Windows sin Developer Mode. Detalle en `../fuentes-externas/sdd-first/docs/SKILLS-MULTITOOL.md`; lectura en `../software/analisis/ANALISIS-SDD-FIRST.md` C5.
+Contraparte concreta de M-03, que declara la incoherencia (investigamos SDD multi-asistente y el tooling es Claude-only) pero no el mecanismo. sdd-first sirve siete skills a cuatro asistentes desde una fuente única: playbook agnóstico como SSOT del contenido, `SKILL.md` fuente como wrapper, y adaptadores generados y committeados con cabecera «NO EDITAR A MANO». Sin symlinks a propósito: se degradan en Windows sin Developer Mode. Detalle en `sdd-first:docs/SKILLS-MULTITOOL.md`; lectura en `../software/analisis/ANALISIS-SDD-FIRST.md` C5.
 
 Reserva: portarlo trae un generador en Python, dependencia que hoy solo tiene `check_docs.py`. Decidir M-03 primero — sin playbooks que servir, no hay nada que generar.
 
@@ -412,11 +412,11 @@ Dos reservas:
 
 ### M-41 — Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog
 
-Este repositorio re-consulta cuatro clones vendored y cada re-consulta produce un diff dirigido contra el análisis correspondiente. El procedimiento no está escrito en ningún lado: se improvisa cada vez, y el `[SDD-Check]` de la entrega declara después qué se leyó.
+Este repositorio re-consulta cuatro repositorios y cada re-consulta produce un diff dirigido contra el análisis correspondiente. El procedimiento no está escrito en ningún lado: se improvisa cada vez, y el `[SDD-Check]` de la entrega declara después qué se leyó.
 
 El del 2026-07-10 declaró el suyo con honestidad —«diff basado en CHANGELOG + spec-driven.md»— y esa declaración es exactamente el registro de su punto ciego. `docs/concepts/spec-persistence.md` estaba en el árbol de Spec Kit desde el 2026-06-09, un mes antes de ese corte, y no aparece en el análisis: **un documento agregado sin línea de changelog es invisible a un diff que lee el changelog**. Lo que se perdió no era menor — es la sección que califica la tesis central de la fuente (`../software/analisis/ANALISIS-SPEC-KIT.md` C6) y la que da vocabulario upstream al eje que nuestra comparativa ya usaba (C7).
 
-Es una instancia de la clase 4 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la carpeta que existe y ningún paso mira») aplicada a un procedimiento humano en vez de a un pipeline: el directorio estaba, el paso no lo visitaba, y el resultado salió en verde durante dos meses.
+Es una instancia de la clase 4 de `sdd-first:docs/PATRONES.md` («la carpeta que existe y ningún paso mira») aplicada a un procedimiento humano en vez de a un pipeline: el directorio estaba, el paso no lo visitaba, y el resultado salió en verde durante dos meses.
 
 Qué hace falta: un procedimiento mínimo de re-consulta, escrito una vez y aplicado a las cuatro fuentes. Tres pasos que ya se ejecutaron a mano en el diff del 2026-09-05 y sirven de borrador:
 
@@ -515,7 +515,7 @@ La tabla de profundidad de `../SPECS_REGISTRY.md` define tres niveles de spec, y
 
 Y hay dos documentos que cumplen el criterio que la propia tabla declara para `Extendida` («SSOTs criticos con multiples derivados»): `../software/analisis/ANALISIS-SPEC-KIT.md` y `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`, cada uno con dos derivados registrados. Ninguno lo usa.
 
-Es una instancia del patrón 4 de `../fuentes-externas/sdd-first/docs/PATRONES.md` («la carpeta que existe y ningún paso mira»): una clave de primera clase que ningún consumidor visita. No falla — calla, y el silencio se lee como salud.
+Es una instancia del patrón 4 de `sdd-first:docs/PATRONES.md` («la carpeta que existe y ningún paso mira»): una clave de primera clase que ningún consumidor visita. No falla — calla, y el silencio se lee como salud.
 
 Dos salidas, y no hay una obviamente mejor:
 
@@ -530,7 +530,7 @@ Seis entradas de `../SPECS_REGISTRY.md` titulan su bloque `### docs-y-investigac
 
 No rompe nada hoy. Lo que hace es peor a largo plazo: quien lea el registro y copie el encabezado escribe una ruta inválida, y el próximo consumidor que decida parsear los `### ` en vez del campo `path` hereda seis fallas silenciosas.
 
-**Uno de los seis lo escribí yo el 2026-08-30**, dando de alta la spec del análisis de caso, copiando la convención local sin verificar que el directorio existiera. Vale registrarlo porque es la evidencia del patrón 1 de `../fuentes-externas/sdd-first/docs/PATRONES.md` en su forma más literal: el archivo número siete nace roto igual que el primero, y lo que sostiene el fix no es corregir los seis sino un check que falle nombrando al séptimo.
+**Uno de los seis lo escribí yo el 2026-08-30**, dando de alta la spec del análisis de caso, copiando la convención local sin verificar que el directorio existiera. Vale registrarlo porque es la evidencia del patrón 1 de `sdd-first:docs/PATRONES.md` en su forma más literal: el archivo número siete nace roto igual que el primero, y lo que sostiene el fix no es corregir los seis sino un check que falle nombrando al séptimo.
 
 Qué hace falta: corregir los seis encabezados, y agregar al backstop la verificación de que el encabezado de cada bloque coincida con alguno de sus `path` declarados. El check es de tres líneas y ya tiene los dos insumos parseados.
 

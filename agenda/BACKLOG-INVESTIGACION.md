@@ -38,7 +38,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
    **Lo que probablemente bloquee la 1b:** el aislamiento. En `agy` el `HOME` temporal alcanzo; `~/.claude/` tiene ~25 hooks globales, `AGENTS.md` de usuario y skills ECC, asi que la sonda de contexto es el primer paso y puede obligar a rediseñar el aislamiento antes de medir nada.
 
-   **No fue eso.** El aislamiento se sostuvo con `env -i`, `HOME` temporal y `--setting-sources ""`: ninguna instruccion de proyecto, usuario ni memoria llego al rep. Lo que si bloqueo la Fase 0 fue otra cosa —la sonda de contexto no era portable, y la regla de puntuacion tenia un defecto latente de la pasada 1—, y las dos se resolvieron con enmiendas pre-dato. Detalle: `../../experimentosdd-a4/entorno/ENTORNO-1B.md`.
+   **No fue eso.** El aislamiento se sostuvo con `env -i`, `HOME` temporal y `--setting-sources ""`: ninguna instruccion de proyecto, usuario ni memoria llego al rep. Lo que si bloqueo la Fase 0 fue otra cosa —la sonda de contexto no era portable, y la regla de puntuacion tenia un defecto latente de la pasada 1—, y las dos se resolvieron con enmiendas pre-dato. Detalle: `experimentosdd-a4:entorno/ENTORNO-1B.md`.
 
 11. **`H1` de A-04 sigue sin evaluar (alta, 2026-08-15; reafirmado 2026-08-22).** El item #8 de arriba abrio la pregunta y A-04 pasada 1 mostro que el instrumento no puede responderla tal como esta; la pasada 1b lo mostro otra vez en otro harness. Nadie midio todavia si el protocolo cambia conducta. Se mantiene abierto explicitamente para que el trabajo de instrumento no se confunda con una respuesta.
 
@@ -101,7 +101,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
 16. **Cuantos reps piloto hacen falta para que una calibracion decida una compuerta (alta, 2026-08-22).** Origen: A-04 pasada 1b (`../experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md` §Pasada 1b). La escalera de modelo se recorre con **3 reps por escalon** y sella «el primero que caiga en banda». En la 1b el escalon 2 dio `2/3`, se leyo como margen, se sello, y las tandas de 10+10 dieron `19/20`: la compuerta de banda se rompio por arriba y la pasada cerro NO APTO. La calibracion no fue **incorrecta** —un `2/3` es perfectamente compatible con una tasa de 19/20— sino que **no tenia resolucion** para la decision que se le pidio.
 
-    Lo que hace al caso instructivo es que la tension estaba declarada por escrito **antes** de ver T2 (`../../experimentosdd-a4/T1-1B.md`), y aun asi el diseño no tenia forma de actuar sobre ella: despues del primer rep no hay edicion del sello. El error no es de operacion, es de dimensionamiento del piloto.
+    Lo que hace al caso instructivo es que la tension estaba declarada por escrito **antes** de ver T2 (`experimentosdd-a4:T1-1B.md`), y aun asi el diseño no tenia forma de actuar sobre ella: despues del primer rep no hay edicion del sello. El error no es de operacion, es de dimensionamiento del piloto.
 
     Preguntas: cuantos reps piloto necesita una regla de corte del tipo «sellar el primero que caiga en banda» para que su tasa de error sea tolerable, y como se declara esa tolerancia antes de correr; si conviene reemplazar la regla de corte binaria por una que exija un margen minimo observado y no un solo no-PASS; y si la calibracion debe poder **desellar** cuando la primera tanda la contradice, o si esa puerta abre la busqueda que el Principio V prohibe — que es la razon por la que hoy esta cerrada. Aplica a cualquier experimento con escalera pre-registrada, no solo a A-04.
 
@@ -109,7 +109,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
 17. **¿Un recordatorio automático de propagación se convierte en paisaje? (alta, 2026-08-30).** Origen: [R40], que corre un check `propagacion` desde el 2026-08-25 sobre un grafo real de derivados y dejó escrita su propia deuda: «el ruido real sólo se conoce usándolo. Si tocar el SSOT resulta en cuatro nombres repetidos en cada commit y nadie los mira, el aviso se vuelve paisaje».
 
-    La pregunta importa más allá de ese check: es la forma medible del patrón 3 de sdd-first [R39] (`../fuentes-externas/sdd-first/docs/PATRONES.md`), «el aviso que suena siempre enseña que el verde no significa nada». Ese patrón está enunciado con evidencia cualitativa —cuatro casos donde un aviso perpetuo degradó la señal— y **nunca se midió**. Si tiene umbral, es un dato de método reutilizable por cualquier gate de este repositorio, incluidos los WARN que ya emite `../tools/check_docs.py`.
+    La pregunta importa más allá de ese check: es la forma medible del patrón 3 de sdd-first [R39] (`sdd-first:docs/PATRONES.md`), «el aviso que suena siempre enseña que el verde no significa nada». Ese patrón está enunciado con evidencia cualitativa —cuatro casos donde un aviso perpetuo degradó la señal— y **nunca se midió**. Si tiene umbral, es un dato de método reutilizable por cualquier gate de este repositorio, incluidos los WARN que ya emite `../tools/check_docs.py`.
 
     **Se contesta sobre dato ya generado, sin correr nada.** El corpus es el historial de commits de [R40] desde el 2026-08-25: cuántos avisos por commit, sobre qué documentos, y —cruzando contra el campo `Derivados a revisar` de sus entregas— en cuántos el aviso precedió a una revisión efectiva. Métrica candidata: tasa de avisos seguidos de tocar el derivado nombrado dentro de los N commits siguientes.
 
@@ -147,7 +147,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Recaudo:** B-07 está cerrado y este ítem MUST NOT reinterpretarlo (Principio V). Es una pregunta nueva sobre una herramienta que regenera de verdad, no una relectura de aquel resultado.
 
-21. **El corpus observacional de OpenSpec: circuito de aprendizaje medido sobre un linaje que no es el nuestro (alta, 2026-09-06).** Origen: `../software/analisis/ANALISIS-OPENSPEC.md` C4, donde figura como «no dado de alta» desde el 2026-08-02 porque antes hay que decidir qué se mide. El corpus está vendorizado: **83 cambios archivados**, cada uno con propuesta, diseño, tareas y delta de specs, más 725 commits desde 2025-08-05 y 36 specs vigentes con su estado final.
+21. **El corpus observacional de OpenSpec: circuito de aprendizaje medido sobre un linaje que no es el nuestro (alta, 2026-09-06).** Origen: `../software/analisis/ANALISIS-OPENSPEC.md` C4, donde figura como «no dado de alta» desde el 2026-08-02 porque antes hay que decidir qué se mide. El corpus está en el repositorio de la fuente [R38]: **83 cambios archivados**, cada uno con propuesta, diseño, tareas y delta de specs, más 725 commits desde 2025-08-05 y 36 specs vigentes con su estado final.
 
     **Lo que este corpus tiene y ninguno de los otros:** no es del mismo autor. El inventario del ítem #15 declara que todos los corpus disponibles son propios, así que sumarlos agrava la autocorrelación en vez de aliviarla. Éste es el primero de un linaje que no toca al nuestro, y es la única vía disponible para empezar a separar «propiedad del método» de «propiedad de quien lo ejerce».
 
@@ -157,7 +157,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Confundido declarado e inseparable:** es *dogfooding* del equipo que construye la herramienta. Mide el uso más favorable posible, no el típico, y MUST NOT presentarse como evidencia sobre adopción de OpenSpec por terceros. Es la misma reserva que el ítem #17, por el mismo motivo.
 
-22. **¿Alguna implementación SDD adoptable produce un sistema que funciona mejor que no usar ninguna? (alta, 2026-09-06).** Origen: `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §7, cuya primera línea dice «**Cómo se comportan en un proyecto real.** Ninguna se corrió», y la segunda «**Cuál funciona mejor.** Ninguna fuente reporta medición». Todo el corpus de Línea B sobre implementaciones adoptables es lectura de mecanismo sobre clones vendorizados.
+22. **¿Alguna implementación SDD adoptable produce un sistema que funciona mejor que no usar ninguna? (alta, 2026-09-06).** Origen: `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §7, cuya primera línea dice «**Cómo se comportan en un proyecto real.** Ninguna se corrió», y la segunda «**Cuál funciona mejor.** Ninguna fuente reporta medición». Todo el corpus de Línea B sobre implementaciones adoptables es lectura de mecanismo sobre clones de sus repositorios.
 
     **Lo que la vuelve abordable, y no es una pregunta más de la agenda:** es la primera de este repositorio cuya **variable de salida no es un artefacto documental**. Un test end-to-end que aprueba o falla no depende de que alguien haya decidido documentar nada, y se puntúa con un código de salida. Ataca de frente el anti-patrón del ítem #6 —que declara inutilizable toda métrica donde el tratamiento altera la observabilidad del resultado— y elimina de raíz la deuda de acuerdo entre puntuadores que A-04 arrastró dos pasadas (ítem #12).
 
@@ -198,7 +198,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
 ## LLM Wiki (Karpathy) como SDD automatizado — tension no resuelta (prioridad alta)
 
-Origen: caso I-021 en `../../investigaIA/casos/llm-wiki-karpathy/RESULTADO-llm-wiki-karpathy.md` (repositorio hermano)
+Origen: caso I-021 en `investigaIA:casos/llm-wiki-karpathy/RESULTADO-llm-wiki-karpathy.md` (repositorio hermano)
 
 El patron LLM Wiki de Karpathy [R19] es SDD Linea A implementado con delegacion total al LLM: la capa raw/ es la matriz de fuentes, la wiki/ es el cuerpo de SSOTs derivados, y CLAUDE.md es la spec operativa del mantenedor. La diferencia critica es que el mantenedor es la IA, no un humano.
 
@@ -226,7 +226,7 @@ Cuando un concepto de esta lista pasa de candidato a decision de adopcion, deja 
 
 ## Fuente reservada: "From Spark to Fire" (multi-agente) — para uso futuro (prioridad exploratoria)
 
-Paper vendored en `fuentes-externas/arXiv-2603.04474v1/` ("From Spark to Fire: Modeling and Mitigating Error Cascades in LLM-Based Multi-Agent Collaboration"). **No es referencia activa** (descartado de B-07 el 2026-07-09: su topología es un grafo de colaboración multi-agente con propagación adversarial hacia *falso consenso*, ajena al pipeline lineal de un solo modelo que mide la regenerabilidad de B-07). Se conserva porque encaja en tres líneas que el proyecto podría abrir:
+Paper arXiv 2603.04474v1 ("From Spark to Fire: Modeling and Mitigating Error Cascades in LLM-Based Multi-Agent Collaboration"). **No es referencia activa** (descartado de B-07 el 2026-07-09: su topología es un grafo de colaboración multi-agente con propagación adversarial hacia *falso consenso*, ajena al pipeline lineal de un solo modelo que mide la regenerabilidad de B-07). Se conserva porque encaja en tres líneas que el proyecto podría abrir:
 
 1. **Orquestación multi-agente del propio método SDD.** Si el SDD llegara a coordinar varios agentes IA colaborando (uno redacta spec, otro implementa, otro revisa), su modelo de propagación (grafo de dependencias, condición temprana de amplificación β·ρ(A) > δ) y su capa de gobernanza por genealogía (procedencia de afirmaciones, screening tri-estado, rollback forzado) serían directamente aplicables a la confiabilidad de esa colaboración. Conecta con "Medir variabilidad entre asistentes IA" (prioridad alta, arriba).
 2. **Cascada encubierta en topología multi-agente.** Formaliza cómo errores menores se "solidifican en falso consenso a nivel de sistema" — análogo multi-agente de la cascada encubierta de `../comun/SDD-ADAPTATIVO-VS-CASCADA.md`. Candidato a cross-ref si esa línea se extiende más allá del circuito humano-mediado.

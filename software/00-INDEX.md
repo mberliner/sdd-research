@@ -13,12 +13,12 @@ Como aplicar SDD para convertir especificaciones en software confiable, verifica
 3. [PLAN-PRUEBAS.md](./PLAN-PRUEBAS.md)
 
 ## Análisis de frameworks
-- [ANALISIS-SPEC-KIT.md](./analisis/ANALISIS-SPEC-KIT.md) — análisis de GitHub Spec Kit. Fuente vendored en [../fuentes-externas/spec-kit/](../fuentes-externas/spec-kit/).
-- [ANALISIS-SUPERPOWERS.md](./analisis/ANALISIS-SUPERPOWERS.md) — análisis de Superpowers. Fuente vendored en [../fuentes-externas/superpowers/](../fuentes-externas/superpowers/).
-- [ANALISIS-OPENSPEC.md](./analisis/ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente vendored en [../fuentes-externas/OpenSpec/](../fuentes-externas/OpenSpec/).
-- [ANALISIS-SDD-FIRST.md](./analisis/ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente vendored en [../fuentes-externas/sdd-first/](../fuentes-externas/sdd-first/).
-- [ANALISIS-KIRO.md](./analisis/ANALISIS-KIRO.md) — análisis de Kiro (AWS). Sin clon vendored: producto cerrado, leído de su documentación oficial.
-- [ANALISIS-TESSL.md](./analisis/ANALISIS-TESSL.md) — análisis de Tessl. Sin clon vendored: producto cerrado, con el Framework en beta cerrada.
+- [ANALISIS-SPEC-KIT.md](./analisis/ANALISIS-SPEC-KIT.md) — análisis de GitHub Spec Kit. Fuente: [R10].
+- [ANALISIS-SUPERPOWERS.md](./analisis/ANALISIS-SUPERPOWERS.md) — análisis de Superpowers. Fuente: [R37].
+- [ANALISIS-OPENSPEC.md](./analisis/ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente: [R38].
+- [ANALISIS-SDD-FIRST.md](./analisis/ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente: [R39].
+- [ANALISIS-KIRO.md](./analisis/ANALISIS-KIRO.md) — análisis de Kiro (AWS). Sin código que clonar: producto cerrado, leído de su documentación oficial.
+- [ANALISIS-TESSL.md](./analisis/ANALISIS-TESSL.md) — análisis de Tessl. Sin código que clonar: producto cerrado, con el Framework en beta cerrada.
 - [CONVERGENCIA-IMPLEMENTACIONES-SDD.md](./CONVERGENCIA-IMPLEMENTACIONES-SDD.md) — convergencia entre implementaciones de SDD, leído sobre los análisis de arriba y el testigo.
 - [ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md](./ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md) — orientación práctica sobre esas implementaciones, leída con un instrumento propio de dimensiones.
 - [COMPARATIVA-SPECKIT-VS-TESTIGO.md](./COMPARATIVA-SPECKIT-VS-TESTIGO.md) — comparación Spec Kit vs. proyecto testigo.

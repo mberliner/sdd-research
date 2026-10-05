@@ -14,8 +14,8 @@ Como aplicar SDD para mejorar calidad analitica y consistencia documental en equ
 4. [PLAN-PRUEBAS.md](./PLAN-PRUEBAS.md)
 
 ## Análisis de casos
-- [ANALISIS-CASO-CAMPO-1.md](./ANALISIS-CASO-CAMPO-1.md) — análisis del caso de campo 1. Fuente reservada; extracto saneado en [../fuentes-externas/caso-campo-1/](../fuentes-externas/caso-campo-1/).
-- [ANALISIS-EDICION-COLABORATIVA-IA.md](./ANALISIS-EDICION-COLABORATIVA-IA.md) — análisis del estudio ACM CHI 2026 sobre edición colaborativa con agentes de IA (arXiv 2509.11826). Fuente vendored en [../fuentes-externas/arXiv-2509.11826v2/](../fuentes-externas/arXiv-2509.11826v2/).
+- [ANALISIS-CASO-CAMPO-1.md](./ANALISIS-CASO-CAMPO-1.md) — análisis del caso de campo 1. Fuente reservada [R40].
+- [ANALISIS-EDICION-COLABORATIVA-IA.md](./ANALISIS-EDICION-COLABORATIVA-IA.md) — análisis del estudio ACM CHI 2026 sobre edición colaborativa con agentes de IA (arXiv 2509.11826). Fuente: [R53].
 
 ## Resultado esperado
 Un modelo operativo SDD liviano, sin CI obligatorio, que reduzca contradicciones y aumente trazabilidad.

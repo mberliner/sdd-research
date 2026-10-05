@@ -1,7 +1,7 @@
 # Análisis: Superpowers y su relación con nuestra investigación SDD (Línea B)
 
 Fecha: 2026-08-02.
-Fuente: Superpowers v6.2.0, commit `44c9b2d` (consultada 2026-08-02) [R37]. Clon local vendored en `../../fuentes-externas/superpowers/`.
+Fuente: Superpowers v6.2.0, commit `44c9b2d` (consultada 2026-08-02) [R37].
 Alcance: Línea B (software).
 
 ---
@@ -50,7 +50,7 @@ Rasgos de diseño relevantes:
 
 Es el aporte distintivo de esta fuente y no tiene equivalente en Spec Kit ni en el testigo.
 
-`../../fuentes-externas/superpowers/skills/writing-skills/testing-skills-with-subagents.md` define un ciclo RED→GREEN→REFACTOR aplicado a documentos de método: correr escenarios de presión **sin** el documento y capturar las racionalizaciones textuales del agente; escribir el documento contra esas fallas concretas; correr **con** el documento y verificar cumplimiento; cerrar las racionalizaciones nuevas que aparezcan. El criterio de diseño de los escenarios es combinar tres o más presiones simultáneas (tiempo, costo hundido, autoridad, agotamiento) y forzar una elección explícita entre opciones concretas.
+`superpowers:skills/writing-skills/testing-skills-with-subagents.md` define un ciclo RED→GREEN→REFACTOR aplicado a documentos de método: correr escenarios de presión **sin** el documento y capturar las racionalizaciones textuales del agente; escribir el documento contra esas fallas concretas; correr **con** el documento y verificar cumplimiento; cerrar las racionalizaciones nuevas que aparezcan. El criterio de diseño de los escenarios es combinar tres o más presiones simultáneas (tiempo, costo hundido, autoridad, agotamiento) y forzar una elección explícita entre opciones concretas.
 
 Dos propiedades lo vuelven relevante para las deudas metodológicas de este repositorio:
 
@@ -59,8 +59,8 @@ Dos propiedades lo vuelven relevante para las deudas metodológicas de este repo
 
 Dos casos concretos, con su archivo de origen para que sean re-verificables:
 
-- **Efecto medido de borrar prosa** (`../../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.2.0): eliminar una sección argumentativa de la skill de TDD degradó la conducta test-first de 8/10 a 5/10 bajo presión, corroborado en dos familias de modelos. Revirtieron el corte y conservaron los argumentos redistribuidos. Es un tamaño de efecto de referencia y una advertencia directa para `M-04` de `../../agenda/MEJORAS-METODO.md`: compactar documentos de método tiene un costo conductual que hoy no medimos.
-- **Un cierre que no reescribió su hipótesis** (`../../fuentes-externas/superpowers/docs/superpowers/specs/2026-07-06-sdd-plan-scoped-workspace-eval-results.md`): la falla hipotetizada —adopción ciega de un registro de progreso ajeno— **no se reprodujo** en ninguna de las 25 repeticiones. En vez de reformular, el documento declara qué reclama y qué no ("what this GREEN round claims, and only claims"), reporta que el mecanismo cambió pero el conteo crudo de herramientas no bajó, y deja el cambio apoyado en razones estructurales con firma del mantenedor. Es Principio V ejecutado por un tercero.
+- **Efecto medido de borrar prosa** (`superpowers:RELEASE-NOTES.md`, v6.2.0): eliminar una sección argumentativa de la skill de TDD degradó la conducta test-first de 8/10 a 5/10 bajo presión, corroborado en dos familias de modelos. Revirtieron el corte y conservaron los argumentos redistribuidos. Es un tamaño de efecto de referencia y una advertencia directa para `M-04` de `../../agenda/MEJORAS-METODO.md`: compactar documentos de método tiene un costo conductual que hoy no medimos.
+- **Un cierre que no reescribió su hipótesis** (`superpowers:docs/superpowers/specs/2026-07-06-sdd-plan-scoped-workspace-eval-results.md`): la falla hipotetizada —adopción ciega de un registro de progreso ajeno— **no se reprodujo** en ninguna de las 25 repeticiones. En vez de reformular, el documento declara qué reclama y qué no ("what this GREEN round claims, and only claims"), reporta que el mecanismo cambió pero el conteo crudo de herramientas no bajó, y deja el cambio apoyado en razones estructurales con firma del mantenedor. Es Principio V ejecutado por un tercero.
 
 Límite que MUST acompañar cualquier uso de esto: los evals son internos y autoreportados, con n chico y scoring del propio equipo [R37]. Se porta el **procedimiento**; los resultados no se asumen.
 
@@ -146,7 +146,7 @@ Este repositorio declara tres niveles de profundidad de spec en `../../SPECS_REG
 
 `subagent-driven-development` incorpora una regla que declara sin rodeos: «**Rulings, not stalls.** A running plan does not wait on a human.» Un conflicto entre el plan y lo que el implementador encuentra ya no detiene el trabajo: se resuelve contra la spec —«the spec is the binding authority, the plan is its argument»—, se registra el fallo en el ledger con la forma `Ruling: <que se decidio> — <por que> — <cuanto cuesta si esta mal>`, y se sigue. Solo lo destructivo o irreversible sigue frenando para un humano.
 
-La fuente declara el costo que lo motivo: una sesion donada estuvo bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido (`../../fuentes-externas/superpowers/RELEASE-NOTES.md`, v6.3.0). Es un dato autoreportado, de un caso, sin medicion agregada: **MUST NOT citarse como evidencia de efectividad**, en linea con la reserva de [R37].
+La fuente declara el costo que lo motivo: una sesion donada estuvo bloqueada casi nueve horas por una pregunta que el controlador podia haber decidido (`superpowers:RELEASE-NOTES.md`, v6.3.0). Es un dato autoreportado, de un caso, sin medicion agregada: **MUST NOT citarse como evidencia de efectividad**, en linea con la reserva de [R37].
 
 El contraste con este repositorio es directo y vale escribirlo con precision, porque no es una mejora disponible:
 

@@ -1,7 +1,7 @@
 # Análisis: sdd-first y su relación con nuestra investigación SDD (Línea B)
 
 Fecha: 2026-08-15.
-Fuente: sdd-first v0.1.0, commit `ebfbd67` (2026-08-14), rama `main`, árbol limpio [R39]. Clon vendored en `../../fuentes-externas/sdd-first/`.
+Fuente: sdd-first v0.1.0, commit `ebfbd67` (2026-08-14), rama `main`, árbol limpio [R39].
 Re-consultado el 2026-08-30 en el commit `f032dce` (2026-08-17). El delta se lee en §Lo que el kit destiló después y en C7.
 Re-consultado el 2026-09-05 en el commit `4a0851e` (2026-09-03). El delta se lee en §Los ocho arreglos que siguieron y en C8.
 Re-consultado el 2026-09-30 en el commit `0e09037` (2026-09-07). El delta se lee en §Actualización 2026-09-30. El resto del documento vale para el commit original.
@@ -37,7 +37,7 @@ Este documento lo caracteriza y lo mapea contra nuestro protocolo (`../../AGENTS
 
 ### Las tres capas de enforcement
 
-`../../fuentes-externas/sdd-first/docs/SDD-ENFORCEMENT.md` es su SSOT y declara tres capas, la misma arquitectura que `../../agenda/MEJORAS-METODO.md` M-01 dice haber portado del testigo:
+`sdd-first:docs/SDD-ENFORCEMENT.md` es su SSOT y declara tres capas, la misma arquitectura que `../../agenda/MEJORAS-METODO.md` M-01 dice haber portado del testigo:
 
 | Capa | Mecanismo | Qué garantiza |
 |------|-----------|---------------|
@@ -53,7 +53,7 @@ El límite es el mismo que `AGENTS.md` declara acá para `check_docs.py`: presen
 
 ### Skills multi-asistente desde una fuente
 
-Dos lugares editables por skill —el playbook en `docs/playbooks/` (contenido, agnóstico de asistente) y el `SKILL.md` fuente en `.agents/skills/` (wrapper)— y de ahí `core/gen_skill_adapters.py` genera los formatos de Claude Code y opencode; Codex y Antigravity leen la fuente directo. Sin symlinks, a propósito: se degradan en Windows sin Developer Mode (`../../fuentes-externas/sdd-first/docs/SKILLS-MULTITOOL.md`).
+Dos lugares editables por skill —el playbook en `docs/playbooks/` (contenido, agnóstico de asistente) y el `SKILL.md` fuente en `.agents/skills/` (wrapper)— y de ahí `core/gen_skill_adapters.py` genera los formatos de Claude Code y opencode; Codex y Antigravity leen la fuente directo. Sin symlinks, a propósito: se degradan en Windows sin Developer Mode (`sdd-first:docs/SKILLS-MULTITOOL.md`).
 
 ### Actualización de instalaciones derivadas
 
@@ -61,14 +61,14 @@ Dos lugares editables por skill —el playbook en `docs/playbooks/` (contenido, 
 
 ### El formato de spec que siembra (leído en `0e09037`, 2026-10-05)
 
-Su SSOT es `../../fuentes-externas/sdd-first/templates/docs/SPEC-FORMAT.md`, y la plantilla que consume `sdd_spec.py` es `specs/SPEC-TEMPLATE.md`. La fuente se declara «Adaptación del enfoque híbrido estilo GitHub Spec Kit»: la anatomía base —User Story con prioridad e *Independent Test*, escenarios Given/When/Then, `FR-NNN`, `SC-NNN`— es la de `ANALISIS-SPEC-KIT.md` y no se repite acá. Es **difusión**, por la misma cadena que la sección anterior: el par `hibrido`/`casero` es el factor de B-07.
+Su SSOT es `sdd-first:templates/docs/SPEC-FORMAT.md`, y la plantilla que consume `sdd_spec.py` es `sdd-first:specs/SPEC-TEMPLATE.md`. La fuente se declara «Adaptación del enfoque híbrido estilo GitHub Spec Kit»: la anatomía base —User Story con prioridad e *Independent Test*, escenarios Given/When/Then, `FR-NNN`, `SC-NNN`— es la de `ANALISIS-SPEC-KIT.md` y no se repite acá. Es **difusión**, por la misma cadena que la sección anterior: el par `hibrido`/`casero` es el factor de B-07.
 
 Lo que el kit cambia sobre esa base son cuatro cosas, y ninguna es de redacción:
 
 - **El verbo normativo es un prefijo del FR, no un término dentro de la frase**: `FR-001 MUST: ...`, con `SHOULD:` y `MAY:` admitidos. En specs con varias historias el ID lleva la historia, `FR-USk-NNN`. Los `SC-NNN` se exigen binarios y agnósticos de implementación, y la relación FR↔SC se declara N:M.
 - **El coverage mapping vive dentro de la spec y lo exige el backstop.** En Spec Kit es un reporte que produce `/speckit.analyze` y mapea FR/SC a tareas; acá es una sección `| Requisito | Cubierto por |` que mapea cada FR a sus tests, obligatoria en specs `hibrido` + `active`. Desde SPEC-024 el ID tiene que aparecer como token dentro del test (C2).
 - **La spec declara su relación con las demás**: seis campos en tres pares simétricos, con reciprocidad y coherencia de estado verificadas por script (fila 7 del mapeo).
-- **`casero` es la salida del formato**: una spec sin estructura exigida y sin coverage mapping. En el corpus propio del kit la usa **una de 26** —`SPEC-000`, la de nomenclatura, que se genera desde config— (`specs/SPECS_REGISTRY.md`). La salida existe declarada y casi no se ejerce.
+- **`casero` es la salida del formato**: una spec sin estructura exigida y sin coverage mapping. En el corpus propio del kit la usa **una de 26** —`SPEC-000`, la de nomenclatura, que se genera desde config— (`sdd-first:specs/SPECS_REGISTRY.md`). La salida existe declarada y casi no se ejerce.
 
 **Lectura.** De lo que se agrega sobre Spec Kit, las tres primeras son la misma decisión: mover a la spec, para que un script las verifique, cosas que Spec Kit deja en un comando de juicio.
 
@@ -235,7 +235,7 @@ Vale registrarlo porque es la posición contraria a la de los casos que levantan
 [SDD-Check] — formato de spec 2026-10-05
 - Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye: el formato de spec que el kit siembra se lee como parte de la «síntesis del andamiaje»)
 - Incluye/Excluye verificado: SI — la anatomía base de Spec Kit se referencia a `ANALISIS-SPEC-KIT.md` y no se reproduce; la coincidencia se declara difusión, no convergencia
-- Validaciones aplicadas: lectura de `../../fuentes-externas/sdd-first/templates/docs/SPEC-FORMAT.md`, `../../fuentes-externas/sdd-first/specs/SPEC-TEMPLATE.md` y `../../fuentes-externas/sdd-first/specs/SPECS_REGISTRY.md` en `0e09037`; conteo 25 `hibrido` / 1 `casero` sobre el registro del kit
+- Validaciones aplicadas: lectura de `sdd-first:templates/docs/SPEC-FORMAT.md`, `sdd-first:specs/SPEC-TEMPLATE.md` y `sdd-first:specs/SPECS_REGISTRY.md` en `0e09037`; conteo 25 `hibrido` / 1 `casero` sobre el registro del kit
 - SSOT afectado: ninguno (doc operativo)
 - Derivados a revisar: ninguno registrado. `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 (ficha sdd-first) no se toca: su mención a `FR-US1-004` sigue siendo correcta como ejemplo de spec multi-HU
 - Cobertura: completa — las cinco secciones obligatorias del formato quedan cubiertas, por referencia o por diferencia

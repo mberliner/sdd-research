@@ -1,14 +1,14 @@
 # Análisis: OpenSpec y su relación con nuestra investigación SDD (Línea B)
 
 Fecha: 2026-08-02.
-Fuente: OpenSpec v1.7.0, commit `45cca5d` (consultada 2026-08-02) [R38]. Clon local vendored en `../../fuentes-externas/OpenSpec/`.
+Fuente: OpenSpec v1.7.0, commit `45cca5d` (consultada 2026-08-02) [R38].
 Alcance: Línea B (software).
 
 ---
 
 ## Contexto
 
-OpenSpec es un sistema de SDD distribuido como CLI de npm (`@fission-ai/openspec`, MIT, respaldo de Fission AI). El agente no lee la metodología de un documento: la pide a la herramienta. Se instala en el proyecto, genera adaptadores para más de 30 asistentes (`../../fuentes-externas/OpenSpec/docs/supported-tools.md`) y expone doce skills sobre un CLI que resuelve rutas, valida estructura y sirve las instrucciones de cada artefacto.
+OpenSpec es un sistema de SDD distribuido como CLI de npm (`@fission-ai/openspec`, MIT, respaldo de Fission AI). El agente no lee la metodología de un documento: la pide a la herramienta. Se instala en el proyecto, genera adaptadores para más de 30 asistentes (`OpenSpec:docs/supported-tools.md`) y expone doce skills sobre un CLI que resuelve rutas, valida estructura y sirve las instrucciones de cada artefacto.
 
 Este documento la caracteriza y la mapea contra nuestro protocolo (`../../AGENTS.md`, `../../SPECS_REGISTRY.md`) con el mismo instrumento de ocho filas que `ANALISIS-SPEC-KIT.md` y `ANALISIS-SUPERPOWERS.md`. La lectura cruzada de los cuatro casos **no** vive acá: su SSOT es `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`.
 
@@ -18,7 +18,7 @@ Este documento la caracteriza y la mapea contra nuestro protocolo (`../../AGENTS
 
 `CONVERGENCIA-IMPLEMENTACIONES-SDD.md` exige que todo caso nuevo declare su procedencia antes de contarse. Este es el resultado de aplicar ese filtro, y es la sección que decide si el resto del documento tiene valor para el relevamiento.
 
-**Independiente de Spec Kit, por fecha.** El primer commit de OpenSpec es del **2025-08-05** y ya se llama "initialize openspec project structure"; el primer commit del repositorio de Spec Kit es del **2025-08-21**, dieciséis días posterior (ambos verificables en los clones vendored). La anatomía `openspec/specs/` + `openspec/changes/` existía antes de que el repositorio del que podría haberla copiado tuviera historia pública. No hay derivación posible en esa dirección.
+**Independiente de Spec Kit, por fecha.** El primer commit de OpenSpec es del **2025-08-05** y ya se llama "initialize openspec project structure"; el primer commit del repositorio de Spec Kit es del **2025-08-21**, dieciséis días posterior (ambos verificables en el historial de cada repositorio). La anatomía `openspec/specs/` + `openspec/changes/` existía antes de que el repositorio del que podría haberla copiado tuviera historia pública. No hay derivación posible en esa dirección.
 
 **Menciona a Spec Kit y a Kiro, pero para diferenciarse.** Su README los usa como contraste comercial —"heavyweight", "locked into their IDE"— y cita el catálogo de extensiones de Spec Kit como analogía de un mecanismo propio. Eso es posicionamiento de competidor, no herencia de método.
 
@@ -97,7 +97,7 @@ Nuestra regla de propagación —los resultados suben al SSOT antes de bajar a s
 
 ### C4. Corpus observacional con procedencia limpia
 
-83 cambios archivados, cada uno con propuesta, diseño, tareas y delta de specs, más 725 commits desde 2025-08-05 y specs vigentes que muestran su estado final. Es el segundo corpus dogfooded disponible en `fuentes-externas/` y el primero de un linaje que no toca al nuestro, lo cual lo vuelve el candidato más limpio para la línea observacional del backlog (prioridad alta #6). **No dado de alta**: el diseño de ese estudio requiere decidir antes qué se mide, y ese trabajo no está hecho.
+83 cambios archivados, cada uno con propuesta, diseño, tareas y delta de specs, más 725 commits desde 2025-08-05 y specs vigentes que muestran su estado final. Es el segundo corpus dogfooded del corpus de fuentes y el primero de un linaje que no toca al nuestro, lo cual lo vuelve el candidato más limpio para la línea observacional del backlog (prioridad alta #6). **No dado de alta**: el diseño de ese estudio requiere decidir antes qué se mide, y ese trabajo no está hecho.
 
 ### C5. Lo que NO conviene adoptar tal cual
 

@@ -61,7 +61,7 @@ Fijadas el **2026-09-05**. Su origen es la pregunta del usuario que encargó el 
 
 ## 3. Tabla resumen
 
-Los números de D9 a D11 salen de los clones vendored con `git`, no de la documentación de cada fuente. Corte: 2026-09-05; ventana de 90 días desde 2026-06-07.
+Los números de D9 a D11 salen de clones de cada repositorio con `git`, no de la documentación de cada fuente. Corte: 2026-09-05; ventana de 90 días desde 2026-06-07.
 
 | | **Spec Kit** [R10] | **OpenSpec** [R38] | **Superpowers** [R37] | **sdd-first** [R39] | **Kiro** [R44] | **Tessl** [R46] |
 |---|---|---|---|---|---|---|
@@ -89,9 +89,9 @@ Los números de D9 a D11 salen de los clones vendored con `git`, no de la docume
 
 **Orientación** `[declarado]`: un ciclo por feature, de la spec al código, con comandos que el asistente ejecuta en orden. `/speckit.converge` cubre el caso de un codebase ya existente, pero el diseño base asume que empezás algo.
 
-**Cuando el trabajo crece** `[declarado]`: es el único de los cuatro con una **escalera escrita**, ordenada de más barata a más cara (`../fuentes-externas/spec-kit/docs/concepts/complex-features.md`): limitar cuántas tareas corre cada invocación; delegar en subagentes; combinar las dos; y sólo si nada de eso alcanza, descomponer en un *roadmap* de sub-specs (`spec-of-specs.md`). La fuente advierte que la descomposición «adds the most overhead of any strategy».
+**Cuando el trabajo crece** `[declarado]`: es el único de los cuatro con una **escalera escrita**, ordenada de más barata a más cara (`spec-kit:docs/concepts/complex-features.md`): limitar cuántas tareas corre cada invocación; delegar en subagentes; combinar las dos; y sólo si nada de eso alcanza, descomponer en un *roadmap* de sub-specs (`spec-of-specs.md`). La fuente advierte que la descomposición «adds the most overhead of any strategy».
 
-**Variantes, con su costo dicho por la fuente** `[declarado]` — esto es lo más útil de este caso y no tiene equivalente en los otros tres (`../fuentes-externas/spec-kit/docs/concepts/spec-persistence.md`):
+**Variantes, con su costo dicho por la fuente** `[declarado]` — esto es lo más útil de este caso y no tiene equivalente en los otros tres (`spec-kit:docs/concepts/spec-persistence.md`):
 
 | Modelo | Regla | Riesgo, en palabras de la fuente |
 |---|---|---|
@@ -115,7 +115,7 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 
 **Orientación** `[derivado]`: el par `openspec/specs/` (capacidades durables, del tipo `cli-init`) más `openspec/changes/` (unidades de trabajo con `Why` / `What Changes` / `Capabilities`) está armado para un producto que ya existe y se modifica. Un *change* declara qué capacidades crea y cuáles modifica; al archivar, el delta se fusiona en la spec vigente.
 
-**Cuando el trabajo crece** `[derivado]`: no tiene mecanismo de escala por tamaño de tarea. Lo que sí tiene es escala **por repositorio**: los *stores* (beta) sacan `openspec/` a un repositorio propio compartido por varios repos de código, con ramas y pull requests como cualquier repositorio (`../fuentes-externas/OpenSpec/docs-lab/multi-repo/stores.md`). Es el único de los cuatro que aborda el caso de una feature que cruza frontend y backend en repos distintos.
+**Cuando el trabajo crece** `[derivado]`: no tiene mecanismo de escala por tamaño de tarea. Lo que sí tiene es escala **por repositorio**: los *stores* (beta) sacan `openspec/` a un repositorio propio compartido por varios repos de código, con ramas y pull requests como cualquier repositorio (`OpenSpec:docs-lab/multi-repo/stores.md`). Es el único de los cuatro que aborda el caso de una feature que cruza frontend y backend en repos distintos.
 
 **Variantes** `[declarado]`: *schemas* forkeables que redefinen el conjunto de artefactos y sus dependencias; `--strict` para endurecer la validación; `init --language` para el idioma de los artefactos.
 
@@ -413,7 +413,7 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 
 - **Cuál funciona mejor.** Ninguna fuente reporta medición. Cuatro herramientas con mecanismos distintos para el mismo problema, y cero datos de desempeño comparado.
 - **Si la orientación declarada se cumple.** Todo `[declarado]` es lo que la fuente dice de sí misma; dos de las cuatro tienen interés comercial y una es del mismo autor que este repositorio.
-- **Cómo se comportan en un proyecto real.** Ninguna se corrió: las cuatro se leyeron de clones vendored. **Es lo que B-09 va a medir** (`../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md`, abierto 2026-09-06, en borrador pre-sello). Hasta que cierre, esta línea y la siguiente siguen vigentes tal cual.
+- **Cómo se comportan en un proyecto real.** Ninguna se corrió: las cuatro se leyeron de clones de sus repositorios. **Es lo que B-09 va a medir** (`../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md`, abierto 2026-09-06, en borrador pre-sello). Hasta que cierre, esta línea y la siguiente siguen vigentes tal cual.
 - **Cuál paradigma es el correcto.** La sección 5 dice qué rol tiene la spec en cada caso, quién gana ante discrepancia y qué verifica el enforcement. No dice cuál de esas seis respuestas es la buena, ni si conviene que la spec sea entrada, registro, precondición o fuente. Eso depende del proyecto, y además nadie lo midió.
 - **Si más vinculación produce mejor resultado.** La escala de vinculación (§5) ordena los seis casos por qué comprueba cada uno, y nada más. Que tres casos no verifiquen nada mecánicamente **no** dice que produzcan peor código: dice que su método se sostiene en que alguien lo siga. Si eso importa en la práctica es justamente lo que ninguna fuente midió, y lo que B-09 puede empezar a responder para cuatro de los seis.
 - **Si la reputación refleja calidad.** D15 recoge atención acumulada y reportes autoseleccionados de terceros. Ninguna de las tres fuentes que la alimentan —métricas de GitHub, hilos públicos, trackers— tiene población definida ni control, y las tres tienen sesgos distintos y opuestos. Sirve para anticipar objeciones, nunca para ordenar por mérito.

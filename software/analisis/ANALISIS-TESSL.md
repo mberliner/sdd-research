@@ -4,7 +4,7 @@ Fecha: 2026-09-05.
 Fuente: Tessl, blog y documentación oficiales consultados el 2026-09-05 [R46]; la regeneración y su no-determinismo, verificados en [R20].
 Alcance: Línea B (software).
 
-> **Clase de evidencia.** Igual que Kiro [R44], Tessl **no tiene clon vendored y no puede tenerlo**. Y va un paso más allá: su *Framework* está en **beta cerrada**, así que ni siquiera es instalable libremente. Todo rasgo se cita de documentación oficial o de un tercero identificado. Nada se leyó en código, nada se corrió.
+> **Clase de evidencia.** Igual que Kiro [R44], Tessl **no tiene código que clonar y no puede tenerlo**. Y va un paso más allá: su *Framework* está en **beta cerrada**, así que ni siquiera es instalable libremente. Todo rasgo se cita de documentación oficial o de un tercero identificado. Nada se leyó en código, nada se corrió.
 
 ---
 

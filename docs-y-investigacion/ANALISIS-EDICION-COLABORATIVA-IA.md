@@ -1,7 +1,7 @@
 # Análisis: edición colaborativa de documentos con agentes de IA (Línea A)
 
 Fecha: 2026-09-06.
-Fuente: Lehmann, Shauchenka & Buschek — *Collaborative Document Editing with Multiple Users and AI Agents* (ACM CHI 2026; arXiv 2509.11826v2) [R53]. Estudio académico con revisión por pares, vendored en `../fuentes-externas/arXiv-2509.11826v2/`.
+Fuente: Lehmann, Shauchenka & Buschek — *Collaborative Document Editing with Multiple Users and AI Agents* (ACM CHI 2026; arXiv 2509.11826v2) [R53]. Estudio académico con revisión por pares.
 Alcance: Línea A (docs e investigación).
 
 ---
@@ -80,7 +80,7 @@ El aporte de este paper a Línea A no es un mecanismo para portar, es **vocabula
 [SDD-Check]
 - Spec leida: SI (spec registrada en `../SPECS_REGISTRY.md` para este doc, dada de alta en la misma iteracion)
 - Incluye/Excluye verificado: SI — no se citan decisiones de adopción de método (no hay ninguna que proponer todavía), no se reproduce detalle de implementación del prototipo ajeno al hallazgo
-- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R53], vendored en `../fuentes-externas/arXiv-2509.11826v2/`; toda cifra citada (N=30, 14 equipos, una semana) es del paper, marcada como tal; distinción explícita entre lo que el estudio midió y lo que es lectura propia para Línea A (sección homónima); sin emoticones; refs internas verificadas con `../tools/check_docs.py`
+- Validaciones aplicadas: version anclada en `../REFERENCIAS.md` [R53]; toda cifra citada (N=30, 14 equipos, una semana) es del paper, marcada como tal; distinción explícita entre lo que el estudio midió y lo que es lectura propia para Línea A (sección homónima); sin emoticones; refs internas verificadas con `../tools/check_docs.py`
 - SSOT afectado: ninguno (doc operativo)
 - Derivados a revisar: ninguno — este análisis no da de alta ítems de agenda; si se decide diseñar el experimento con más de un autor humano que sugiere la sección de transferibilidad, corresponde a una iteración futura sobre `../agenda/BACKLOG-INVESTIGACION.md`
 - Cobertura: completa — los cinco hallazgos y las dos decisiones de diseño del paper quedan caracterizados, y la sección de transferibilidad distingue explícitamente qué es hipótesis y qué queda fuera

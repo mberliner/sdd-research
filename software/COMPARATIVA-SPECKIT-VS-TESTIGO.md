@@ -1,7 +1,7 @@
 # Comparativa: GitHub Spec Kit vs. proyecto testigo (`evaluador-flujo-intent`)
 
 Fecha: 2026-05-26. Actualizado: 2026-07-09; sincronizado con el cierre de B-07 el 2026-07-29.
-Fuentes: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]; artefactos reales del testigo `evaluador-flujo-intent` (ex `agent-test-suite`; `../../../test_circuito_intents/evaluador-flujo-intent/`), observados al 2026-07-09 (HEAD `8bff08c`, 64 commits).
+Fuentes: GitHub Spec Kit v0.8.13 (consultada 2026-05-21) [R10]; artefactos reales del testigo `evaluador-flujo-intent` (ex `agent-test-suite`; repositorio privado), observados al 2026-07-09 (HEAD `8bff08c`, 64 commits).
 
 > Nota de premisa (2026-06-21): el testigo se reorganizo sobre la premisa **SDD universal primero, adaptadores por ambiente despues**: `AGENTS.md` es el SSOT del protocolo (lo leen opencode/Cursor/Codex/Aider/Gemini CLI por convencion; Claude Code via `@AGENTS.md`); el cuerpo semantico de `/analyze` y `/clarify` vive neutro en `docs/playbooks/` y cada asistente recibe un wrapper fino (`.claude/skills/`, `.opencode/command/`). Ademas el testigo **ya adopto git + CI + pre-commit**. Las celdas y bullets que asumian "sin git/sin CI" / "Claude-only" se corrigen abajo; los bloques `[SDD-Check]` datados previos quedan como registro de su fecha.
 Alcance: Linea B (software).
@@ -219,7 +219,7 @@ Los ejes son **ortogonales**: un SDD puede ser fuerte en regenerabilidad y debil
 [SDD-Check] — actualizacion 2026-06-21 (profundizacion del eje "organizacion de specs")
 - Spec leida: SI (incluye "tabla comparativa por dimension"; la nueva §1.1 profundiza la fila "Organizacion de specs" de la dimension 1, no agrega una dimension nueva ni re-analiza el flujo interno de Spec Kit)
 - Incluye/Excluye verificado: SI (no duplica las 5 dimensiones — expande una fila ya existente; no anticipa resultados de B-07; el detalle de `.sdd/current-spec` se referencia a DECISION §9.1, no se copia)
-- Validaciones aplicadas: modelo Spec Kit verificado en codigo real `fuentes-externas/spec-kit/scripts/bash/create-new-feature.sh` v0.8.13 [R10] — invariante = carpeta por feature, rama condicional a `HAS_GIT` (degrada sin git, numeracion secuencial/`--timestamp`); se corrigio la celda "Organizacion de specs" (antes "branch git automatico", impreciso) a "carpeta por feature (invariante) + rama por defecto con git"; modelo testigo desde `SPECS_REGISTRY.md`; sin emoticones; fechas YYYY-MM-DD; lenguaje normativo
+- Validaciones aplicadas: modelo Spec Kit verificado en codigo real `spec-kit:scripts/bash/create-new-feature.sh` v0.8.13 [R10] — invariante = carpeta por feature, rama condicional a `HAS_GIT` (degrada sin git, numeracion secuencial/`--timestamp`); se corrigio la celda "Organizacion de specs" (antes "branch git automatico", impreciso) a "carpeta por feature (invariante) + rama por defecto con git"; modelo testigo desde `SPECS_REGISTRY.md`; sin emoticones; fechas YYYY-MM-DD; lenguaje normativo
 - SSOT afectado: ninguno (doc derivado de ANALISIS-SPEC-KIT.md)
 - Derivados a revisar: ninguno
 - Cobertura: completa para lo pedido (beneficios vs desventajas de ambos modelos de organizacion + condiciones de aplicabilidad + sintesis del eje)
