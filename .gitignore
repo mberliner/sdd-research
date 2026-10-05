@@ -1,5 +1,6 @@
-# Material fuente externo (vendored): no autorado por el proyecto y exento del
-# registro de specs. La version analizada se ancla en REFERENCIAS.md.
+# Copia local opcional de fuentes externas: no se versiona y no se cita.
+# La version analizada se ancla en REFERENCIAS.md y se cita segun
+# CONVENCIONES.md, seccion Citas a fuentes externas.
 fuentes-externas/
 
 # Caches de herramientas

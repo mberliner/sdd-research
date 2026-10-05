@@ -48,6 +48,11 @@ el gate le da. Verifica que un commit que toca metodo asiente una entrada nueva
 y arriba en `historial/sdd.md`. Fuera de ese modo no dice nada, a proposito: el
 backstop sigue siendo utilizable en un arbol sin git.
 
+El check `ruta-externa` (2026-10-05) hace cumplir la forma de cita de fuentes
+externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` y
+`experimentos/`, cita una copia local —la carpeta local de fuentes o un
+repositorio hermano— que solo existe en la maquina de quien escribio.
+
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
 
@@ -368,6 +373,39 @@ def check_backtick_paths(rep: Report, all_docs: list[str]) -> None:
             resolved, verifiable = resolve_ref(rel, ref)
             if verifiable and not (ROOT / resolved).exists():
                 rep.error("rutas", rel, f"ruta inexistente: {ref}")
+
+
+# Registro fechado: describe lo que se hizo con la forma de cita de su momento y
+# no se reescribe (Principio V), asi que `ruta-externa` no lo mira.
+RUTA_EXTERNA_EXENTOS = ("historial/", "experimentos/")
+MD_LINK_TARGET = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def check_ruta_externa(rep: Report, all_docs: list[str]) -> None:
+    """Ninguna cita apunta a una copia local de una fuente externa.
+
+    Una ruta a la carpeta local de fuentes o a un repositorio hermano (`../` que
+    sale de la raiz) solo existe en la maquina de quien escribio: nadie mas la
+    resuelve. La forma admitida es `<repo>:<ruta>` con su `[Rxx]`
+    (`CONVENCIONES.md` §Citas a fuentes externas). A diferencia de `rutas`, mira
+    cualquier extension y tambien directorios, porque lo que falla no es que el
+    destino no exista sino que este fuera del repositorio. No ve una ruta escrita
+    en prosa sin backticks ni link.
+    """
+    for rel in all_docs:
+        if rel.startswith(RUTA_EXTERNA_EXENTOS):
+            continue
+        body = "\n".join(strip_code_fences(read(rel).splitlines()))
+        refs = [m.group(1).strip() for m in CODE_SPAN.finditer(body)]
+        refs += [m.group(1) for m in MD_LINK_TARGET.finditer(CODE_SPAN.sub(" ", body))]
+        for ref in refs:
+            if ref.startswith(("http://", "https://")):
+                continue
+            fuera = ref.startswith("../") and os.path.normpath(
+                os.path.join(os.path.dirname(rel), ref)
+            ).startswith("..")
+            if "fuentes-externas/" in ref or fuera:
+                rep.error("ruta-externa", rel, f"cita una copia local fuera del repositorio: {ref}")
 
 
 def check_ssot_collision(rep: Report, specs: dict, ssot_rows: list) -> None:
@@ -991,6 +1029,7 @@ def main() -> int:
     check_deriva_cycles(rep, specs)
     check_links(rep, all_docs)
     check_backtick_paths(rep, all_docs)
+    check_ruta_externa(rep, all_docs)
     check_references(rep, all_docs)
     check_scope_single_home(rep, all_docs)
     check_excluded_fields(rep, specs, all_docs)

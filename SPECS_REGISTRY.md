@@ -68,7 +68,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - **Los runbooks de método NO están exentos (aclarado 2026-07-30).** Un runbook (`PRUEBA-*.md`) vive en `experimentos/` pero **no deriva de ningún template**: es un documento autorado de protocolo de medición, con definición operacional, roles y fases. Al no ser generado desde template, la exención de arriba no lo alcanza y MUST tener spec registrada. Hueco detectado el 2026-07-30: los dos runbooks de B-07 estaban sin spec y se venian modificando, contra la regla global «todo cambio documental MUST mapearse a una spec registrada». Criterio para clasificar un `.md` de `experimentos/`: ¿su estructura la fija un template del proyecto? Exento. ¿La fija su autor? Necesita spec.
   - **Excepcion dentro de la excepción (aclarado 2026-08-03, M-13; extendida a `RESULTADO-EXPERIMENTO-*.md` el 2026-08-22): un documento exento citado como `deriva_de` por otro documento MUST tener entrada minima** (`path`, `proposito`, `ssot_level: SSOT`, `owner`, `validacion`) en este registro, aunque conserve la exención de `incluye`/`excluye` detallados. Motivo: `deriva_de` MUST apuntar a un origen con `ssot_level` verificable (ver §Campo ssot_level); un documento sin entrada no lo tiene, aunque el resto del repositorio lo trate en prosa como SSOT. La exención de spec **detallada** para plantillas de experimento se mantiene; lo que deja de existir es la exención de **entrada** cuando ese documento funciona como origen de otro.
 - Codigo de verificacion en `tools/`: no es pieza documental autorada (Principio IV habla de documentos). Su contrato de uso se declara en `AGENTS.md` §Al cerrar una iteracion; lo que verifica y lo que MUST NOT pretender verificar vive en su docstring.
-- Repositorios externos clonados (vendored) en `fuentes-externas/` — material fuente de referencia, no autorado por el proyecto. La versión analizada se ancla en `REFERENCIAS.md`; el análisis propio si tiene spec (ver `software/analisis/ANALISIS-SPEC-KIT.md`).
+- Material fuente externo (repositorios, papers, documentación de producto) — no autorado por el proyecto, y **no vive en este repositorio ni se versiona** (corregido 2026-10-05: antes se declaraba clonado adentro). La versión analizada se ancla en `REFERENCIAS.md` y se cita según `CONVENCIONES.md` §Citas a fuentes externas; el análisis propio sí tiene spec (ver `software/analisis/ANALISIS-SPEC-KIT.md`).
 
 ## Tabla SSOT
 
@@ -533,7 +533,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - duplicacion del catalogo de frameworks (referencia, no copia)
 - `validacion`:
   - [ ] versión analizada anclada en `REFERENCIAS.md` [R37]
-  - [ ] toda cifra de la fuente es verificable en el clon vendored, con su archivo de origen declarado
+  - [ ] toda cifra de la fuente es verificable en el repositorio de la fuente, en el commit anclado en `REFERENCIAS.md`, con su archivo de origen declarado
   - [ ] los evals de la fuente se presentan como precedente de método, nunca como evidencia de efectividad
   - [ ] mapeo no contradice `AGENTS.md` ni este registro
   - [ ] conclusiónes marcadas como candidatas vs. cambios aprobados
@@ -545,7 +545,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
-  - la clase de evidencia y su limite: producto en beta cerrada, sin clon vendored posible
+  - la clase de evidencia y su limite: producto en beta cerrada, sin código que clonar
   - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
   - sintesis del metodo declarado: anatomia de la spec, directivas, registro de specs de uso
   - su ubicacion en la taxonomia de [R20] y que la distingue de los otros casos
@@ -566,7 +566,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### software/analisis/ANALISIS-KIRO.md
 - `path`: `software/analisis/ANALISIS-KIRO.md`
-- `proposito`: analisis de Kiro [R44] **como metodo**, no como herramienta, y de su lugar en el corpus: es el caso mas antiguo por fecha de anuncio y el unico de producto cerrado, sin clon vendored posible.
+- `proposito`: analisis de Kiro [R44] **como metodo**, no como herramienta, y de su lugar en el corpus: es el caso mas antiguo por fecha de anuncio y el unico de producto cerrado, sin código que clonar.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
@@ -607,7 +607,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 - `validacion`:
   - [ ] versión analizada anclada en `REFERENCIAS.md` [R38]
   - [ ] la procedencia esta declarada antes de la lectura, con evidencia verificable y con sus limites explicitos
-  - [ ] todo rasgo citado declara su archivo de origen en el clon vendored o el comando que lo expone
+  - [ ] todo rasgo citado declara su archivo de origen en el repositorio de la fuente o el comando que lo expone
   - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medición, y eso queda dicho
   - [ ] sus comparaciónes contra otros frameworks se tratan como posicionamiento comercial, no como insumo del mapeo
   - [ ] el mapeo corre sobre el instrumento v1 sin agregar ni redefinir filas
@@ -635,7 +635,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] la procedencia esta declarada antes de la lectura y concluye explicitamente que la fuente NO suma linaje
   - [ ] ninguna coincidencia con el metodo de este repositorio se presenta como convergencia
   - [ ] la fuente no se cita como evidencia de efectividad: no reporta ninguna medición, y eso queda dicho
-  - [ ] todo rasgo citado declara su archivo de origen en el clon vendored o el comando que lo expone
+  - [ ] todo rasgo citado declara su archivo de origen en el repositorio de la fuente o el comando que lo expone
   - [ ] el mapeo corre sobre el instrumento v1 sin agregar ni redefinir filas
   - [ ] mapeo no contradice `AGENTS.md` ni este registro
   - [ ] conclusiónes marcadas como lectura, candidatas o cambios aprobados
@@ -687,7 +687,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - detalle de implementacion tecnica del prototipo ajeno al hallazgo (UI, arquitectura del sistema)
   - cifras del prototipo (aceptacion de comentarios, SUS/CSI) presentadas como medicion de este repositorio
 - `validacion`:
-  - [ ] version anclada en `REFERENCIAS.md` [R53], con vendored en `fuentes-externas/arXiv-2509.11826v2/`
+  - [ ] version anclada en `REFERENCIAS.md` [R53], con su versión de arXiv
   - [ ] toda cifra citada es del paper, marcada como tal
   - [ ] distincion explicita entre lo que el estudio midio y lo que es lectura propia para Linea A
   - [ ] ninguna comparacion con este repositorio se presenta como evidencia
@@ -792,7 +792,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - [ ] la apertura del codigo y la disponibilidad se documentan como dimensiones y **nunca** se usan para admitir o excluir un caso
   - [ ] cada caso cerrado declara que artefactos quedan en el repositorio del usuario, para no confundir perder la herramienta con perder el trabajo
   - [ ] ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**
-  - [ ] cada dato de madurez, actividad y licencia sale del clon vendored con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
+  - [ ] cada dato de madurez, actividad y licencia sale de un clon del repositorio de la fuente, en el commit anclado en `REFERENCIAS.md`, con el comando que lo produce; en los casos sin clon se declara que el dato no es comparable y por que
   - [ ] sdd-first entra por adoptabilidad, y su reserva de procedencia [R39] y su factor de bus quedan escritos
   - [ ] cada paradigma se deriva de dimensiones enunciadas en este mismo documento y no introduce fuente ni dato nuevo; ninguno se presenta como juicio de calidad ni de idoneidad
   - [ ] las cuatro columnas de la seccion 5 usan un predicado **uniforme**: ninguna contesta en una fila *cuando*, en otra *de que habla* y en otra *de quien es*. «Autoridad» se declara en un solo sentido —quien gana ante discrepancia spec↔codigo— y ninguna columna repite lo que dice otra

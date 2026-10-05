@@ -4,6 +4,32 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Las fuentes externas se citan por repositorio, no por copia local (2026-10-05) — COMPLETADA
+
+**Acción**: cambio de método pedido por el usuario. Las fuentes externas no viven en este repositorio, y una cita que apunta a una copia en disco sólo la resuelve quien la escribió. En este clon, además, `fuentes-externas/` ya no tenía clones sino accesos directos de Windows, que tampoco resuelve nadie más (diagnóstico que B-09 ya había hecho el 2026-09-09 para su unidad de tratamiento).
+
+### Qué cambió
+- **`CONVENCIONES.md` §Citas a fuentes externas** (nueva): repositorio de código como `[Rxx]` + `<repo>:<ruta>`; el commit no se repite en la cita y se resuelve por el encabezado de la sección o del documento, después por lo que `REFERENCIAS.md` asigne a ese material, y por último por el último corte registrado; `<repo>@<commit>:<ruta>` cuando haga falta fijar otro. Papers y documentos, sólo `[Rxx]`. Fuente reservada, `[Rxx]` sin ruta.
+- **`SPECS_REGISTRY.md`**: §Docs excluidos deja de declarar el material externo como clonado adentro; las validaciones que pedían «el clon vendored» pasan a pedir el repositorio de la fuente en el commit anclado.
+- **`REFERENCIAS.md`**: sin rutas locales. Los papers declaran la versión leída de arXiv; [R39] cambia su reserva de vendorizado por una de anclaje y suma el corte `0e09037`. Se quitó el puntero de [R35] a un resumen que sólo existía en disco y nunca se versionó.
+- **Unas 80 citas reescritas en 22 documentos**, fuera de `historial/` y `experimentos/`: rutas a los cuatro repositorios, a papers, al extracto de [R40], al testigo, al repositorio hermano `investigaIA` y al de datos de A-04. Las menciones en prosa a «clon vendored» en texto vigente pasan a describir la clase de evidencia sin suponer una copia interna.
+- **`tools/check_docs.py`**: check nuevo `ruta-externa` (ERROR), que marca cualquier cita en backticks o link a la carpeta local de fuentes o a un `../` que sale de la raíz. Mira toda extensión y también directorios; `rutas` sólo mira `.md`. `AGENTS.md` lo suma a la enumeración de lo que cubre el backstop.
+
+### Qué quedó como estaba, a propósito
+- **`historial/` y `experimentos/`**: registro fechado, exento del check. Sus rutas describen lo que se hizo con la forma de su momento.
+- **Bloques `[SDD-Check]` de entregas anteriores**: conservan su prosa («clon vendored»), por la misma razón. Sólo se reescribieron las rutas que tenían, porque el check no distingue bloques.
+- **`software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, recomendación de vía híbrida**: propone mantener un clon como fuente de cosecha. Eso es una decisión sobre dónde leer, no una forma de citar, y no se toca.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR; el WARN de emoticones de `PREREG-B7.md` es previo). El check se probó inyectando una ruta a la carpeta local y un link a un repositorio hermano: marcó las dos. Al estrenarse encontró cinco citas que el relevamiento manual no había visto —tres al repositorio de datos de A-04 y una ruta interna mal formada en `REFERENCIAS.md`, que `rutas` daba por ajena porque salía de la raíz—.
+
+### Deuda abierta
+- Una ruta escrita en prosa, sin backticks ni link, no la ve el check.
+- `<repo>` no se valida contra `REFERENCIAS.md`: un prefijo mal escrito pasa.
+- El historial y los experimentos conservan 13 líneas con rutas a la carpeta local, por diseño.
+
+---
+
 ## La orientación práctica deja de decir que combinar Superpowers sale gratis, y deja de atribuirle a Spec Kit un puente ajeno (2026-09-30) — COMPLETADA
 
 **Acción**: corrección de dos afirmaciones de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, que es SSOT, señaladas al leer el informe externo sobre la combinación Spec Kit + Superpowers.
