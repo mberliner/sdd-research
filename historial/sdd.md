@@ -4,6 +4,35 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## Triaje de la deuda de septiembre y octubre con la regla nueva (2026-10-06) — COMPLETADA
+
+**Acción**: aplicación de la regla de la entrada anterior a los pendientes de las entradas del 2026-09-01 en adelante. El usuario revisó y aprobó la tabla de destinos antes de aplicarla.
+
+### Resultado
+Juntando los repetidos quedaron 35 pendientes distintos. Así se distribuyeron:
+- **Resueltos sin acción (13)**: M-40 y las tres deudas cerradas el mismo día; re-anclajes y propagaciones del 2026-09-05 y del 2026-09-30; la orientación práctica creada; el no-determinismo de Tessl (#20); los clones vivos (no hay clones desde el 2026-10-05); las líneas 337 y 398 de la orientación práctica (corregidas el 2026-09-30); las versiones de los brazos de B-09, que su §Sello ya obliga a fijar.
+- **Límites, dejan de contar como deuda (8)**: entre ellos, la dirección Kiro → Spec Kit/OpenSpec, cuya búsqueda de marcadores (2026-09-06) dio negativa.
+- **Método**: M-47 y M-48 nuevos, nota fechada en M-43, M-21 ya anotado (commit `c0de612`).
+- **Investigación**: #23 nuevo y nota fechada en #19 (commit `c64ba7f`).
+- **Ediciones de documentos**: un bloque `[SDD-Check]` de consolidación en seis documentos, que lista lo abierto, lo cerrado y lo derivado a otro lugar, sin la cadena «la de la entrega anterior sigue entera» (commit siguiente a `c64ba7f`).
+
+### Qué cambió respecto de la tabla aprobada
+Tres reclasificaciones hechas al aplicarla, las tres porque ya había una decisión escrita:
+- **La dirección Kiro → Spec Kit/OpenSpec** no abre ítem: la búsqueda ya se hizo y da límite, no pregunta.
+- **Las dos preguntas de OpenSpec (C6, C7)** no abren ítem: su entrada del 2026-09-05 decidió no darlas de alta a medias. Quedan en el bloque de su documento como edición pendiente: formularlas.
+- **Las versiones de B-09** no son deuda: §Sello ya lo exige.
+
+Apareció además un caso que el triaje no vio porque estaba en un bloque viejo: en `software/analisis/ANALISIS-SPEC-KIT.md`, «si la formalización de la precedencia merece experimento propio», que nunca llegó a ningún backlog. Quedó en el bloque de su documento.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN), normal y con `--staged`, en cada uno de los cuatro commits. Cada «resuelto» se contrastó con la entrega que lo resolvió.
+
+### Deuda abierta
+- Las 46 entradas anteriores al 2026-09-01 conservan su deuda en prosa y no se triaron: es registro datado (`historial/sdd.md`), y lo vigente de ellas ya debería estar en sus documentos.
+- M-21, M-47 y M-48, abiertos en el backlog de método.
+
+---
+
 ## La deuda vive donde se resuelve, y el historial sólo apunta (2026-10-06) — COMPLETADA
 
 **Acción**: cambio de método aprobado por el usuario, opción C de la revisión de la forma de trabajo de hoy. El historial juntaba 178 pendientes en 55 secciones «Deuda abierta» y nada registraba qué pasaba con cada uno. Releídos los de septiembre y octubre, había de todo: deuda real, deuda ya resuelta y límites sin remedio, mezclados y descritos en prosa que cambiaba de una entrada a otra.
