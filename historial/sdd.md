@@ -4,6 +4,21 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## La spec de la constitución deja de ubicar las convenciones en el registro (2026-10-06) — COMPLETADA
+
+**Acción**: reconciliación de spec contra documento, aprobada por el usuario. Cierra la deuda que había quedado señalada en la entrada anterior.
+
+### Qué cambió
+- En `SPECS_REGISTRY.md`, la spec de `CONSTITUTION.md` decía en `excluye` que las convenciones de forma «viven en este registro». Desde la 0.2.3 viven en `CONVENCIONES.md`, que es lo que ya dice el preámbulo de la constitución. Ahora la spec apunta ahí y también nombra el léxico.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Ningún check podía verlo: `excluye` es prosa, y la divergencia duró desde el 2026-08-23 hasta que una lectura humana la encontró.
+
+### Deuda abierta
+- Las demás deudas de la entrada anterior siguen como estaban.
+
+---
+
 ## M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo (2026-10-06) — COMPLETADA
 
 **Acción**: enmienda constitucional PATCH (0.2.4 → 0.2.5), check nuevo y mantenimiento del backlog de método, aprobados por el usuario el mismo día tras una revisión de la forma de trabajo. El disparador fue el commit `3b9af33`, que cambió `CONVENCIONES.md` sin entrada de historial y pasó el gate: M-40 descrito el 2026-09-05 y ocurrido en la práctica.

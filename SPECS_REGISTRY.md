@@ -111,7 +111,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - principios, cada uno con invariante autocontenido + `Enforcement` + `Verificador` + `Detalle` (SSOT donde vive el detalle operativo)
   - governance: precedencia de fuentes, versionado semver, fase pre-1.0, procedimiento de enmienda, limite honesto del enforcement
 - `excluye`:
-  - convenciones de forma (fechas, ortografia, nomenclatura) — viven en este registro
+  - convenciones de forma y lexico (fechas, ortografia, nomenclatura) — viven en `CONVENCIONES.md`
   - el protocolo paso a paso del asistente — vive en `AGENTS.md`
   - el detalle operativo de cada principio — vive en el SSOT que el principio referencia en `Detalle:`
 - `validacion`:
