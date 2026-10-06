@@ -4,6 +4,60 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo (2026-10-06) — COMPLETADA
+
+**Acción**: enmienda constitucional PATCH (0.2.4 → 0.2.5), check nuevo y mantenimiento del backlog de método, aprobados por el usuario el mismo día tras una revisión de la forma de trabajo. El disparador fue el commit `3b9af33`, que cambió `CONVENCIONES.md` sin entrada de historial y pasó el gate: M-40 descrito el 2026-09-05 y ocurrido en la práctica.
+
+### Decisiones del usuario
+- **Qué es método**: `CONVENCIONES.md` y `REFERENCIAS.md` entran; `00-INDEX.md` queda afuera porque es navegación. La recomendación era sólo `CONVENCIONES.md`; el usuario sumó el catálogo de referencias.
+- **Versión**: PATCH. El léxico vivía en `SPECS_REGISTRY.md` y `AGENTS.md`, que ya eran método, hasta que la 0.2.3 lo mudó sin actualizar la enumeración: se repara una omisión. Para `REFERENCIAS.md` el argumento no vale igual, porque nunca fue método; queda dicho y la versión queda como la decidió el usuario.
+- **M-08**: se confirma como excepción permanente para documentos sellados la que ya aplicaba `EMOJI_SELLADOS` desde la entrada anterior.
+- **Check**: de coherencia, no de antigüedad, para no agregar columnas a la tabla de estado.
+
+### Qué cambió
+- **`CONSTITUTION.md` 0.2.5**: el Principio VI enumera también «convenciones de léxico y forma» y «catálogo de referencias». El `Verificador:` del Principio II suma `ruta-externa`, que la entrada anterior había diferido a la próxima enmienda.
+- **`tools/check_docs.py`**: `METODO_FILES` suma `CONVENCIONES.md` y `REFERENCIAS.md`, y el comentario explica por qué `00-INDEX.md` no está. Check nuevo `backlog-metodo` (WARN): todo ítem `Hecha` tiene fila en «Items cerrados», su puntero es una entrada real del historial y no conserva sección de detalle; todo ítem abierto tiene la suya; nada figura en «Items cerrados» sin estar `Hecha`.
+- **Las otras copias de la enumeración** —`AGENTS.md` §Al cerrar una iteración paso 3, dos líneas de `SPECS_REGISTRY.md` y el encabezado de `agenda/MEJORAS-METODO.md`— dejan de repetirla y remiten al Principio VI. `AGENTS.md` pasa a nombrar tres checks de señal.
+- **`agenda/MEJORAS-METODO.md`**: M-08 y M-40 pasan a `Hecha`, con sus planteos migrados acá abajo. El puntero de M-44 se corrigió, porque llevaba tildes y la entrada del historial no, y buscándolo literal no aparecía (lo encontró el check en su primera corrida). Los cerrados quedaron ordenados por ID, como dice el documento; M-44 y M-46 estaban arriba. M-21 y M-38 suman una nota fechada cada uno.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Cada rama de `backlog-metodo` se probó inyectando el caso y restaurando: ítem `Hecha` sin fila de cerrados y con detalle, ítem abierto sin detalle, puntero inexistente y fila de cerrados de un ítem no `Hecha`. Las cuatro avisaron. En la primera corrida aparecieron 19 falsos positivos por un error de parseo de `**Hecha**`, que se corrigió antes de la prueba. `metodo-historial` con `CONVENCIONES.md` staged se verifica con el commit de esta misma entrega.
+
+### Planteos migrados del backlog (2026-10-06)
+
+#### M-40 — La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel
+
+El Principio VI de `../CONSTITUTION.md` enumera qué cuenta como método: «protocolo del asistente, registro de specs, templates, esta constitución». Su verificador `metodo-historial` deriva de ahí su lista, y el comentario de `../tools/check_docs.py` lo dice sin rodeos: «La enumeracion sale literal del Principio VI [...] mas `tools/`, porque un check ES metodo».
+
+`../CONVENCIONES.md` no está en esa enumeración. Y es el SSOT del léxico normativo (qué significa MUST, SHOULD, MAY en este repositorio), de la forma de los documentos, de los nombres de archivo y del formato de los mensajes de commit. `../AGENTS.md` le delega esas cuatro cosas por remisión explícita.
+
+**Sonda corrida el 2026-09-05.** Se agregó una línea a `../CONVENCIONES.md`, se la dejó staged y se corrió `./tools/check_docs.py --staged`, que es el modo que invoca el gate de commit: **0 ERROR**, sin pedir entrada de historial. Un commit que redefine qué significa MUST en este repositorio pasa sin dejar rastro en `../historial/sdd.md`.
+
+Lo que hace a este ítem distinto de M-31 —con el que comparte familia— es dónde está el defecto. En M-31 el check miraba mal. Acá **el check mira exactamente lo que le dijeron**: la lista es fiel, la fuente está incompleta. Arreglar `METODO_FILES` sin tocar el Principio VI deja la constitución diciendo una cosa y el verificador otra, que es justo la divergencia que la fidelidad de la lista evitaba.
+
+Es una instancia de la clase 2 de `sdd-first:docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
+
+Qué hace falta, en este orden:
+
+1. **Decidir si `CONVENCIONES.md` es método.** Es la pregunta real y es del usuario, no del backstop. Si lo es, el Principio VI se enmienda con su procedimiento completo (es cambio de constitución, no de check).
+2. **Barrer el resto de la enumeración** con el mismo criterio antes de enmendar, para no pagar dos enmiendas: `../REFERENCIAS.md` y `../00-INDEX.md` son los otros dos candidatos, y ninguno de los dos es obvio. `agenda/` e `historial/` ya están razonados y quedan afuera.
+3. **Recién entonces** actualizar `METODO_FILES`, que sigue siendo la copia fiel.
+
+Prioridad alta y no media: mientras esté abierto, la única garantía mecánica del Principio VI tiene un agujero del tamaño del SSOT del léxico, y el repositorio no lo sabe.
+
+#### M-08 — Emoticones en `PREREG-B7.md`
+
+El documento viola la regla global «sin emoticones» pero está **pre-registrado y sellado**. Editarlo post-sello tiene implicancias metodológicas (Principio V). Decisión pendiente del usuario: corregir con enmienda fechada, o declarar excepción permanente para documentos sellados.
+
+### Deuda abierta
+- `backlog-metodo` mira la coherencia del estado, no si es verdadero: un ítem resuelto de hecho que sigue en `Propuesta` —como M-08 hasta hoy— pasa igual.
+- M-21 se agrava: cada alta de `[Rxx]` pide ahora entrada de historial. Se cuenta antes de ajustar el check.
+- La spec de `CONSTITUTION.md` en el registro sigue diciendo, en `excluye`, que las convenciones de forma «viven en este registro». Es una divergencia previa (desde la 0.2.3), señalada para que el usuario decida.
+- Las 64 secciones «Deuda abierta» del historial siguen sin vista consolidada (mejora 2 de la misma revisión, no elegida en esta tanda).
+- Siguen abiertas dos deudas de la entrada anterior: rutas absolutas en prosa sin check, y `EMOJI_SELLADOS` fuera del registro.
+
+---
+
 ## `ruta-externa` mira la prosa y valida el repositorio citado; los sellados dejan de dar WARN de emoticones (2026-10-06) — COMPLETADA
 
 **Acción**: cierre de tres deudas que dejó la entrada anterior, más una que venía de antes. La lista de repositorios hermanos y la regla de registro fechado entraron en `CONVENCIONES.md` en el commit previo, para que éste pasara el backstop solo.

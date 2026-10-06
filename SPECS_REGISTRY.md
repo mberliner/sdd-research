@@ -412,7 +412,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - anti-patrones y hallazgos metodologicos que abren preguntas nuevas
   - criterio de priorizacion
 - `excluye`:
-  - cambios al método del repositorio (protocolo, registro, constitucion, templates, tooling) — viven en `agenda/MEJORAS-METODO.md`, aprobados o propuestos
+  - cambios al método del repositorio (lo que enumera el Principio VI de `CONSTITUTION.md`, más el tooling) — viven en `agenda/MEJORAS-METODO.md`, aprobados o propuestos
   - resultados de experimentos (viven en `experimentos/`)
 - `validacion`:
   - [ ] items tienen prioridad asignada
@@ -422,7 +422,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### agenda/MEJORAS-METODO.md
 - `path`: `agenda/MEJORAS-METODO.md`
-- `proposito`: backlog de cambios al **metodo** SDD del repositorio (protocolo, registro, constitucion, templates, tooling de verificacion), con prioridad, origen y estado.
+- `proposito`: backlog de cambios al **metodo** SDD del repositorio (lo que enumera el Principio VI de `CONSTITUTION.md`, más el tooling de verificacion), con prioridad, origen y estado.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:

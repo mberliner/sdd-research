@@ -1,6 +1,6 @@
 # Mejoras al método SDD del repositorio
 
-Backlog de cambios al **método** —protocolo, registro, constitución, templates, tooling de verificación— del propio repositorio. No es agenda de investigación.
+Backlog de cambios al **método** —lo que enumera el Principio VI de `../CONSTITUTION.md`, más el tooling de verificación— del propio repositorio. No es agenda de investigación.
 
 ## Criterio de separación
 
@@ -25,7 +25,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-31 | Un check reporta salud sobre lo que no mira: dos formas verificadas | alta | Propuesta (2026-08-30) | [R40] (check `normativos`) + dos auditorías propias del 2026-08-30 | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
-| M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | Propuesta (2026-09-05) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
 | M-04 | Formato y compactación de documentos | media | Propuesta | testigo `docs/SPEC-FORMAT.md` | doc nuevo + migración |
@@ -40,17 +39,15 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/analisis/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-43 | El protocolo se declara cross-asistente y nadie verificó que lo sea | media | Propuesta (2026-09-06) | [R56] (portabilidad de specs entre agentes) | `../AGENTS.md` (encabezado y §Excepciones) |
 | M-45 | Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero | media | Propuesta (2026-09-07) | B-07 (relajación del 2026-07-29) y revisión pre-sello de B-09 (2026-09-07) | `../templates/EXPERIMENTO.md` §Criterio de exito |
-| M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | Propuesta | Fase 8 | decisión del usuario |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
 | M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
 | M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
-| M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
-| M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
 | M-05 | Limpiar encabezados que restatan su alcance | baja | **Hecha** (2026-08-23) | regla de alcance, Fase 8 | `../software/RELACION-SPEC-VS-EPICA.md` |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
+| M-08 | Decidir qué hacer con los emoticones de `PREREG-B7.md` | baja | **Hecha** (2026-10-06) | Fase 8 | decisión del usuario |
 | M-09 | Señales de duplicación entre SSOTs (`ssot-collision`, `sdd-check-fields`) | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-10 | Verificar rutas escritas en backticks, no solo links markdown | alta | **Hecha** (Fase 12) | Fase 11 | `../tools/check_docs.py` |
 | M-11 | Validar la tabla SSOT contra el disco y contra las specs | media | **Hecha** (Fase 13) | Fase 11 | `../tools/check_docs.py` |
@@ -66,6 +63,9 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
 | M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | **Hecha** (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` + 6 documentos |
 | M-29 | El backlog de método cargaba la narración de lo ya cerrado | media | **Hecha** (2026-08-23) | deriva doc-vs-spec detectada el 2026-08-23 | este documento |
+| M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
+| M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
+| M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
 
 ---
 
@@ -256,26 +256,6 @@ Las tres salidas que proponía la primera redacción de este ítem quedan descar
 La muestra se reproduce exactamente con la población y la semilla declaradas arriba. Los veredictos par por par **no se transcriben acá a propósito**: quien la rehaga debe puntuar sin ver los míos, para no quedar anclado. El desacuerdo entre dos puntuadores sobre los mismos 30 pares es a su vez un dato sobre si la regla de puntuación es aplicable, y hoy no existe.
 
 Limitación que no tiene mitigación: el puntuador fue quien propuso el diseño que la muestra evaluaba. El resultado terminó siendo contrario a esa propuesta, lo cual reduce la preocupación pero no la elimina.
-
-### M-40 — La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel
-
-El Principio VI de `../CONSTITUTION.md` enumera qué cuenta como método: «protocolo del asistente, registro de specs, templates, esta constitución». Su verificador `metodo-historial` deriva de ahí su lista, y el comentario de `../tools/check_docs.py` lo dice sin rodeos: «La enumeracion sale literal del Principio VI [...] mas `tools/`, porque un check ES metodo».
-
-`../CONVENCIONES.md` no está en esa enumeración. Y es el SSOT del léxico normativo (qué significa MUST, SHOULD, MAY en este repositorio), de la forma de los documentos, de los nombres de archivo y del formato de los mensajes de commit. `../AGENTS.md` le delega esas cuatro cosas por remisión explícita.
-
-**Sonda corrida el 2026-09-05.** Se agregó una línea a `../CONVENCIONES.md`, se la dejó staged y se corrió `./tools/check_docs.py --staged`, que es el modo que invoca el gate de commit: **0 ERROR**, sin pedir entrada de historial. Un commit que redefine qué significa MUST en este repositorio pasa sin dejar rastro en `../historial/sdd.md`.
-
-Lo que hace a este ítem distinto de M-31 —con el que comparte familia— es dónde está el defecto. En M-31 el check miraba mal. Acá **el check mira exactamente lo que le dijeron**: la lista es fiel, la fuente está incompleta. Arreglar `METODO_FILES` sin tocar el Principio VI deja la constitución diciendo una cosa y el verificador otra, que es justo la divergencia que la fidelidad de la lista evitaba.
-
-Es una instancia de la clase 2 de `sdd-first:docs/PATRONES.md` («la lista duplicada que nada ata») en su variante menos visible: las dos enumeraciones **no** divergieron —una deriva de la otra— y el defecto viajó entero desde el original.
-
-Qué hace falta, en este orden:
-
-1. **Decidir si `CONVENCIONES.md` es método.** Es la pregunta real y es del usuario, no del backstop. Si lo es, el Principio VI se enmienda con su procedimiento completo (es cambio de constitución, no de check).
-2. **Barrer el resto de la enumeración** con el mismo criterio antes de enmendar, para no pagar dos enmiendas: `../REFERENCIAS.md` y `../00-INDEX.md` son los otros dos candidatos, y ninguno de los dos es obvio. `agenda/` e `historial/` ya están razonados y quedan afuera.
-3. **Recién entonces** actualizar `METODO_FILES`, que sigue siendo la copia fiel.
-
-Prioridad alta y no media: mientras esté abierto, la única garantía mecánica del Principio VI tiene un agujero del tamaño del SSOT del léxico, y el repositorio no lo sabe.
 
 ### M-02 — Gate de autoría documental
 
@@ -468,10 +448,6 @@ Qué haría falta: que el template ofrezca la regla de comparación como **decis
 
 **Contraparte de investigación**: el ítem #7 de `BACKLOG-INVESTIGACION.md` —piso de ruido antes de reportar una brecha— es la misma tensión del lado del conocimiento. Acá se decide qué regla escribe el repositorio; allá, cuánta señal hace falta para que la regla tenga algo que leer.
 
-### M-08 — Emoticones en `PREREG-B7.md`
-
-El documento viola la regla global «sin emoticones» pero está **pre-registrado y sellado**. Editarlo post-sello tiene implicancias metodológicas (Principio V). Decisión pendiente del usuario: corregir con enmienda fechada, o declarar excepción permanente para documentos sellados.
-
 ### M-21 — `metodo-historial` sobre-dispara en altas de contenido del registro
 
 Observado el 2026-08-15 al dar de alta A-04: registrar dos specs nuevas en `../SPECS_REGISTRY.md` disparó la exigencia de entrada de historial, aunque la entrega **sólo agrega contenido registrado** y no cambia ninguna regla del registro.
@@ -481,6 +457,8 @@ El check es fiel al texto: el Principio VI nombra literalmente «registro de spe
 **Recomendación: no ajustar el check todavía.** Aflojar un verificador recién entregado para que la tarea siguiente sea más cómoda, sin un dato que lo justifique, es exactamente la clase de deriva que el proyecto existe para no cometer. Si en tres o cuatro entregas el falso positivo se repite, ahí hay caso — y la distinción a implementar sería entre cambiar las **reglas** del registro (método) y agregar **entradas** al registro (contenido), que no es trivial de decidir por diff.
 
 Costo actual: una entrada de historial de más por alta de spec. Barato. Se acepta la fricción y se cuenta.
+
+**Agravante (2026-10-06).** Al cerrar M-40, `../REFERENCIAS.md` pasó a ser método por decisión del usuario: desde entonces cada alta de `[Rxx]` también pide entrada de historial. Es el mismo falso positivo —agregar una entrada no cambia una regla— y ahora alcanza a casi toda entrega de investigación. Si se repite, es el dato que la recomendación de arriba esperaba.
 
 ### M-26 — «Qué decisión habilita» es un MUST sin casillero donde satisfacerse
 
@@ -536,6 +514,8 @@ Qué hace falta: corregir los seis encabezados, y agregar al backstop la verific
 
 Prioridad baja, no nula: es higiene, pero la guarda es tan barata que postergarla cuesta más en discusión que en implementación.
 
+**Recuento (2026-10-06).** Ya son siete: a los seis se sumó el de `ANALISIS-EDICION-COLABORATIVA-IA.md`. El patrón se reprodujo mientras el ítem estaba abierto, que es lo que el párrafo anterior predecía.
+
 ---
 
 ## Items cerrados
@@ -547,6 +527,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-01 | «Fase 10 — Backstop determinista de documentación, M-01» |
 | M-05 | «Barrido de encabezados: M-05 cerrada, M-28 abierta» |
 | M-07 | «M-19 — Cablear el backstop al commit, fail-closed y versionado» |
+| M-08 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-09 | «Fase 12 — El backstop aprende a ver duplicación y rutas, M-09 y M-10» |
 | M-10 | «Fase 12 — El backstop aprende a ver duplicación y rutas, M-09 y M-10» |
 | M-11 | «Fase 13 — Higiene de archivo y validación de SSOTs, M-11 y M-12» |
@@ -557,10 +538,11 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-18 | «M-18 — Ningún documento `Activo` conserva un `[NEEDS CLARIFICATION]` abierto» |
 | M-19 | «M-19 — Cablear el backstop al commit, fail-closed y versionado» |
 | M-20 | «M-20 — Verificador ejecutable para el Principio VI» |
-| M-44 | «M-44 — Los índices de línea no listan experimentos, y eso nunca se escribió» |
-| M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |
 | M-23 | «`excluded-field` deja de mirar solo tablas» |
 | M-24 | «`normative-block` pasa a llamarse `sdd-check-fields`» |
 | M-27 | «`sdd-check-fields` pasa a mirar `templates/`» |
 | M-28 | «`excluded-field` verifica la regla del registro, no el `excluye` de cada spec» |
 | M-29 | «El backlog de metodo se poda a puntero y se reordena por estado» |
+| M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
+| M-44 | «M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio» |
+| M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |

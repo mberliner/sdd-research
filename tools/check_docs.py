@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-40).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -48,6 +48,11 @@ el gate le da. Verifica que un commit que toca metodo asiente una entrada nueva
 y arriba en `historial/sdd.md`. Fuera de ese modo no dice nada, a proposito: el
 backstop sigue siendo utilizable en un arbol sin git.
 
+El check `backlog-metodo` (2026-10-06) es el tercero que emite WARN: mira que la
+tabla de estado de `agenda/MEJORAS-METODO.md` coincida con sus secciones de
+detalle y con los punteros a `historial/sdd.md`. Que el estado sea verdadero no
+lo mira; ver su docstring.
+
 El check `ruta-externa` (2026-10-05) hace cumplir la forma de cita de fuentes
 externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` y
 `experimentos/`, cita una copia local —la carpeta local de fuentes o un
@@ -82,18 +87,22 @@ REFERENCIAS = "REFERENCIAS.md"
 PROTOCOLO = "AGENTS.md"
 CONSTITUCION = "CONSTITUTION.md"
 HISTORIAL = "historial/sdd.md"
+CONVENCIONES = "CONVENCIONES.md"
+MEJORAS = "agenda/MEJORAS-METODO.md"
 
 # Gate de commit versionado (M-19): ruta del hook y valor esperado de core.hooksPath.
 HOOKS_DIR = "tools/githooks"
 GATE = f"{HOOKS_DIR}/pre-commit"
 
 # Piezas que son METODO (M-20). La enumeracion sale literal del Principio VI
-# —«protocolo del asistente, registro de specs, templates, esta constitucion»—
-# mas `tools/`, porque un check ES metodo: cambiar el verificador de un principio
-# cambia el metodo tanto como cambiar el principio. `agenda/` queda afuera a
-# proposito: proponer una mejora todavia no es adoptarla, y el historial asienta
-# adopciones. `historial/` tampoco dispara: es el destino, no el origen.
-METODO_FILES = frozenset({PROTOCOLO, CONSTITUCION, REGISTRY, "CLAUDE.md"})
+# —«protocolo del asistente, registro de specs, convenciones de lexico y forma,
+# catalogo de referencias, templates, esta constitucion»— mas `tools/`, porque un
+# check ES metodo: cambiar el verificador de un principio cambia el metodo tanto
+# como cambiar el principio. `agenda/` queda afuera a proposito: proponer una
+# mejora todavia no es adoptarla, y el historial asienta adopciones. `historial/`
+# tampoco dispara: es el destino, no el origen. `00-INDEX.md` es navegacion, no
+# norma (M-40).
+METODO_FILES = frozenset({PROTOCOLO, CONSTITUCION, REGISTRY, CONVENCIONES, REFERENCIAS, "CLAUDE.md"})
 METODO_DIRS = ("templates/", "tools/")
 
 # Directorios que nunca se auditan: material fuente externo y tooling.
@@ -385,7 +394,6 @@ PROSA_RUTA = re.compile(r"(?:\.\./)+[\w.-]+/[^\s)`»,;]*|[^\s(`«]*fuentes-exter
 # sin eso, `path:line` o `campo:valor` serian falsos positivos.
 CITA_REPO = re.compile(r"^([A-Za-z][\w.-]*)(?:@[0-9a-f]{6,})?:([^\s:]*(?:/[^\s:]*|\.\w+))$")
 GITHUB_REPO = re.compile(r"https://github\.com/[\w.-]+/([\w.-]+?)(?:\.git)?(?=[\s)>]|$)", re.MULTILINE)
-CONVENCIONES = "CONVENCIONES.md"
 HERMANOS_MARCA = "Repositorios hermanos admitidos:"
 
 
@@ -992,6 +1000,60 @@ def check_metodo_historial(rep: Report, staged: list[str] | None) -> None:
         )
 
 
+FILA_MEJORA = re.compile(r"^\|\s*(M-\d+)\s*\|(.*)$")
+DETALLE_MEJORA = re.compile(r"^###\s+(M-\d+)\b")
+
+
+def check_backlog_metodo(rep: Report) -> None:
+    """La tabla de estado del backlog de metodo coincide con sus secciones (M-08, M-40).
+
+    Es SEÑAL y emite WARN, como `ssot-collision`: el backlog es operativo, no
+    norma, y una incoherencia aca no rompe nada salvo la confianza en el estado.
+    Lo que mira es lo que `SPECS_REGISTRY.md` pide de ese documento y nadie
+    verificaba: todo item `Hecha` tiene fila en «Items cerrados» con un puntero
+    que existe en `historial/sdd.md` y no conserva seccion de detalle; todo item
+    abierto tiene la suya; nada figura en «Items cerrados» sin estar `Hecha`.
+
+    Limite: verifica que el estado declarado sea coherente consigo mismo, no que
+    sea VERDADERO. Un item resuelto de hecho que sigue en `Propuesta` —M-08 hasta
+    el 2026-10-06— pasa este check igual; eso sigue siendo juicio humano.
+    """
+    texto = read(MEJORAS)
+    cerrados_idx = texto.find("\n## Items cerrados")
+    if cerrados_idx < 0:
+        rep.warn("backlog-metodo", MEJORAS, "falta la seccion «Items cerrados»")
+        return
+    cuerpo, cerrados = texto[:cerrados_idx], texto[cerrados_idx:]
+
+    estado: dict[str, str] = {}
+    for ln in cuerpo.splitlines():
+        m = FILA_MEJORA.match(ln)
+        if m:
+            celdas = [c.strip() for c in m.group(2).split("|")]
+            estado[m.group(1)] = celdas[2].replace("*", "").split()[0] if len(celdas) > 2 and celdas[2] else ""
+    detalle = {m.group(1) for ln in cuerpo.splitlines() if (m := DETALLE_MEJORA.match(ln))}
+    punteros = {}
+    for ln in cerrados.splitlines():
+        m = FILA_MEJORA.match(ln)
+        if m:
+            punteros[m.group(1)] = m.group(2).split("|")[0].strip().strip("«»")
+    entradas = [ln for ln in read(HISTORIAL).splitlines() if ln.startswith("## ")]
+
+    for mid, est in sorted(estado.items()):
+        if est == "Hecha":
+            if mid not in punteros:
+                rep.warn("backlog-metodo", MEJORAS, f"{mid} esta `Hecha` y no tiene fila en «Items cerrados»")
+            if mid in detalle:
+                rep.warn("backlog-metodo", MEJORAS, f"{mid} esta `Hecha` y conserva su seccion de detalle")
+        elif est in ("Propuesta", "Aprobada") and mid not in detalle:
+            rep.warn("backlog-metodo", MEJORAS, f"{mid} esta abierto (`{est}`) y no tiene seccion de detalle")
+    for mid, puntero in sorted(punteros.items()):
+        if estado.get(mid) != "Hecha":
+            rep.warn("backlog-metodo", MEJORAS, f"{mid} figura en «Items cerrados» sin estar `Hecha` en la tabla")
+        if not any(puntero in e for e in entradas):
+            rep.warn("backlog-metodo", MEJORAS, f"{mid}: el puntero «{puntero}» no es ninguna entrada de {HISTORIAL}")
+
+
 # Documentos sellados que traian emoticones antes del sello. Corregirlos es
 # reescribir un sellado (Principio V), y un WARN que suena siempre enseña a no
 # mirarlo. La lista es a mano a proposito, y por eso se vigila: una entrada cuyo
@@ -1089,6 +1151,7 @@ def main() -> int:
     check_file_hygiene(rep, all_docs)
     check_gate(rep)
     check_metodo_historial(rep, staged)
+    check_backlog_metodo(rep)
 
     if not args.quiet:
         for severity, check, where, msg in sorted(rep.items, key=lambda i: (i[0] != "ERROR", i[1], i[2])):

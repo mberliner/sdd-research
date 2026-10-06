@@ -1,6 +1,6 @@
 # Constitución del proyecto
 
-**Versión:** 0.2.4 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-08-23
+**Versión:** 0.2.5 | **Ratificada:** 2026-07-31 | **Última enmienda:** 2026-10-06
 
 ## Preámbulo
 
@@ -24,7 +24,7 @@ Toda pieza de información normativa —regla, definición, cifra, tabla, conven
 Ninguna afirmación factual externa se sostiene sola: cita una referencia `[Rxx]` del catálogo. Una cifra sin fuente es una opinión con formato de dato. Las referencias se anclan a la versión consultada; cuando la fuente cambia de versión, el análisis declara contra qué corte fue hecho.
 
 - **Enforcement:** checks de post-generación de `AGENTS.md`; campo `validacion` de cada spec.
-- **Verificador:** `referencias` de `tools/check_docs.py` — verifica que toda `[Rxx]` citada exista en el catálogo, no que toda afirmación factual esté citada. La mitad que importa sigue siendo humana.
+- **Verificador:** `referencias` y `ruta-externa` de `tools/check_docs.py` — el primero verifica que toda `[Rxx]` citada exista en el catálogo; el segundo, que una cita a un repositorio se resuelva sin la copia local de quien la escribió. Ninguno verifica que toda afirmación factual esté citada. La mitad que importa sigue siendo humana.
 - **Detalle:** `REFERENCIAS.md`.
 
 ### III. Propagación bidireccional del conocimiento
@@ -53,7 +53,7 @@ Un experimento se pre-registra antes de producir su dato: hipótesis, definició
 
 ### VI. Separación método y contenido
 
-Los cambios al método SDD de este repositorio —protocolo del asistente, registro de specs, templates, esta constitución— no son hallazgos de investigación y no se registran como tales: se rigen por esta constitución y se asientan en el historial. Simétricamente, un hallazgo de investigación no modifica el método por sí solo: lo propone, y la adopción es una decisión explícita y fechada.
+Los cambios al método SDD de este repositorio —protocolo del asistente, registro de specs, convenciones de léxico y forma, catálogo de referencias, templates, esta constitución— no son hallazgos de investigación y no se registran como tales: se rigen por esta constitución y se asientan en el historial. Simétricamente, un hallazgo de investigación no modifica el método por sí solo: lo propone, y la adopción es una decisión explícita y fechada.
 
 - **Enforcement:** entrada obligatoria en el historial al cambiar método; revisión de post-generación.
 - **Verificador:** `metodo-historial` de `tools/check_docs.py` — corre solo con contexto de commit (modo `--staged`, que invoca el gate `tools/githooks/pre-commit`) y falla si un commit que toca método no asienta una entrada nueva, y arriba, en el historial. Cubre la mitad enunciable del principio; que el cambio esté **bien clasificado** como método y no como hallazgo, y la dirección simétrica —que un hallazgo no mueva el método sin decisión explícita y fechada—, siguen siendo humanas. En un árbol sin git el principio vuelve a no tener verificador.
