@@ -313,6 +313,13 @@ def check_spec_fields(rep: Report, specs: dict) -> None:
                     )
         if "proposito" not in fields:
             rep.warn("spec-fields", path, "spec sin campo proposito")
+        casillas = [v for v in fields.get("validacion_items", []) if re.match(r"\[[ xX]\]", v)]
+        if casillas:
+            rep.error(
+                "spec-fields",
+                path,
+                f"`validacion` con {len(casillas)} casilla(s) `[ ]`: son criterios permanentes, no tareas (M-35)",
+            )
 
 
 def check_deriva_cycles(rep: Report, specs: dict) -> None:

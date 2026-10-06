@@ -4,6 +4,53 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-35 — Las validaciones del registro dejan de ser casillas (2026-10-06) — COMPLETADA
+
+**Acción**: M-35 ejecutada con la salida 3, elegida por el usuario. La salida 2 —que `Validaciones aplicadas` del `[SDD-Check]` nombre las validaciones de la spec y un check lo compruebe— se descarta: la mayoría de los bloques se entregan en el chat y no quedan en el repositorio, así que el check vería sólo los 18 documentos que llevan el bloque adentro.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**: las 246 casillas `[ ]` de `validacion` (eran 195 cuando se midió M-35, el 2026-08-30), ninguna marcada nunca, pasan a ser viñetas sin casilla. §Profundidad de spec suma una línea que dice qué es el campo: criterios de revisión permanentes, no tareas.
+- **`tools/check_docs.py`**: `spec-fields` da ERROR si una viñeta de `validacion` vuelve a tener casilla. Sin esa guarda, la próxima spec copiada de una vieja la reintroduce.
+- **`agenda/MEJORAS-METODO.md`**: M-35 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Qué quedó como estaba, a propósito
+- La lista de post-generación de `AGENTS.md` sigue con `[ ]`: ésa sí es una lista por entrega.
+- El nivel «Extendida» de §Profundidad de spec sigue diciendo «requisitos con `[ ]`». Ninguna spec lo usa, y qué hacer con ese nivel es M-37.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). La guarda se probó inyectando una casilla en la spec de `CONSTITUTION.md` y dio ERROR. `ssot-collision`, que lee esas viñetas como texto, sigue sin avisos.
+
+### Planteo migrado del backlog (2026-10-06)
+
+#### M-35 — Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira
+
+Cada entrada de `../SPECS_REGISTRY.md` declara una lista de validación en formato `- [ ]`. Medido el 2026-08-30: **195 casillas en las 46 entradas, ninguna marcada, y ninguna entrada sin el campo**. Es la promesa más repetida del registro y la única que no tiene ningún respaldo.
+
+Ningún check las lee. `parse_registry()` guarda `validacion_items`, y su único consumidor es `ssot-collision`, que las usa como texto para comparar temas entre specs — no para verificar que se hayan corrido. El campo existe para el humano que escribe la entrega y depende enteramente de que se acuerde.
+
+**El problema no es sólo que no se verifique: es que la forma miente.** Una casilla `- [ ]` afirma un estado —«pendiente»— y sugiere que en algún momento pasa a `- [x]`. Eso nunca ocurrió ni se espera que ocurra, porque las casillas no describen el estado de *un* documento sino el criterio permanente con que se lo revisa cada vez. La notación importada de una checklist de tarea se aplicó a algo que no es una tarea.
+
+Tres salidas, y la primera es la tentadora y la peor:
+
+1. **Mecanizar las casillas.** No aplica a la mayoría. «La procedencia concluye explícitamente que la fuente NO suma linaje» o «las descripciones no parafrasean el `proposito` registrado» son juicio editorial; automatizarlas produciría o falsos positivos o un check que aprueba cualquier cosa. Es además la salida que `../CONSTITUTION.md` §Límite honesto advierte contra: un verificador que no juzga adecuación no puede sostener un criterio de adecuación.
+2. **Cablear el campo al bloque de salida.** Que `Validaciones aplicadas` del `[SDD-Check]` MUST nombrar las validaciones de la spec del documento tocado, y que un check verifique esa correspondencia **por presencia**: los nombres declarados aparecen, o falta trabajo. No juzga si la validación se hizo bien —nada puede—, pero convierte «me acordé» en «está escrito y se puede contrastar».
+3. **Retirar la forma de casilla** y dejar la lista como criterios de revisión, sin `[ ]`. No pierde nada real y deja de afirmar un estado falso.
+
+Las salidas 2 y 3 son compatibles y probablemente sean la respuesta juntas: la 3 corrige la notación, la 2 le da al campo el único enforcement honesto disponible.
+
+Reservas antes de aprobarla:
+
+- **La salida 2 tiene costo por entrega y hay que dimensionarlo.** Varias specs tienen diez u once validaciones; copiarlas todas al bloque de cada entrega lo vuelve ilegible. El alcance realista es nombrar las que la entrega ejercitó y declarar las que no aplicaron, no transcribir la lista.
+- **La salida 3 toca las 46 entradas de un saque.** Es una edición mecánica y de bajo riesgo, pero conviene hacerla en su propio commit y no mezclada con cambios de contenido del registro.
+- **Hay una cuarta salida que no propongo pero conviene nombrar para descartarla explícitamente:** dejar todo como está y anotar en el registro que las casillas son decorativas. Es peor que las tres, porque documenta la inconsistencia en vez de resolverla, y `../CONSTITUTION.md` ya declara sus límites en un lugar donde se leen.
+
+Decisión pendiente del usuario: cuál de las salidas, o la 2 y la 3 juntas. El ítem no la anticipa.
+
+### Deuda abierta
+- Siguen las de las dos entradas anteriores: M-21 agravado por `REFERENCIAS.md`, `backlog-metodo` no detecta un estado falso pero coherente, deuda del historial sin vista consolidada (en curso: va a los backlogs, decisión del usuario de hoy), rutas absolutas en prosa sin check, `EMOJI_SELLADOS` fuera del registro.
+
+---
+
 ## La spec de la constitución deja de ubicar las convenciones en el registro (2026-10-06) — COMPLETADA
 
 **Acción**: reconciliación de spec contra documento, aprobada por el usuario. Cierra la deuda que había quedado señalada en la entrada anterior.

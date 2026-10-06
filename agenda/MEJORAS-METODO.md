@@ -23,7 +23,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
 | M-31 | Un check reporta salud sobre lo que no mira: dos formas verificadas | alta | Propuesta (2026-08-30) | [R40] (check `normativos`) + dos auditorías propias del 2026-08-30 | `../tools/check_docs.py` |
-| M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
@@ -63,6 +62,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
 | M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | **Hecha** (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` + 6 documentos |
 | M-29 | El backlog de método cargaba la narración de lo ya cerrado | media | **Hecha** (2026-08-23) | deriva doc-vs-spec detectada el 2026-08-23 | este documento |
+| M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | **Hecha** (2026-10-06) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
@@ -168,30 +168,6 @@ Qué hace falta, actualizado a tres pasos:
 3. **Auditar el resto de las derivaciones y de los reconocedores**, y declarar la regla: todo insumo derivado MUST fallar ruidosamente cuando no produce nada, y todo check MUST nombrar el alcance que efectivamente cubre. Sin la regla escrita, el próximo nace igual.
 
 **Cuatro decisiones de diseño ajenas, verificadas (2026-09-05).** OpenSpec [R38] v1.11.0 corrigió un caso de esta misma clase —`openspec validate` aprobaba un `## Purpose` que seguía siendo el placeholder que `archive` escribe, porque el placeholder supera el piso de brevedad— y las cuatro decisiones con que lo cerró son transferibles a este ítem sin traer código: la detección es **angosta a propósito** (reconoce el placeholder por la misma definición que lo escribe, y fuera de eso sólo un `TBD`/`TODO` que abra el texto); es **WARN y no ERROR**, para que un repositorio con placeholders ya en disco siga validando y sólo `--strict` falle; el texto **entre backticks no cuenta**, porque un documento que cita el marcador no lo está usando; y un hallazgo de placeholder **no se reporta además como «demasiado breve»**, para que un caso produzca un mensaje y no dos. Detalle en `../software/analisis/ANALISIS-OPENSPEC.md` §Nota menor.
-
-### M-35 — Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira
-
-Cada entrada de `../SPECS_REGISTRY.md` declara una lista de validación en formato `- [ ]`. Medido el 2026-08-30: **195 casillas en las 46 entradas, ninguna marcada, y ninguna entrada sin el campo**. Es la promesa más repetida del registro y la única que no tiene ningún respaldo.
-
-Ningún check las lee. `parse_registry()` guarda `validacion_items`, y su único consumidor es `ssot-collision`, que las usa como texto para comparar temas entre specs — no para verificar que se hayan corrido. El campo existe para el humano que escribe la entrega y depende enteramente de que se acuerde.
-
-**El problema no es sólo que no se verifique: es que la forma miente.** Una casilla `- [ ]` afirma un estado —«pendiente»— y sugiere que en algún momento pasa a `- [x]`. Eso nunca ocurrió ni se espera que ocurra, porque las casillas no describen el estado de *un* documento sino el criterio permanente con que se lo revisa cada vez. La notación importada de una checklist de tarea se aplicó a algo que no es una tarea.
-
-Tres salidas, y la primera es la tentadora y la peor:
-
-1. **Mecanizar las casillas.** No aplica a la mayoría. «La procedencia concluye explícitamente que la fuente NO suma linaje» o «las descripciones no parafrasean el `proposito` registrado» son juicio editorial; automatizarlas produciría o falsos positivos o un check que aprueba cualquier cosa. Es además la salida que `../CONSTITUTION.md` §Límite honesto advierte contra: un verificador que no juzga adecuación no puede sostener un criterio de adecuación.
-2. **Cablear el campo al bloque de salida.** Que `Validaciones aplicadas` del `[SDD-Check]` MUST nombrar las validaciones de la spec del documento tocado, y que un check verifique esa correspondencia **por presencia**: los nombres declarados aparecen, o falta trabajo. No juzga si la validación se hizo bien —nada puede—, pero convierte «me acordé» en «está escrito y se puede contrastar».
-3. **Retirar la forma de casilla** y dejar la lista como criterios de revisión, sin `[ ]`. No pierde nada real y deja de afirmar un estado falso.
-
-Las salidas 2 y 3 son compatibles y probablemente sean la respuesta juntas: la 3 corrige la notación, la 2 le da al campo el único enforcement honesto disponible.
-
-Reservas antes de aprobarla:
-
-- **La salida 2 tiene costo por entrega y hay que dimensionarlo.** Varias specs tienen diez u once validaciones; copiarlas todas al bloque de cada entrega lo vuelve ilegible. El alcance realista es nombrar las que la entrega ejercitó y declarar las que no aplicaron, no transcribir la lista.
-- **La salida 3 toca las 46 entradas de un saque.** Es una edición mecánica y de bajo riesgo, pero conviene hacerla en su propio commit y no mezclada con cambios de contenido del registro.
-- **Hay una cuarta salida que no propongo pero conviene nombrar para descartarla explícitamente:** dejar todo como está y anotar en el registro que las casillas son decorativas. Es peor que las tres, porque documenta la inconsistencia en vez de resolverla, y `../CONSTITUTION.md` ya declara sus límites en un lugar donde se leen.
-
-Decisión pendiente del usuario: cuál de las salidas, o la 2 y la 3 juntas. El ítem no la anticipa.
 
 ### M-36 — M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar
 
@@ -543,6 +519,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-27 | «`sdd-check-fields` pasa a mirar `templates/`» |
 | M-28 | «`excluded-field` verifica la regla del registro, no el `excluye` de cada spec» |
 | M-29 | «El backlog de metodo se poda a puntero y se reordena por estado» |
+| M-35 | «M-35 — Las validaciones del registro dejan de ser casillas» |
 | M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-44 | «M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio» |
 | M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |
