@@ -8,9 +8,9 @@ La IA hizo barata la *generación* y cara la *verificación, la coherencia y la 
 
 ## Causas raíz (transversales a línea A y B)
 
-1. **Adopción masiva de IA sin gobernanza.** El uso de IA en desarrollo y trabajo de conocimiento ya es masivo, pero la capacidad de control no creció al mismo ritmo. El cuello de botella dejó de ser generar; pasó a ser validar y mantener coherencia (cifras de adopción: `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` [R11][R15]).
+1. **Adopción masiva de IA sin gobernanza.** El uso de IA en desarrollo y trabajo de conocimiento ya es masivo, pero la capacidad de control no creció al mismo ritmo. El cuello de botella dejó de ser generar; pasó a ser validar y mantener coherencia (cifras de adopción: `ESTADISTICAS-TENDENCIAS-EVOLUCION.md` [R11][R15]; la revisión de código como cuello de botella, [R35]).
 
-2. **Velocidad sin guardrails degrada estabilidad.** Acelerar la generación sin contratos ni pruebas puede reducir la estabilidad de entrega; la spec actúa como guardrail aguas arriba [R09].
+2. **Velocidad sin guardrails degrada estabilidad.** Acelerar la generación sin contratos ni pruebas puede reducir la estabilidad de entrega; la spec actúa como guardrail aguas arriba [R09]. [R35] lo formula como paradoja: la misma intervención mejora las métricas individuales y degrada las del sistema.
 
 3. **Alucinación y deriva de intención.** Los LLMs son excelentes completando patrones pero pésimos leyendo la mente: producen código o texto plausible con decenas de supuestos no declarados, muchos erróneos. Un pedido como "agregar login" está subespecificado y el modelo elige defaults que rara vez coinciden con lo que el equipo quería (*intent drift*) [R21][R30]. La spec hace explícito el problema, el criterio de éxito y las restricciones antes de generar.
 

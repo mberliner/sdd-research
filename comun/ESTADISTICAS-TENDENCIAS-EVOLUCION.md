@@ -15,6 +15,7 @@ Las señales 2024-2026 muestran tres patrones:
 ### Productividad y calidad
 - Estudio controlado sobre Copilot: tareas completadas 55.8% mas rapido en promedio [R17].
 - DORA 2025: la IA puede subir throughput hasta 7.2% y calidad de documentacion 1.8%, pero sin capacidades base puede reducir estabilidad de entrega hasta 25% [R09].
+- Costo de escribir la spec: 45-90 minutos por feature mediana, como componente del costo total de un desarrollo asistido por IA [R35]. La fuente no declara de dónde sale la cifra —no es un resultado de su piloto—, así que vale como orden de magnitud, no como medición (consultada 2026-07-09; verificada en fuente 2026-10-06).
 
 ### Ecosistema y evolucion tecnica
 - Octoverse 2024: los proyectos GenAI casi se duplicaron (+98%), con fuerte aceleracion open source [R12].
