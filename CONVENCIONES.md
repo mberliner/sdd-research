@@ -48,13 +48,23 @@ encuentre sin tener la copia local de quien escribió.
   sección o del documento que cita; si no hay, el que `REFERENCIAS.md` asigne a ese material;
   si tampoco, el último corte registrado en `REFERENCIAS.md`. Una cita que necesite fijar otro
   commit lo escribe en línea: `<repo>@<commit>:<ruta>`.
+- Repositorio hermano —del mismo autor, sin entrada en `REFERENCIAS.md`—: la misma forma
+  `<repo>:<ruta>`, sin `[Rxx]`. Repositorios hermanos admitidos: `investigaIA`,
+  `experimentosdd-a4`, `experimentosdd-b7`. Sumar uno es editar esta línea, que es de donde
+  `tools/check_docs.py` toma la lista.
 - Paper, documento o página: sólo `[Rxx]`. La versión (ej. `v2` de arXiv) la lleva
   `REFERENCIAS.md`.
 - Fuente reservada, no pública: `[Rxx]` sin ruta.
 - MUST NOT citarse una copia local —clon, enlace del sistema de archivos, descarga— aunque
-  exista en la máquina de quien escribe: no la tiene nadie más. `tools/check_docs.py` lo
-  verifica (check `ruta-externa`); quedan exentos `historial/` y `experimentos/`, que son
-  registro fechado y no se reescriben.
+  exista en la máquina de quien escribe: no la tiene nadie más.
+- Registro fechado —`historial/`, `experimentos/` y los bloques `[SDD-Check]` de entregas
+  anteriores dentro de cualquier documento— conserva la forma de cita de su momento, prosa
+  incluida («clon vendored»), y no se reescribe. Única excepción: fuera de `historial/` y
+  `experimentos/`, una ruta a copia local se reescribe aunque esté en un bloque viejo, porque
+  el check no distingue bloques.
+- `tools/check_docs.py` verifica esta sección (check `ruta-externa`): ninguna ruta a copia
+  local, ni en código ni en prosa, y ningún `<repo>` que no esté en `REFERENCIAS.md` o en la
+  lista de hermanos. Exentos `historial/` y `experimentos/`.
 
 ## Nombres
 
