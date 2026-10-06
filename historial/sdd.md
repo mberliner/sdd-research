@@ -4,6 +4,41 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-34 — El backstop tiene tabla de regresión, y la corre al tocar sus propios checks (2026-10-06) — COMPLETADA
+
+**Acción**: M-34 ejecutada con el alcance mínimo que el propio ítem pedía: casos declarados como datos dentro de `tools/check_docs.py`, corridos por el mismo script, sin framework (el patrón `--autotest` de [R40]). La aprobó el usuario como primera mejora de la segunda tanda de la revisión de la forma de trabajo. El disparador concreto fue esta misma sesión: tres checks nuevos validados copiando, inyectando y restaurando a mano, y ninguna de esas pruebas había quedado escrita.
+
+### Qué cambió
+- **`tools/check_docs.py`**: tabla `AUTOTEST_CASOS` con 30 casos. Cada uno copia el árbol a un directorio temporal con su propio git y el gate cableado, aplica mutaciones (agregar, escribir, reemplazar, comando git, stage), corre el script real sobre la copia y exige **exactamente** los hallazgos esperados. Si aparece uno de más, es un falso positivo y el caso falla. Incluye casos de borde que no deben disparar: un link dentro de código, una mención del marcador, un bloque `[SDD-Check]` como instancia, citas válidas a repositorio, `00-INDEX.md` staged y deuda con puntero. Un `replace` cuyo texto ya no existe falla como «caso desactualizado», para que la tabla no se pudra en silencio.
+- **Modo `--autotest`**, y check `autotest` en modo `--staged` sólo cuando el commit toca `tools/`: tarda unos 16 s con los casos en paralelo.
+- **`AGENTS.md`**: el modo commit nombra el tercer check, y un check nuevo MUST sumar su caso.
+- **`agenda/MEJORAS-METODO.md`**: M-34 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`--autotest`: 30 casos, 0 fallas. Como un autotest que nunca falla es justo la trampa de M-31, se probó al probador con tres roturas inyectadas y restauradas: `check_links` convertido en no-op (falla el caso `links`), una expectativa falsa (falla `links-en-codigo`) y un ancla borrada (falla `constitucion` como caso desactualizado). El primer intento de la segunda rotura dio verde porque el reemplazo no había encontrado su texto por un escape de comillas, y la rotura nunca se había aplicado. Se rehízo verificando que el texto se encontrara. `tools/check_docs.py` normal y con `--staged` en verde.
+
+El gate encontró además un falso positivo de `deuda-punteros` en esta misma entrada: el check sólo aceptaba rutas `.md`, y la deuda de abajo apunta a `tools/check_docs.py`. Ahora acepta rutas con cualquier extensión, y la tabla suma ese caso.
+
+### Planteo migrado del backlog (2026-10-06)
+
+#### M-34 — Un check que clasifica no tiene tabla de regresión que lo pruebe
+
+Varios checks de `../tools/check_docs.py` no verifican una propiedad: **clasifican**. `excluded-field` decide si una celda es una anotación de campo o prosa legítima; `sdd-check-fields` decide si un texto es una definición o una instancia; `ssot-collision` decide si dos specs hablan del mismo tema; `metodo-historial` decide si un archivo es método. Todos tienen frontera difusa y todos la ajustaron al menos una vez (M-23, M-27, y M-21 sigue abierto).
+
+Un clasificador mal calibrado no se manifiesta como un error: se manifiesta como **trabajo legítimo bloqueado**, y el remedio que la gente encuentra sola es desactivar el gate. Es el mismo razonamiento por el que el `propagacion` de [R40] emite WARN y no ERROR.
+
+En [R40] el hueco se cerró con un check `gate-reglas`: el gate lleva su tabla de regresión al lado de sus propias reglas, expuesta como `--autotest`, y el backstop la corre en cada pasada. El invariante es que las reglas sigan clasificando como declaran, verificado por el mismo script que las usa.
+
+Acá el hueco es doble y conviene no confundirlo: no hay tabla de casos **ni** hay quien la corra. `../tools/check_docs.py` no tiene tests de ningún tipo; su única verificación es correr sobre el árbol real, que sólo contiene los casos que hoy existen. Cada ajuste de frontera se validó a mano y esa validación no quedó ejecutable en ningún lado.
+
+Reserva antes de aprobarla: sumar una suite de tests es una dependencia nueva y un cambio de naturaleza — hoy `tools/` está declarado «no es pieza documental autorada» y vive sin infraestructura. El alcance mínimo que lo evita es el de [R40]: casos declarados como datos dentro del propio script, corridos por un check más, sin framework.
+
+### Deuda abierta
+- Checks sin caso en la tabla: la lista vive en el comentario de `AUTOTEST_CASOS` (`tools/check_docs.py`), donde también se declara que un check nuevo MUST sumar el suyo.
+- M-31 y M-38, los siguientes de la misma revisión.
+
+---
+
 ## Triaje de la deuda de septiembre y octubre con la regla nueva (2026-10-06) — COMPLETADA
 
 **Acción**: aplicación de la regla de la entrada anterior a los pendientes de las entradas del 2026-09-01 en adelante. El usuario revisó y aprobó la tabla de destinos antes de aplicarla.

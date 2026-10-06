@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-40).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-34, M-40).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -57,6 +57,11 @@ El check `deuda-punteros` (2026-10-06) tambien corre solo con `--staged`: la
 «Deuda abierta» de una entrada nueva del historial cita donde vive cada
 pendiente —backlog, experimento o documento— en vez de describirlo.
 
+El check `autotest` (M-34, 2026-10-06) corre la tabla de regresion de este mismo
+script: cada caso muta una copia del arbol y exige exactamente los hallazgos
+esperados. Corre solo con `--staged` y cuando el commit toca `tools/`, porque
+tarda del orden de veinte segundos; a pedido, con `--autotest`.
+
 El check `ruta-externa` (2026-10-05) hace cumplir la forma de cita de fuentes
 externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` y
 `experimentos/`, cita una copia local —la carpeta local de fuentes o un
@@ -69,6 +74,7 @@ o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
     <interprete> tools/check_docs.py --strict   # WARN tambien hace salir 1
     <interprete> tools/check_docs.py --quiet    # solo el resumen
     <interprete> tools/check_docs.py --staged   # suma los checks con contexto de commit
+    <interprete> tools/check_docs.py --autotest # solo la tabla de regresion del backstop
 
 Sin dependencias externas: stdlib de Python 3.8+. Las rutas se resuelven contra
 la raiz del repo, no contra el directorio de trabajo, asi que puede invocarse
@@ -80,9 +86,13 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import shutil
+import stat
 import subprocess
 import sys
+import tempfile
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -1012,8 +1022,10 @@ def check_metodo_historial(rep: Report, staged: list[str] | None) -> None:
 
 
 # Lo que cuenta como puntero a deuda (`AGENTS.md`, campo `Deuda arrastrada`):
-# un item de backlog, un experimento o una ruta a un documento.
-PUNTERO_DEUDA = re.compile(r"\bM-\d+\b|#\d+\b|\b[AB]-\d{2}\b|`[\w./-]+\.md`|^ningun[ao]\b", re.IGNORECASE)
+# un item de backlog, un experimento o una ruta a un archivo con extension. Hasta
+# el 2026-10-06 la ruta tenia que ser `.md`, y el primer commit que apunto a un
+# limite declarado en `tools/check_docs.py` quedo bloqueado: lo vio el gate.
+PUNTERO_DEUDA = re.compile(r"\bM-\d+\b|#\d+\b|\b[AB]-\d{2}\b|`[\w./-]+\.\w+`|^ningun[ao]\b", re.IGNORECASE)
 
 
 def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
@@ -1151,6 +1163,167 @@ def check_file_hygiene(rep: Report, all_docs: list[str]) -> None:
             rep.error("higiene", rel, "no termina en salto de linea; agregar newline al final")
 
 
+# Tabla de regresion del propio backstop (M-34). Cada caso muta una COPIA del
+# arbol —nunca el arbol real—, corre este mismo script sobre ella y exige que
+# aparezcan exactamente los hallazgos esperados, ni uno mas: un caso que pasa con
+# un hallazgo de sobra es un falso positivo que el arbol real todavia no tiene.
+#
+# Operaciones: ("append", ruta, texto), ("write", ruta, texto),
+# ("replace", ruta, viejo, nuevo) sobre la primera ocurrencia, ("git", *args) y
+# ("stage", ruta). Un `replace` cuyo texto ya no existe es un caso desactualizado
+# y falla como tal, para que la tabla no se pudra en silencio.
+#
+# Las mutaciones agregan en vez de editar siempre que se puede: anclarse a una
+# frase del cuerpo de un documento vuelve el caso fragil ante cualquier edicion.
+#
+# Sin caso todavia, y por eso sin regresion: `ssot-collision`, `deriva-cycle`,
+# `ssot-table`, las ramas de `spec-fields` que no son la casilla, la excepcion
+# vencida de `emoji` y el propio `autotest`. Sumar un check MUST sumar su caso.
+_NUEVA_ENTRADA = "del proyecto.\n\n---\n\n## "
+_ENTRADA_PRUEBA = "del proyecto.\n\n---\n\n## Prueba (2026-01-01) — X\n\n### Deuda abierta\n- {}\n\n---\n\n## "
+AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
+    # (id, operaciones, con --staged, hallazgos esperados como (severidad, check))
+    ("base", [], False, []),
+    ("base-staged", [], True, []),
+    ("spec-coverage", [("write", "comun/SIN-SPEC.md", "# Sin spec\n")], False, [("ERROR", "spec-coverage")]),
+    ("links", [("append", "README.md", "\n[x](NO-EXISTE.md)\n")], False, [("ERROR", "links")]),
+    ("links-en-codigo", [("append", "README.md", "\n`[x](NO-EXISTE.md)`\n")], False, []),
+    ("rutas", [("append", "README.md", "\n`comun/NO-EXISTE.md`\n")], False, [("ERROR", "rutas")]),
+    ("ruta-externa-copia", [("append", "README.md", "\nver `fuentes-externas/spec-kit/README.md`\n")], False,
+     [("ERROR", "ruta-externa")]),
+    ("ruta-externa-repo", [("append", "README.md", "\n[R39] `sdd-frist:docs/PATRONES.md`\n")], False,
+     [("ERROR", "ruta-externa")]),
+    ("ruta-externa-prosa", [("append", "README.md", "\nla copia en ../otro/README.md\n")], False,
+     [("ERROR", "ruta-externa")]),
+    ("ruta-externa-validas",
+     [("append", "README.md", "\n`check_docs.py:120` y [R39] `sdd-first:docs/PATRONES.md`\n")], False, []),
+    ("referencias", [("append", "README.md", "\n[R99]\n")], False, [("ERROR", "referencias")]),
+    ("emoji", [("append", "README.md", "\n\U0001F642\n")], False, [("WARN", "emoji")]),
+    ("clarificacion", [("append", "README.md", "\n[NEEDS CLARIFICATION: ¿cuál?]\n")], False,
+     [("ERROR", "clarificacion")]),
+    ("clarificacion-mencion", [("append", "README.md", "\nel marcador `[NEEDS CLARIFICATION]`\n")], False, []),
+    ("scope-home", [("append", "README.md", "\n- `proposito`: algo\n")], False, [("ERROR", "scope-home")]),
+    ("sdd-check-fields", [("append", "README.md", "\n- Spec leida\n- Cobertura\n- Deuda arrastrada\n")], False,
+     [("WARN", "sdd-check-fields")]),
+    ("sdd-check-fields-instancia",
+     [("append", "README.md", "\n[SDD-Check]\n- Spec leida: SI\n- Cobertura: completa\n- Deuda arrastrada: ninguna\n")],
+     False, []),
+    ("spec-fields-casilla", [("replace", REGISTRY, "- `validacion`:\n  - ", "- `validacion`:\n  - [ ] ")], False,
+     [("ERROR", "spec-fields")]),
+    ("constitucion",
+     [("replace", CONSTITUCION, "- **Verificador:** `ninguno`", "- **Verificador:** `inexistente`")], False,
+     [("ERROR", "constitucion")]),
+    ("backlog-metodo", [("append", MEJORAS, "| M-99 | «nada» |\n")], False,
+     [("WARN", "backlog-metodo"), ("WARN", "backlog-metodo")]),
+    ("higiene", [("append", "README.md", "sin salto final")], False, [("ERROR", "higiene")]),
+    ("precedencia", [("append", "README.md", "\nLa precedencia la fija SPECS_REGISTRY.md.\n")], False,
+     [("ERROR", "precedencia")]),
+    ("precedencia-completa",
+     [("append", "README.md", "\nLa precedencia la fijan CONSTITUTION.md y SPECS_REGISTRY.md.\n")], False, []),
+    ("excluded-field", [("append", "README.md", "\n| Documento | Rol |\n|---|---|\n| [x](README.md) | Activo |\n")],
+     False, [("ERROR", "excluded-field")]),
+    ("gate", [("git", "config", "--unset", "core.hooksPath")], False, [("ERROR", "gate")]),
+    ("metodo-historial", [("append", CONVENCIONES, "\nx\n"), ("stage", CONVENCIONES)], True,
+     [("ERROR", "metodo-historial")]),
+    ("metodo-historial-indice", [("append", "00-INDEX.md", "\nx\n"), ("stage", "00-INDEX.md")], True, []),
+    ("deuda-punteros",
+     [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("algo sin puntero")), ("stage", HISTORIAL)],
+     True, [("ERROR", "deuda-punteros")]),
+    ("deuda-punteros-ruta-no-md",
+     [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("declarado en `tools/check_docs.py`")),
+      ("stage", HISTORIAL)], True, []),
+    ("deuda-punteros-validas",
+     [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("sigue en M-21")), ("stage", HISTORIAL)],
+     True, []),
+]
+HALLAZGO = re.compile(r"^(ERROR|WARN)\s+\[([a-z-]+)\]")
+
+
+def _rmtree(path: Path) -> None:
+    def forzar(func, p, _exc):
+        os.chmod(p, stat.S_IWRITE)
+        func(p)
+
+    shutil.rmtree(path, onerror=forzar)
+
+
+def _git_en(cwd: Path, *args: str) -> None:
+    subprocess.run(["git", *args], cwd=str(cwd), check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def _correr_caso(base: Path, caso: tuple) -> str | None:
+    """Corre un caso sobre su propia copia. Devuelve None si pasa, o el motivo."""
+    cid, ops, staged, esperado = caso
+    d = base.parent / cid
+    shutil.copytree(base, d)
+    try:
+        for op in ops:
+            kind, args = op[0], op[1:]
+            if kind == "git":
+                _git_en(d, *args)
+                continue
+            path = d / args[0]
+            if kind == "stage":
+                _git_en(d, "add", "--", args[0])
+            elif kind == "write":
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(args[1].encode("utf-8"))
+            elif kind == "append":
+                path.write_bytes(path.read_bytes() + args[1].encode("utf-8"))
+            elif kind == "replace":
+                texto = path.read_bytes().decode("utf-8")
+                if args[1] not in texto:
+                    return f"caso desactualizado: `{args[0]}` ya no contiene el texto que el caso reemplaza"
+                path.write_bytes(texto.replace(args[1], args[2], 1).encode("utf-8"))
+        cmd = [sys.executable, str(d / "tools" / "check_docs.py")] + (["--staged"] if staged else [])
+        out = subprocess.run(cmd, cwd=str(d), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+        salida = out.stdout.decode("utf-8", errors="replace").splitlines()
+        hallado = sorted(m.groups() for ln in salida for m in [HALLAZGO.match(ln)] if m)
+        if hallado != sorted(esperado):
+            return f"esperado {sorted(esperado)}, hallado {hallado}"
+        return None
+    finally:
+        _rmtree(d)
+
+
+def autotest() -> list[tuple[str, str]]:
+    """Corre la tabla de regresion; devuelve [(caso, motivo)] de los que fallan (M-34).
+
+    La copia excluye `.git` y `fuentes-externas/` (se recrea vacia, porque
+    `ruta-externa` la reconoce por nombre) y estrena un repositorio git propio con
+    el gate cableado, para que los checks que dependen de git corran como en un
+    clon real. Los casos corren en paralelo: cada uno tiene su copia.
+    """
+    tmp = Path(tempfile.mkdtemp(prefix="sdd-autotest-"))
+    try:
+        base = tmp / "_base"
+        shutil.copytree(ROOT, base, ignore=shutil.ignore_patterns(".git", "fuentes-externas", "__pycache__"))
+        (base / "fuentes-externas").mkdir()
+        for args in (
+            ("init", "-q"),
+            ("config", "user.email", "autotest@localhost"),
+            ("config", "user.name", "autotest"),
+            ("config", "core.autocrlf", "false"),
+            ("config", "core.hooksPath", HOOKS_DIR),
+            ("add", "-A"),
+            ("commit", "-q", "--no-verify", "-m", "base"),
+        ):
+            _git_en(base, *args)
+        with ThreadPoolExecutor(max_workers=min(8, os.cpu_count() or 2)) as pool:
+            resultados = list(pool.map(lambda c: (c[0], _correr_caso(base, c)), AUTOTEST_CASOS))
+        return [(cid, motivo) for cid, motivo in resultados if motivo]
+    finally:
+        _rmtree(tmp)
+
+
+def check_autotest(rep: Report, staged: list[str] | None) -> None:
+    """Un commit que toca `tools/` corre la tabla de regresion del backstop (M-34)."""
+    if staged is None or not any(p.startswith("tools/") for p in staged):
+        return
+    for cid, motivo in autotest():
+        rep.error("autotest", cid, motivo)
+
+
 def main() -> int:
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -1158,11 +1331,23 @@ def main() -> int:
     ap.add_argument("--strict", action="store_true", help="los WARN tambien fallan")
     ap.add_argument("--quiet", action="store_true", help="solo el resumen")
     ap.add_argument(
+        "--autotest",
+        action="store_true",
+        help="solo corre la tabla de regresion del propio backstop sobre copias del arbol (M-34)",
+    )
+    ap.add_argument(
         "--staged",
         action="store_true",
         help="suma los checks que necesitan contexto de commit (lo usa el gate pre-commit)",
     )
     args = ap.parse_args()
+
+    if args.autotest:
+        fallas = autotest()
+        for cid, motivo in fallas:
+            print(f"FALLA [{cid}] {motivo}")
+        print(f"autotest: {len(AUTOTEST_CASOS)} casos, {len(fallas)} fallas")
+        return 1 if fallas else 0
 
     rep = Report()
     all_docs = docs()
@@ -1200,6 +1385,7 @@ def main() -> int:
     check_gate(rep)
     check_metodo_historial(rep, staged)
     check_deuda_punteros(rep, staged)
+    check_autotest(rep, staged)
     check_backlog_metodo(rep)
 
     if not args.quiet:
