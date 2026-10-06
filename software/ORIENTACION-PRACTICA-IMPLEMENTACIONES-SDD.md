@@ -472,3 +472,15 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 - Cobertura: completa para las dos afirmaciones de combinabilidad (§5 y §6); las fricciones se declaran sólo para el par Spec Kit + Superpowers, el único con mecanismos leídos de los dos lados
 - Deuda arrastrada: la ficha de Superpowers y la tabla de §6 siguen diciendo 14 skills y 14 harnesses (hoy 15 y 16), y los datos de madurez de todas las fichas son del 2026-09-05: actualizar sólo los conteos mezclaría fechas de medición, así que se difiere a una re-medición completa de D9 y D10, con corte nuevo; la práctica propia de Spec Kit (`analisis/ANALISIS-SPEC-KIT.md` C8) queda señalada para §5 sin incorporar; las tres extensiones puente sin leer
 - Riesgos/reservas: las fricciones son `[derivado]` de reglas escritas, no observadas corriendo los dos sistemas juntos; ninguna fuente reporta cuánto degrada el resultado cada una
+
+---
+
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: abierta en este documento — **re-medición completa de D9 y D10 con corte nuevo** (la ficha de Superpowers y §6 siguen en 14 skills y 14 harnesses; hoy son 15 y 16), la práctica propia de Spec Kit (`analisis/ANALISIS-SPEC-KIT.md` C8) para §5, las tres extensiones puente sin leer, `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` sin entradas para Kiro ni Tessl, y la D14 de Tessl si su *Framework* sale de la beta cerrada. Espera: el resultado de `../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md` (B-09) para §7. Con destino fuera: el ecosistema del 1.0 de Spec Kit se caracteriza en `analisis/ANALISIS-SPEC-KIT.md`. Cerrada: las líneas 337 y 398 que señaló convergencia el 2026-09-30 (corregidas ese día). Pasan a límite: D15 sin fuente con población definida, y su conjunto no reproducible; D9 y D10 no medibles en los dos casos cerrados; el rasgo de Tessl conocido por [R20]; la asimetría de evidencia de Kiro; la asignación de Superpowers, la menos limpia de las seis
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones

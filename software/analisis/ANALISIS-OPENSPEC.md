@@ -207,3 +207,15 @@ La fila 8 de convergencia y [R38] dicen «62 herramientas» a partir de `docs/su
 - Cobertura: **incompleta y declarada** — el soporte de herramientas nuevas y las correcciones de CLI sin efecto sobre el método no se caracterizan; la cifra de herramientas queda sin reconciliar
 - Deuda arrastrada: la de la entrega anterior (corpus observacional de C4 sin dar de alta; las dos preguntas señaladas sin ítem); se agrega la cifra de herramientas sin reconciliar
 - Riesgos/reservas: lectura de skills, schema y changelog sin correr el CLI; C8 descansa en la descripción que la propia fuente hace del defecto, sin reproducirlo; 25 *changesets* describen cambios en `main` que ninguna versión publicada trae todavía
+
+---
+
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: abierta en este documento — **las dos preguntas sin formular** (C6: si separar el repositorio de specs del del artefacto tiene consecuencias medibles; C7: reescribir en vez de regenerar la documentación propia) y la transferencia a Línea A que C7 habilita; se formulan acá antes de darlas de alta, porque darlas de alta a medias es peor que no darlas. **La cifra de herramientas soportadas, sin reconciliar**; la fila 8 de `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md` la toma de acá. Con destino fuera: el corpus observacional de C4 es el ítem #21 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-41 y M-42 siguen en `../../agenda/MEJORAS-METODO.md`; el ecosistema del 1.0 de Spec Kit, en `ANALISIS-SPEC-KIT.md`; cuánto cuesta frenar es el ítem #23. Cerradas: M-40 hecha, `../RELACION-SPEC-VS-EPICA.md` actualizado el 2026-09-05. Pasa a límite: la reserva de procedencia frente a Kiro (búsqueda de marcadores negativa, 2026-09-06)
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones

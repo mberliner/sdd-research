@@ -313,3 +313,15 @@ Su hallazgo cualitativo central, textual: «Spec Kit did not eliminate the PRP. 
 - Cobertura: completa para lo que [R35] afirma de Spec Kit
 - Deuda arrastrada: la del documento sigue intacta
 - Riesgos/reservas: el piloto es ilustrativo y de una sola organización; el hallazgo es cualitativo
+
+---
+
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: abierta en este documento — **el ecosistema del 1.0 sin caracterizar**, y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar; si la formalización de la precedencia merece experimento propio, candidato señalado el día de su bloque y nunca dado de alta. Con destino fuera: [R33], [R34], [R30] y [R25] sin verificar en fuente completa, deuda de `../../REFERENCIAS.md` y no de este documento
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones

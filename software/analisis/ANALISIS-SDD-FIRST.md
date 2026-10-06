@@ -241,3 +241,15 @@ Vale registrarlo porque es la posición contraria a la de los casos que levantan
 - Cobertura: completa — las cinco secciones obligatorias del formato quedan cubiertas, por referencia o por diferencia
 - Deuda arrastrada: la del documento sigue intacta
 - Riesgos/reservas: formato declarado y plantilla, no specs leídas una por una; fuente del mismo autor que este repositorio
+
+---
+
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: abierta en este documento — lo que el `README.md` afirma del instalador no se verificó ejecutándolo. Con destino fuera: el hueco de `PATRONES.md` del lado del canal de error es nota del ítem #19 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-16 y M-17 siguen en Propuesta en `../../agenda/MEJORAS-METODO.md`; la deuda de convergencia vive en `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`. Cerrada: M-15 está hecha. Pasa a límite: por qué el kit dejó caer `[NEEDS CLARIFICATION]`, que la fuente no declara
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones

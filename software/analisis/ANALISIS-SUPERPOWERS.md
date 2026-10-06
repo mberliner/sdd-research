@@ -212,3 +212,15 @@ Por qué importa acá: nuestro campo `Cobertura` del `[SDD-Check]` pregunta qué
 - Cobertura: completa — C8 y C9 tienen destino (M-42 y la lectura sobre `Cobertura`); lo no caracterizado queda listado con su motivo
 - Deuda arrastrada: **cuánto cuesta frenar sigue sin medirse acá**, y C8 lo vuelve más visible; la versión del brazo T4 de B-09 no está fijada en el diseño; siguen abiertas M-40, M-41 y M-42
 - Riesgos/reservas: lectura de skills y release notes, sin correr el sistema; fuente autoreportada, con interés comercial y sin peer review; C8 junta tres cambios en una sola tendencia, y esa unión es interpretación nuestra: la fuente no la declara
+
+---
+
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: ninguna propia. Con destino fuera: cuánto cuesta frenar es el ítem #23 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-41 y M-42 siguen en `../../agenda/MEJORAS-METODO.md`; la versión del brazo T4 se fija al sellar B-09 (`../../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md` §Sello). Cerrada: M-40 hecha
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones

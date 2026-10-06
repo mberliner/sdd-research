@@ -294,6 +294,16 @@ Es el mismo régimen que el proyecto aplica a los experimentos sellados —enmie
 - Deuda arrastrada: la del documento sigue intacta, incluida la decisión abierta sobre la compuerta de Superpowers
 - Riesgos/reservas: la anterioridad de la lectura de [R35] respecto de la definición operacional está fechada, pero no se puede descartar que influyera sin citarse
 
+[SDD-Check] — consolidación de deuda 2026-10-06
+- Spec leida: SI (sin cambio de `incluye`/`excluye`: no se toca el cuerpo)
+- Incluye/Excluye verificado: SI — sólo se consolida la deuda de los bloques anteriores, que quedan como registro datado y no se reescriben
+- Validaciones aplicadas: cada pendiente de los bloques anteriores se clasificó con la regla de `../AGENTS.md` (`Deuda arrastrada`): resuelto, límite sin remedio, o con destino; lo resuelto se verificó contra la entrega que lo resolvió
+- SSOT afectado: ninguno
+- Derivados a revisar: ninguno
+- Cobertura: completa para la deuda de los bloques anteriores
+- Deuda arrastrada: abierta en este documento — **decisión del usuario sobre la compuerta de Superpowers** (si obliga a revisar la definición operacional de la fila candidata) e **instrumento v2 sin decidir**, del que dependen las tres dimensiones registradas sin veredicto («la ceremonia escala», «dónde vive el método respecto del artefacto», «el verificador tiene que ser un test»); la cifra de la fila 8, que se reconcilia en `analisis/ANALISIS-OPENSPEC.md`; la celda del testigo, dormido desde el 2026-08-02, MUST releerse si vuelve a moverse; `LINEAS-INVESTIGACION.md` B6 conserva su enunciado, que este documento acota sin reescribir; Tessl queda fuera de `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` mientras su *Framework* siga en beta cerrada. Con destino fuera: el corpus observacional de OpenSpec es `../agenda/BACKLOG-INVESTIGACION.md` #21 y el no-determinismo de Tessl es #20. Cerrada: Kiro y Tessl pasaron el filtro de procedencia (2026-09-05) y M-13 está hecha. Pasa a límite: la independencia de OpenSpec frente a Kiro (la búsqueda de marcadores del 2026-09-06 dio negativa, que es lo más fuerte que una búsqueda así produce)
+- Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
 ---
 
 ## Bloque de entrega anterior
