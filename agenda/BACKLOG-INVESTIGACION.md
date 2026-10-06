@@ -135,6 +135,8 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Riesgo de Principio V, y es serio.** Los ocho patrones ya están escritos y ya fueron leídos por quien propone el ítem. La hipótesis MUST preregistrarse antes de mirar los historiales, y la puntuación SHOULD hacerla una sesión ciega a la hipótesis — el mismo recaudo que el ítem #7 impuso a A-04.
 
+    **Hueco que hereda quien porte la taxonomía (2026-09-05).** `../software/analisis/ANALISIS-SDD-FIRST.md` C7 dejó declarado que las ocho clases están enunciadas del lado del verde —el aviso que suena siempre, la carpeta que nadie mira— y que ninguna cubre el canal de error: un rojo que no significa nada, con dos causas colapsadas en el mismo fallo, no encaja en ninguna. Un barrido que admita «ninguna» como categoría lo va a encontrar, y conviene saber de antemano que no es ruido.
+
     **Contraparte de método:** si el resultado da señal, la consecuencia es un documento de patrones propio, y eso entra por `MEJORAS-METODO.md` con su `M-NN`. El ítem no lo abre por adelantado: sería anticipar el resultado.
 
 20. **¿Cuánto varía el código regenerado desde la misma spec, y qué propiedad de la spec mueve esa varianza? (alta, 2026-09-06).** Origen: `../software/analisis/ANALISIS-TESSL.md` C3, que lo dejó explícitamente como candidata a alta y no la dio de alta para no plantearla a medias. La observación disponible es de un practicante identificado [R20], textual —«even at this low abstraction level I have seen the non-determinism in action though, when I generated code multiple times from the same spec»—, **sin diseño, sin repeticiones declaradas y sin criterio de medida**: no es una medición y MUST NOT usarse como tal.
@@ -178,6 +180,14 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
     **Confundidos declarados:** dentro de cada harness, éste y su familia de modelo son inseparables (ítem #10), y la replicación no los separa —los vuelve menos plausibles como explicación única—; el enunciado y la suite los escribe quien evalúa, que además es el autor de uno de los brazos. Asimetría de lectura que MUST aplicarse: si sdd-first pierde, el resultado es más creíble que cualquier otro de este corpus, porque va contra el interés de quien midió; si gana, la ventaja se lee con la reserva puesta.
 
     **Contraparte de método:** ninguna. Es diseño de experimentos, no protocolo del repositorio.
+
+23. **¿Cuánto cuesta frenar a preguntar, comparado con decidir provisionalmente y registrar el costo de equivocarse? (media, 2026-10-06).** Origen: `../software/analisis/ANALISIS-SUPERPOWERS.md` C7, que contrasta dos diseños y no puede compararlos porque falta este dato. Superpowers [R37] resuelve el conflicto no catastrófico contra la spec y sigue («Rulings, not stalls»); nuestro Principio VII frena y pregunta. La fuente motiva su regla con un solo caso autoreportado, que MUST NOT citarse como medición.
+
+    **Qué se puede medir acá sin experimento nuevo:** las entregas de este repositorio registran cuándo el asistente se detuvo a preguntar y qué se decidió después. La proporción de detenciones cuya respuesta fue la lectura que el asistente habría elegido sola es una cota del costo evitable de frenar. Medir el costo de no frenar requiere el caso contrario, que el protocolo prohíbe, y eso limita lo que este corpus puede decir.
+
+    **Riesgo de Principio V:** quien propone el ítem conoce el resultado esperado de los dos diseños. La regla de puntuación MUST fijarse antes de barrer las entregas.
+
+    **Contraparte de método:** M-42, que porta la forma del ruling al marcador `[NEEDS CLARIFICATION]` sin relajar la obligación de preguntar. Se cierran por separado.
 
 ## Prioridad media
 1. Evaluar impacto de lenguaje normativo (MUST/SHOULD/MAY) en calidad de salida.
