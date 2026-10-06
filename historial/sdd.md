@@ -4,6 +4,25 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## `ruta-externa` mira la prosa y valida el repositorio citado; los sellados dejan de dar WARN de emoticones (2026-10-06) — COMPLETADA
+
+**Acción**: cierre de tres deudas que dejó la entrada anterior, más una que venía de antes. La lista de repositorios hermanos y la regla de registro fechado entraron en `CONVENCIONES.md` en el commit previo, para que éste pasara el backstop solo.
+
+### Qué cambió
+- **`ruta-externa` en prosa**: además de backticks y links, marca las dos formas de ruta local que se delatan solas en texto corrido —`../` que sale de la raíz y la carpeta local de fuentes—.
+- **`ruta-externa` valida `<repo>`**: una cita `<repo>:<ruta>` o `<repo>@<commit>:<ruta>` tiene que nombrar un repositorio de una URL de GitHub de `REFERENCIAS.md` o de la línea de hermanos de `CONVENCIONES.md`. Las dos listas se derivan de su fuente; el check no guarda copia. Si la línea de hermanos desaparece, falla cerrado. Para no confundir `path:line` o `campo:valor` con una cita, la ruta tiene que llevar barra o extensión.
+- **`emoji` exceptúa documentos sellados**: `PREREG-B7.md` traía emoticones de antes del sello, y corregirlos sería reescribir un sellado (Principio V). La excepción es una lista a mano (`EMOJI_SELLADOS`), y por eso se vigila: una entrada cuyo archivo no existe, o que ya no tiene emoticones, da ERROR como excepción vencida.
+
+### Validación
+`tools/check_docs.py` en verde, ahora **sin WARN**. Cada rama se probó inyectando el caso y restaurando: ruta en prosa con `../` y con la carpeta local, prefijo mal escrito (`sdd-frist`), excepción vencida en `EMOJI_SELLADOS`, y línea de hermanos borrada. Las cuatro dieron ERROR; `path:line` y un hermano válido no.
+
+### Deuda abierta
+- En prosa, una ruta absoluta (`C:\...`, `/home/...`) o una relativa que no empiece con `../` no la ve el check.
+- `EMOJI_SELLADOS` y el estado «sellado» no salen del registro: el registro no tiene un valor de `estado` para eso, y agregarlo sería cambiar su vocabulario.
+- `ruta-externa` no figura en ningún `Verificador:` de `CONSTITUTION.md`; se difiere a la próxima enmienda.
+
+---
+
 ## Las fuentes externas se citan por repositorio, no por copia local (2026-10-05) — COMPLETADA
 
 **Acción**: cambio de método pedido por el usuario. Las fuentes externas no viven en este repositorio, y una cita que apunta a una copia en disco sólo la resuelve quien la escribió. En este clon, además, `fuentes-externas/` ya no tenía clones sino accesos directos de Windows, que tampoco resuelve nadie más (diagnóstico que B-09 ya había hecho el 2026-09-09 para su unidad de tratamiento).

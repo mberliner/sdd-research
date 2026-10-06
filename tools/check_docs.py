@@ -379,6 +379,30 @@ def check_backtick_paths(rep: Report, all_docs: list[str]) -> None:
 # no se reescribe (Principio V), asi que `ruta-externa` no lo mira.
 RUTA_EXTERNA_EXENTOS = ("historial/", "experimentos/")
 MD_LINK_TARGET = re.compile(r"\]\(([^)\s]+)\)")
+# Ruta escrita en prosa, sin backticks ni link: lo unico que la delata es la forma.
+PROSA_RUTA = re.compile(r"(?:\.\./)+[\w.-]+/[^\s)`»,;]*|[^\s(`«]*fuentes-externas/[^\s)`»,;]*")
+# `<repo>:<ruta>` o `<repo>@<commit>:<ruta>`. La ruta MUST tener barra o extension:
+# sin eso, `path:line` o `campo:valor` serian falsos positivos.
+CITA_REPO = re.compile(r"^([A-Za-z][\w.-]*)(?:@[0-9a-f]{6,})?:([^\s:]*(?:/[^\s:]*|\.\w+))$")
+GITHUB_REPO = re.compile(r"https://github\.com/[\w.-]+/([\w.-]+?)(?:\.git)?(?=[\s)>]|$)", re.MULTILINE)
+CONVENCIONES = "CONVENCIONES.md"
+HERMANOS_MARCA = "Repositorios hermanos admitidos:"
+
+
+def repos_admitidos(rep: Report) -> set[str]:
+    """Repos que una cita `<repo>:<ruta>` puede nombrar, derivados de la fuente.
+
+    Los externos salen de las URLs de GitHub de REFERENCIAS.md; los hermanos, de la
+    linea de CONVENCIONES.md que los enumera. Ninguna lista vive aca: una copia
+    podria divergir. Si la linea de hermanos desaparece, falla cerrado.
+    """
+    repos = set(GITHUB_REPO.findall(read(REFERENCIAS)))
+    texto = re.sub(r"\s+", " ", read(CONVENCIONES))
+    if HERMANOS_MARCA not in texto:
+        rep.error("ruta-externa", CONVENCIONES, f"falta la linea «{HERMANOS_MARCA}»")
+        return repos
+    tramo = texto.split(HERMANOS_MARCA, 1)[1].split(". ", 1)[0]
+    return repos | set(re.findall(r"`([\w.-]+)`", tramo))
 
 
 def check_ruta_externa(rep: Report, all_docs: list[str]) -> None:
@@ -386,18 +410,23 @@ def check_ruta_externa(rep: Report, all_docs: list[str]) -> None:
 
     Una ruta a la carpeta local de fuentes o a un repositorio hermano (`../` que
     sale de la raiz) solo existe en la maquina de quien escribio: nadie mas la
-    resuelve. La forma admitida es `<repo>:<ruta>` con su `[Rxx]`
-    (`CONVENCIONES.md` §Citas a fuentes externas). A diferencia de `rutas`, mira
-    cualquier extension y tambien directorios, porque lo que falla no es que el
-    destino no exista sino que este fuera del repositorio. No ve una ruta escrita
-    en prosa sin backticks ni link.
+    resuelve. La forma admitida es `<repo>:<ruta>` (`CONVENCIONES.md` §Citas a
+    fuentes externas), y el `<repo>` MUST estar en `REFERENCIAS.md` o en la lista
+    de hermanos. A diferencia de `rutas`, mira cualquier extension y tambien
+    directorios, porque lo que falla no es que el destino no exista sino que este
+    fuera del repositorio. En prosa sin backticks ve solo las dos formas que se
+    delatan solas —`../` y la carpeta local de fuentes—; una ruta absoluta o
+    una que no empiece asi pasa.
     """
+    admitidos = repos_admitidos(rep)
     for rel in all_docs:
         if rel.startswith(RUTA_EXTERNA_EXENTOS):
             continue
         body = "\n".join(strip_code_fences(read(rel).splitlines()))
-        refs = [m.group(1).strip() for m in CODE_SPAN.finditer(body)]
-        refs += [m.group(1) for m in MD_LINK_TARGET.finditer(CODE_SPAN.sub(" ", body))]
+        spans = [m.group(1).strip() for m in CODE_SPAN.finditer(body)]
+        prosa = MD_LINK_TARGET.sub(" ", CODE_SPAN.sub(" ", body))
+        refs = spans + [m.group(1) for m in MD_LINK_TARGET.finditer(CODE_SPAN.sub(" ", body))]
+        refs += PROSA_RUTA.findall(prosa)
         for ref in refs:
             if ref.startswith(("http://", "https://")):
                 continue
@@ -406,6 +435,10 @@ def check_ruta_externa(rep: Report, all_docs: list[str]) -> None:
             ).startswith("..")
             if "fuentes-externas/" in ref or fuera:
                 rep.error("ruta-externa", rel, f"cita una copia local fuera del repositorio: {ref}")
+        for span in spans:
+            m = CITA_REPO.match(span)
+            if m and m.group(1) not in admitidos:
+                rep.error("ruta-externa", rel, f"repositorio no registrado ni hermano: {span}")
 
 
 def check_ssot_collision(rep: Report, specs: dict, ssot_rows: list) -> None:
@@ -959,9 +992,22 @@ def check_metodo_historial(rep: Report, staged: list[str] | None) -> None:
         )
 
 
+# Documentos sellados que traian emoticones antes del sello. Corregirlos es
+# reescribir un sellado (Principio V), y un WARN que suena siempre enseña a no
+# mirarlo. La lista es a mano a proposito, y por eso se vigila: una entrada cuyo
+# archivo ya no existe, o que ya no tiene emoticones, es una excepcion vencida y
+# da ERROR, para que no sobreviva en silencio a lo que la justificaba.
+EMOJI_SELLADOS = frozenset({"experimentos/b07-formato-hibrido/PREREG-B7.md"})
+
+
 def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
     """Regla global: sin emoticones en documentos de contenido."""
+    for rel in sorted(EMOJI_SELLADOS):
+        if rel not in all_docs or not EMOJI.search(read(rel)):
+            rep.error("emoji", rel, "excepcion vencida en EMOJI_SELLADOS: quitarla")
     for rel in all_docs:
+        if rel in EMOJI_SELLADOS:
+            continue
         hits = sorted(set(EMOJI.findall(read(rel))))
         if hits:
             rep.warn("emoji", rel, f"emoticones presentes: {' '.join(hits)}")
