@@ -4,6 +4,24 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## La deuda vive donde se resuelve, y el historial sólo apunta (2026-10-06) — COMPLETADA
+
+**Acción**: cambio de método aprobado por el usuario, opción C de la revisión de la forma de trabajo de hoy. El historial juntaba 178 pendientes en 55 secciones «Deuda abierta» y nada registraba qué pasaba con cada uno. Releídos los de septiembre y octubre, había de todo: deuda real, deuda ya resuelta y límites sin remedio, mezclados y descritos en prosa que cambiaba de una entrada a otra.
+
+### Qué cambió
+- **`AGENTS.md`, campo `Deuda arrastrada`**: lo diferido vive en un solo lugar y se cita por ID o ruta. Método va a `agenda/MEJORAS-METODO.md`; una pregunta, a `agenda/BACKLOG-INVESTIGACION.md`; una edición pendiente de un documento, al `[SDD-Check]` de ese documento; el diseño de un experimento, a su `EXPERIMENTO-*.md`. Re-explicitar pasa a ser que el ID siga abierto donde vive. Un límite sin remedio no es deuda. Así se generaliza a toda entrega la regla que `SPECS_REGISTRY.md` ya aplicaba al cerrar experimentos: la deuda no queda atada al cierre siguiente.
+- **El cuarto destino** (el bloque del propio documento) lo agregó el usuario al ver el triaje: unas diez deudas eran ediciones pendientes de documentos puntuales, que no son preguntas de investigación ni cambios de método.
+- **`tools/check_docs.py`**: check nuevo `deuda-punteros` (ERROR, sólo con `--staged`). Cada viñeta de «Deuda abierta» de una entrada nueva tiene que citar un `M-NN`, un `#N`, un ID de experimento, una ruta, o decir «ninguna». Las entradas anteriores no se tocan.
+
+### Validación
+`tools/check_docs.py` en verde, normal y con `--staged`. Se inyectó una entrada con cuatro viñetas —sin puntero, con `M-21`, «ninguna» y con una ruta— y sólo dio ERROR la primera. La sección de abajo es el primer caso real del check.
+
+### Deuda abierta
+- Triaje de los pendientes de sep-oct según esta regla: en revisión del usuario. Hasta entonces, las deudas de las entradas anteriores siguen descritas en ellas (`historial/sdd.md`).
+- M-21, agravado desde M-40.
+
+---
+
 ## M-35 — Las validaciones del registro dejan de ser casillas (2026-10-06) — COMPLETADA
 
 **Acción**: M-35 ejecutada con la salida 3, elegida por el usuario. La salida 2 —que `Validaciones aplicadas` del `[SDD-Check]` nombre las validaciones de la spec y un check lo compruebe— se descarta: la mayoría de los bloques se entregan en el chat y no quedan en el repositorio, así que el check vería sólo los 18 documentos que llevan el bloque adentro.

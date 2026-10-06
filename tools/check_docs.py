@@ -53,6 +53,10 @@ tabla de estado de `agenda/MEJORAS-METODO.md` coincida con sus secciones de
 detalle y con los punteros a `historial/sdd.md`. Que el estado sea verdadero no
 lo mira; ver su docstring.
 
+El check `deuda-punteros` (2026-10-06) tambien corre solo con `--staged`: la
+«Deuda abierta» de una entrada nueva del historial cita donde vive cada
+pendiente —backlog, experimento o documento— en vez de describirlo.
+
 El check `ruta-externa` (2026-10-05) hace cumplir la forma de cita de fuentes
 externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` y
 `experimentos/`, cita una copia local —la carpeta local de fuentes o un
@@ -1007,6 +1011,43 @@ def check_metodo_historial(rep: Report, staged: list[str] | None) -> None:
         )
 
 
+# Lo que cuenta como puntero a deuda (`AGENTS.md`, campo `Deuda arrastrada`):
+# un item de backlog, un experimento o una ruta a un documento.
+PUNTERO_DEUDA = re.compile(r"\bM-\d+\b|#\d+\b|\b[AB]-\d{2}\b|`[\w./-]+\.md`|^ningun[ao]\b", re.IGNORECASE)
+
+
+def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
+    """La deuda de una entrada nueva del historial apunta, no describe (2026-10-06).
+
+    Solo corre con `--staged` y solo mira lineas AGREGADAS: las 72 entradas
+    anteriores a la regla describen su deuda en prosa y quedan como estan,
+    porque el historial no se reescribe. Cada viñeta de «Deuda abierta» tiene que
+    citar al menos un `M-NN`, un `#N`, un ID de experimento o una ruta.
+
+    Limite: verifica que haya un puntero, no que apunte bien. Una viñeta que nombra
+    `M-21` y describe otra cosa pasa.
+    """
+    if staged is None or HISTORIAL not in staged:
+        return
+    diff = git("diff", "--cached", "--unified=0", "--", HISTORIAL)
+    if not diff:
+        return
+    agregadas = [ln[1:] for ln in diff.splitlines() if ln.startswith("+") and not ln.startswith("+++")]
+    dentro = False
+    for ln in agregadas:
+        if ln.startswith("#"):
+            dentro = ln.strip() == "### Deuda abierta"
+            continue
+        if ln.startswith("---"):
+            dentro = False
+        if dentro and ln.startswith("- ") and not PUNTERO_DEUDA.search(ln[2:].strip()):
+            rep.error(
+                "deuda-punteros",
+                HISTORIAL,
+                f"viñeta de deuda sin puntero (M-NN, #N, experimento o ruta): {ln[2:80]}",
+            )
+
+
 FILA_MEJORA = re.compile(r"^\|\s*(M-\d+)\s*\|(.*)$")
 DETALLE_MEJORA = re.compile(r"^###\s+(M-\d+)\b")
 
@@ -1158,6 +1199,7 @@ def main() -> int:
     check_file_hygiene(rep, all_docs)
     check_gate(rep)
     check_metodo_historial(rep, staged)
+    check_deuda_punteros(rep, staged)
     check_backlog_metodo(rep)
 
     if not args.quiet:
