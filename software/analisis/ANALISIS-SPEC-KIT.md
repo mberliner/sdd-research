@@ -293,3 +293,23 @@ Todos leídos en `git diff 4a7341a..HEAD -- templates/commands/`:
 - Cobertura: **incompleta y declarada** — C8, los ajustes de plantilla y los dos hechos previos tienen destino; la guía de contratos, los bundles y el resto de la plataforma quedan sin caracterizar por alcance
 - Deuda arrastrada: R33/R34/R30/R25 sin verificar en fuente completa (independiente de este doc); el ecosistema sin caracterizar, ahora con una guía conceptual más, y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar
 - Riesgos/reservas: lectura de plantillas, guías y `.gitignore`, sin correr el CLI; C8 se apoya en lo que el proyecto declara de sí mismo, y un caso de estudio escrito por la fuente puede seleccionar lo que muestra; el clon es un directorio vivo y volvió a moverse mientras se escribía otra fuente
+
+---
+
+## Lectura externa: [R35] sobre Spec Kit (2026-10-06)
+
+[R35] es una revisión multivocal que evalúa Spec Kit como la instancia más completa de su modelo de gobernanza, y lo hace con la reserva por delante: sin validación académica independiente. Es la única evaluación externa del corpus con datos de campo, y los datos son de un **piloto ilustrativo**, no de un experimento: cuatro meses, tres equipos de una misma organización, catorce ingenieros de nivel medio y senior, comparación antes/después sin grupo de control.
+
+Su hallazgo cualitativo central, textual: «Spec Kit did not eliminate the PRP. It shifted its locus». El esfuerzo de verificación pasó de inspeccionar tarde código generado y opaco a invertir antes en specs y constituciones.
+
+**Lectura.** Es la forma que toma en la práctica la tensión de C3: si la spec pasa a ser el artefacto primario, lo que se ahorra en revisar código se paga en escribir y revisar specs. [R35] lo observa sin medirlo, así que no confirma ni refuta C3; muestra dónde mirar. La cifra de costo de autoría que el mismo trabajo da vive en `../../comun/ESTADISTICAS-TENDENCIAS-EVOLUCION.md`, con su reserva.
+
+[SDD-Check] — lectura externa 2026-10-06
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye: es lectura para «conclusiónes accionables para Linea B»)
+- Incluye/Excluye verificado: SI — no se reproduce el modelo de gobernanza de [R35], solo lo que dice de Spec Kit
+- Validaciones aplicadas: cita textual y datos del piloto verificados en el LaTeX de [R35] (§Illustrative Pilot Study)
+- SSOT afectado: este documento (`ssot_level: SSOT`)
+- Derivados a revisar: `../COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `../RELACION-FR-VS-SC-Y-COBERTURA.md` — sin impacto: la lectura no toca la comparación pareada ni la relación FR↔SC
+- Cobertura: completa para lo que [R35] afirma de Spec Kit
+- Deuda arrastrada: la del documento sigue intacta
+- Riesgos/reservas: el piloto es ilustrativo y de una sola organización; el hallazgo es cualitativo
