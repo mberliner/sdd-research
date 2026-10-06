@@ -160,6 +160,8 @@ Registradas por la regla 2 de la sección «Cómo se incorpora un caso nuevo»: 
 
   Y desde la incorporación de Kiro tiene además el eje sobre el que discriminaría, que es lo que le faltaba: **no coinciden en qué escala.** Superpowers mantiene la compuerta fija por diseño explícito —«what scales with simplicity is the artifact, never the approval»— y Kiro la retira en su variante rápida. Una dimensión donde todos hacen lo mismo no informa; ésta separa a dos casos en una decisión de diseño nombrable. Decidirlo sigue siendo trabajo aparte y caro: abre v2 y obliga a re-correr todos los casos (regla 3).
 
+  **Apoyo externo, no caso (2026-10-06).** [R35] recomienda lo mismo como guía de diseño: «governance level should vary *within* a single sprint based on task characteristics, not be applied uniformly across all work items». Habla de **intensidad de gobernanza** —revisión, verificación, restricción—, así que toca la parte (b) de la definición de abajo y no sólo la (a). No mueve el disparador: es la recomendación de un trabajo de síntesis, no el mecanismo de un caso con columna posible. Y el orden queda escrito: [R35] se leyó el 2026-07-09, antes de la definición operacional, y la definición no lo cita; si influyó sin citarse, no hay forma de saberlo desde acá.
+
   **Fuente deliberadamente no leída, hasta que esta decisión se tome (2026-09-06).** Existe un instrumento ajeno para lo mismo: arXiv 2606.04967 propone una taxonomía de proceso de **seis dimensiones con rúbrica** y la aplica a seis frameworks, uno de ellos Reversa [R25]. Está disponible en su versión v1 y **no tiene alta en `../REFERENCIAS.md`**, a propósito: leer qué dimensiones eligió otro autor antes de decidir las propias es la forma más barata de fabricar la convergencia contra la que este documento se protege. El orden aprobado es decidir primero el v2 con material propio y dar de alta la referencia después. Quien lo lea antes MUST declararlo, y la decisión del v2 pasa a ser no independiente.
 
   **Levantada el mismo día, por la definición de abajo.** La reserva protegía una decisión que todavía no estaba escrita. Con la definición operacional fechada —material propio, anterior a la lectura— el instrumento ajeno ya no puede contaminarla: puede confirmarla, contradecirla o agregarle dimensiones, y en los tres casos el orden queda verificable en el historial. El alta de esa referencia queda habilitada.
@@ -280,6 +282,17 @@ Es el mismo régimen que el proyecto aplica a los experimentos sellados —enmie
 - Cobertura: completa para los cuatro casos en el corte del 2026-09-30; **sin cubrir**: la cifra de herramientas de OpenSpec (fila 8), declarada sin reconciliar
 - Deuda arrastrada: la de la entrega anterior sigue entera. Se agregan: **si la observación sobre la compuerta de Superpowers obliga a revisar la definición operacional de la fila candidata** (decisión abierta); **la dimensión «el verificador tiene que ser un test»**, sin veredicto; la cifra de la fila 8 sin reconciliar
 - Riesgos/reservas: la dimensión nueva nació de contrastar dos casos que ya se sabía que diferían, y eso es exactamente lo que la regla 2 existe para frenar: queda registrada, no puntuada; la columna Superpowers gana detalle respecto de las otras tres porque se re-consultó dos veces más
+
+
+[SDD-Check] — apoyo externo a la dimensión «la ceremonia escala» 2026-10-06
+- Spec leida: SI (spec en `../SPECS_REGISTRY.md`; sin cambio de incluye/excluye: cae en «las dimensiones observadas que el instrumento v1 no cubre, registradas sin veredicto»)
+- Incluye/Excluye verificado: SI — [R35] no es un caso ni toma columna; no se reproduce su modelo de gobernanza
+- Validaciones aplicadas: cita textual verificada en el LaTeX de [R35] (§Practical Governance Decision Guide); el instrumento sigue en v1; el disparador de v2 no se mueve
+- SSOT afectado: este documento
+- Derivados a revisar: `ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — sin impacto: §5 no admite fuente externa fuera de [R20], y el párrafo nuevo no cambia ninguna celda
+- Cobertura: completa
+- Deuda arrastrada: la del documento sigue intacta, incluida la decisión abierta sobre la compuerta de Superpowers
+- Riesgos/reservas: la anterioridad de la lectura de [R35] respecto de la definición operacional está fechada, pero no se puede descartar que influyera sin citarse
 
 ---
 
