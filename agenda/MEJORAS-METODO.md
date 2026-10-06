@@ -43,6 +43,8 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
 | M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
 | M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
+| M-47 | Una ruta absoluta escrita en prosa no la ve `ruta-externa` | baja | Propuesta (2026-10-06) | deuda de la entrada «`ruta-externa` mira la prosa» de `../historial/sdd.md` | `../tools/check_docs.py` (`ruta-externa`) |
+| M-48 | El estado «sellado» no existe en el registro, y la excepción de emoticones lo mantiene a mano | baja | Propuesta (2026-10-06) | deuda de la misma entrada (M-08) | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` (`EMOJI_SELLADOS`) |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
 | M-05 | Limpiar encabezados que restatan su alcance | baja | **Hecha** (2026-08-23) | regla de alcance, Fase 8 | `../software/RELACION-SPEC-VS-EPICA.md` |
 | M-07 | Revisar la premisa "sin CI" tras el versionado | baja | **Hecha** (2026-08-15) | Fase 8 | `../AGENTS.md`, `../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md` |
@@ -410,6 +412,8 @@ Tres salidas, y hoy no hay dato para elegir entre las dos primeras:
 2. **Instrumentarlo**: adaptadores por asistente más allá del import de una línea, que es la dirección que sugiere [R56] y cuesta mantenimiento.
 3. **Acotar la declaración por escrito** a los asistentes con los que efectivamente se ejerció. Es la barata y la honesta mientras no haya sonda, y no cierra ninguna de las otras dos.
 
+**Señalado sin verificar (2026-09-30).** Superpowers [R37] afirma que Claude Code lee `AGENTS.md` sólo cuando no existe `CLAUDE.md`. Si es así, en Claude Code este repositorio funciona por el import de `CLAUDE.md` y no por la convención, y la arquitectura de fuente más adaptador ya es la única vía, no un refuerzo. Llega por una fuente y no se probó.
+
 **Contraparte de investigación**: el ítem 1 de prioridad alta de `BACKLOG-INVESTIGACION.md` («medir variabilidad entre asistentes IA») es la misma pregunta del lado del conocimiento. Acá se decide qué hace el repositorio con su propia declaración mientras esa pregunta siga abierta.
 
 ### M-45 — Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero
@@ -491,6 +495,18 @@ Qué hace falta: corregir los seis encabezados, y agregar al backstop la verific
 Prioridad baja, no nula: es higiene, pero la guarda es tan barata que postergarla cuesta más en discusión que en implementación.
 
 **Recuento (2026-10-06).** Ya son siete: a los seis se sumó el de `ANALISIS-EDICION-COLABORATIVA-IA.md`. El patrón se reprodujo mientras el ítem estaba abierto, que es lo que el párrafo anterior predecía.
+
+### M-47 — Una ruta absoluta escrita en prosa no la ve `ruta-externa`
+
+Desde el 2026-10-06 `ruta-externa` mira también la prosa, pero sólo en las dos formas que se delatan solas: `../` saliendo de la raíz y la carpeta local de fuentes. Una ruta absoluta (`C:\...`, `/home/...`, `/Users/...`) o una relativa que no empieza con `../`, escrita sin backticks ni link, pasa sin aviso. Igual que la copia local, sólo la resuelve quien la escribió.
+
+Prioridad baja: hoy no hay ningún caso en el árbol y la forma es fácil de reconocer. El riesgo de ampliar el check está en los ejemplos: un documento que explica una convención de rutas escribe rutas absolutas a propósito. Antes de implementarlo hay que decidir cómo se exceptúa la mención, por ejemplo con el mismo criterio que `clarificacion` usa para separar marcador de mención.
+
+### M-48 — El estado «sellado» no existe en el registro, y la excepción de emoticones lo mantiene a mano
+
+Al cerrar M-08 se confirmó una excepción permanente para documentos sellados. El check la implementa con `EMOJI_SELLADOS`, una lista a mano y vigilada: da ERROR si una entrada queda vencida. Pero que un documento esté sellado no sale del registro, porque `estado` no tiene ese valor (`Activo`, `Borrador`, `Deprecado`).
+
+Hay dos salidas. Una es agregar `Sellado` al vocabulario de `estado`: cambia el registro y `VALID_ESTADO`, y la excepción pasa a derivarse del registro. La otra es dejar la lista, que mientras haya un solo documento sellado con emoticones cuesta menos que cambiar un vocabulario. El disparador razonable para decidir es un segundo documento sellado que necesite una excepción de cualquier check.
 
 ---
 
