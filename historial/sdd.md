@@ -6,6 +6,89 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-31, paso 3: la regla de que el verde signifique que el check miró, y cuatro checks que no la cumplían (2026-10-07) — COMPLETADA
+
+**Acción**: paso 3 de M-31, aprobado por el usuario el 2026-10-07 en la tanda con M-26, M-32 y M-33. Con esto M-31 queda cerrada. Se auditaron todas las derivaciones y reconocedores de `tools/check_docs.py` y se escribió la regla que el ítem pedía, para que el próximo check no nazca con el mismo hueco. La auditoría encontró cuatro checks que no la cumplían y se corrigieron en la misma entrega.
+
+### Qué cambió
+- **`tools/check_docs.py`, docstring del módulo**: la regla, con dos obligaciones. Un insumo derivado de otro documento MUST fallar con ERROR si la derivación no produce nada. El docstring de cada check MUST nombrar el alcance que cubre de verdad. Las enumeraciones copiadas a mano quedan fuera de la regla y declaran su límite al lado.
+- **Cuatro checks que salían en verde sin haber mirado**:
+  - `sdd-check-fields`: si no derivaba los campos del bloque `[SDD-Check]` de `AGENTS.md`, volvía sin decir nada. Ahora da ERROR.
+  - `historial-rotacion`: si ninguna entrada del historial tenía fecha legible, no veía trimestres y callaba. Ahora da ERROR.
+  - `deuda-punteros`: reconoce la sección por su título literal; una entrada nueva sin `### Deuda abierta` pasaba sin que mirara nada. Ahora da ERROR.
+  - `referencias`: exigía ids de exactamente dos dígitos. Desde el id 100 no habría visto ni la entrada del catálogo ni la cita. Ahora admite dos o más.
+- **Límites declarados, sin cambio de conducta**: el docstring de `emoji` dice qué emoticones no ve. El comentario de `EXEMPT_PATTERNS` dice que es una copia de §Docs excluidos y en qué dirección diverge en silencio.
+- **Tabla de regresión**: tres casos nuevos (`referencias-tres-digitos`, `sdd-check-fields-sin-bloque`, `deuda-punteros-sin-seccion`). La guarda de `historial-rotacion` queda sin caso y figura en la lista de los que no tienen: vaciar el historial de fechas dispara medio backstop.
+- **`agenda/MEJORAS-METODO.md`**: M-31 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Auditoría
+| Insumo o reconocedor | Antes | Ahora |
+|---|---|---|
+| `parse_registry()` | vacío deja a cada documento sin cobertura: ruidoso por construcción | igual |
+| `parse_ssot_table()` | guarda desde el paso 1 | igual |
+| `registry_spec_fields()`, `emitted_check_ids()` | guarda propia | igual |
+| campos del `[SDD-Check]` | no-op silencioso | ERROR |
+| trimestres del historial | no-op silencioso | ERROR |
+| título `### Deuda abierta` | no-op silencioso | ERROR |
+| ids `[Rxx]` | ciego desde el id 100 | dos o más dígitos |
+| hermanos de `CONVENCIONES.md` | falla cerrado | igual |
+| URLs de GitHub, catálogo `[Rxx]`, principios, backlog de método | vacío dispara un hallazgo por cita o por ítem: ruidoso | igual |
+| `METODO_FILES`, `EXEMPT_PATTERNS` | copias a mano | límite declarado |
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). `--autotest`: 38 casos, 0 fallas. En una copia del árbol con las cuatro correcciones anuladas, los tres casos nuevos fallan.
+
+### Límite
+La regla obliga a quien escribe un check; nada la verifica. Su único verificador es la tabla de regresión, y sólo cuando el check suma un caso que vacía su insumo.
+
+### Deuda abierta
+- ninguna
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-31 — Un check reporta salud sobre lo que no mira: dos formas verificadas
+
+`../tools/check_docs.py` deriva parte de sus insumos leyendo otros documentos: los campos reservados salen de una viñeta de `../SPECS_REGISTRY.md` §Reglas globales, los ids de check salen de la propia fuente del script, y la tabla SSOT sale de una sección del registro localizada por su título. Derivar en vez de enumerar es deliberado y correcto —una lista a mano vuelve a divergir—, pero le agrega al check una dependencia que puede romperse sin que nadie la nombre.
+
+Dos de esas tres derivaciones ya tienen guarda: `emitted_check_ids()` falla si extrae menos de diez ids, y `check_excluded_fields` falla explícitamente con «este check quedaria vacio sin avisar» si no logra derivar los campos reservados. O sea: el patrón ya está en el repositorio, aplicado dos veces, y no está declarado en ningún lado.
+
+**La tercera derivación no tiene guarda, y se verificó el 2026-08-30.** Renombrando el título `## Tabla SSOT` del registro, `parse_ssot_table()` devuelve una lista vacía y los checks `ssot-table` y `ssot-collision` recorren cero filas. El backstop sale **0 ERROR** y ninguno de los dos ids aparece en la salida: no hay diferencia observable entre «la tabla está sana» y «nadie la miró».
+
+Origen del encuadre: [R40] tiene un check `normativos` cuyo único trabajo es verificar que el módulo donde vive una regla de la que depende otro check siga siendo importable. Su motivo, escrito en el docstring, es exactamente éste: sin ese aviso, un import roto apagaría el check dependiente entero y el backstop seguiría en verde informando sobre una cobertura que ya no tiene.
+
+Qué hace falta, en dos pasos:
+
+1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o si devolvió cero filas. Es el hueco verificado y es barato.
+2. **Auditar el resto de las derivaciones** y declarar la regla: todo insumo derivado de otro documento MUST fallar ruidosamente cuando la derivación no produce nada, en vez de degradar a no-op. Sin la regla escrita, la guarda número cuatro nace sin ella igual que nació ésta.
+
+Es una instancia del patrón 1 de `sdd-first:docs/PATRONES.md` («el mecanismo correcto que los casos nuevos no adoptan»): lo que sostiene el fix no es haber puesto dos guardas, es un barrido que falle nombrando a la que falta.
+
+##### Segunda forma, verificada el mismo día: el alcance más angosto que el nombre
+
+`check_backtick_paths` se llama «las rutas escritas en backticks existen» y su docstring dice lo mismo. Lo que hace es más chico: `BACKTICK_PATH` es `^[\w./-]+\.md$`, o sea que **sólo verifica rutas Markdown**. Toda ruta a un `.py`, un `.sh`, un `.yaml` o un archivo sin extensión conocida se ignora en silencio.
+
+Medido: **105 rutas no-`.md` citadas en backticks y resolubles contra este repositorio, de las cuales 42 no existen** (15 pares documento→ruta distintos).
+
+La lectura honesta de ese 42 es más interesante que el número. La mayoría **no son errores**: son herramientas del proyecto testigo —`tools/sdd_gate.py`, `tools/check_traceability.py`, `tools/pipeline_local.sh`, `tools/check_constitution.py`— citadas sin ningún prefijo que diga que son de otro repositorio, así que se leen como si fueran nuestras. Eso no es un link roto sino una **ambigüedad de procedencia**, y es un defecto distinto que hoy no tiene ni nombre ni convención. El caso que sí es error liso: `../historial/sdd.md` cita `./tools/check_docs.py`, que resuelve a `historial/tools/check_docs.py`.
+
+Se descubrió intentando verificar que `../tools/sdd_gate.py`, citado dos veces en M-02, existiera. No existe, y el backstop está en verde.
+
+##### Por qué las dos formas son el mismo ítem
+
+Una derivación que no produce nada y un reconocedor más angosto que su nombre producen el mismo efecto observable: el check corre, sale limpio, y la limpieza no significa lo que su nombre promete. En los dos casos el consumidor —una persona leyendo `0 ERROR`— no tiene forma de distinguir «está sano» de «no lo miró».
+
+Qué hace falta, actualizado a tres pasos:
+
+1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o devolvió cero filas.
+2. **Decidir el alcance real de `check_backtick_paths`** y hacer que el nombre y el docstring lo digan. Dos salidas: ampliarlo a toda ruta resoluble —lo que exige antes una convención para citar herramientas de otro repositorio, o los 42 entran como falsos positivos—, o dejarlo en `.md` y renombrarlo para que no prometa de más. La segunda es honesta y cuesta una línea; la primera cierra el hueco pero arrastra un problema de convención que no está resuelto.
+3. **Auditar el resto de las derivaciones y de los reconocedores**, y declarar la regla: todo insumo derivado MUST fallar ruidosamente cuando no produce nada, y todo check MUST nombrar el alcance que efectivamente cubre. Sin la regla escrita, el próximo nace igual.
+
+**Pasos 1 y 2 hechos (2026-10-07).** Aprobados por el usuario junto con otras cuatro mejoras baratas. El paso 2 tomó la salida honesta: el check quedó en `.md` y pasó a llamarse `rutas-md`. Detalle en la entrada «M-31, pasos 1 y 2» de `../historial/sdd.md`. Queda abierto el paso 3.
+
+**Cuatro decisiones de diseño ajenas, verificadas (2026-09-05).** OpenSpec [R38] v1.11.0 corrigió un caso de esta misma clase —`openspec validate` aprobaba un `## Purpose` que seguía siendo el placeholder que `archive` escribe, porque el placeholder supera el piso de brevedad— y las cuatro decisiones con que lo cerró son transferibles a este ítem sin traer código: la detección es **angosta a propósito** (reconoce el placeholder por la misma definición que lo escribe, y fuera de eso sólo un `TBD`/`TODO` que abra el texto); es **WARN y no ERROR**, para que un repositorio con placeholders ya en disco siga validando y sólo `--strict` falle; el texto **entre backticks no cuenta**, porque un documento que cita el marcador no lo está usando; y un hallazgo de placeholder **no se reporta además como «demasiado breve»**, para que un caso produzca un mensaje y no dos. Detalle en `../software/analisis/ANALISIS-OPENSPEC.md` §Nota menor.
+
+---
+
 ## `agent-loop-lab` entra a la lista de repositorios hermanos (2026-10-07) — COMPLETADA
 
 **Acción**: alta de un repositorio hermano en `CONVENCIONES.md` §Citas a fuentes externas, por el mecanismo que esa línea prevé («Sumar uno es editar esta línea»). Lo pide el ítem #24 de `agenda/BACKLOG-INVESTIGACION.md`, que cita un archivo de `agent-loop-lab` —proyecto del mismo autor, construido con Kiro— y sin el alta `ruta-externa` lo rechaza.

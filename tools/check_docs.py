@@ -75,6 +75,22 @@ externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` 
 `experimentos/`, cita una copia local —la carpeta local de fuentes o un
 repositorio hermano— que solo existe en la maquina de quien escribio.
 
+Regla para todo check, actual o nuevo (M-31): el verde MUST significar que el
+check miro. Dos obligaciones, porque son las dos formas en que un check sale
+limpio sin haber mirado:
+
+1. Un insumo DERIVADO de otro documento —campos, filas, ids, fechas leidos de
+   su forma— MUST fallar con ERROR cuando la derivacion no produce nada, en vez
+   de degradar a no-op. Si el insumo vacio ya hace fallar todo por si solo
+   (cero specs dejan cada documento sin cobertura), alcanza con eso.
+2. El docstring de cada check MUST nombrar el alcance que efectivamente cubre,
+   y lo que no cubre si el nombre lo sugiere. El nombre corto puede quedarse
+   corto; el docstring no puede prometer de mas.
+
+Una enumeracion copiada a mano de otro documento (`METODO_FILES`,
+`EXEMPT_PATTERNS`) no es una derivacion y esta regla no la cubre: su limite se
+declara junto a ella.
+
 Uso (el nombre del interprete depende de la plataforma: `python`, `python3`
 o `py -3`; en POSIX tambien `./tools/check_docs.py` por el shebang):
 
@@ -143,6 +159,11 @@ REPO_DIRS = frozenset(
 
 # Exentos de spec propia por generarse desde un template del proyecto
 # (SPECS_REGISTRY.md, seccion "Docs excluidos del registro").
+#
+# Es una copia a mano de esa seccion, no una derivacion: el criterio del
+# registro no se reduce a una regla de ruta. Si el registro AMPLIA la exencion,
+# `spec-coverage` lo nota (da ERROR sobre el documento nuevo); si la ACHICA, esta
+# lista sigue eximiendo y nada avisa (M-31).
 #
 # El segmento intermedio es la carpeta por experimento (`a04-conducta-agente`,
 # `b07-formato-hibrido`, ...), obligatoria desde 2026-08-22. La exencion sigue
@@ -576,6 +597,13 @@ def check_sdd_check_fields(rep: Report, all_docs: list[str], heads: set[str]) ->
     reproducida en prosa.
     """
     if len(heads) < 3:
+        rep.error(
+            "sdd-check-fields",
+            PROTOCOLO,
+            "no se pudieron derivar los campos del bloque `[SDD-Check]` (se esperaba "
+            "«[SDD-Check]» en su propia linea dentro de un bloque de codigo): este check "
+            "quedaria vacio sin avisar (M-31)",
+        )
         return
     for rel in all_docs:
         # `historial/` queda exento y `templates/` no (M-27). El historial registra
@@ -614,9 +642,14 @@ def check_sdd_check_fields(rep: Report, all_docs: list[str], heads: set[str]) ->
 
 
 def check_references(rep: Report, all_docs: list[str]) -> None:
-    """Toda [Rxx] usada existe en el catalogo, y el catalogo no tiene duplicados."""
+    """Toda [Rxx] usada existe en el catalogo, y el catalogo no tiene duplicados.
+
+    El id admite dos o mas digitos. Hasta el 2026-10-07 exigia exactamente dos, y
+    desde `[R100]` ni la entrada del catalogo ni la cita se habrian visto: el check
+    habria seguido en verde sobre las referencias nuevas (M-31).
+    """
     catalog_text = read(REFERENCIAS)
-    declared = re.findall(r"^-\s+\[(R\d{2})\]", catalog_text, re.M)
+    declared = re.findall(r"^-\s+\[(R\d{2,})\]", catalog_text, re.M)
     dupes = {r for r in declared if declared.count(r) > 1}
     for r in sorted(dupes):
         rep.error("referencias", REFERENCIAS, f"id duplicado en el catalogo: [{r}]")
@@ -624,7 +657,7 @@ def check_references(rep: Report, all_docs: list[str]) -> None:
     for rel in all_docs:
         if rel == REFERENCIAS:
             continue
-        for r in sorted(set(re.findall(r"\[(R\d{2})\]", read(rel)))):
+        for r in sorted(set(re.findall(r"\[(R\d{2,})\]", read(rel)))):
             if r not in known:
                 rep.error("referencias", rel, f"cita [{r}] sin entrada en {REFERENCIAS}")
 
@@ -1092,6 +1125,11 @@ def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
 
     Limite: verifica que haya un puntero, no que apunte bien. Una viñeta que nombra
     `M-21` y describe otra cosa pasa.
+
+    Una entrada nueva sin el titulo literal `### Deuda abierta` da ERROR: el
+    titulo es lo que este check reconoce, y sin el no miraria nada y saldria en
+    verde (M-31). La seccion es obligatoria de todos modos (`AGENTS.md` §Al cerrar
+    una iteracion, paso 3).
     """
     if staged is None or HISTORIAL not in staged:
         return
@@ -1099,6 +1137,14 @@ def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
     if not diff:
         return
     agregadas = [ln[1:] for ln in diff.splitlines() if ln.startswith("+") and not ln.startswith("+++")]
+    if any(ENTRADA_HISTORIAL.match(ln) for ln in agregadas) and "### Deuda abierta" not in (
+        ln.strip() for ln in agregadas
+    ):
+        rep.error(
+            "deuda-punteros",
+            HISTORIAL,
+            "la entrada nueva no tiene seccion `### Deuda abierta`: este check no tendria que mirar",
+        )
     dentro = False
     for ln in agregadas:
         if ln.startswith("#"):
@@ -1143,6 +1189,14 @@ def check_historial_rotacion(rep: Report) -> None:
     —«mover no es reescribir»— lo verifica quien rota, y lo asienta en la entrada.
     """
     vivos = trimestres_vivos()
+    if not vivos:
+        rep.error(
+            "historial-rotacion",
+            HISTORIAL,
+            "ninguna entrada con fecha (`## <titulo> (AAAA-MM-DD)`): el encabezado cambio de "
+            "forma y este check quedaria vacio sin avisar (M-31)",
+        )
+        return
     if len(vivos) > 1:
         rep.warn(
             "historial-rotacion",
@@ -1227,7 +1281,13 @@ EMOJI_SELLADOS = frozenset({"experimentos/b07-formato-hibrido/PREREG-B7.md"})
 
 
 def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
-    """Regla global: sin emoticones en documentos de contenido."""
+    """Regla global: sin emoticones en documentos de contenido.
+
+    Alcance: los rangos Unicode de `EMOJI`, que cubren los pictogramas usuales y no
+    todos los emoji. Banderas (pares de indicadores regionales), los del bloque
+    U+2300 (como el reloj) y las secuencias con selector de variacion sobre un
+    caracter de texto pasan sin aviso (M-31).
+    """
     for rel in sorted(EMOJI_SELLADOS):
         if rel not in all_docs or not EMOJI.search(read(rel)):
             rep.error("emoji", rel, "excepcion vencida en EMOJI_SELLADOS: quitarla")
@@ -1291,8 +1351,10 @@ def check_file_hygiene(rep: Report, all_docs: list[str]) -> None:
 # frase del cuerpo de un documento vuelve el caso fragil ante cualquier edicion.
 #
 # Sin caso todavia, y por eso sin regresion: `ssot-collision`, `deriva-cycle`,
-# `ssot-table`, las ramas de `spec-fields` que no son la casilla, la excepcion
-# vencida de `emoji` y el propio `autotest`. Sumar un check MUST sumar su caso.
+# las filas con ruta invalida de `ssot-table`, las ramas de `spec-fields` que no
+# son la casilla, la excepcion vencida de `emoji`, la guarda de
+# `historial-rotacion` (vaciar el historial de fechas dispara medio backstop) y
+# el propio `autotest`. Sumar un check MUST sumar su caso.
 #
 # La entrada de prueba se inserta antes de la primera entrada real —el primer
 # separador del archivo— y lleva el mes de esa entrada, para no abrir un
@@ -1319,6 +1381,7 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("ruta-externa-validas",
      [("append", "README.md", "\n`check_docs.py:120` y [R39] `sdd-first:docs/PATRONES.md`\n")], False, []),
     ("referencias", [("append", "README.md", "\n[R99]\n")], False, [("ERROR", "referencias")]),
+    ("referencias-tres-digitos", [("append", "README.md", "\n[R100]\n")], False, [("ERROR", "referencias")]),
     ("emoji", [("append", "README.md", "\n\U0001F642\n")], False, [("WARN", "emoji")]),
     ("clarificacion", [("append", "README.md", "\n[NEEDS CLARIFICATION: ¿cuál?]\n")], False,
      [("ERROR", "clarificacion")]),
@@ -1329,6 +1392,11 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("sdd-check-fields-instancia",
      [("append", "README.md", "\n[SDD-Check]\n- Spec leida: SI\n- Cobertura: completa\n- Deuda arrastrada: ninguna\n")],
      False, []),
+    # Un bloque vacio antes del real: la derivacion lee el primero y no encuentra
+    # campos. El ancla queda intacta dentro del texto mutado, por `autotest-anclas`.
+    ("sdd-check-fields-sin-bloque",
+     [("replace", PROTOCOLO, "[SDD-Check]\n- Spec leida", "[SDD-Check]\n```\n\n```text\n[SDD-Check]\n- Spec leida")],
+     False, [("ERROR", "sdd-check-fields")]),
     ("spec-fields-casilla", [("replace", REGISTRY, "- `validacion`:\n  - ", "- `validacion`:\n  - [ ] ")], False,
      [("ERROR", "spec-fields")]),
     # El ancla sigue siendo prefijo del titulo mutado, para no disparar `autotest-anclas` en la copia.
@@ -1363,6 +1431,9 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("deuda-punteros",
      [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("algo sin puntero")), ("stage", HISTORIAL)],
      True, [("ERROR", "deuda-punteros")]),
+    ("deuda-punteros-sin-seccion",
+     [("replace", HISTORIAL, _NUEVA_ENTRADA, "---\n\n## Prueba (" + _MES_TOPE + "-01) — X\n\n---\n\n## "),
+      ("stage", HISTORIAL)], True, [("ERROR", "deuda-punteros")]),
     ("deuda-punteros-ruta-no-md",
      [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("declarado en `tools/check_docs.py`")),
       ("stage", HISTORIAL)], True, []),

@@ -22,7 +22,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 |---|---|---|---|---|---|
 | M-22 | Lo que un experimento sella: eliminarlo como variable, verificarlo, o declararlo sin verificador | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | desviación observada en T2 de la pasada 1b de A-04 | `../templates/EXPERIMENTO.md` + scripts de preparación |
 | M-25 | El sello MUST identificar el artefacto que constituye el tratamiento | alta | Aprobada — piezas 1 y 2 hechas (2026-08-23), pieza 3 en otro repositorio | un tratamiento vivo cambió durante A-04 sin que nada lo registrara | `../templates/EXPERIMENTO.md` (aplicación: runbooks vigentes) |
-| M-31 | Un check reporta salud sobre lo que no mira: dos formas verificadas | alta | Aprobada — pasos 1 y 2 hechos (2026-10-07), paso 3 pendiente | [R40] (check `normativos`) + dos auditorías propias del 2026-08-30 | `../tools/check_docs.py` |
 | M-36 | M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar | alta | Propuesta (2026-08-30) | medición propia del 2026-08-30; lección de [R40] Fase 17 | bloquea M-16; destino por definir |
 | M-02 | Gate de autoría documental (`.sdd/current-doc` + hook) | media | Aprobada | testigo `../tools/sdd_gate.py` | script nuevo + `.claude/settings.json` |
 | M-03 | Playbooks agnósticos de asistente (`analyze`, `clarify`) | media | Propuesta | testigo `docs/playbooks/` | `playbooks/` + wrappers |
@@ -59,6 +58,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | **Hecha** (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` + 6 documentos |
 | M-29 | El backlog de método cargaba la narración de lo ya cerrado | media | **Hecha** (2026-08-23) | deriva doc-vs-spec detectada el 2026-08-23 | este documento |
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | **Hecha** (2026-10-07) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por trimestre) + `../tools/check_docs.py` (`historial-rotacion`) |
+| M-31 | Un check reporta salud sobre lo que no mira: dos formas verificadas | alta | **Hecha** (2026-10-07) | [R40] (check `normativos`) + dos auditorías propias del 2026-08-30 | `../tools/check_docs.py` |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | **Hecha** (2026-10-06) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | **Hecha** (2026-10-06) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | **Hecha** (2026-10-07) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
@@ -132,47 +132,6 @@ Forma de la mejora: la sección de sello de `../templates/EXPERIMENTO.md` (pieza
 **Aprobada y ejecutada por partes desde el 2026-08-23.** La pieza 1 está hecha, en la misma sección `§Sello` que M-22: el tratamiento que es material versionado se identifica por commit, se entrega extrayéndolo de ese commit, y el residuo de vigencia externa queda declarado aparte. La pieza 2 también está hecha, en la misma enmienda 4 del runbook de A-04: el tratamiento queda sellado por commit y se entrega extrayéndolo de él. Falta la misma pieza 3 que M-22 —el verificador de correspondencia, en el repositorio hermano `experimentosdd-a4`—, así que **tampoco puede declararse `Hecha` desde acá**.
 
 **Caso que la originó** (evidencia, no alcance). El brazo tratamiento de A-04 entrega `../AGENTS.md` al workspace del agente; el runbook (`../experimentos/a04-conducta-agente/PRUEBA-PISO-RUIDO-A4.md`) sella el fixture por hash, audita ancestros y verifica ausencia de configuración de asistente, pero no fija con qué commit se entrega el tratamiento — la variable independiente era el único componente sin identificar. El 2026-08-22 `../AGENTS.md` cambió dos veces —alta de `../CONVENCIONES.md` y declaración de §Qué NO hacer como índice— y nada en el aparato lo registró. No se invalidó nada: ni la pasada 1 ni la 1b produjeron dato de `H1` válido, y la pasada 2 no corrió. Pero el mismo cambio entre dos tandas de una pasada 2 habría dejado el efecto medido sin a qué atribuirse.
-
-### M-31 — Un check reporta salud sobre lo que no mira: dos formas verificadas
-
-`../tools/check_docs.py` deriva parte de sus insumos leyendo otros documentos: los campos reservados salen de una viñeta de `../SPECS_REGISTRY.md` §Reglas globales, los ids de check salen de la propia fuente del script, y la tabla SSOT sale de una sección del registro localizada por su título. Derivar en vez de enumerar es deliberado y correcto —una lista a mano vuelve a divergir—, pero le agrega al check una dependencia que puede romperse sin que nadie la nombre.
-
-Dos de esas tres derivaciones ya tienen guarda: `emitted_check_ids()` falla si extrae menos de diez ids, y `check_excluded_fields` falla explícitamente con «este check quedaria vacio sin avisar» si no logra derivar los campos reservados. O sea: el patrón ya está en el repositorio, aplicado dos veces, y no está declarado en ningún lado.
-
-**La tercera derivación no tiene guarda, y se verificó el 2026-08-30.** Renombrando el título `## Tabla SSOT` del registro, `parse_ssot_table()` devuelve una lista vacía y los checks `ssot-table` y `ssot-collision` recorren cero filas. El backstop sale **0 ERROR** y ninguno de los dos ids aparece en la salida: no hay diferencia observable entre «la tabla está sana» y «nadie la miró».
-
-Origen del encuadre: [R40] tiene un check `normativos` cuyo único trabajo es verificar que el módulo donde vive una regla de la que depende otro check siga siendo importable. Su motivo, escrito en el docstring, es exactamente éste: sin ese aviso, un import roto apagaría el check dependiente entero y el backstop seguiría en verde informando sobre una cobertura que ya no tiene.
-
-Qué hace falta, en dos pasos:
-
-1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o si devolvió cero filas. Es el hueco verificado y es barato.
-2. **Auditar el resto de las derivaciones** y declarar la regla: todo insumo derivado de otro documento MUST fallar ruidosamente cuando la derivación no produce nada, en vez de degradar a no-op. Sin la regla escrita, la guarda número cuatro nace sin ella igual que nació ésta.
-
-Es una instancia del patrón 1 de `sdd-first:docs/PATRONES.md` («el mecanismo correcto que los casos nuevos no adoptan»): lo que sostiene el fix no es haber puesto dos guardas, es un barrido que falle nombrando a la que falta.
-
-#### Segunda forma, verificada el mismo día: el alcance más angosto que el nombre
-
-`check_backtick_paths` se llama «las rutas escritas en backticks existen» y su docstring dice lo mismo. Lo que hace es más chico: `BACKTICK_PATH` es `^[\w./-]+\.md$`, o sea que **sólo verifica rutas Markdown**. Toda ruta a un `.py`, un `.sh`, un `.yaml` o un archivo sin extensión conocida se ignora en silencio.
-
-Medido: **105 rutas no-`.md` citadas en backticks y resolubles contra este repositorio, de las cuales 42 no existen** (15 pares documento→ruta distintos).
-
-La lectura honesta de ese 42 es más interesante que el número. La mayoría **no son errores**: son herramientas del proyecto testigo —`tools/sdd_gate.py`, `tools/check_traceability.py`, `tools/pipeline_local.sh`, `tools/check_constitution.py`— citadas sin ningún prefijo que diga que son de otro repositorio, así que se leen como si fueran nuestras. Eso no es un link roto sino una **ambigüedad de procedencia**, y es un defecto distinto que hoy no tiene ni nombre ni convención. El caso que sí es error liso: `../historial/sdd.md` cita `./tools/check_docs.py`, que resuelve a `historial/tools/check_docs.py`.
-
-Se descubrió intentando verificar que `../tools/sdd_gate.py`, citado dos veces en M-02, existiera. No existe, y el backstop está en verde.
-
-#### Por qué las dos formas son el mismo ítem
-
-Una derivación que no produce nada y un reconocedor más angosto que su nombre producen el mismo efecto observable: el check corre, sale limpio, y la limpieza no significa lo que su nombre promete. En los dos casos el consumidor —una persona leyendo `0 ERROR`— no tiene forma de distinguir «está sano» de «no lo miró».
-
-Qué hace falta, actualizado a tres pasos:
-
-1. **Guarda en `parse_ssot_table()`** — error si no encontró la sección o devolvió cero filas.
-2. **Decidir el alcance real de `check_backtick_paths`** y hacer que el nombre y el docstring lo digan. Dos salidas: ampliarlo a toda ruta resoluble —lo que exige antes una convención para citar herramientas de otro repositorio, o los 42 entran como falsos positivos—, o dejarlo en `.md` y renombrarlo para que no prometa de más. La segunda es honesta y cuesta una línea; la primera cierra el hueco pero arrastra un problema de convención que no está resuelto.
-3. **Auditar el resto de las derivaciones y de los reconocedores**, y declarar la regla: todo insumo derivado MUST fallar ruidosamente cuando no produce nada, y todo check MUST nombrar el alcance que efectivamente cubre. Sin la regla escrita, el próximo nace igual.
-
-**Pasos 1 y 2 hechos (2026-10-07).** Aprobados por el usuario junto con otras cuatro mejoras baratas. El paso 2 tomó la salida honesta: el check quedó en `.md` y pasó a llamarse `rutas-md`. Detalle en la entrada «M-31, pasos 1 y 2» de `../historial/sdd.md`. Queda abierto el paso 3.
-
-**Cuatro decisiones de diseño ajenas, verificadas (2026-09-05).** OpenSpec [R38] v1.11.0 corrigió un caso de esta misma clase —`openspec validate` aprobaba un `## Purpose` que seguía siendo el placeholder que `archive` escribe, porque el placeholder supera el piso de brevedad— y las cuatro decisiones con que lo cerró son transferibles a este ítem sin traer código: la detección es **angosta a propósito** (reconoce el placeholder por la misma definición que lo escribe, y fuera de eso sólo un `TBD`/`TODO` que abra el texto); es **WARN y no ERROR**, para que un repositorio con placeholders ya en disco siga validando y sólo `--strict` falle; el texto **entre backticks no cuenta**, porque un documento que cita el marcador no lo está usando; y un hallazgo de placeholder **no se reporta además como «demasiado breve»**, para que un caso produzca un mensaje y no dos. Detalle en `../software/analisis/ANALISIS-OPENSPEC.md` §Nota menor.
 
 ### M-36 — M-16 no tiene grafo viable: el declarado es 17 veces más fino que el real, y el real es demasiado denso para avisar
 
@@ -434,6 +393,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-28 | «`excluded-field` verifica la regla del registro, no el `excluye` de cada spec» |
 | M-29 | «El backlog de metodo se poda a puntero y se reordena por estado» |
 | M-30 | «M-30, pieza 3: `historial-rotacion` avisa cuándo rotar, y M-30 queda cerrada» |
+| M-31 | «M-31, paso 3: la regla de que el verde signifique que el check miró, y cuatro checks que no la cumplían» |
 | M-34 | «M-34 — El backstop tiene tabla de regresión, y la corre al tocar sus propios checks» |
 | M-35 | «M-35 — Las validaciones del registro dejan de ser casillas» |
 | M-37 | «M-37: el registro retira el nivel «Extendida» y el campo `refresh`» |
