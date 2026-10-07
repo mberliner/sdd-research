@@ -6,6 +6,52 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-43: `AGENTS.md` declara cross-asistente sólo lo comprobado (2026-10-07) — COMPLETADA
+
+**Acción**: M-43 resuelta con la tercera salida del ítem, acotar la declaración por escrito, aprobada por el usuario en la tanda del 2026-10-07. El ítem preguntaba qué hace el repositorio con su propia declaración mientras nadie la verifique, y esta salida responde eso. Verificarla (salida 1) es la pregunta 1 de alta prioridad de `agenda/BACKLOG-INVESTIGACION.md`, que sigue abierta. Instrumentarla con adaptadores (salida 2) no tiene dato que la justifique.
+
+### Qué cambió
+- **`AGENTS.md`, encabezado**: antes afirmaba que opencode, Cursor, Codex, Aider y Gemini CLI «lo leen directo». Ahora distingue tres niveles de evidencia:
+  - Claude Code, por el import de `CLAUDE.md`, es el asistente con el que se trabaja el repositorio.
+  - `agy` es el único comprobado que lee el `AGENTS.md` de la raíz y lo obedece, según el hallazgo 5 de A-04.
+  - Para el resto rige la convención de cada herramienta, no un uso verificado acá.
+
+  El encabezado también declara que nadie midió que el mismo protocolo produzca la misma conducta en asistentes distintos.
+- **`agenda/MEJORAS-METODO.md`**: M-43 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Se buscó en los documentos vivos cualquier otra afirmación de neutralidad entre asistentes:
+- `CLAUDE.md` y la spec de `AGENTS.md` en el registro dicen «estándar cross-asistente». Se refieren a la convención del nombre de archivo, que es cierta, y quedan como están.
+- La de `software/COMPARATIVA-SPECKIT-VS-TESTIGO.md` habla del proyecto testigo, no de este repositorio.
+
+### Límite
+El hallazgo 5 de A-04 comprobó que `agy` obedece un `AGENTS.md` de prueba con dos instrucciones de forma, no este protocolo entero. Sigue sin verificar la afirmación de Superpowers [R37] de que Claude Code lee `AGENTS.md` sólo cuando no hay `CLAUDE.md`. Acá no cambia nada, porque `CLAUDE.md` existe y lo importa.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-43 — El protocolo se declara cross-asistente y nadie verificó que lo sea
+
+`../AGENTS.md` abre declarando que es el SSOT del protocolo, que los asistentes que buscan `AGENTS.md` por convención lo leen directo y que Claude Code lo recibe por import. La afirmación operativa detrás de esa arquitectura es que **el mismo documento produce el mismo comportamiento en asistentes distintos**, y nadie la verificó: todo el trabajo de este repositorio se hizo con uno o dos.
+
+[R56] mide ese supuesto en el dominio vecino —specs, no protocolos— y en el caso extremo lo encuentra falso: una especificación producida por un agente y consumida directamente por otro degrada fuerte y de forma dependiente del agente. Su límite está declarado en la referencia y es serio: el estudio es traducción de dialecto SQL, no prosa normativa, así que **no prueba nada sobre protocolos**. Lo que aporta es que el supuesto de neutralidad es falsable y que, donde se lo midió, falló.
+
+Y aporta algo más útil que la advertencia: el mecanismo que propone —mantener una especificación estructurada común y entregar **vistas adaptadas por agente**— es la arquitectura que este repositorio ya tiene a medias, con `AGENTS.md` como fuente y `CLAUDE.md` como adaptador de una línea.
+
+Tres salidas, y hoy no hay dato para elegir entre las dos primeras:
+
+1. **Verificarlo**: una sonda barata —mismo pedido, mismo protocolo, dos asistentes, comparar qué partes del protocolo se ejercen— que es trabajo de investigación y no de método.
+2. **Instrumentarlo**: adaptadores por asistente más allá del import de una línea, que es la dirección que sugiere [R56] y cuesta mantenimiento.
+3. **Acotar la declaración por escrito** a los asistentes con los que efectivamente se ejerció. Es la barata y la honesta mientras no haya sonda, y no cierra ninguna de las otras dos.
+
+**Señalado sin verificar (2026-09-30).** Superpowers [R37] afirma que Claude Code lee `AGENTS.md` sólo cuando no existe `CLAUDE.md`. Si es así, en Claude Code este repositorio funciona por el import de `CLAUDE.md` y no por la convención, y la arquitectura de fuente más adaptador ya es la única vía, no un refuerzo. Llega por una fuente y no se probó.
+
+**Contraparte de investigación**: el ítem 1 de prioridad alta de `BACKLOG-INVESTIGACION.md` («medir variabilidad entre asistentes IA») es la misma pregunta del lado del conocimiento. Acá se decide qué hace el repositorio con su propia declaración mientras esa pregunta siga abierta.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-42: el marcador `[NEEDS CLARIFICATION]` registra lo asumido y lo que cuesta si está mal (2026-10-07) — COMPLETADA
 
 **Acción**: M-42 ejecutada tal como la proponía el ítem. Es la tercera de la tanda aprobada por el usuario el 2026-10-07. Un marcador que no bloquea significa que el trabajo siguió sobre alguna lectura de la duda, y esa lectura ahora puede quedar escrita al lado de la pregunta.

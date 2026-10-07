@@ -33,7 +33,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
 | M-39 | Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado | media | Propuesta (2026-08-30) | [R40] Fase 37; barrido propio del 2026-08-30 | `../CONSTITUTION.md` §Límite honesto o documento nuevo |
 | M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
-| M-43 | El protocolo se declara cross-asistente y nadie verificó que lo sea | media | Propuesta (2026-09-06) | [R56] (portabilidad de specs entre agentes) | `../AGENTS.md` (encabezado y §Excepciones) |
 | M-45 | Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero | media | Propuesta (2026-09-07) | B-07 (relajación del 2026-07-29) y revisión pre-sello de B-09 (2026-09-07) | `../templates/EXPERIMENTO.md` §Criterio de exito |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
@@ -66,6 +65,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | **Hecha** (2026-10-07) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | **Hecha** (2026-10-07) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/analisis/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
+| M-43 | El protocolo se declara cross-asistente y nadie verificó que lo sea | media | **Hecha** (2026-10-07) | [R56] (portabilidad de specs entre agentes) | `../AGENTS.md` (encabezado y §Excepciones) |
 | M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
 | M-49 | La tabla de regresión del backstop sólo corre cuando el commit toca `tools/`, y sus casos dependen del texto de los documentos | media | **Hecha** (2026-10-07) | M-30 pieza 2: la rotación dejó tres casos desactualizados y el gate no lo vio | `../tools/check_docs.py` (`autotest-anclas`) |
@@ -343,24 +343,6 @@ Qué hace falta: un procedimiento mínimo de re-consulta, escrito una vez y apli
 
 Prioridad media: el costo de no tenerlo ya se pagó una vez y se detectó solo porque la re-consulta siguiente miró el árbol. Con cuatro fuentes vivas, va a volver a pasar.
 
-### M-43 — El protocolo se declara cross-asistente y nadie verificó que lo sea
-
-`../AGENTS.md` abre declarando que es el SSOT del protocolo, que los asistentes que buscan `AGENTS.md` por convención lo leen directo y que Claude Code lo recibe por import. La afirmación operativa detrás de esa arquitectura es que **el mismo documento produce el mismo comportamiento en asistentes distintos**, y nadie la verificó: todo el trabajo de este repositorio se hizo con uno o dos.
-
-[R56] mide ese supuesto en el dominio vecino —specs, no protocolos— y en el caso extremo lo encuentra falso: una especificación producida por un agente y consumida directamente por otro degrada fuerte y de forma dependiente del agente. Su límite está declarado en la referencia y es serio: el estudio es traducción de dialecto SQL, no prosa normativa, así que **no prueba nada sobre protocolos**. Lo que aporta es que el supuesto de neutralidad es falsable y que, donde se lo midió, falló.
-
-Y aporta algo más útil que la advertencia: el mecanismo que propone —mantener una especificación estructurada común y entregar **vistas adaptadas por agente**— es la arquitectura que este repositorio ya tiene a medias, con `AGENTS.md` como fuente y `CLAUDE.md` como adaptador de una línea.
-
-Tres salidas, y hoy no hay dato para elegir entre las dos primeras:
-
-1. **Verificarlo**: una sonda barata —mismo pedido, mismo protocolo, dos asistentes, comparar qué partes del protocolo se ejercen— que es trabajo de investigación y no de método.
-2. **Instrumentarlo**: adaptadores por asistente más allá del import de una línea, que es la dirección que sugiere [R56] y cuesta mantenimiento.
-3. **Acotar la declaración por escrito** a los asistentes con los que efectivamente se ejerció. Es la barata y la honesta mientras no haya sonda, y no cierra ninguna de las otras dos.
-
-**Señalado sin verificar (2026-09-30).** Superpowers [R37] afirma que Claude Code lee `AGENTS.md` sólo cuando no existe `CLAUDE.md`. Si es así, en Claude Code este repositorio funciona por el import de `CLAUDE.md` y no por la convención, y la arquitectura de fuente más adaptador ya es la única vía, no un refuerzo. Llega por una fuente y no se probó.
-
-**Contraparte de investigación**: el ítem 1 de prioridad alta de `BACKLOG-INVESTIGACION.md` («medir variabilidad entre asistentes IA») es la misma pregunta del lado del conocimiento. Acá se decide qué hace el repositorio con su propia declaración mientras esa pregunta siga abierta.
-
 ### M-45 — Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero
 
 `../templates/EXPERIMENTO.md` §Criterio de exito exige una condición, sus métricas y una comprobación de satisfacibilidad, pero no dice **cómo se decide que dos grupos difieren**. Cada experimento lo resuelve por su cuenta, y con `n` de un dígito esa decisión determina el veredicto más que el dato.
@@ -472,6 +454,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-38 | «M-38: el título de cada bloque del registro nombra uno de sus `path`» |
 | M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-42 | «M-42: el marcador `[NEEDS CLARIFICATION]` registra lo asumido y lo que cuesta si está mal» |
+| M-43 | «M-43: `AGENTS.md` declara cross-asistente sólo lo comprobado» |
 | M-44 | «M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio» |
 | M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |
 | M-49 | «M-49: el backstop verifica en cada pasada que las anclas de su tabla de regresión sigan existiendo» |

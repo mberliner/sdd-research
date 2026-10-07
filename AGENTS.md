@@ -1,8 +1,12 @@
 # Protocolo SDD para asistentes IA
 
-> **SSOT del protocolo del asistente.** Los asistentes que buscan `AGENTS.md` por
-> convención (opencode, Cursor, Codex, Aider, Gemini CLI…) lo leen directo; Claude Code
-> lo recibe vía `@AGENTS.md` en `CLAUDE.md`. Precedencia 3: por debajo de
+> **SSOT del protocolo del asistente.** Claude Code, con el que se trabaja este
+> repositorio, lo recibe vía `@AGENTS.md` en `CLAUDE.md`. De los asistentes que buscan
+> `AGENTS.md` por convención, sólo `agy` está comprobado: lee el de la raíz y lo obedece
+> (hallazgo 5 de `experimentos/a04-conducta-agente/RESULTADO-EXPERIMENTO-A4.md`); para el
+> resto (opencode, Cursor, Codex, Aider…) rige la convención de cada herramienta, no un uso
+> verificado acá. Que el mismo protocolo produzca la misma conducta en asistentes
+> distintos no lo midió nadie. Precedencia 3: por debajo de
 > [`CONSTITUTION.md`](CONSTITUTION.md) (invariantes) y [`SPECS_REGISTRY.md`](SPECS_REGISTRY.md)
 > (alcance por documento).
 
