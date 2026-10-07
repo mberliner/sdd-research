@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-40).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-40, M-49).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -65,7 +65,10 @@ pendiente —backlog, experimento o documento— en vez de describirlo.
 El check `autotest` (M-34, 2026-10-06) corre la tabla de regresion de este mismo
 script: cada caso muta una copia del arbol y exige exactamente los hallazgos
 esperados. Corre solo con `--staged` y cuando el commit toca `tools/`, porque
-tarda del orden de veinte segundos; a pedido, con `--autotest`.
+tarda del orden de veinte segundos; a pedido, con `--autotest`. Lo complementa
+`autotest-anclas` (M-49, 2026-10-07), que corre siempre: cada texto que un caso
+reemplaza sigue existiendo en su documento, para que un commit que no toca
+`tools/` no deje casos desactualizados en silencio.
 
 El check `ruta-externa` (2026-10-05) hace cumplir la forma de cita de fuentes
 externas de `CONVENCIONES.md`: ningun documento autorado, fuera de `historial/` y
@@ -1315,6 +1318,12 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("deuda-punteros-validas",
      [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("sigue en M-21")), ("stage", HISTORIAL)],
      True, []),
+    # La copia gana un caso cuya ancla no existe en su documento.
+    ("autotest-anclas",
+     [("replace", "tools/check_docs.py", "AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [\n",
+       "AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [\n"
+       "    (\"x\", [(\"replace\", \"README.md\", \"ancla-que-no-existe\", \"y\")], False, []),\n")], False,
+     [("ERROR", "autotest-anclas")]),
 ]
 HALLAZGO = re.compile(r"^(ERROR|WARN)\s+\[([a-z-]+)\]")
 
@@ -1404,6 +1413,38 @@ def check_autotest(rep: Report, staged: list[str] | None) -> None:
         rep.error("autotest", cid, motivo)
 
 
+def check_autotest_anclas(rep: Report) -> None:
+    """Cada texto que un caso de la tabla reemplaza sigue existiendo en su documento (M-49).
+
+    La tabla completa corre solo cuando el commit toca `tools/`, pero varios casos
+    mutan documentos reales con `replace` y dependen de su texto. Un commit que lo
+    cambia sin tocar `tools/` dejaba el caso desactualizado en silencio: paso el
+    2026-10-07, cuando la rotacion de M-30 cambio el encabezado del historial y
+    tres casos quedaron apuntando a un texto que ya no estaba. Esto es una
+    busqueda de texto, corre siempre y tarda milisegundos.
+
+    Se saltea el `replace` sobre un archivo que una operacion anterior del mismo
+    caso ya modifico: su texto no es el del disco.
+
+    Limite: verifica que el ancla EXISTA, no que el caso siga probando lo que
+    declara. Un ancla que sigue presente pero perdio el sentido pasa; eso lo ve
+    la tabla completa al correr.
+    """
+    for cid, ops, _staged, _esperado in AUTOTEST_CASOS:
+        tocados: set[str] = set()
+        for op in ops:
+            kind, args = op[0], op[1:]
+            if kind == "replace" and args[0] not in tocados:
+                if not (ROOT / args[0]).is_file() or args[1] not in read(args[0]):
+                    rep.error(
+                        "autotest-anclas",
+                        args[0],
+                        f"el caso `{cid}` reemplaza un texto que ya no esta en el archivo: actualizar el caso",
+                    )
+            if kind in ("write", "append", "replace"):
+                tocados.add(args[0])
+
+
 def main() -> int:
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -1466,6 +1507,7 @@ def main() -> int:
     check_metodo_historial(rep, staged)
     check_deuda_punteros(rep, staged)
     check_autotest(rep, staged)
+    check_autotest_anclas(rep)
     check_backlog_metodo(rep)
     check_historial_rotacion(rep)
 

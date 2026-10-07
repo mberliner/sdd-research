@@ -6,6 +6,41 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-49: el backstop verifica en cada pasada que las anclas de su tabla de regresión sigan existiendo (2026-10-07) — COMPLETADA
+
+**Acción**: M-49 ejecutada con la tercera de las salidas evaluadas, elegida por el usuario. Las dos del planteo de abajo quedaron descartadas. Correr la tabla completa en cada commit que toca un documento usado por un caso cuesta unos veinte segundos en commits frecuentes: `SPECS_REGISTRY.md` se tocó en 38 commits desde agosto. Anclar todos los casos en estructura es disciplina, no verificación. Lo que se rompía en silencio era un texto ausente, y ver un texto ausente no exige correr la tabla: alcanza con buscarlo.
+
+### Qué cambió
+- **`tools/check_docs.py`**: check `autotest-anclas` (ERROR), que corre siempre y tarda milisegundos.
+  - Por cada `replace` de `AUTOTEST_CASOS`, el texto que reemplaza tiene que existir en su documento.
+  - Se saltea el `replace` sobre un archivo que una operación anterior del mismo caso ya modificó.
+  - Es ERROR porque no tiene falsos positivos: o el texto está o no está. Quien cambia el texto actualiza el caso, y al tocar `tools/` el gate corre la tabla completa.
+- **Caso `autotest-anclas`** en la tabla: la copia gana un caso con un ancla inexistente.
+- **`agenda/MEJORAS-METODO.md`**: M-49 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). `--autotest`: 33 casos, 0 fallas. Dos roturas inyectadas, restauradas después:
+- **El ancla vieja del historial**, `del proyecto.` antes del separador, que es la falla real de `fe965b1`: el check da 4 ERROR en una pasada normal, sin `--staged` ni tabla.
+- **El check convertido en no-op**: el caso nuevo falla.
+
+El primer intento de la primera rotura no se aplicó, porque el `sed` no encontró el texto. Se rehízo con un script que afirma haber encontrado el texto antes de reemplazarlo: la misma trampa que registró M-34.
+
+### Límite
+El check verifica que el ancla exista, no que el caso siga probando lo que declara. Está declarado en su docstring.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-49 — La tabla de regresión sólo corre cuando el commit toca `tools/`
+
+`check_autotest` corre `AUTOTEST_CASOS` sólo en commits que tocan `../tools/`, porque tarda unos veinte segundos. Pero varios casos mutan documentos reales con `replace` y dependen de su texto. Un commit que cambia ese texto sin tocar `tools/` deja casos desactualizados y nadie se entera hasta el próximo commit de tooling. Pasó el 2026-10-07: la pieza 2 de M-30 cambió el encabezado de `../historial/sdd.md` y tres casos de `deuda-punteros` quedaron apuntando a un texto que ya no existía. La pieza 3 los arregló anclando en el separador en vez de en el encabezado. Eso arregla esos tres, no la clase.
+
+Dos salidas posibles, sin decidir: correr también la tabla cuando el commit toca un archivo que algún caso muta con `replace`, que se puede derivar de la propia tabla; o anclar todos los casos en estructura y no en prosa, que es disciplina y no verificación.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-30, pieza 3: `historial-rotacion` avisa cuándo rotar, y M-30 queda cerrada (2026-10-07) — COMPLETADA
 
 **Acción**: tercera y última pieza de M-30. Un check avisa cuándo toca rotar, para que la regla de la pieza 2 no dependa de que alguien se acuerde. Es la forma en que falló el índice manual de [R40], citado en el planteo de abajo.

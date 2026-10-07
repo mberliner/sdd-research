@@ -36,7 +36,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | Propuesta (2026-09-05) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/analisis/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
 | M-43 | El protocolo se declara cross-asistente y nadie verificó que lo sea | media | Propuesta (2026-09-06) | [R56] (portabilidad de specs entre agentes) | `../AGENTS.md` (encabezado y §Excepciones) |
 | M-45 | Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero | media | Propuesta (2026-09-07) | B-07 (relajación del 2026-07-29) y revisión pre-sello de B-09 (2026-09-07) | `../templates/EXPERIMENTO.md` §Criterio de exito |
-| M-49 | La tabla de regresión del backstop sólo corre cuando el commit toca `tools/`, y sus casos dependen del texto de los documentos | media | Propuesta (2026-10-07) | M-30 pieza 2: la rotación dejó tres casos desactualizados y el gate no lo vio | `../tools/check_docs.py` (`autotest`) |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
@@ -69,6 +68,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
+| M-49 | La tabla de regresión del backstop sólo corre cuando el commit toca `tools/`, y sus casos dependen del texto de los documentos | media | **Hecha** (2026-10-07) | M-30 pieza 2: la rotación dejó tres casos desactualizados y el gate no lo vio | `../tools/check_docs.py` (`autotest-anclas`) |
 
 ---
 
@@ -465,12 +465,6 @@ Al cerrar M-08 se confirmó una excepción permanente para documentos sellados. 
 
 Hay dos salidas. Una es agregar `Sellado` al vocabulario de `estado`: cambia el registro y `VALID_ESTADO`, y la excepción pasa a derivarse del registro. La otra es dejar la lista, que mientras haya un solo documento sellado con emoticones cuesta menos que cambiar un vocabulario. El disparador razonable para decidir es un segundo documento sellado que necesite una excepción de cualquier check.
 
-### M-49 — La tabla de regresión sólo corre cuando el commit toca `tools/`
-
-`check_autotest` corre `AUTOTEST_CASOS` sólo en commits que tocan `../tools/`, porque tarda unos veinte segundos. Pero varios casos mutan documentos reales con `replace` y dependen de su texto. Un commit que cambia ese texto sin tocar `tools/` deja casos desactualizados y nadie se entera hasta el próximo commit de tooling. Pasó el 2026-10-07: la pieza 2 de M-30 cambió el encabezado de `../historial/sdd.md` y tres casos de `deuda-punteros` quedaron apuntando a un texto que ya no existía. La pieza 3 los arregló anclando en el separador en vez de en el encabezado. Eso arregla esos tres, no la clase.
-
-Dos salidas posibles, sin decidir: correr también la tabla cuando el commit toca un archivo que algún caso muta con `replace`, que se puede derivar de la propia tabla; o anclar todos los casos en estructura y no en prosa, que es disciplina y no verificación.
-
 ---
 
 ## Items cerrados
@@ -504,3 +498,4 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-44 | «M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio» |
 | M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |
+| M-49 | «M-49: el backstop verifica en cada pasada que las anclas de su tabla de regresión sigan existiendo» |
