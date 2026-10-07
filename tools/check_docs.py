@@ -101,6 +101,10 @@ REFERENCIAS = "REFERENCIAS.md"
 PROTOCOLO = "AGENTS.md"
 CONSTITUCION = "CONSTITUTION.md"
 HISTORIAL = "historial/sdd.md"
+# Tomos cerrados del historial (M-30): el archivo vivo conserva el trimestre en
+# curso y los anteriores migran intactos a `historial/sdd-<periodo>.md`. Se
+# descubren por patron, no por lista, para que nadie tenga que mantener un indice.
+HISTORIAL_TOMOS = "sdd-*.md"
 CONVENCIONES = "CONVENCIONES.md"
 MEJORAS = "agenda/MEJORAS-METODO.md"
 
@@ -1060,6 +1064,17 @@ def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
             )
 
 
+def historial_completo() -> list[str]:
+    """El archivo vivo del historial mas sus tomos cerrados (M-30).
+
+    Una cita a `historial/sdd.md` designa el historial completo
+    (`SPECS_REGISTRY.md`, spec de ese documento): lo que la resuelve tiene que
+    buscar tambien en los tomos.
+    """
+    tomos = sorted((ROOT / "historial").glob(HISTORIAL_TOMOS), reverse=True)
+    return [HISTORIAL] + [t.relative_to(ROOT).as_posix() for t in tomos]
+
+
 FILA_MEJORA = re.compile(r"^\|\s*(M-\d+)\s*\|(.*)$")
 DETALLE_MEJORA = re.compile(r"^###\s+(M-\d+)\b")
 
@@ -1071,8 +1086,9 @@ def check_backlog_metodo(rep: Report) -> None:
     norma, y una incoherencia aca no rompe nada salvo la confianza en el estado.
     Lo que mira es lo que `SPECS_REGISTRY.md` pide de ese documento y nadie
     verificaba: todo item `Hecha` tiene fila en «Items cerrados» con un puntero
-    que existe en `historial/sdd.md` y no conserva seccion de detalle; todo item
-    abierto tiene la suya; nada figura en «Items cerrados» sin estar `Hecha`.
+    que existe en el historial —archivo vivo o tomo cerrado (M-30)— y no
+    conserva seccion de detalle; todo item abierto tiene la suya; nada figura en
+    «Items cerrados» sin estar `Hecha`.
 
     Limite: verifica que el estado declarado sea coherente consigo mismo, no que
     sea VERDADERO. Un item resuelto de hecho que sigue en `Propuesta` —M-08 hasta
@@ -1097,7 +1113,7 @@ def check_backlog_metodo(rep: Report) -> None:
         m = FILA_MEJORA.match(ln)
         if m:
             punteros[m.group(1)] = m.group(2).split("|")[0].strip().strip("«»")
-    entradas = [ln for ln in read(HISTORIAL).splitlines() if ln.startswith("## ")]
+    entradas = [ln for rel in historial_completo() for ln in read(rel).splitlines() if ln.startswith("## ")]
 
     for mid, est in sorted(estado.items()):
         if est == "Hecha":
@@ -1111,7 +1127,7 @@ def check_backlog_metodo(rep: Report) -> None:
         if estado.get(mid) != "Hecha":
             rep.warn("backlog-metodo", MEJORAS, f"{mid} figura en «Items cerrados» sin estar `Hecha` en la tabla")
         if not any(puntero in e for e in entradas):
-            rep.warn("backlog-metodo", MEJORAS, f"{mid}: el puntero «{puntero}» no es ninguna entrada de {HISTORIAL}")
+            rep.warn("backlog-metodo", MEJORAS, f"{mid}: el puntero «{puntero}» no es ninguna entrada del historial")
 
 
 # Documentos sellados que traian emoticones antes del sello. Corregirlos es
@@ -1215,6 +1231,12 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
      [("ERROR", "constitucion")]),
     ("backlog-metodo", [("append", MEJORAS, "| M-99 | «nada» |\n")], False,
      [("WARN", "backlog-metodo"), ("WARN", "backlog-metodo")]),
+    # El puntero resuelve contra un tomo cerrado: queda solo el WARN de estado, y
+    # el tomo de prueba, sin spec, da su ERROR de cobertura.
+    ("backlog-metodo-tomo",
+     [("write", "historial/sdd-2000-T1.md", "# Tomo\n\n## Entrada de tomo (2000-01-01) — X\n"),
+      ("append", MEJORAS, "| M-99 | «Entrada de tomo» |\n")], False,
+     [("ERROR", "spec-coverage"), ("WARN", "backlog-metodo")]),
     ("higiene", [("append", "README.md", "sin salto final")], False, [("ERROR", "higiene")]),
     ("precedencia", [("append", "README.md", "\nLa precedencia la fija SPECS_REGISTRY.md.\n")], False,
      [("ERROR", "precedencia")]),

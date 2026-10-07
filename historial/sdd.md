@@ -4,6 +4,23 @@ Registro de fases y mejoras completadas al sistema SDD del proyecto.
 
 ---
 
+## M-30, pieza 1: `backlog-metodo` resuelve los punteros también contra los tomos cerrados del historial (2026-10-07) — COMPLETADA
+
+**Acción**: primera de tres piezas de M-30, aprobada por el usuario el 2026-10-07 con rotación trimestral y un check que avise cuándo rotar. Va primero porque la rotación mueve las entradas a las que apuntan los 22 ítems `Hecha` de `agenda/MEJORAS-METODO.md`. Si el check no supiera buscar en los tomos, el commit de la rotación nacería con 22 WARN falsos.
+
+### Qué cambió
+- **`tools/check_docs.py`**: constante `HISTORIAL_TOMOS` (`historial/sdd-*.md`, por patrón, no por lista) y función `historial_completo()`, que devuelve el archivo vivo más los tomos. `backlog-metodo` busca ahí los punteros. Mientras no exista ningún tomo, la conducta es idéntica a la anterior.
+- **Caso `backlog-metodo-tomo`** en `AUTOTEST_CASOS`: un puntero que sólo existe en un tomo deja un único WARN, el de estado, en vez de dos.
+- **`agenda/MEJORAS-METODO.md`**: M-30 pasa a `Aprobada`, con las dos premisas del planteo que no se sostenían.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). `--autotest`: 31 casos, 0 fallas. Para probar al probador, se dejó `historial_completo()` devolviendo sólo el archivo vivo: el caso nuevo falló con el WARN de más que se esperaba, y se restauró.
+
+### Deuda abierta
+- Piezas 2 (regla en el registro y rotación) y 3 (check `historial-rotacion`): M-30.
+
+---
+
 ## M-34 — El backstop tiene tabla de regresión, y la corre al tocar sus propios checks (2026-10-06) — COMPLETADA
 
 **Acción**: M-34 ejecutada con el alcance mínimo que el propio ítem pedía: casos declarados como datos dentro de `tools/check_docs.py`, corridos por el mismo script, sin framework (el patrón `--autotest` de [R40]). La aprobó el usuario como primera mejora de la segunda tanda de la revisión de la forma de trabajo. El disparador concreto fue esta misma sesión: tres checks nuevos validados copiando, inyectando y restaurando a mano, y ninguna de esas pruebas había quedado escrita.

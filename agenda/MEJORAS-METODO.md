@@ -30,7 +30,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-06 | Modelo de confianza confirmado/inferido/gap | media | Propuesta | [R25] | convención de Línea A |
 | M-16 | Verificar `Derivados a revisar` contra el disco y la tabla SSOT | media | Propuesta | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C2) | `../tools/check_docs.py` |
 | M-17 | Portar el modelo de skills multi-asistente desde una fuente única | media | Propuesta | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C5) | contraparte de M-03 |
-| M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | Propuesta (2026-08-23) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por período) |
+| M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | Aprobada (2026-10-07) — rotación trimestral con check | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por período) |
 | M-32 | Las decisiones evaluadas y descartadas no tienen dónde vivir | media | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Índice de descartes) | este documento |
 | M-39 | Qué MUST del protocolo se sostienen sólo por disciplina no está escrito en ningún lado | media | Propuesta (2026-08-30) | [R40] Fase 37; barrido propio del 2026-08-30 | `../CONSTITUTION.md` §Límite honesto o documento nuevo |
 | M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
@@ -329,6 +329,8 @@ Reservas antes de ejecutarla:
 Consecuencia directa para la reserva 3: el puntero del archivo vivo a los tomos cerrados MUST ser derivable o estar cableado a un check. Una tabla de contenidos mantenida a mano es exactamente la variante que ya se probó y falló.
 
 Instructivo de yapa, porque aplica igual acá: cuando ese defecto apareció, **ningún check lo vio**, y las dos razones son nuestras también. Su `propagacion` no lo detectó porque el índice no declaraba `deriva_de` de nada —un recordatorio de propagación es tan bueno como el grafo que lee—, y su check de rutas ignora las referencias en backticks sin `/`, que es la misma decisión de diseño que toma nuestro `check_backtick_paths`.
+
+**Aprobada el 2026-10-07, con dos correcciones al planteo.** El usuario eligió rotación **trimestral**, no semestral, y un check que avise cuando toca rotar. El semestre no sirve: al 2026-10-07 el segundo semestre ya concentraba 72 de las 76 entradas (2295 de 2427 líneas), así que cerrar el primero movía 4. Las dos premisas de arriba que no se sostienen: el consumidor 2 lee el historial **del testigo**, no este (`../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`, §Evidencia adjunta); y «nada en `../tools/check_docs.py`» dejó de ser cierto con M-40, porque `backlog-metodo` resuelve los punteros de los ítems `Hecha` contra el historial.
 
 ### M-32 — Las decisiones evaluadas y descartadas no tienen dónde vivir
 
