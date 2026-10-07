@@ -50,7 +50,7 @@ encuentre sin tener la copia local de quien escribió.
   commit lo escribe en línea: `<repo>@<commit>:<ruta>`.
 - Repositorio hermano —del mismo autor, sin entrada en `REFERENCIAS.md`—: la misma forma
   `<repo>:<ruta>`, sin `[Rxx]`. Repositorios hermanos admitidos: `investigaIA`,
-  `experimentosdd-a4`, `experimentosdd-b7`. Sumar uno es editar esta línea, que es de donde
+  `experimentosdd-a4`, `experimentosdd-b7`, `agent-loop-lab`. Sumar uno es editar esta línea, que es de donde
   `tools/check_docs.py` toma la lista.
 - Paper, documento o página: sólo `[Rxx]`. La versión (ej. `v2` de arXiv) la lleva
   `REFERENCIAS.md`.

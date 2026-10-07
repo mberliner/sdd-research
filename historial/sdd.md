@@ -6,6 +6,21 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## `agent-loop-lab` entra a la lista de repositorios hermanos (2026-10-07) — COMPLETADA
+
+**Acción**: alta de un repositorio hermano en `CONVENCIONES.md` §Citas a fuentes externas, por el mecanismo que esa línea prevé («Sumar uno es editar esta línea»). Lo pide el ítem #24 de `agenda/BACKLOG-INVESTIGACION.md`, que cita un archivo de `agent-loop-lab` —proyecto del mismo autor, construido con Kiro— y sin el alta `ruta-externa` lo rechaza.
+
+### Qué cambió
+- **`CONVENCIONES.md`**: la lista de hermanos admitidos suma `agent-loop-lab`. Ninguna otra regla cambia.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN) con la cita del ítem #24 presente. Antes del alta, el mismo check daba `ruta-externa` sobre esa cita.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-37: el registro retira el nivel «Extendida» y el campo `refresh` (2026-10-07) — COMPLETADA
 
 **Acción**: M-37 resuelta con la segunda salida del ítem, retirar el nivel, aprobada por el usuario en la tanda del 2026-10-07. Es la más barata y la que menos promete. Aplicarlo a los dos documentos que calificaban habría completado una tabla que nadie consulta, que es como nacieron las 195 casillas de M-35.
