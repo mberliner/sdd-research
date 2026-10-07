@@ -6,6 +6,41 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-42: el marcador `[NEEDS CLARIFICATION]` registra lo asumido y lo que cuesta si está mal (2026-10-07) — COMPLETADA
+
+**Acción**: M-42 ejecutada tal como la proponía el ítem. Es la tercera de la tanda aprobada por el usuario el 2026-10-07. Un marcador que no bloquea significa que el trabajo siguió sobre alguna lectura de la duda, y esa lectura ahora puede quedar escrita al lado de la pregunta.
+
+### Qué cambió
+- **`AGENTS.md` §Disambiguación**: cuando el trabajo siguió sobre una lectura provisional, el marcador SHOULD llevar `asumido:` y `costo:`. Los dos campos son opcionales, como pedía el ítem: un marcador que bloquea no tiene asunción que declarar. No se relaja la obligación de preguntar del Principio VII. La parte de Superpowers [R37] que decide y sigue sin humano no se adopta.
+- **`agenda/MEJORAS-METODO.md`**: M-42 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN), sin tocar el backstop. Se comprobó lo que el ítem ya había verificado el 2026-09-05: `CLARIFICACION` captura todo hasta el corchete de cierre, y `es_placeholder()` trata la forma de tres campos citada con metavariables como relleno, porque empieza con `<` y termina con `>`. El marcador nuevo no aparece en ningún otro documento que defina su forma.
+
+### Límite
+El campo `costo:` ordena las dudas por lo que cuestan pero no las mide. Si con él se pregunta menos o mejor es la pregunta #23 de `agenda/BACKLOG-INVESTIGACION.md`, y ahora los marcadores escritos con esta forma le aportan datos.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-42 — El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal
+
+`../AGENTS.md` §Disambiguación permite marcar incertidumbre puntual con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able, el check `clarificacion` verifica que ningún documento `Activo` conserve uno abierto, y hasta ahí funciona.
+
+Lo que no registra es qué hizo el asistente mientras tanto. Un marcador que no bloquea significa, por definición, que el trabajo siguió — y siguió sobre **alguna** lectura de la ambigüedad. Esa lectura hoy no queda escrita en ningún lado: quien resuelve el marcador más tarde ve la pregunta, no la respuesta provisional que el texto ya está asumiendo, y no tiene forma de saber cuánto del documento se cae si la respuesta es la otra.
+
+Superpowers v6.3.0 [R37] resuelve la mitad simétrica del problema con una forma de tres campos: `Ruling: <qué se decidió> — <por qué> — <cuánto cuesta si está mal>` (`../software/analisis/ANALISIS-SUPERPOWERS.md` C7). El tercer campo es el que falta acá: convierte una duda anotada en una duda **priorizable**.
+
+Propuesta concreta, mínima: extender el marcador a `[NEEDS CLARIFICATION: <pregunta> | asumido: <lectura provisional> | costo: <qué se rehace si está mal>]`, con los dos campos nuevos opcionales — un marcador que sí bloquea no necesita declarar asunción porque no la hay.
+
+**Qué NO propone este ítem, y conviene que quede escrito**: no relaja la obligación de preguntar. El Principio VII manda preguntar ante ambigüedad y detener ante contradicción, y eso no se toca; el marcador cubre el caso que el propio principio ya excluye —incertidumbre puntual que no bloquea—. Superpowers va bastante más lejos (decide y sigue sin humano para todo conflicto no catastrófico), y **esa parte no se propone**: es constitucional, responde a un riesgo distinto — proteger una corrida autónoma larga, no evitar que el asistente interprete en silencio — y su única evidencia es un caso autoreportado.
+
+Costo de implementarlo: una línea en `../AGENTS.md` y ninguna en el backstop. Verificado el 2026-09-05: `CLARIFICACION` de `../tools/check_docs.py` captura `([^\]]*)` —todo hasta el corchete de cierre— así que los dos campos nuevos entran en el payload sin tocar el patrón, y `es_placeholder()` los distingue de un marcador de relleno por la misma vía que hoy.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-31, pasos 1 y 2: la tabla SSOT vacía falla, y el check de rutas dice que sólo mira `.md` (2026-10-07) — COMPLETADA
 
 **Acción**: dos de los tres pasos de M-31, aprobados por el usuario en la misma tanda que M-38. Los dos cierran casos en que el backstop sale en verde sin haber mirado lo que su nombre promete. El paso 3, auditar el resto de las derivaciones y escribir la regla, sigue abierto en el ítem.

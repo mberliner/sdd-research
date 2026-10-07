@@ -33,7 +33,7 @@ principios (`CONSTITUTION.md`, campo `Verificador:`). Todo lo demás de este pro
 
 - MUST preguntar al usuario si la spec tiene ambigüedad, en lugar de interpretar.
 - MUST NOT anticipar ambigüedad agregando texto a la spec sin aprobación.
-- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. El marcador es grep-able y MUST resolverse antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/analisis/ANALISIS-SPEC-KIT.md`, C2).
+- MAY marcar incertidumbre puntual dentro de un borrador con `[NEEDS CLARIFICATION: <pregunta>]` cuando no bloquea el resto del trabajo. Si el trabajo siguió sobre una lectura provisional, SHOULD escribirla junto con lo que se rehace si resulta equivocada: `[NEEDS CLARIFICATION: <pregunta> | asumido: <lectura provisional> | costo: <qué se rehace si está mal>]` (forma del `Ruling:` de Superpowers [R37], `software/analisis/ANALISIS-SUPERPOWERS.md` C7). El marcador es grep-able y MUST resolverse antes de considerar el documento `Activo`. Convención adoptada de GitHub Spec Kit [R10] (ver `software/analisis/ANALISIS-SPEC-KIT.md`, C2).
 
 ## Post-generación (salida obligatoria)
 
