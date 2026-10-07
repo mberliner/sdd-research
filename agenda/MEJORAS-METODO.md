@@ -34,7 +34,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-41 | Un diff dirigido que lee sólo el CHANGELOG no ve un documento agregado sin línea de changelog | media | Propuesta (2026-09-05) | Spec Kit [R10] (`spec-persistence.md` invisible al diff del 2026-07-10) | `../AGENTS.md` o procedimiento propio de re-consulta de fuentes |
 | M-45 | Cada experimento con `n` chico vuelve a elegir su regla de comparación desde cero | media | Propuesta (2026-09-07) | B-07 (relajación del 2026-07-29) y revisión pre-sello de B-09 (2026-09-07) | `../templates/EXPERIMENTO.md` §Criterio de exito |
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
-| M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
 | M-47 | Una ruta absoluta escrita en prosa no la ve `ruta-externa` | baja | Propuesta (2026-10-06) | deuda de la entrada «`ruta-externa` mira la prosa» de `../historial/sdd.md` | `../tools/check_docs.py` (`ruta-externa`) |
 | M-48 | El estado «sellado» no existe en el registro, y la excepción de emoticones lo mantiene a mano | baja | Propuesta (2026-10-06) | deuda de la misma entrada (M-08) | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` (`EMOJI_SELLADOS`) |
@@ -54,6 +53,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-20 | Verificador del Principio VI (cambio de método ⇒ entrada de historial) | alta | **Hecha** (2026-08-15) | pendiente de M-01; resultado de M-15 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-23 | `excluded-field` escaneaba solo tablas, no listas | baja | **Hecha** (2026-08-23) | auditoría de índices de línea | `../tools/check_docs.py` |
 | M-24 | `normative-block` cubría bastante menos de lo que su nombre prometía | media | **Hecha** (2026-08-23) | revisión de `../AGENTS.md`, alta de `../CONVENCIONES.md` | `../tools/check_docs.py` + `../AGENTS.md` + `../CONSTITUTION.md` |
+| M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | **Hecha** (2026-10-07) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-27 | `sdd-check-fields` no miraba `templates/`, que es donde una definición se propaga sola | baja | **Hecha** (2026-08-23) | lectura de la implementación al ejecutar M-24 | `../tools/check_docs.py` |
 | M-28 | Encabezados que reproducen campos del registro (`estado`, `ssot_level`, `owner`, `deriva_de`) | media | **Hecha** (2026-08-23) | auditoría de encabezados 2026-08-23 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` + 6 documentos |
 | M-29 | El backlog de método cargaba la narración de lo ya cerrado | media | **Hecha** (2026-08-23) | deriva doc-vs-spec detectada el 2026-08-23 | este documento |
@@ -326,19 +326,6 @@ Costo actual: una entrada de historial de más por alta de spec. Barato. Se acep
 
 **Agravante (2026-10-06).** Al cerrar M-40, `../REFERENCIAS.md` pasó a ser método por decisión del usuario: desde entonces cada alta de `[Rxx]` también pide entrada de historial. Es el mismo falso positivo —agregar una entrada no cambia una regla— y ahora alcanza a casi toda entrega de investigación. Si se repite, es el dato que la recomendación de arriba esperaba.
 
-### M-26 — «Qué decisión habilita» es un MUST sin casillero donde satisfacerse
-
-`../AGENTS.md` §Criterios de calidad mínima exige que cada cambio indique qué decisión habilita. A diferencia de `Derivados a revisar` o `Deuda arrastrada`, no tiene campo en el bloque `[SDD-Check]`: no hay lugar donde escribirlo ni dónde verificar que se escribió.
-
-Detectado el 2026-08-22 en la revisión de `../AGENTS.md`. No es contradicción —nada lo prohíbe—, es un MUST que en la práctica se cumple o no según se acuerde el asistente.
-
-Dos salidas, y la elección no es obvia:
-
-1. **Campo nuevo** en el bloque. Le da lugar mecánico y lo vuelve verificable por presencia. Costo: una línea más en **cada** entrega, para una exigencia que muchas veces se responde con una obviedad («habilita seguir escribiendo el documento»), y el bloque ya tiene siete campos.
-2. **Bajar el MUST a SHOULD**, reconociendo que es un criterio de juicio y no una casilla. Costo: pierde fuerza justo en los cambios donde importa, que son los que no habilitan nada y nadie nota.
-
-Ninguna es claramente mejor. Conviene decidirla junto con cualquier otra revisión del bloque `[SDD-Check]`, no sola.
-
 ### M-33 — La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia
 
 §Estado ordena «items abiertos primero, por prioridad; cerrados después, por ID», y §Items abiertos / §Items cerrados replican esa partición en el cuerpo. La consecuencia es que cerrar un ítem obliga a moverlo dos veces —fila y sección—, y ese movimiento es lo que M-29 tuvo que pagar en bloque el 2026-08-23.
@@ -389,6 +376,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-20 | «M-20 — Verificador ejecutable para el Principio VI» |
 | M-23 | «`excluded-field` deja de mirar solo tablas» |
 | M-24 | «`normative-block` pasa a llamarse `sdd-check-fields`» |
+| M-26 | «M-26: «qué decisión habilita» pasa a SHOULD» |
 | M-27 | «`sdd-check-fields` pasa a mirar `templates/`» |
 | M-28 | «`excluded-field` verifica la regla del registro, no el `excluye` de cada spec» |
 | M-29 | «El backlog de metodo se poda a puntero y se reordena por estado» |

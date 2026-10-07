@@ -6,6 +6,40 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-26: «qué decisión habilita» pasa a SHOULD (2026-10-07) — COMPLETADA
+
+**Acción**: M-26 resuelta con la segunda salida del ítem, bajar el MUST a SHOULD, elegida por el usuario en la tanda del 2026-10-07. La otra salida, un campo nuevo en el bloque `[SDD-Check]`, queda descartada: sumaba una línea a cada entrega para una pregunta que casi siempre se contesta con una obviedad.
+
+### Qué cambió
+- **`AGENTS.md` §Criterios de calidad mínima**: «cada cambio indica qué decisión habilita» pasa de MUST a SHOULD. El texto dice que es criterio de juicio y que el bloque no tiene campo para eso a propósito.
+- **`agenda/MEJORAS-METODO.md`**: M-26 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Ningún otro documento cita la regla como MUST. `comun/SDD-ADAPTATIVO-VS-CASCADA.md` nombra «decisión habilitada» como criterio de éxito, y eso sigue siendo cierto con SHOULD.
+
+### Límite
+El costo que el ítem le asignaba a esta salida sigue en pie: la regla pierde fuerza justo en los cambios que no habilitan nada y que nadie nota. Se acepta ese costo; no hay verificador.
+
+### Deuda abierta
+- ninguna
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-26 — «Qué decisión habilita» es un MUST sin casillero donde satisfacerse
+
+`../AGENTS.md` §Criterios de calidad mínima exige que cada cambio indique qué decisión habilita. A diferencia de `Derivados a revisar` o `Deuda arrastrada`, no tiene campo en el bloque `[SDD-Check]`: no hay lugar donde escribirlo ni dónde verificar que se escribió.
+
+Detectado el 2026-08-22 en la revisión de `../AGENTS.md`. No es contradicción —nada lo prohíbe—, es un MUST que en la práctica se cumple o no según se acuerde el asistente.
+
+Dos salidas, y la elección no es obvia:
+
+1. **Campo nuevo** en el bloque. Le da lugar mecánico y lo vuelve verificable por presencia. Costo: una línea más en **cada** entrega, para una exigencia que muchas veces se responde con una obviedad («habilita seguir escribiendo el documento»), y el bloque ya tiene siete campos.
+2. **Bajar el MUST a SHOULD**, reconociendo que es un criterio de juicio y no una casilla. Costo: pierde fuerza justo en los cambios donde importa, que son los que no habilitan nada y nadie nota.
+
+Ninguna es claramente mejor. Conviene decidirla junto con cualquier otra revisión del bloque `[SDD-Check]`, no sola.
+
+---
+
 ## M-31, paso 3: la regla de que el verde signifique que el check miró, y cuatro checks que no la cumplían (2026-10-07) — COMPLETADA
 
 **Acción**: paso 3 de M-31, aprobado por el usuario el 2026-10-07 en la tanda con M-26, M-32 y M-33. Con esto M-31 queda cerrada. Se auditaron todas las derivaciones y reconocedores de `tools/check_docs.py` y se escribió la regla que el ítem pedía, para que el próximo check no nazca con el mismo hueco. La auditoría encontró cuatro checks que no la cumplían y se corrigieron en la misma entrega.

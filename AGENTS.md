@@ -76,7 +76,7 @@ MUST — toda entrega cierra con este bloque:
 
 ## Criterios de calidad mínima
 
-- MUST — cada cambio debe indicar qué decisión habilita.
+- SHOULD — cada cambio indica qué decisión habilita. Es criterio de juicio, no casilla: el bloque `[SDD-Check]` no tiene campo para esto a propósito (M-26).
 - MUST — si tocaste un SSOT o cerraste un experimento, aplicá la regla de propagación (Principio III): `SPECS_REGISTRY.md` §Regla de propagacion.
 - SHOULD — cada cifra o afirmación externa tiene referencia `[Rxx]`.
 
