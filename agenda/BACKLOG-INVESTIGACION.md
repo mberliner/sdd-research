@@ -117,6 +117,13 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Contraparte de método:** `MEJORAS-METODO.md` M-16, que decide si el aviso se implementa acá, y M-34, cuya reserva depende de la misma pregunta.
 
+    **En espera desde el 2026-10-07: el corpus no alcanza.** Al preparar el diseño, antes de mirar ningún aviso, aparecieron dos hechos que el ítem no tenía:
+
+    - **El corpus es de 22 commits y está quieto.** En el historial de [R40] el check aparece el 2026-08-29, no el 2026-08-25. Desde ahí hay 22 commits, y el último es del 2026-09-02. Con una ventana de pocos commits después de cada aviso y un grafo de unas siete aristas, lo esperable es menos de 20 avisos. Cualquier criterio razonable cerraría NO CONCLUYENTE por tamaño, y eso se sabe antes de correr.
+    - **El dato no está generado.** Los avisos no quedan en git. Hay que reconstruirlos re-ejecutando el check de cada commit contra su commit padre. Eso es exacto, pero es un instrumento a escribir y validar, no una lectura de datos existentes.
+
+    Se retoma cuando el corpus de [R40] vuelva a crecer, o cuando aparezca otro con avisos reconstruibles y un número de commits que permita emitir veredicto. Hay un corpus alternativo que se descartó por ahora: los WARN del backstop de este repositorio. Cambiaría la pregunta a medir nuestro propio gate, con el autor del check como autor del dato. M-16 sigue bloqueada por M-36 y esta espera no la cambia.
+
 18. **La carga ceremonial del protocolo, medida sobre dos corpus documentales en vez de uno (alta, 2026-08-30).** No es un ítem nuevo: es la corrección del alcance del ítem #14, que hasta ahora sólo tenía el corpus de este repositorio.
 
     El inventario de corpus del ítem #15 —escrito el 2026-08-16— declara que el único corpus de Línea A con estructura de iteración es éste. Al 2026-08-30 eso es falso: [R40] tiene **40 fases** de historial de método con formato regular (Alcance / Cambio / Validación / Deuda abierta) y el bloque `[SDD-Check]` en uso. El corpus de Línea A pasa de 23 a 63 iteraciones.
