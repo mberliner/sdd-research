@@ -6,6 +6,57 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-32 y M-33: el backlog de método gana un índice de descartes y ordena su detalle por ID (2026-10-07) — COMPLETADA
+
+**Acción**: M-32 y M-33, aprobadas por el usuario en la tanda del 2026-10-07. Van juntas porque las dos cambian la forma de `agenda/MEJORAS-METODO.md`. M-32 da un lugar a lo descartado para que no vuelva a discutirse. M-33 hace que recalibrar la prioridad de un ítem no obligue a mover su sección.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**, spec de `agenda/MEJORAS-METODO.md`: `incluye` suma el índice de descartes, que apunta al motivo sin reproducirlo.
+- **`agenda/MEJORAS-METODO.md`**:
+  - §Índice de descartes, nuevo, con los cinco descartes que tienen el motivo escrito y verificable hoy. El encabezado aclara que el índice se lleva desde esta fecha y que puede faltar alguno anterior: un índice que afirma estar completo sin estarlo es peor que no tenerlo, como advertía el ítem.
+  - §Estado: la tabla sigue ordenando por estado y prioridad. El detalle de los abiertos pasa a ordenarse por ID.
+  - El detalle de los quince ítems abiertos quedó reordenado por ID, sin cambios de texto.
+  - M-32 y M-33 pasan a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN), `backlog-metodo` incluido: tabla, secciones y punteros coinciden. Se comprobó que el reordenamiento no tocó texto: el conjunto de líneas del cuerpo abierto es el mismo antes y después, salvo las dos secciones que migraron.
+
+### Límite
+- M-32 nombraba un tercer descarte, la «lista de exenciones» para specs que un check nuevo pone en rojo, atribuido a M-13 y M-28. No entró al índice porque sus entradas de historial no escriben ese motivo; anotarlo habría sido apuntar a un texto que no existe.
+- No se adoptó la prioridad `—` («sin triage») de sdd-first que mencionaba M-33: el ítem no la proponía para acá.
+- El corolario de M-33 (verificar mecánicamente el orden mientras siguiera la convención anterior) ya no aplica: con el detalle por ID, un cambio de prioridad no puede desordenarlo.
+
+### Deuda abierta
+- ninguna
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-32 — Las decisiones evaluadas y descartadas no tienen dónde vivir
+
+Este documento define `Descartada` como estado posible en §Criterio de separación, y ningún ítem lo usa. Tampoco hay lugar donde escribir **por qué** se descartó algo: una alternativa que se evaluó y se dejó afuera desaparece del registro, y vuelve a discutirse desde cero la próxima vez que a alguien se le ocurra.
+
+sdd-first [R39] resolvió esto con un §Índice de descartes: una tabla de dos columnas —qué se descartó, dónde está escrito el motivo— cuyo encabezado declara que existe «para no re-litigarlas» y que el razonamiento **no se reproduce ahí**. Es una aplicación literal del Principio I: el índice apunta, el motivo vive en el ítem que lo produjo.
+
+El repositorio ya tiene descartes reales sin registrar. Dos que se pueden nombrar hoy sin investigar nada: la opción «bajar el MUST a SHOULD» de M-26, si la decisión se resuelve por la otra vía; y la salida «lista de exenciones» para specs que un check nuevo pone en rojo, que M-13 y M-28 descartaron migrando en la misma iteración.
+
+Costo: una sección de este documento. Reserva: un índice de descartes que nadie actualiza es peor que no tenerlo, porque afirma completitud. Conviene que la entrada se cree en la misma entrega que produce el descarte, no en un barrido retroactivo.
+
+#### M-33 — La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia
+
+§Estado ordena «items abiertos primero, por prioridad; cerrados después, por ID», y §Items abiertos / §Items cerrados replican esa partición en el cuerpo. La consecuencia es que cerrar un ítem obliga a moverlo dos veces —fila y sección—, y ese movimiento es lo que M-29 tuvo que pagar en bloque el 2026-08-23.
+
+sdd-first [R39] eligió lo contrario y escribió el motivo: los títulos de sección agrupan por **tanda de origen**, que no cambia nunca, y la prioridad se declara **sólo** en la tabla, «para que recalibrar un ítem no obligue a moverlo de lugar». Agrega además un valor de prioridad que acá no existe: `—`, que significa «sin triage», con la aclaración de que no es «menos que P3» sino «sin medir».
+
+Aplicado acá el cambio sería: mantener la partición abierto/cerrado sólo en la tabla —barata de reordenar, es una fila— y ordenar el cuerpo por ID, que es estable. Ganancia: cerrar un ítem pasa a ser editar dos celdas.
+
+Prioridad baja a propósito: M-29 ya pagó la migración grande y el dolor no vuelve hasta el próximo lote de cierres. Vale registrarlo ahora para que la decisión no se tome otra vez en caliente.
+
+**Segunda instancia, el mismo día que se registró el ítem.** El 2026-08-30 M-02 bajó de `alta` a `media` y M-36 subió de `media` a `alta`. Las dos filas se movieron; los dos cuerpos no, y el documento quedó afirmando un orden que no tenía. Se detectó comparando tabla contra cuerpo con un script, no leyendo — o sea que a ojo no se ve. Se corrigió moviendo dos bloques, que es exactamente el costo que este ítem propone eliminar.
+
+Corolario para cuando se implemente: mientras la convención siga siendo la actual, la coherencia entre tabla y cuerpo **MUST** poder verificarse mecánicamente. Es comparable a los dos órdenes con el mismo parser que ya lee las filas, y sin eso la deriva vuelve en la próxima recalibración.
+
+---
+
 ## M-26: «qué decisión habilita» pasa a SHOULD (2026-10-07) — COMPLETADA
 
 **Acción**: M-26 resuelta con la segunda salida del ítem, bajar el MUST a SHOULD, elegida por el usuario en la tanda del 2026-10-07. La otra salida, un campo nuevo en el bloque `[SDD-Check]`, queda descartada: sumaba una línea a cada entrega para una pregunta que casi siempre se contesta con una obviedad.

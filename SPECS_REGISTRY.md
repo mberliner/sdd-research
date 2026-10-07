@@ -433,6 +433,7 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
   - tabla de estado: ID `M-NN`, prioridad, estado (`Propuesta`/`Aprobada`/`Hecha`/`Descartada`), origen, destino
   - detalle por mejora: que resuelve, de donde se porta, requisitos de diseño y reservas
   - de un item `Hecha`, solo el puntero a la entrada de `historial/sdd.md` que lo cerro
+  - indice de descartes: cada alternativa descartada con el puntero a donde esta escrito su motivo, sin reproducirlo
 - `excluye`:
   - preguntas de investigación — viven en `agenda/BACKLOG-INVESTIGACION.md`
   - el registro cronológico de lo ya aplicado — vive en `historial/sdd.md`
