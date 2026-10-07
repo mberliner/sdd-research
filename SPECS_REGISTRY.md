@@ -1056,12 +1056,27 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 
 ### historial/sdd.md
 - `path`: `historial/sdd.md`
-- `proposito`: registro cronologico de fases y mejoras completadas al sistema SDD del proyecto.
+- `proposito`: registro cronologico de fases y mejoras completadas al sistema SDD del proyecto. Es el archivo vivo: conserva el trimestre calendario en curso.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
+- `incluye`: las entradas del trimestre en curso; una línea fija que remite a los tomos cerrados por patrón (`historial/sdd-*.md`), no por lista.
+- `excluye`: las entradas de trimestres cerrados — viven en su tomo `historial/sdd-<periodo>.md`.
 - `validacion`:
   - cada fase tiene fecha y estado
   - archivos afectados listados por fase
+  - **rotación trimestral (M-30, 2026-10-07)**: al asentar la primera entrada de un trimestre nuevo, las de los trimestres cerrados migran a un tomo `historial/sdd-<AAAA>-T<n>.md` con spec propia en este registro. Sin umbral por tamaño: un umbral sería una elección sin medición detrás, y queda declarado así
+  - **mover no es reescribir**: cada entrada migra con el texto intacto y en el mismo orden, y el archivo vivo más sus tomos reproducen el original. Lo que el Principio VI prohíbe es alterar lo asentado, no reubicarlo
+  - una cita a `historial/sdd.md` —por ruta y título de entrada— designa el historial completo: archivo vivo y tomos. Las citas existentes no se reescriben
+
+### historial/sdd-2026-T1-T3.md
+- `path`: `historial/sdd-2026-T1-T3.md`
+- `proposito`: tomo cerrado del historial de método: entradas de 2026-03 a 2026-09, trasladadas desde `historial/sdd.md` el 2026-10-07 (M-30). Junta tres trimestres porque los dos primeros tenían una y tres entradas.
+- `ssot_level`: `operativo`
+- `estado`: `Activo` como **registro histórico cerrado** (2026-10-07): no recibe entradas nuevas.
+- `owner`: proyecto SDD
+- `validacion`:
+  - el texto de cada entrada es idéntico al que tenía en `historial/sdd.md` al trasladarse
+  - no contiene entradas posteriores a 2026-09-30
 
 ### comun/PRESENTACION-SDD-DOCS.md
 - `path`: `comun/PRESENTACION-SDD-DOCS.md`

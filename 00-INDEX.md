@@ -37,6 +37,6 @@ El **alcance** de cada documento, los campos de su spec y el **mapa tema → SSO
 | `software/` | línea B — SSOTs de agenda, métricas y plan experimental; derivados de análisis |
 | `experimentos/<id>-<nombre>/` | diseños, runbooks y resultados, una carpeta por experimento |
 | `templates/` | operativo — plantillas de experimento y de cierre |
-| `historial/` | operativo — log evolutivo de fases y cambios de método; incluye `ROADMAP-MEJORAS-SDD.md`, registro histórico cerrado (2026-06-01) |
+| `historial/` | operativo — log evolutivo de fases y cambios de método: `sdd.md` con el trimestre en curso y los trimestres cerrados en tomos `sdd-*.md`; incluye `ROADMAP-MEJORAS-SDD.md`, registro histórico cerrado (2026-06-01) |
 | `tools/` | verificación determinista del repositorio (`check_docs.py`) |
 | — | el material fuente externo no vive en este repositorio: se cita según `CONVENCIONES.md` §Citas a fuentes externas, con la versión anclada en `REFERENCIAS.md` |
