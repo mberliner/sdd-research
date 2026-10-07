@@ -189,6 +189,18 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Contraparte de método:** M-42, que porta la forma del ruling al marcador `[NEEDS CLARIFICATION]` sin relajar la obligación de preguntar. Se cierran por separado.
 
+24. **¿Cuánta trazabilidad propia merece el cambio de una spec depende del propósito del proyecto —producto o investigación—? (media, 2026-10-07).** Origen: observación del 2026-10-07 sobre `agent-loop-lab`, repositorio hermano del mismo autor, de producto, construido con Kiro [R44]. Kiro documenta un solo camino para cambiar una spec: editarla en el lugar y regenerar lo afectado, sin estado de cierre (página «Best practices» de su documentación de specs, consultada ese día). El proyecto había construido encima lo contrario —spec cerrada inmutable, y una spec de cambio con tabla de qué requisitos sustituye o amplía (`agent-loop-lab:.kiro/specs/foundation-change-adr-consistency/requirements.md`, sin commitear, sobre HEAD `0356380`)— y a raíz de este análisis su autor cambió la regla: editar la spec cerrada en el lugar, y reservar la spec de cambio a los cambios grandes, con aprobación humana.
+
+    **El criterio, como hipótesis y no como hallazgo:** en un proyecto de producto la spec es un medio, y la mejor documentación de un cambio es la necesidad cubierta —funcionalidad y, si el proyecto los tiene, tests—; registrar por qué cambió un requisito sólo se paga cuando el proyecto tiene que sostener sus decisiones ante terceros, que es el caso de un proyecto de investigación como éste. La variable no es la persistencia de la spec —en los dos casos sobrevive a la tarea, *spec-anchored* en los términos de [R20]— sino si sus cambios llevan registro propio o quedan sólo en el VCS.
+
+    **Qué agrega a lo que ya está escrito.** `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` ubica cada caso en los niveles de [R20] y declara que el encuadre no ordena por idoneidad. La «Golden Rule» de [R30], diferida en §Enriquecimientos diferidos de esta agenda, gradúa el rigor por la vida y la madurez del sistema. Ninguno de los dos toma el propósito del proyecto como eje, ni separa la persistencia de la spec de la trazabilidad de sus cambios.
+
+    Preguntas: en un proyecto de producto que edita specs en el lugar, ¿aparece después alguna situación en la que hizo falta saber por qué cambió un requisito y el VCS no alcanzó?; ¿qué señal observable separa el cambio «grande» que merece registro propio del que no? Es la cara complementaria del ítem #14, que pregunta si la ceremonia se paga **acá**, en un proyecto de investigación.
+
+    **Reservas, las tres declaradas e inseparables:** es un solo proyecto y del mismo autor, así que agrava la autocorrelación del ítem #15 en vez de aliviarla; desde el 2026-10-07 el proyecto observado deja de ser observación sin intervención, porque su regla nueva salió de este análisis; y quien propone el ítem ya tiene posición tomada, así que la regla de puntuación MUST fijarse antes de mirar el historial posterior de `agent-loop-lab` (Principio V).
+
+    **Contraparte de método:** ninguna. Si el resultado diera señal, tocaría cuánto historial exige este repositorio a sus propios cambios, y eso entraría por `MEJORAS-METODO.md` con su `M-NN`; el ítem no lo abre por adelantado.
+
 ## Prioridad media
 1. Evaluar impacto de lenguaje normativo (MUST/SHOULD/MAY) en calidad de salida.
 2. Analizar costo/beneficio de contract-first en servicios legacy.
