@@ -98,7 +98,7 @@ M-30 propone rotar `../historial/sdd.md` por período. El caso llegó al mismo p
 
 Detalle y consecuencia para la reserva 3 de M-30, en `../agenda/MEJORAS-METODO.md`.
 
-Lo que pertenece a este documento es la parte que no es sobre historiales: cuando ese defecto apareció, **ningún check lo vio**, y las dos razones son nuestras también. Su recordatorio de propagación no lo detectó porque el documento no declaraba `deriva_de` de nada —un recordatorio de propagación es tan bueno como el grafo que lee—, y su check de rutas ignora las referencias en backticks sin barra, que es exactamente la decisión de diseño de nuestro `check_backtick_paths`. Los dos huecos son de diseño, están razonados, y juntos dejaron pasar un archivo borrado.
+Lo que pertenece a este documento es la parte que no es sobre historiales: cuando ese defecto apareció, **ningún check lo vio**, y las dos razones son nuestras también. Su recordatorio de propagación no lo detectó porque el documento no declaraba `deriva_de` de nada —un recordatorio de propagación es tan bueno como el grafo que lee—, y su check de rutas ignora las referencias en backticks sin barra, que es exactamente la decisión de diseño de nuestro `check_backtick_md_paths`. Los dos huecos son de diseño, están razonados, y juntos dejaron pasar un archivo borrado.
 
 ### 3. Dos huecos que el caso iluminó en nuestro propio backstop
 

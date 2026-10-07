@@ -6,6 +6,29 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-31, pasos 1 y 2: la tabla SSOT vacía falla, y el check de rutas dice que sólo mira `.md` (2026-10-07) — COMPLETADA
+
+**Acción**: dos de los tres pasos de M-31, aprobados por el usuario en la misma tanda que M-38. Los dos cierran casos en que el backstop sale en verde sin haber mirado lo que su nombre promete. El paso 3, auditar el resto de las derivaciones y escribir la regla, sigue abierto en el ítem.
+
+### Qué cambió
+- **`tools/check_docs.py`, paso 1**: `check_ssot_table` emite ERROR si la tabla SSOT no se encontró o no dio filas. Antes, `ssot-table` y `ssot-collision` recorrían cero filas y el backstop salía en verde. La tabla se parsea una vez y la usan los dos checks.
+- **`tools/check_docs.py`, paso 2**: de las dos salidas del ítem se tomó la honesta, que no exige convención nueva. El check sigue mirando sólo rutas `.md`, y ahora lo dice: el id pasa de `rutas` a `rutas-md`, la función de `check_backtick_paths` a `check_backtick_md_paths`, y el docstring declara el alcance y por qué no se amplía.
+- **Casos de la tabla de regresión**: `ssot-table-vacia`, nuevo, y `rutas`, que pasa a `rutas-md`.
+- **`AGENTS.md`**: la enumeración de lo que cubre el backstop dice «rutas `.md` escritas en backticks».
+- **`docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md`**: el nombre de la función se actualiza donde el análisis la cita.
+- **`agenda/MEJORAS-METODO.md`**: M-31 pasa a `Aprobada` con los pasos 1 y 2 hechos.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). `--autotest`: 35 casos, 0 fallas. Con la guarda anulada, el caso `ssot-table-vacia` falla.
+
+### Límite
+El ítem citaba como «error liso» un `./tools/check_docs.py` del historial. Al revisarlo resultó ser el comando que se corrió, no una cita, y está en el tomo cerrado `historial/sdd-2026-T1-T3.md`, que no se edita. Las 42 rutas no-`.md` a herramientas del proyecto testigo siguen sin que nada las mire. El hueco ahora está declarado en el docstring en lugar de quedar oculto bajo el nombre del check.
+
+### Deuda abierta
+- Paso 3 (auditar las derivaciones y los reconocedores, y escribir la regla): M-31.
+
+---
+
 ## M-38: el título de cada bloque del registro nombra uno de sus `path` (2026-10-07) — COMPLETADA
 
 **Acción**: M-38 ejecutada, primera de la tanda de cinco mejoras baratas que aprobó el usuario el 2026-10-07. Se corrigieron los siete títulos y, sobre todo, se agregó el check que el propio ítem pedía: corregirlos sin guarda deja que el octavo nazca igual.

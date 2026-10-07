@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-38, M-40, M-49).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-31, M-34, M-38, M-40, M-49).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -402,7 +402,7 @@ def check_links(rep: Report, all_docs: list[str]) -> None:
 
     Ignora bloques de codigo y spans inline: ahi un `[texto](destino.md)` es la
     sintaxis citada como ejemplo, no un link. Las rutas escritas en backticks las
-    verifica `check_backtick_paths`, que sabe resolverlas.
+    verifica `check_backtick_md_paths`, que sabe resolverlas.
     """
     for rel in all_docs:
         base = os.path.dirname(rel)
@@ -435,12 +435,18 @@ def resolve_ref(rel: str, ref: str) -> tuple[str, bool]:
     return ref, False
 
 
-def check_backtick_paths(rep: Report, all_docs: list[str]) -> None:
-    """Las rutas escritas en backticks existen (M-10).
+def check_backtick_md_paths(rep: Report, all_docs: list[str]) -> None:
+    """Las rutas a un `.md` escritas en backticks existen (M-10, M-31).
 
     En este repositorio la mayoria de las referencias se escriben asi, no como link
     markdown, y hasta la Fase 11 nadie las verificaba. Un backtick sin barra es una
     mencion por nombre, no una ruta, y se ignora.
+
+    Alcance: SOLO rutas `.md` (`BACKTICK_PATH`). Una ruta a un `.py`, un `.sh` o un
+    directorio no la mira nadie. Hasta el 2026-10-07 el check se llamaba `rutas` y
+    prometia todas; ampliarlo exige antes una convencion para citar herramientas
+    de otro repositorio, sin la cual las del proyecto testigo entran como falsos
+    positivos (M-31).
     """
     for rel in all_docs:
         body = "\n".join(strip_code_fences(read(rel).splitlines()))
@@ -450,7 +456,7 @@ def check_backtick_paths(rep: Report, all_docs: list[str]) -> None:
                 continue
             resolved, verifiable = resolve_ref(rel, ref)
             if verifiable and not (ROOT / resolved).exists():
-                rep.error("rutas", rel, f"ruta inexistente: {ref}")
+                rep.error("rutas-md", rel, f"ruta inexistente: {ref}")
 
 
 # Registro fechado: describe lo que se hizo con la forma de cita de su momento y
@@ -489,7 +495,7 @@ def check_ruta_externa(rep: Report, all_docs: list[str]) -> None:
     sale de la raiz) solo existe en la maquina de quien escribio: nadie mas la
     resuelve. La forma admitida es `<repo>:<ruta>` (`CONVENCIONES.md` §Citas a
     fuentes externas), y el `<repo>` MUST estar en `REFERENCIAS.md` o en la lista
-    de hermanos. A diferencia de `rutas`, mira cualquier extension y tambien
+    de hermanos. A diferencia de `rutas-md`, mira cualquier extension y tambien
     directorios, porque lo que falla no es que el destino no exista sino que este
     fuera del repositorio. En prosa sin backticks ve solo las dos formas que se
     delatan solas —`../` y la carpeta local de fuentes—; una ruta absoluta o
@@ -1234,7 +1240,17 @@ def check_no_emoji(rep: Report, all_docs: list[str]) -> None:
 
 
 def check_ssot_table(rep: Report, specs: dict, ssot_rows: list) -> None:
-    """Validar que los paths en la tabla SSOT existan y tengan spec (M-11)."""
+    """Validar que los paths en la tabla SSOT existan y tengan spec (M-11).
+
+    Si la tabla no se encontro o no dio filas, falla: este check y
+    `ssot-collision` recorrerian cero filas y el backstop saldria en verde sin
+    haberla mirado. Se verifico el 2026-08-30 renombrando el titulo (M-31).
+    """
+    if not ssot_rows:
+        rep.error("ssot-table", REGISTRY,
+                  "no se encontro la seccion `## Tabla SSOT` o no tiene filas: `ssot-table` y "
+                  "`ssot-collision` quedarian vacios sin avisar")
+        return
     for concepto, paths in ssot_rows:
         for path in paths:
             if not (ROOT / path).exists():
@@ -1293,7 +1309,7 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("spec-coverage", [("write", "comun/SIN-SPEC.md", "# Sin spec\n")], False, [("ERROR", "spec-coverage")]),
     ("links", [("append", "README.md", "\n[x](NO-EXISTE.md)\n")], False, [("ERROR", "links")]),
     ("links-en-codigo", [("append", "README.md", "\n`[x](NO-EXISTE.md)`\n")], False, []),
-    ("rutas", [("append", "README.md", "\n`comun/NO-EXISTE.md`\n")], False, [("ERROR", "rutas")]),
+    ("rutas-md", [("append", "README.md", "\n`comun/NO-EXISTE.md`\n")], False, [("ERROR", "rutas-md")]),
     ("ruta-externa-copia", [("append", "README.md", "\nver `fuentes-externas/spec-kit/README.md`\n")], False,
      [("ERROR", "ruta-externa")]),
     ("ruta-externa-repo", [("append", "README.md", "\n[R39] `sdd-frist:docs/PATRONES.md`\n")], False,
@@ -1320,6 +1336,8 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
      [("replace", REGISTRY, "### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md",
        "### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md y templates/NO-DECLARADO.md")],
      False, [("ERROR", "registro-encabezado")]),
+    ("ssot-table-vacia", [("replace", REGISTRY, "## Tabla SSOT", "## Tabla SSOT\n\n## Otra")], False,
+     [("ERROR", "ssot-table")]),
     ("constitucion",
      [("replace", CONSTITUCION, "- **Verificador:** `ninguno`", "- **Verificador:** `inexistente`")], False,
      [("ERROR", "constitucion")]),
@@ -1527,18 +1545,19 @@ def main() -> int:
     check_registro_encabezados(rep)
     check_deriva_cycles(rep, specs)
     check_links(rep, all_docs)
-    check_backtick_paths(rep, all_docs)
+    check_backtick_md_paths(rep, all_docs)
     check_ruta_externa(rep, all_docs)
     check_references(rep, all_docs)
     check_scope_single_home(rep, all_docs)
     check_excluded_fields(rep, specs, all_docs)
-    check_ssot_collision(rep, specs, parse_ssot_table())
+    ssot_rows = parse_ssot_table()
+    check_ssot_collision(rep, specs, ssot_rows)
     check_sdd_check_fields(rep, all_docs, normative_fields())
     check_precedence(rep, all_docs)
     check_constitucion(rep)
     check_clarificacion(rep, specs, all_docs)
     check_no_emoji(rep, all_docs)
-    check_ssot_table(rep, specs, parse_ssot_table())
+    check_ssot_table(rep, specs, ssot_rows)
     check_file_hygiene(rep, all_docs)
     check_gate(rep)
     check_metodo_historial(rep, staged)
