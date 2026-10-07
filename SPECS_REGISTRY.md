@@ -55,8 +55,9 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
 | Nivel | Campos | Aplicar a |
 |-------|--------|-----------|
 | Minima | `path`, `proposito`, `ssot_level`, `owner`, `validacion` | indices, plantillas, operativos simples |
-| Estandar | minima + `incluye`, `excluye` | SSOTs simples, derivados |
-| Extendida | estandar + `refresh`, requisitos con `[ ]` | SSOTs criticos con multiples derivados |
+| Estandar | minima + `incluye`, `excluye` | SSOTs y derivados |
+
+Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma: el que existía no lo usó ninguna spec (M-37).
 
 `validacion` lista criterios de revisión permanentes, no tareas de una entrega: sus viñetas no llevan casilla `[ ]`, que afirmaría un estado pendiente que nunca cambia (M-35).
 

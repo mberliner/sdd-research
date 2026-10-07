@@ -6,6 +6,47 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-37: el registro retira el nivel «Extendida» y el campo `refresh` (2026-10-07) — COMPLETADA
+
+**Acción**: M-37 resuelta con la segunda salida del ítem, retirar el nivel, aprobada por el usuario en la tanda del 2026-10-07. Es la más barata y la que menos promete. Aplicarlo a los dos documentos que calificaban habría completado una tabla que nadie consulta, que es como nacieron las 195 casillas de M-35.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md` §Profundidad de spec**:
+  - La tabla queda en dos niveles: se va la fila `Extendida`, con su campo `refresh` y sus requisitos con `[ ]`.
+  - `Estandar` pasa a aplicarse a «SSOTs y derivados», porque los SSOT críticos que antes iban a `Extendida` caen ahí.
+  - Una línea deja escrito que un nivel con campo de refresco se agrega cuando haya quien lo consuma.
+- **`agenda/MEJORAS-METODO.md`**: M-37 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Antes de retirarlo se comprobó que nada lo leía:
+- `refresh` no aparece en el backstop, ni en `SPEC_FIELD_LINE`, ni entre los ocho campos reservados de §Reglas globales.
+- Las otras menciones a `Extendida` o `refresh` son registro fechado (`historial/ROADMAP-MEJORAS-SDD.md` y una entrada de este historial) o citas textuales de Kiro [R44].
+
+### Límite
+`docs-y-investigacion/NECESIDADES-Y-METRICAS.md` §Riesgos y mitigacion dice «specs minimas por defecto, extendidas solo en docs de alto impacto». Se dejó como está: usa «extendidas» como adjetivo y no nombra el nivel, y la mitigación que describe sigue valiendo con dos niveles.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-37 — El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec
+
+La tabla de profundidad de `../SPECS_REGISTRY.md` define tres niveles de spec, y el nivel `Extendida` se distingue por llevar el campo `refresh`. Distribución real medida el 2026-08-30 sobre las 46 entradas: **36 `Estandar`, 10 `Minima`, 0 `Extendida`**. El campo `refresh` aparece una sola vez en todo el repositorio — en la fila de la tabla que lo define.
+
+Y hay dos documentos que cumplen el criterio que la propia tabla declara para `Extendida` («SSOTs criticos con multiples derivados»): `../software/analisis/ANALISIS-SPEC-KIT.md` y `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`, cada uno con dos derivados registrados. Ninguno lo usa.
+
+Es una instancia del patrón 4 de `sdd-first:docs/PATRONES.md` («la carpeta que existe y ningún paso mira»): una clave de primera clase que ningún consumidor visita. No falla — calla, y el silencio se lee como salud.
+
+Dos salidas, y no hay una obviamente mejor:
+
+1. **Aplicarlo** a los dos documentos que califican, y con eso averiguar si `refresh` sirve para algo. Riesgo: se aplica por completar la tabla y no porque alguien necesite el dato, que es cómo nacen los campos que después nadie mantiene — el mismo destino de las 195 casillas de M-35.
+2. **Retirarlo**, dejando dos niveles. Es la más barata y la que menos promete. Si más adelante hace falta un campo de refresco, se agrega con un consumidor.
+
+Lo que no se sostiene es dejarlo declarado sin usuarios: el registro afirma una taxonomía de tres niveles y opera con dos.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-43: `AGENTS.md` declara cross-asistente sólo lo comprobado (2026-10-07) — COMPLETADA
 
 **Acción**: M-43 resuelta con la tercera salida del ítem, acotar la declaración por escrito, aprobada por el usuario en la tanda del 2026-10-07. El ítem preguntaba qué hace el repositorio con su propia declaración mientras nadie la verifique, y esta salida responde eso. Verificarla (salida 1) es la pregunta 1 de alta prioridad de `agenda/BACKLOG-INVESTIGACION.md`, que sigue abierta. Instrumentarla con adaptadores (salida 2) no tiene dato que la justifique.

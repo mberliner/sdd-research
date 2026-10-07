@@ -37,7 +37,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-21 | `metodo-historial` sobre-dispara en altas de contenido del registro | baja | Propuesta (2026-08-15) | fricción observada al registrar A-04 | `../tools/check_docs.py` (`metodo-historial`) |
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
-| M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
 | M-47 | Una ruta absoluta escrita en prosa no la ve `ruta-externa` | baja | Propuesta (2026-10-06) | deuda de la entrada «`ruta-externa` mira la prosa» de `../historial/sdd.md` | `../tools/check_docs.py` (`ruta-externa`) |
 | M-48 | El estado «sellado» no existe en el registro, y la excepción de emoticones lo mantiene a mano | baja | Propuesta (2026-10-06) | deuda de la misma entrada (M-08) | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` (`EMOJI_SELLADOS`) |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
@@ -62,6 +61,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | **Hecha** (2026-10-07) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por trimestre) + `../tools/check_docs.py` (`historial-rotacion`) |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | **Hecha** (2026-10-06) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | **Hecha** (2026-10-06) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
+| M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | **Hecha** (2026-10-07) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
 | M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | **Hecha** (2026-10-07) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-42 | El marcador `[NEEDS CLARIFICATION]` registra la pregunta y no lo que se asumió ni lo que cuesta si está mal | media | **Hecha** (2026-10-07) | Superpowers [R37] v6.3.0 (forma del `Ruling:`; `../software/analisis/ANALISIS-SUPERPOWERS.md` C7) | `../AGENTS.md` §Disambiguación |
@@ -394,21 +394,6 @@ Prioridad baja a propósito: M-29 ya pagó la migración grande y el dolor no vu
 
 Corolario para cuando se implemente: mientras la convención siga siendo la actual, la coherencia entre tabla y cuerpo **MUST** poder verificarse mecánicamente. Es comparable a los dos órdenes con el mismo parser que ya lee las filas, y sin eso la deriva vuelve en la próxima recalibración.
 
-### M-37 — El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec
-
-La tabla de profundidad de `../SPECS_REGISTRY.md` define tres niveles de spec, y el nivel `Extendida` se distingue por llevar el campo `refresh`. Distribución real medida el 2026-08-30 sobre las 46 entradas: **36 `Estandar`, 10 `Minima`, 0 `Extendida`**. El campo `refresh` aparece una sola vez en todo el repositorio — en la fila de la tabla que lo define.
-
-Y hay dos documentos que cumplen el criterio que la propia tabla declara para `Extendida` («SSOTs criticos con multiples derivados»): `../software/analisis/ANALISIS-SPEC-KIT.md` y `../experimentos/b07-formato-hibrido/EXPERIMENTO-B7-formato-hibrido.md`, cada uno con dos derivados registrados. Ninguno lo usa.
-
-Es una instancia del patrón 4 de `sdd-first:docs/PATRONES.md` («la carpeta que existe y ningún paso mira»): una clave de primera clase que ningún consumidor visita. No falla — calla, y el silencio se lee como salud.
-
-Dos salidas, y no hay una obviamente mejor:
-
-1. **Aplicarlo** a los dos documentos que califican, y con eso averiguar si `refresh` sirve para algo. Riesgo: se aplica por completar la tabla y no porque alguien necesite el dato, que es cómo nacen los campos que después nadie mantiene — el mismo destino de las 195 casillas de M-35.
-2. **Retirarlo**, dejando dos niveles. Es la más barata y la que menos promete. Si más adelante hace falta un campo de refresco, se agrega con un consumidor.
-
-Lo que no se sostiene es dejarlo declarado sin usuarios: el registro afirma una taxonomía de tres niveles y opera con dos.
-
 ### M-47 — Una ruta absoluta escrita en prosa no la ve `ruta-externa`
 
 Desde el 2026-10-06 `ruta-externa` mira también la prosa, pero sólo en las dos formas que se delatan solas: `../` saliendo de la raíz y la carpeta local de fuentes. Una ruta absoluta (`C:\...`, `/home/...`, `/Users/...`) o una relativa que no empieza con `../`, escrita sin backticks ni link, pasa sin aviso. Igual que la copia local, sólo la resuelve quien la escribió.
@@ -451,6 +436,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-30 | «M-30, pieza 3: `historial-rotacion` avisa cuándo rotar, y M-30 queda cerrada» |
 | M-34 | «M-34 — El backstop tiene tabla de regresión, y la corre al tocar sus propios checks» |
 | M-35 | «M-35 — Las validaciones del registro dejan de ser casillas» |
+| M-37 | «M-37: el registro retira el nivel «Extendida» y el campo `refresh`» |
 | M-38 | «M-38: el título de cada bloque del registro nombra uno de sus `path`» |
 | M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-42 | «M-42: el marcador `[NEEDS CLARIFICATION]` registra lo asumido y lo que cuesta si está mal» |
