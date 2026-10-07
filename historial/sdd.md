@@ -6,6 +6,40 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-38: el título de cada bloque del registro nombra uno de sus `path` (2026-10-07) — COMPLETADA
+
+**Acción**: M-38 ejecutada, primera de la tanda de cinco mejoras baratas que aprobó el usuario el 2026-10-07. Se corrigieron los siete títulos y, sobre todo, se agregó el check que el propio ítem pedía: corregirlos sin guarda deja que el octavo nazca igual.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**: los siete títulos `### docs-y-investigación/...` pasan a `docs-y-investigacion/`, el directorio real. El campo `path` de cada bloque ya estaba bien.
+- **`tools/check_docs.py`**: check `registro-encabezado` (ERROR). Cada ruta `.md` que nombra el título de un bloque tiene que ser uno de sus `path`. Los bloques de dos documentos (`A y B`) se miran ruta por ruta. Es ERROR porque no tiene falsos positivos: la ruta está declarada o no lo está.
+- **Caso `registro-encabezado`** en la tabla de regresión: el título de un bloque gana una ruta que no declara. El caso deja el texto original como prefijo del título mutado; si lo borrara, `autotest-anclas` lo marcaría dentro de la propia copia, que fue lo que pasó en el primer intento.
+- **`agenda/MEJORAS-METODO.md`**: M-38 pasa a `Hecha` y su planteo migra acá abajo.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). Antes de corregir los títulos, el check nuevo dio exactamente los siete ERROR del recuento del ítem. `--autotest`: 34 casos, 0 fallas. Con el check convertido en no-op, el caso nuevo falla.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-38 — Seis encabezados del registro escriben un directorio que no existe
+
+Seis entradas de `../SPECS_REGISTRY.md` titulan su bloque `### docs-y-investigación/...`, con tilde. El directorio en disco es `docs-y-investigacion/`, sin tilde. Nada lo detecta porque `parse_registry()` toma la ruta del campo `path` —que está bien escrito en las seis— y el encabezado queda como decoración.
+
+No rompe nada hoy. Lo que hace es peor a largo plazo: quien lea el registro y copie el encabezado escribe una ruta inválida, y el próximo consumidor que decida parsear los `### ` en vez del campo `path` hereda seis fallas silenciosas.
+
+**Uno de los seis lo escribí yo el 2026-08-30**, dando de alta la spec del análisis de caso, copiando la convención local sin verificar que el directorio existiera. Vale registrarlo porque es la evidencia del patrón 1 de `sdd-first:docs/PATRONES.md` en su forma más literal: el archivo número siete nace roto igual que el primero, y lo que sostiene el fix no es corregir los seis sino un check que falle nombrando al séptimo.
+
+Qué hace falta: corregir los seis encabezados, y agregar al backstop la verificación de que el encabezado de cada bloque coincida con alguno de sus `path` declarados. El check es de tres líneas y ya tiene los dos insumos parseados.
+
+Prioridad baja, no nula: es higiene, pero la guarda es tan barata que postergarla cuesta más en discusión que en implementación.
+
+**Recuento (2026-10-06).** Ya son siete: a los seis se sumó el de `ANALISIS-EDICION-COLABORATIVA-IA.md`. El patrón se reprodujo mientras el ítem estaba abierto, que es lo que el párrafo anterior predecía.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-49: el backstop verifica en cada pasada que las anclas de su tabla de regresión sigan existiendo (2026-10-07) — COMPLETADA
 
 **Acción**: M-49 ejecutada con la tercera de las salidas evaluadas, elegida por el usuario. Las dos del planteo de abajo quedaron descartadas. Correr la tabla completa en cada commit que toca un documento usado por un caso cuesta unos veinte segundos en commits frecuentes: `SPECS_REGISTRY.md` se tocó en 38 commits desde agosto. Anclar todos los casos en estructura es disciplina, no verificación. Lo que se rompía en silencio era un texto ausente, y ver un texto ausente no exige correr la tabla: alcanza con buscarlo.

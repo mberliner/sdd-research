@@ -268,7 +268,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - las reglas de colocacion describen el uso real del repositorio, no un ideal
   - no declara alcance ni procedimiento; ante choque, cede
 
-### docs-y-investigación/LINEAS-INVESTIGACION.md
+### docs-y-investigacion/LINEAS-INVESTIGACION.md
 - `path`: `docs-y-investigacion/LINEAS-INVESTIGACION.md`
 - `proposito`: SSOT de agenda de investigacion linea A.
 - `ssot_level`: `SSOT`
@@ -276,7 +276,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - hipótesis explicitas
   - preguntas accionables
 
-### docs-y-investigación/NECESIDADES-Y-METRICAS.md
+### docs-y-investigacion/NECESIDADES-Y-METRICAS.md
 - `path`: `docs-y-investigacion/NECESIDADES-Y-METRICAS.md`
 - `proposito`: SSOT de necesidades operativas, metricas, umbrales y riesgos de la linea A.
 - `ssot_level`: `SSOT`
@@ -292,7 +292,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - umbral inicial definido
   - no describe la línea B — el contraste se referencia
 
-### docs-y-investigación/PLAN-PRUEBAS.md
+### docs-y-investigacion/PLAN-PRUEBAS.md
 - `path`: `docs-y-investigacion/PLAN-PRUEBAS.md`
 - `proposito`: SSOT experimental linea A.
 - `ssot_level`: `SSOT`
@@ -331,7 +331,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - métrica primaria por experimento
   - criterio de adopcion definido
 
-### docs-y-investigación/00-INDEX.md y software/00-INDEX.md
+### docs-y-investigacion/00-INDEX.md y software/00-INDEX.md
 - `path`: `docs-y-investigacion/00-INDEX.md`
 - `path`: `software/00-INDEX.md`
 - `proposito`: indice de navegacion de su linea — pregunta central, gobernanza aplicable y lectura sugerida.
@@ -477,7 +477,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - comparativa SDD/cascada tiene columna "que evitar" y "que es indiferente"
   - implicaciones diferenciadas por línea A y B
 
-### docs-y-investigación/GUIA-INICIO-PROYECTO-INVESTIGACION.md
+### docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md
 - `path`: `docs-y-investigacion/GUIA-INICIO-PROYECTO-INVESTIGACION.md`
 - `proposito`: guia operativa para arrancar un proyecto de investigacion o analisis desde cero usando SDD con asistentes IA.
 - `ssot_level`: `operativo`
@@ -643,7 +643,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - conclusiónes marcadas como lectura, candidatas o cambios aprobados
   - no duplica SSOT — referencia
 
-### docs-y-investigación/ANALISIS-CASO-CAMPO-1.md
+### docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md
 - `path`: `docs-y-investigacion/ANALISIS-CASO-CAMPO-1.md`
 - `proposito`: analisis del caso de campo 1 [R40] — la unica aplicacion conocida del metodo de este repositorio a un cuerpo documental ajeno al propio repositorio — con foco en que mecanismos ya ejecutados alli son portables a Linea A, cuales dieron resultado negativo, y que corpus habilitan.
 - `ssot_level`: `operativo`
@@ -673,7 +673,7 @@ Regla: al deprecar un documento, marcar su spec con `estado: Deprecado` antes de
   - conclusiónes marcadas como lectura, candidatas o cambios aprobados, con ID de destino
   - no duplica SSOT — referencia
 
-### docs-y-investigación/ANALISIS-EDICION-COLABORATIVA-IA.md
+### docs-y-investigacion/ANALISIS-EDICION-COLABORATIVA-IA.md
 - `path`: `docs-y-investigacion/ANALISIS-EDICION-COLABORATIVA-IA.md`
 - `proposito`: resumen y analisis de Lehmann, Shauchenka & Buschek, "Collaborative Document Editing with Multiple Users and AI Agents" (ACM CHI 2026; [R53]) — el antecedente academico mas directo sobre compartir la edicion de documentos entre humanos y agentes de IA — con foco en que hallazgos son relevantes como hipotesis para Linea A.
 - `ssot_level`: `operativo`

@@ -40,7 +40,6 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-26 | «Qué decisión habilita» es un MUST sin casillero donde satisfacerse | baja | Propuesta (2026-08-22) | revisión de `../AGENTS.md` | `../AGENTS.md` (bloque `[SDD-Check]`) |
 | M-33 | La tabla de estado agrupa por estado, y eso obliga a mover un ítem cuando cambia | baja | Propuesta (2026-08-30) | sdd-first [R39] (`docs/IDEAS.md` §Prioridades) | este documento |
 | M-37 | El nivel «Extendida» y el campo `refresh` están declarados y no los usa ninguna spec | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` |
-| M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | Propuesta (2026-08-30) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-47 | Una ruta absoluta escrita en prosa no la ve `ruta-externa` | baja | Propuesta (2026-10-06) | deuda de la entrada «`ruta-externa` mira la prosa» de `../historial/sdd.md` | `../tools/check_docs.py` (`ruta-externa`) |
 | M-48 | El estado «sellado» no existe en el registro, y la excepción de emoticones lo mantiene a mano | baja | Propuesta (2026-10-06) | deuda de la misma entrada (M-08) | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` (`EMOJI_SELLADOS`) |
 | M-01 | Backstop determinista de documentación (`check_docs.py`) | alta | **Hecha** (Fase 10) | testigo `../tools/check_traceability.py` | `../tools/check_docs.py` + `../AGENTS.md` |
@@ -65,6 +64,7 @@ Ordenada por estado: **items abiertos primero**, por prioridad; cerrados despué
 | M-30 | `historial/sdd.md` crece sin techo y no tiene regla de rotación | media | **Hecha** (2026-10-07) | deuda de M-29; medición del 2026-08-23 | `../SPECS_REGISTRY.md` + `../historial/` (tomos por trimestre) + `../tools/check_docs.py` (`historial-rotacion`) |
 | M-34 | Un check que clasifica no tiene tabla de regresión que lo pruebe | media | **Hecha** (2026-10-06) | [R40] (check `gate-reglas`) | `../tools/check_docs.py` |
 | M-35 | Las 195 casillas de `validacion` del registro nunca se marcaron y nada las mira | alta | **Hecha** (2026-10-06) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../AGENTS.md` (bloque `[SDD-Check]`) |
+| M-38 | Seis encabezados del registro escriben un directorio que no existe | baja | **Hecha** (2026-10-07) | auditoría propia del 2026-08-30 | `../SPECS_REGISTRY.md` + `../tools/check_docs.py` |
 | M-40 | La enumeración de «qué es método» del Principio VI deja afuera a `CONVENCIONES.md`, y el verificador la copia fiel | alta | **Hecha** (2026-10-06) | sdd-first [R39] (`../software/analisis/ANALISIS-SDD-FIRST.md` C8, patrón 2); sonda propia del 2026-09-05 | `../CONSTITUTION.md` Principio VI + `../tools/check_docs.py` (`METODO_FILES`) |
 | M-44 | Los índices de línea no listan experimentos, y eso nunca se escribió | baja | **Hecha** (2026-09-06) | fricción al abrir B-09: hubo que decidirlo de hecho, sin norma donde apoyarse | `../SPECS_REGISTRY.md` (spec de los dos índices de línea) |
 | M-46 | Una tabla comparativa puede tener columnas cuyo encabezado no responde la misma pregunta en todas las filas, y nada lo mira | media | **Hecha** (2026-09-07) | revisión del usuario sobre §5 de `../software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` (2026-09-07) | `../SPECS_REGISTRY.md` (spec de ese documento) |
@@ -439,20 +439,6 @@ Dos salidas, y no hay una obviamente mejor:
 
 Lo que no se sostiene es dejarlo declarado sin usuarios: el registro afirma una taxonomía de tres niveles y opera con dos.
 
-### M-38 — Seis encabezados del registro escriben un directorio que no existe
-
-Seis entradas de `../SPECS_REGISTRY.md` titulan su bloque `### docs-y-investigación/...`, con tilde. El directorio en disco es `docs-y-investigacion/`, sin tilde. Nada lo detecta porque `parse_registry()` toma la ruta del campo `path` —que está bien escrito en las seis— y el encabezado queda como decoración.
-
-No rompe nada hoy. Lo que hace es peor a largo plazo: quien lea el registro y copie el encabezado escribe una ruta inválida, y el próximo consumidor que decida parsear los `### ` en vez del campo `path` hereda seis fallas silenciosas.
-
-**Uno de los seis lo escribí yo el 2026-08-30**, dando de alta la spec del análisis de caso, copiando la convención local sin verificar que el directorio existiera. Vale registrarlo porque es la evidencia del patrón 1 de `sdd-first:docs/PATRONES.md` en su forma más literal: el archivo número siete nace roto igual que el primero, y lo que sostiene el fix no es corregir los seis sino un check que falle nombrando al séptimo.
-
-Qué hace falta: corregir los seis encabezados, y agregar al backstop la verificación de que el encabezado de cada bloque coincida con alguno de sus `path` declarados. El check es de tres líneas y ya tiene los dos insumos parseados.
-
-Prioridad baja, no nula: es higiene, pero la guarda es tan barata que postergarla cuesta más en discusión que en implementación.
-
-**Recuento (2026-10-06).** Ya son siete: a los seis se sumó el de `ANALISIS-EDICION-COLABORATIVA-IA.md`. El patrón se reprodujo mientras el ítem estaba abierto, que es lo que el párrafo anterior predecía.
-
 ### M-47 — Una ruta absoluta escrita en prosa no la ve `ruta-externa`
 
 Desde el 2026-10-06 `ruta-externa` mira también la prosa, pero sólo en las dos formas que se delatan solas: `../` saliendo de la raíz y la carpeta local de fuentes. Una ruta absoluta (`C:\...`, `/home/...`, `/Users/...`) o una relativa que no empieza con `../`, escrita sin backticks ni link, pasa sin aviso. Igual que la copia local, sólo la resuelve quien la escribió.
@@ -495,6 +481,7 @@ Cada uno vive entero en `../historial/sdd.md` —planteo, ejecucion, validacion 
 | M-30 | «M-30, pieza 3: `historial-rotacion` avisa cuándo rotar, y M-30 queda cerrada» |
 | M-34 | «M-34 — El backstop tiene tabla de regresión, y la corre al tocar sus propios checks» |
 | M-35 | «M-35 — Las validaciones del registro dejan de ser casillas» |
+| M-38 | «M-38: el título de cada bloque del registro nombra uno de sus `path`» |
 | M-40 | «M-40 y M-08 cerradas: el Principio VI suma convenciones y referencias, y el backlog de método se verifica contra sí mismo» |
 | M-44 | «M-44 — Los indices de linea no listan experimentos, y eso nunca se escribio» |
 | M-46 | «M-46 — Una columna comparativa que no responde la misma pregunta en todas las filas» |

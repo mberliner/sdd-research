@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-40, M-49).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-38, M-40, M-49).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -272,6 +272,37 @@ def parse_registry() -> dict[str, dict]:
         if not line.strip():
             field = ""
     return specs
+
+
+REGISTRO_RUTA_TITULO = re.compile(r"[^\s`]+\.md")
+
+
+def check_registro_encabezados(rep: Report) -> None:
+    """Cada ruta que nombra el titulo de un bloque del registro es uno de sus `path` (M-38).
+
+    `parse_registry()` toma la ruta del campo `path` y el titulo `### ` queda como
+    decoracion, asi que nada leia el titulo. Hasta el 2026-10-07 siete escribian
+    `docs-y-investigación/`, con tilde, un directorio que no existe: quien copiara
+    el titulo escribia una ruta invalida. Un bloque que declara dos documentos los
+    titula con los dos (`A y B`); cada uno se busca por separado.
+    """
+    titulo, linea, paths = "", 0, []
+
+    def cerrar() -> None:
+        for ruta in REGISTRO_RUTA_TITULO.findall(titulo):
+            if paths and ruta not in paths:
+                rep.error("registro-encabezado", f"{REGISTRY}:{linea}",
+                          f"el titulo nombra `{ruta}`, que no es ninguno de sus `path`: {', '.join(paths)}")
+
+    for n, line in enumerate(read(REGISTRY).splitlines(), 1):
+        if line.startswith("#"):
+            cerrar()
+            titulo, linea, paths = (line[4:], n, []) if line.startswith("### ") else ("", 0, [])
+            continue
+        m = re.match(r"^-\s+`path`:\s+`([^`]+)`", line)
+        if m and titulo:
+            paths.append(m.group(1))
+    cerrar()
 
 
 def parse_ssot_table() -> list[tuple[str, list[str]]]:
@@ -1284,6 +1315,11 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
      False, []),
     ("spec-fields-casilla", [("replace", REGISTRY, "- `validacion`:\n  - ", "- `validacion`:\n  - [ ] ")], False,
      [("ERROR", "spec-fields")]),
+    # El ancla sigue siendo prefijo del titulo mutado, para no disparar `autotest-anclas` en la copia.
+    ("registro-encabezado",
+     [("replace", REGISTRY, "### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md",
+       "### templates/EXPERIMENTO.md y templates/RESULTADO-EXPERIMENTO.md y templates/NO-DECLARADO.md")],
+     False, [("ERROR", "registro-encabezado")]),
     ("constitucion",
      [("replace", CONSTITUCION, "- **Verificador:** `ninguno`", "- **Verificador:** `inexistente`")], False,
      [("ERROR", "constitucion")]),
@@ -1488,6 +1524,7 @@ def main() -> int:
 
     check_spec_coverage(rep, specs, all_docs)
     check_spec_fields(rep, specs)
+    check_registro_encabezados(rep)
     check_deriva_cycles(rep, specs)
     check_links(rep, all_docs)
     check_backtick_paths(rep, all_docs)
