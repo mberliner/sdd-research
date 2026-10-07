@@ -6,6 +6,65 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## M-30, pieza 3: `historial-rotacion` avisa cuándo rotar, y M-30 queda cerrada (2026-10-07) — COMPLETADA
+
+**Acción**: tercera y última pieza de M-30. Un check avisa cuándo toca rotar, para que la regla de la pieza 2 no dependa de que alguien se acuerde. Es la forma en que falló el índice manual de [R40], citado en el planteo de abajo.
+
+### Qué cambió
+- **`tools/check_docs.py`**: check `historial-rotacion`, que emite WARN si las entradas del archivo vivo abarcan más de un trimestre.
+  - No depende del reloj, porque compara las entradas entre sí.
+  - Es WARN y no ERROR porque la entrada que lo dispara es legítima. Bloquearla obligaría a rotar dentro de un commit que trata de otra cosa.
+  - Caso `historial-rotacion` en `AUTOTEST_CASOS`.
+- **Tres casos de `deuda-punteros` reanclados.** Su ancla era el texto del encabezado del historial, que la pieza 2 cambió, y quedaron desactualizados sin que el gate lo viera: el autotest sólo corre cuando el commit toca `tools/`. Ahora anclan en el primer separador y toman el mes de la entrada más reciente, para no abrir un trimestre en casos que no lo miran. La clase del problema queda como M-49.
+- **`AGENTS.md`**: la lista de checks que emiten WARN suma `historial-rotacion`.
+- **`agenda/MEJORAS-METODO.md`**: M-30 pasa a `Hecha` y su planteo migra acá abajo; alta de M-49.
+
+### Validación
+`tools/check_docs.py` en verde (0 ERROR, 0 WARN). `--autotest`: 32 casos, 0 fallas. Se probó al probador de dos formas, y en las dos se restauró después:
+- Con el check convertido en no-op, el caso nuevo falla.
+- Contra el `historial/sdd.md` de `7f3107f`, anterior a la rotación, el check emite `el archivo vivo abarca 4 trimestres (2026-T4, 2026-T3, 2026-T2, 2026-T1)`.
+
+### Planteo migrado del backlog (2026-10-07)
+
+#### M-30 — `historial/sdd.md` crece sin techo y no tiene regla de rotación
+
+El archivo es append-only por diseño y nadie está obligado a leerlo entero: `../AGENTS.md` §Al cerrar una iteración sólo obliga a **escribir** al principio, que es O(1), y el resto de las referencias apuntan a una entrada puntual. Por eso su tamaño no es el problema que M-29 corrigió en el backlog, y **podarlo está prohibido**: el historial registra entregas pasadas y MUST NOT reescribirse hacia atrás.
+
+Pero el crecimiento es real y acelera. Medido el 2026-08-23: 34 entradas y ~890 líneas antes de la migración de M-29, con un costo por entrada estable (media 26 líneas, rango 15-42) y una distribución que va de 1 entrada en marzo a 20 en agosto. La migración de M-29 sumó otras ~156 de un saque.
+
+Dos consumidores lo pagan, y ninguno es hipotético:
+
+1. Un `Read` completo ya cuesta del orden de 15k tokens, así que el acceso pasa de ser una elección a ser sólo por grep.
+2. El paso 3 de `../experimentos/b06-circuito-testigo/EXPERIMENTO-B6-circuito-testigo.md` exige barrerlo entero para extraer las secciones «Deuda arrastrada» y rastrear su destino. Es el único consumidor que lo lee completo, y es de investigación.
+
+**Regla propuesta: rotar por período, no podar.** Al cerrar cada semestre, las entradas de ese semestre migran íntegras a `historial/sdd-<periodo>.md`; el archivo vivo conserva el período en curso y una línea al principio que apunta a los tomos cerrados. Hay precedente ya aplicado en el repositorio: `../historial/ROADMAP-MEJORAS-SDD.md` está declarado registro histórico cerrado y no recibe items nuevos.
+
+**Mover un bloque intacto no es reescribir hacia atrás**, y esa distinción MUST quedar escrita en el registro al adoptarla, porque es la primera objeción que la regla va a recibir. Lo que el Principio VI prohíbe es alterar lo asentado, no reubicarlo con su texto intacto — el mismo criterio que ya se usó para migrar planteos en M-29, ahí como bloque añadido y fechado.
+
+Qué toca: alta de spec para cada tomo cerrado en `../SPECS_REGISTRY.md`, una línea en `../00-INDEX.md`, y nada en `../tools/check_docs.py` — su constante `HISTORIAL` apunta al archivo vivo, que es lo que `metodo-historial` necesita.
+
+Reservas antes de ejecutarla:
+
+1. **El backstop por tamaño no tiene evidencia detrás.** La idea es rotar igual si el archivo vivo pasa cierto umbral antes del corte de período, para que el ritmo no desborde el calendario. Cualquier cifra concreta hoy sería una elección de diseño, no una medición, y MUST declararse como tal en vez de presentarse como derivada de algo.
+2. **No ejecutarla todavía.** Al 2026-08-23 el archivo se sigue leyendo. Lo que vale es tener la regla escrita para que la rotación dispare sola y no se decida en caliente cuando ya duela.
+3. **Rotar parte el grep en dos.** Quien hoy busca en un archivo tendrá que buscar en varios. Es aceptable con un glob, pero conviene que el archivo vivo declare dónde están los tomos.
+
+**Dos datos ajenos que refuerzan la regla y descartan una variante (agregados 2026-08-30).** [R40] aplica este mismo método en otro dominio y llegó al mismo lugar sin coordinación:
+
+1. **El problema se replica.** Su `historial/sdd.md` tiene 40 entradas y ~1800 líneas, y tampoco tiene regla de rotación. No es idiosincrasia de este repositorio: es del formato de historial, que es lo que la regla propuesta corrige.
+2. **La variante «índice de entradas» ya falló, y es el resultado negativo que más vale.** Tenían un `HISTORIAL.md` declarado «índice vivo de entradas de cierre y decisiones». Llegó a estar **trece fases y dos decisiones atrasado**, y apuntaba a un archivo eliminado dos fases antes. La decisión fue **podarlo a navegación pura en vez de completarlo**, con dos motivos escritos: la tabla reproducía lo que ya está completo en el historial (Principio I) y era una obligación manual sin gate — el mismo mecanismo que había dejado vacío otro de sus historiales durante siete meses.
+
+Consecuencia directa para la reserva 3: el puntero del archivo vivo a los tomos cerrados MUST ser derivable o estar cableado a un check. Una tabla de contenidos mantenida a mano es exactamente la variante que ya se probó y falló.
+
+Instructivo de yapa, porque aplica igual acá: cuando ese defecto apareció, **ningún check lo vio**, y las dos razones son nuestras también. Su `propagacion` no lo detectó porque el índice no declaraba `deriva_de` de nada —un recordatorio de propagación es tan bueno como el grafo que lee—, y su check de rutas ignora las referencias en backticks sin `/`, que es la misma decisión de diseño que toma nuestro `check_backtick_paths`.
+
+**Aprobada el 2026-10-07, con dos correcciones al planteo.** El usuario eligió rotación **trimestral**, no semestral, y un check que avise cuando toca rotar. El semestre no sirve: al 2026-10-07 el segundo semestre ya concentraba 72 de las 76 entradas (2295 de 2427 líneas), así que cerrar el primero movía 4. Las dos premisas de arriba que no se sostienen: el consumidor 2 lee el historial **del testigo**, no este (`../experimentos/b06-circuito-testigo/RESULTADO-EXPERIMENTO-B6.md`, §Evidencia adjunta); y «nada en `../tools/check_docs.py`» dejó de ser cierto con M-40, porque `backlog-metodo` resuelve los punteros de los ítems `Hecha` contra el historial.
+
+### Deuda abierta
+- La tabla de regresión no corre cuando un commit cambia texto que sus casos usan: M-49.
+
+---
+
 ## M-30, pieza 2: el historial rota por trimestre, y el tercer trimestre de 2026 pasa a su tomo (2026-10-07) — COMPLETADA
 
 **Acción**: regla de rotación escrita en el registro y aplicada por primera vez. Las 68 entradas anteriores al 2026-10-01 se trasladan sin cambios a `historial/sdd-2026-T1-T3.md`. El archivo vivo pasa de 2452 a 268 líneas y conserva las 9 entradas del cuarto trimestre. Motivo, en palabras del usuario: «que haya propuestas no realizadas no es un problema; que tengamos un contexto alto sin necesidad sí lo es».

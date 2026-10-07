@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-34, M-40).
+"""Backstop determinista de la documentacion del repositorio SDD (M-01, M-09, M-10, M-15, M-18, M-19, M-20, M-23, M-24, M-27, M-28, M-30, M-34, M-40).
 
 Verifica presencia y forma, NO adecuacion: que cada documento autorado tenga
 spec registrada, que las referencias existan y que las reglas del registro se
@@ -52,6 +52,11 @@ El check `backlog-metodo` (2026-10-06) es el tercero que emite WARN: mira que la
 tabla de estado de `agenda/MEJORAS-METODO.md` coincida con sus secciones de
 detalle y con los punteros a `historial/sdd.md`. Que el estado sea verdadero no
 lo mira; ver su docstring.
+
+El check `historial-rotacion` (M-30, 2026-10-07) es el cuarto que emite WARN:
+avisa cuando el archivo vivo del historial abarca mas de un trimestre, que es
+el momento de mover los anteriores a su tomo. Sin el, la rotacion dependeria de
+que alguien se acordara.
 
 El check `deuda-punteros` (2026-10-06) tambien corre solo con `--staged`: la
 «Deuda abierta» de una entrada nueva del historial cita donde vive cada
@@ -182,6 +187,11 @@ VERIFICADOR = re.compile(r"^-\s+\*\*Verificador:\*\*\s*(.+)$")
 
 # Encabezado de entrada del historial: `## <titulo> (AAAA-MM-DD) — ESTADO` (M-20).
 ENTRADA_HISTORIAL = re.compile(r"^##\s+.*\(\d{4}-\d{2}-\d{2}\)")
+
+# Fecha de una entrada del historial, para ubicarla en su trimestre (M-30). Toma
+# la primera fecha del parentesis, asi que un rango (`2026-07-11 → 2026-07-28`)
+# cuenta por su inicio.
+FECHA_ENTRADA = re.compile(r"^##\s+.*?\((\d{4}-\d{2})-\d{2}")
 
 STOPWORDS = frozenset(
     "de del la el los las un una y o en por para con que su sus al es son no"
@@ -1064,6 +1074,44 @@ def check_deuda_punteros(rep: Report, staged: list[str] | None) -> None:
             )
 
 
+def trimestres_vivos() -> list[str]:
+    """Trimestres (`AAAA-Tn`) que abarcan las entradas del archivo vivo, del mas reciente al mas viejo."""
+    vistos: list[str] = []
+    for ln in read(HISTORIAL).splitlines():
+        m = FECHA_ENTRADA.match(ln)
+        if m:
+            anio, mes = m.group(1).split("-")
+            t = f"{anio}-T{(int(mes) - 1) // 3 + 1}"
+            if t not in vistos:
+                vistos.append(t)
+    return vistos
+
+
+def check_historial_rotacion(rep: Report) -> None:
+    """El archivo vivo del historial abarca un solo trimestre (M-30).
+
+    Es SEÑAL y emite WARN: aparece cuando se asienta la primera entrada de un
+    trimestre nuevo y avisa que los anteriores tienen que migrar a su tomo
+    (`SPECS_REGISTRY.md`, spec de `historial/sdd.md`). No bloquea el commit que
+    la dispara, porque esa entrada es legitima; bloquear obligaria a rotar dentro
+    de un commit de otra cosa.
+
+    No depende del reloj: compara las entradas entre si, asi que da lo mismo en
+    cualquier fecha y en la tabla de regresion.
+
+    Limite: verifica que se rote, no COMO. Que el traslado deje el texto intacto
+    —«mover no es reescribir»— lo verifica quien rota, y lo asienta en la entrada.
+    """
+    vivos = trimestres_vivos()
+    if len(vivos) > 1:
+        rep.warn(
+            "historial-rotacion",
+            HISTORIAL,
+            f"el archivo vivo abarca {len(vivos)} trimestres ({', '.join(vivos)}): las entradas "
+            f"anteriores a {vivos[0]} migran a su tomo `historial/sdd-<periodo>.md`",
+        )
+
+
 def historial_completo() -> list[str]:
     """El archivo vivo del historial mas sus tomos cerrados (M-30).
 
@@ -1195,8 +1243,15 @@ def check_file_hygiene(rep: Report, all_docs: list[str]) -> None:
 # Sin caso todavia, y por eso sin regresion: `ssot-collision`, `deriva-cycle`,
 # `ssot-table`, las ramas de `spec-fields` que no son la casilla, la excepcion
 # vencida de `emoji` y el propio `autotest`. Sumar un check MUST sumar su caso.
-_NUEVA_ENTRADA = "del proyecto.\n\n---\n\n## "
-_ENTRADA_PRUEBA = "del proyecto.\n\n---\n\n## Prueba (2026-01-01) — X\n\n### Deuda abierta\n- {}\n\n---\n\n## "
+#
+# La entrada de prueba se inserta antes de la primera entrada real —el primer
+# separador del archivo— y lleva el mes de esa entrada, para no abrir un
+# trimestre nuevo y disparar `historial-rotacion` en casos que no lo miran. Hasta
+# el 2026-10-07 el ancla era el texto del encabezado, y la rotacion de M-30, que
+# lo cambio, dejo tres casos desactualizados sin que el gate lo viera.
+_NUEVA_ENTRADA = "---\n\n## "
+_MES_TOPE = next((m.group(1) for ln in read(HISTORIAL).splitlines() for m in [FECHA_ENTRADA.match(ln)] if m), "2000-01")
+_ENTRADA_PRUEBA = "---\n\n## Prueba (" + _MES_TOPE + "-01) — X\n\n### Deuda abierta\n- {}\n\n---\n\n## "
 AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     # (id, operaciones, con --staged, hallazgos esperados como (severidad, check))
     ("base", [], False, []),
@@ -1254,6 +1309,9 @@ AUTOTEST_CASOS: list[tuple[str, list[tuple], bool, list[tuple[str, str]]]] = [
     ("deuda-punteros-ruta-no-md",
      [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("declarado en `tools/check_docs.py`")),
       ("stage", HISTORIAL)], True, []),
+    ("historial-rotacion",
+     [("replace", HISTORIAL, _NUEVA_ENTRADA, "---\n\n## Prueba (2000-01-01) — X\n\n---\n\n## ")], False,
+     [("WARN", "historial-rotacion")]),
     ("deuda-punteros-validas",
      [("replace", HISTORIAL, _NUEVA_ENTRADA, _ENTRADA_PRUEBA.format("sigue en M-21")), ("stage", HISTORIAL)],
      True, []),
@@ -1409,6 +1467,7 @@ def main() -> int:
     check_deuda_punteros(rep, staged)
     check_autotest(rep, staged)
     check_backlog_metodo(rep)
+    check_historial_rotacion(rep)
 
     if not args.quiet:
         for severity, check, where, msg in sorted(rep.items, key=lambda i: (i[0] != "ERROR", i[1], i[2])):
