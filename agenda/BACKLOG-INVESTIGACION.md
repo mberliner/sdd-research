@@ -58,6 +58,8 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Cifra de partida a re-verificar antes de usar**: entre 53% y 70% sobre cuatro entregas (M-15 65%, M-18 70%, M-20 53%, M-19 69%). Provienen del diseño de A-04 y **no se re-midieron** al cerrarla; MUST recalcularse desde los commits antes de citarse como dato.
 
+    **En diseño desde el 2026-10-07: A-05** (`../experimentos/a05-carga-ceremonial/EXPERIMENTO-A5-carga-ceremonial.md`). Mide la mitad de costo sobre lo que persiste en git y deja la de beneficio para otra pasada. El bloque `[SDD-Check]` no queda en git, así que la cifra de 53-70 % de abajo y la de A-05 no miden lo mismo.
+
     Preguntas: ¿existe alguna entrega donde el bloque `[SDD-Check]` haya cambiado la entrega, y no solo descrito lo hecho? ¿Se distingue por costo/beneficio la parte del ceremonial que verifica (cobertura, derivados a revisar) de la que narra? ¿Que fraccion del ceremonial es recuperable por el backstop, que ya verifica cinco de siete principios? Contraparte de metodo: `MEJORAS-METODO.md` M-04 (compactacion) — si compactar degrada conducta de forma medible [R37], compactar a ciegas tiene un costo desconocido, y esta pregunta acota cuanto habria para compactar.
 
 15. **¿Cuánto trabajo puede tener abierto una iteración sin que se degrade la calidad? El presupuesto de contexto como unidad, medido sobre un corpus real (alta, 2026-08-16).** Origen: el ítem T-1 del backlog de sdd-first [R39], que llegó hasta el punto de descartar cuatro candidatas a métrica y quedarse sin ninguna. Lo que allá se resolvió —y no se reproduce acá— es la parte de diseño: la spec es viva y no se «cierra», el límite parte la **iteración** y no la spec, y toda métrica de *stock* (FR acumulados, cantidad de User Stories) clasifica mal porque castiga justo a la spec que mejor reusa. Lo que quedó abierto es lo que se cierra con evidencia y por eso entra acá.
@@ -133,6 +135,8 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
     **Lo que sigue sin poder afirmarse.** Los dos corpus son del mismo autor: sumarlos no toca la autocorrelación, la agrava. Ningún resultado de acá es evidencia sobre SDD en general — es evidencia sobre **este** método ejercido por **este** autor en dos dominios. Esa es toda la generalización disponible y MUST escribirse en el resultado, no en una nota al pie.
 
     **Restricción de fuente:** ninguna cita puede reproducir contenido normativo del caso ni nombrar la organización; lo medible son datos agregados por iteración, que son hechos y no expresión ([R40] §Restricción de uso).
+
+    **En diseño desde el 2026-10-07: A-05**, hipótesis H2. Una precisión del recuento de arriba: el repositorio de [R40] tiene 39 commits en total, así que sus 40 fases no son commits y la unidad de A-05, que es el commit, no coincide con ellas.
 
 19. **¿Los patrones de defecto destilados de un corpus de software clasifican los defectos de un corpus documental? (media, 2026-08-30).** Origen: `docs/PATRONES.md` de sdd-first [R39], creado el 2026-08-16, que destila ocho clases de defecto recurrentes de sus post-mortems, cada una con los ítems que la evidencian.
 

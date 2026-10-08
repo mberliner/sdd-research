@@ -63,6 +63,16 @@ Objetivo: medir trazabilidad de evidencia.
 - Tarea: analisis comparativo con afirmaciones criticas.
 - Metrica: % afirmaciones criticas con fuente primaria.
 
+## Experimento A-05
+Objetivo: medir la carga ceremonial persistida de las entregas de método en dos
+corpus del mismo método —este repositorio y [R40]—, y si difiere entre dominios.
+
+Diseño, hipótesis y criterio: `../experimentos/a05-carga-ceremonial/EXPERIMENTO-A5-carga-ceremonial.md`.
+
+Contesta la mitad de costo del backlog #14 y el contraste de #18, no la de
+beneficio. Mide sólo lo que queda en git: el `[SDD-Check]` no se persiste, así
+que el resultado es una cota inferior.
+
 ## Cadencia
 - Sprint de prueba: 2 semanas.
 - Revision de resultados: semanal.
