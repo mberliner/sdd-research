@@ -73,6 +73,12 @@ Contesta la mitad de costo del backlog #14 y el contraste de #18, no la de
 beneficio. Mide sólo lo que queda en git: el `[SDD-Check]` no se persiste, así
 que el resultado es una cota inferior.
 
+Cerrado el 2026-10-07: `../experimentos/a05-carga-ceremonial/RESULTADO-EXPERIMENTO-A5.md`.
+**H1 refutada**: la ceremonia persistida es 0,17 de lo que escriben las entregas
+de método acá, con IC95 [0,11, 0,25], por debajo del tercio que la hipótesis
+predecía. **H2 no concluyente**: [R40] da 0,11, y el IC95 de la diferencia,
+[−0,06, +0,16], no cabe en la banda de ±0,10.
+
 ## Cadencia
 - Sprint de prueba: 2 semanas.
 - Revision de resultados: semanal.

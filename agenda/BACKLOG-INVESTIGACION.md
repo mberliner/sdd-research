@@ -58,7 +58,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Cifra de partida a re-verificar antes de usar**: entre 53% y 70% sobre cuatro entregas (M-15 65%, M-18 70%, M-20 53%, M-19 69%). Provienen del diseño de A-04 y **no se re-midieron** al cerrarla; MUST recalcularse desde los commits antes de citarse como dato.
 
-    **En diseño desde el 2026-10-07: A-05** (`../experimentos/a05-carga-ceremonial/EXPERIMENTO-A5-carga-ceremonial.md`). Mide la mitad de costo sobre lo que persiste en git y deja la de beneficio para otra pasada. El bloque `[SDD-Check]` no queda en git, así que la cifra de 53-70 % de abajo y la de A-05 no miden lo mismo.
+    **Mitad de costo, en lo que persiste: medida por A-05 (2026-10-07)** (`../experimentos/a05-carga-ceremonial/RESULTADO-EXPERIMENTO-A5.md`). El historial es 0,17 del texto de las entregas de método, con IC95 [0,11, 0,25]. M-15 y M-18, recalculados así, dan 0,23 y 0,28. M-20 y M-19 no se pudieron identificar por mensaje de commit. La cifra de 53-70 % de abajo incluía el bloque `[SDD-Check]`, que no queda en git: la diferencia es lo que git no guarda. **Sigue abierto**: el costo de lo que no persiste (el bloque de la conversación y el orden de lectura) y toda la mitad de beneficio. Las transcripciones locales que podrían medirlas sólo cubren desde el 2026-09-08.
 
     Preguntas: ¿existe alguna entrega donde el bloque `[SDD-Check]` haya cambiado la entrega, y no solo descrito lo hecho? ¿Se distingue por costo/beneficio la parte del ceremonial que verifica (cobertura, derivados a revisar) de la que narra? ¿Que fraccion del ceremonial es recuperable por el backstop, que ya verifica cinco de siete principios? Contraparte de metodo: `MEJORAS-METODO.md` M-04 (compactacion) — si compactar degrada conducta de forma medible [R37], compactar a ciegas tiene un costo desconocido, y esta pregunta acota cuanto habria para compactar.
 
@@ -136,7 +136,7 @@ Los cambios al **metodo** de este repositorio viven en `MEJORAS-METODO.md`, que 
 
     **Restricción de fuente:** ninguna cita puede reproducir contenido normativo del caso ni nombrar la organización; lo medible son datos agregados por iteración, que son hechos y no expresión ([R40] §Restricción de uso).
 
-    **En diseño desde el 2026-10-07: A-05**, hipótesis H2. Una precisión del recuento de arriba: el repositorio de [R40] tiene 39 commits en total, así que sus 40 fases no son commits y la unidad de A-05, que es el commit, no coincide con ellas.
+    **Primer dato, A-05 (2026-10-07): NO CONCLUYENTE.** La ceremonia persistida es 0,17 acá y 0,11 en [R40]. El IC95 de la diferencia, [−0,06, +0,16], no cabe en la banda de ±0,10 que el diseño selló, y tampoco queda afuera. Los dos corpus pasan el mínimo de n: el problema es el ancho del intervalo. Se retoma si el corpus de [R40] crece; hoy está quieto desde el 2026-09-02. Una precisión del recuento de arriba: el repositorio de [R40] tiene 39 commits en total, así que sus 40 fases no son commits y la unidad de A-05, que es el commit, no coincide con ellas.
 
 19. **¿Los patrones de defecto destilados de un corpus de software clasifican los defectos de un corpus documental? (media, 2026-08-30).** Origen: `docs/PATRONES.md` de sdd-first [R39], creado el 2026-08-16, que destila ocho clases de defecto recurrentes de sus post-mortems, cada una con los ítems que la evidencian.
 
