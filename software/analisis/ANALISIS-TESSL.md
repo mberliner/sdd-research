@@ -109,3 +109,41 @@ Lo que corresponde es otra cosa: existe ahora una observación de terceros sobre
 - Cobertura: **incompleta y declarada** — C1, C2 y C3 tienen destino; la propagacion a los tres documentos señalados **queda sin ejecutar** en esta entrega, y el item de backlog de C3 **no se da de alta**
 - Deuda arrastrada: **la pregunta de investigacion de C3 queda sin item**; ninguna afirmacion sobre Tessl es verificable en codigo y no lo sera mientras el Framework siga en beta cerrada; la regeneracion, que es el rasgo por el que este caso importa, se conoce **por un tercero** y no por la fuente. Sigue abierto: M-40, M-41, M-42, el ecosistema del 1.0 de Spec Kit sin caracterizar, e instrumento v2 sin decidir
 - Riesgos/reservas: es el caso peor verificado del corpus —producto en beta cerrada, sin clon, y su rasgo distintivo conocido por un tercero—; es una empresa comercial con financiamiento y un producto que vender, y su documentacion cumple tambien esa funcion; y la tentacion de leer a Tessl como confirmacion de la tesis de regenerabilidad de este proyecto es exactamente el error que C3 evita, porque B-07 ya midio y esta cerrado
+
+---
+
+## Actualización: la documentación pública ya no describe el producto analizado (2026-10-09)
+
+Re-consulta de [R46] del 2026-10-09: el índice completo de la documentación (`docs.tessl.io/llms.txt`) y las páginas que indexa, leídas en su versión markdown y no en un resumen. La clase de evidencia no cambia: todo es lo que la fuente declara. Lo que cambia es **qué** declara, y lo de arriba sigue siendo correcto para su fecha.
+
+### Qué dejó de documentarse
+
+- **El flujo de specs.** Ninguna de las entradas del índice menciona specs, `.spec.md`, `@generate`, `@describe` ni `tessl build`. La fuente se presenta como «an open platform for managing agentic development across your organization», con registro y gestor de *skills* y *plugins* como primer componente.
+- **Las specs de uso de librerías**, que sostenían C2. La guía de migración de *tiles* a *plugins* retira dos campos: `docs` y `describes`. Del segundo dice que «declared that a tile described a specific versioned package (e.g. a Go library)… as Docs have not been carried forward, neither has Describes» (`docs.tessl.io/use/tile-to-plugin-migration.md`) [R46].
+
+**Qué se puede afirmar y qué no.** Se puede afirmar que la documentación pública ya no describe el *Framework* de specs, y que el mecanismo con el que el registro distribuía contenido de spec no pasó al formato actual. **No** se puede afirmar que el *Framework* se haya discontinuado: estaba en beta cerrada, y su ausencia de la documentación pública es compatible con varias explicaciones que desde afuera no se distinguen. C1 no cambia de estatuto: la regeneración se conocía por [R20] y se sigue conociendo sólo por [R20]. **C2 pierde su mecanismo en el formato vigente**; queda como descripción del producto al 2026-09-05.
+
+### Lo que documenta hoy para las reglas transversales
+
+Todo con [R46], de la página que se nombra:
+
+- **Rules.** «An always-on convention the agent follows without being asked. A plain Markdown file in `rules/`, no frontmatter» (`creating-skills-and-plugins/create-a-plugin.md`). Se distribuyen dentro de un plugin y Tessl las instala «into each agent's native format». La misma guía de migración registra que `steering` se aceptaba como alias de `rules`.
+- **Rules del propio repositorio.** Un plugin puede vivir en el repositorio y referenciarse desde `tessl.json` con una fuente `file:`; quien clona y corre `tessl install` recibe esas reglas (`distribute/repository-plugins.md`). El ejemplo de monorepo pone las de frontend en una carpeta que comenta como «UI standards».
+- **Verifiers.** «A verifier is an LLM-as-judge check that compares committed files with an invariant stored as JSON». La fuente los presenta como pareja de las reglas: «a rule teaches the expected pattern, and a verifier catches changes that do not follow it». La severidad se fija en `tessl.json`, y en CI «`warn` findings remain advisory and `error` findings exit non-zero, so they can block a pull request» (`codifying-and-enforcing-your-skill-standards/verifiers-overview.md`).
+- **Políticas.** De organización, workspace y proyecto, sobre la calidad y la seguridad de las skills: «lower levels only tighten, never relax, and when levels disagree the strictest one wins» (`tutorials/codifying-and-enforcing-skill-standards.md`).
+
+### C5. El caso que ataba la spec a su test ahora documenta otra pareja: regla y juez
+
+Lo que distinguía a Tessl en el corpus era la **correspondencia**: cada capacidad del `.spec.md` llevaba su test enlazado. Lo que documenta hoy es una pareja distinta: una regla que el agente recibe siempre y un verificador que juzga el resultado commiteado. Tiene dos diferencias que importan. El juez es un modelo, no un test, así que el veredicto no es determinista. Y lo que se compara es el código contra un invariante que el equipo escribió, no contra una spec de la que el código derive. **Lectura**, sin consecuencia sobre lo que este documento dijo al 2026-09-05. La comparación con los otros casos no se hace acá: vive en `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`.
+
+---
+
+[SDD-Check] — actualizacion 2026-10-09
+- Spec leida: SI, y **enmendada antes de escribir**: `incluye` admite el estado de la documentacion publica en cada re-consulta fechada, con la advertencia de que una ausencia no prueba discontinuidad
+- Incluye/Excluye verificado: SI — no se emite orientacion practica ni veredicto de convergencia; no se re-analiza ninguna otra implementacion; B-07 no se toca
+- Validaciones aplicadas: el indice `llms.txt` se descargo entero (108 lineas) y se busco en el literalmente, sin resumen automatico; cada cita es textual de la pagina markdown que se nombra; la ausencia del *Framework* se declara como ausencia en la documentacion y **no** como discontinuidad; lo que el documento dijo al 2026-09-05 no se reescribe, y C2 se declara sin mecanismo en el formato vigente en vez de borrarse; la clase de evidencia se repite en la apertura; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno por este documento (`ssot_level: operativo`). `../../REFERENCIAS.md` suma a [R46] la re-consulta
+- Derivados a revisar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — D16 de Tessl se escribe desde esta seccion, en la misma entrega; su ficha sigue describiendo el producto del 2026-09-05 en D4, D5 y D14, y eso queda como deuda alli. Señalado sin modificar: `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que registro la dimension de C2 fuera del instrumento
+- Cobertura: completa para lo que la documentacion publica dice hoy de reglas, verificadores y politicas
+- Deuda arrastrada: la de este documento sigue donde estaba; se suma que el estado del *Framework* de specs es desconocido y no se puede averiguar desde la documentacion publica
+- Riesgos/reservas: la documentacion no tiene version que la ancle, asi que todo vale para la fecha de consulta; la fuente describe una plataforma comercial y su documentacion cumple tambien una funcion de venta; nada se corrio
