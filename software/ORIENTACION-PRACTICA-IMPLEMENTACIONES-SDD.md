@@ -29,7 +29,7 @@ Población, entonces: **lo que alguien podría evaluar o adoptar**. Ni la apertu
 
 ---
 
-## 2. Las quince dimensiones y su procedencia
+## 2. Las dieciséis dimensiones y su procedencia
 
 Fijadas el **2026-09-05**. Su origen es la pregunta del usuario que encargó el documento —orientación de uso, comportamiento por tamaño, consecuencias de las variantes, características particulares, más madurez, actividad, licencia y soporte—, formulada **antes** de que se diseñara el instrumento. D13 y D14 se sumaron el mismo día, también a pedido, al detectar que la apertura del código estaba operando como filtro en vez de como dimensión. **D15 se sumó el 2026-09-05**, también a pedido y con el encargo formulado así: información de usuarios de primera mano, objeciones fundadas y verificaciones de buen comportamiento.
 
@@ -52,10 +52,13 @@ Fijadas el **2026-09-05**. Su origen es la pregunta del usuario que encargó el 
 | D13 | Apertura del código | Si se puede leer, auditar y forkear — y qué queda en tu repositorio si dejás de usarlo |
 | D14 | Disponibilidad | Si se consigue hoy: general, beta abierta, o beta cerrada |
 | D15 | Uso y reputación en redes | Cuánta atención acumuló, y qué reportan de primera mano quienes la usaron: objeciones fundadas y verificaciones de buen comportamiento |
+| D16 | Reglas transversales y su comprobación | Por qué canal llega al agente una regla que vale para todo el trabajo —estilo, UX, arquitectura, convenciones—, si se carga siempre o según el contexto, y qué comprueba después que se haya cumplido |
 
 **D13 y D14 se agregaron el 2026-09-05**, al corregir el criterio de población. Antes estaban implícitas y operando como filtro, que es la peor forma de tener una dimensión: decidía admisiones sin figurar en ningún lado. La regla ahora es explícita — **describen, no admiten**.
 
 **D15 se agregó el mismo día**, y es la dimensión de peor clase de evidencia del documento: no `[declarado]` ni `[derivado]`, sino una tercera categoría, `[reportado]` — lo que dijeron terceros identificables sobre su propia experiencia. Su tratamiento está en la sección 4 quinquies, y la advertencia que la gobierna es una sola: **un reporte de práctica no es una medición, y contar reportes tampoco lo vuelve una**.
+
+**D16 se agregó el 2026-10-09**, a pedido del usuario, con la pregunta de cómo impone cada herramienta estilos o arquitecturas comunes a todas las specs. Llega más tarde que las otras quince y con dos consecuencias que hay que declarar. La primera: la sección 5 se derivó de las quince anteriores y **D16 no la modifica** — ningún paradigma ni ningún nivel de la escala de vinculación se apoya en ella. La segunda: separa dos cosas que suelen leerse juntas, **entregar** la regla al agente y **comprobar** después que se cumplió. Cada celda remite al análisis del caso, donde está el detalle; la ficha sólo lo resume.
 
 ---
 
@@ -80,6 +83,7 @@ Los números de D9 a D11 salen de clones de cada repositorio con `git`, no de la
 | **D13** Apertura | **Abierto** | **Abierto** | **Abierto** | **Abierto** | **Cerrado** — artefactos en tu repo (`.kiro/specs/`, `.kiro/steering/`) | **Cerrado** — artefactos en tu repo (`.spec.md`) |
 | **D14** Disponibilidad | General | General | General | Público, sin release versionada | General | *Registry* beta abierta; **Framework beta cerrada** |
 | **D15** Uso y reputación `[reportado]` | 133 601 estrellas. Objecion recurrente: sobredimensiona lo chico | 67 384 estrellas. Objecion recurrente: deriva de las specs al sincronizar | **282 058 estrellas**, la mayor. Reputación **partida**: entusiasmo y rechazo explícito, ambos de primera mano | **0 estrellas, 0 forks**. Sin ningún reporte de terceros | Estrellas **no comparables** (repositorio sólo de issues); **1614 issues abiertas**; incidente de cupos y precios reconocido por AWS | **No medible** — sin repositorio; sin reportes de uso, porque casi nadie pudo usarlo |
+| **D16** Reglas transversales | **Entrega:** la constitución, leída en cada comando, o presets que componen las plantillas. **Comprueba:** sólo lo que es principio, como gate del plan y CRITICAL en `analyze`, por juicio del agente | **Entrega:** `context` a todos los artefactos y `rules` por artefacto, en `config.yaml`. **Comprueba:** nada | **Entrega:** ningún canal propio; `AGENTS.md` o `CLAUDE.md` del usuario van antes que las skills. **Comprueba:** nada | **Entrega:** principios en `.sdd/config.yaml`. **Comprueba:** cada principio con su verificador cableado al pipeline, en VERDE/ROJO | **Entrega:** steering siempre, por patrón de archivo, manual o por descripción. **Comprueba:** hooks que pueden bloquear una herramienta; no miran la spec | **Entrega:** *rules* siempre activas, también desde el propio repositorio. **Comprueba:** *verifiers* con un modelo como juez, que pueden bloquear un PR. **Documentación del 2026-10-09**, que ya no describe el producto del resto de esta columna |
 
 ---
 
@@ -107,6 +111,8 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 
 **Madurez y soporte**: el más maduro de los cuatro por cualquier medida — 1927 commits, 188 releases, 297 autores, 97 activos en 90 días. Respaldo de GitHub. MIT.
 
+**Reglas transversales (D16)** `[declarado]`: dos canales. La constitución, que `plan`, `tasks` y `analyze` leen viva en cada ejecución, y los presets, que componen las plantillas con una regla de la organización. Para gobernar muchos repositorios la fuente recomienda los presets versionados, y su catálogo de comunidad ya trae presets de gobernanza —accesibilidad, arquitectura, seguridad—, ninguno marcado como verificado. Sólo se comprueba lo que se escribe como principio, y lo comprueba el agente: el gate del plan y la severidad CRITICAL de `analyze` `[derivado]`. Detalle en `analisis/ANALISIS-SPEC-KIT.md` §Actualización 2026-10-09 y C9.
+
 **Rasgo sin equivalente**: haber escrito las consecuencias de sus propias variantes en vez de dejarlas al lector.
 
 ---
@@ -125,6 +131,8 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 
 **Madurez y soporte**: 828 commits, 48 releases, 111 autores, 54 activos en 90 días. Fission AI, respaldo comercial. MIT. Soporta 62 herramientas, la superficie más ancha del corpus.
 
+**Reglas transversales (D16)** `[declarado]`: `context` va a las instrucciones de todos los artefactos y `rules` sólo al artefacto cuyo ID coincide, los dos en `openspec/config.yaml` y servidos por el CLI. La fuente dejó el documento de contexto anterior porque los agentes lo leían o no, sin medición que lo respalde. Nada comprueba que el artefacto cumpla las reglas, y una configuración inválida avisa sin fallar `[derivado]`. Detalle en `analisis/ANALISIS-OPENSPEC.md` §Actualización 2026-10-09 y C9.
+
 **Rasgo sin equivalente**: la separación del repositorio de specs respecto del repositorio del artefacto.
 
 ---
@@ -140,6 +148,8 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 **Modo de falla** `[derivado]`: todo depende de que la skill se dispare. Y sus propios evals mostraron que el contenido de la prosa es load-bearing — borrar una sección argumentativa de la skill de TDD degradó la conducta test-first de 8/10 a 5/10 bajo presión.
 
 **Madurez y soporte**: 681 commits, 34 releases, 47 autores, 17 activos en 90 días — la comunidad más chica de los tres externos. Prime Radiant, respaldo comercial. MIT. 14 harnesses.
+
+**Reglas transversales (D16)** `[declarado]`: no tiene canal propio. Las reglas del proyecto van en `AGENTS.md` o `CLAUDE.md`, que según la fuente van antes que las skills; el método mismo llega por un hook que lo inyecta al abrir la sesión. Nada comprueba que una regla del proyecto se cumpla `[derivado]`. Detalle en `analisis/ANALISIS-SUPERPOWERS.md` §Actualización 2026-10-09.
 
 **Rasgo sin equivalente**: evaluar la documentación por la conducta que produce, con subagentes frescos y escenarios de presión.
 
@@ -160,6 +170,8 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 **Modo de falla** `[derivado]`: sus ocho correcciones de agosto son todas de la misma familia — un verificador que reportaba OK sin verificar nada, o una guarda abierta por un camino que nadie probó (`ANALISIS-SDD-FIRST.md`, §Los ocho arreglos y C8). El gate es fail-closed por diseño, y el trabajo del kit consiste en encontrar dónde no lo era.
 
 **Madurez, actividad y soporte — el punto decisivo**: primer commit **2026-08-01**, un mes de vida; 143 commits; **cero releases**; **un solo autor**. Licencia Apache 2.0, la única del corpus que no es MIT. No hay comunidad, ni respaldo comercial, ni versionado publicado. **Factor de bus 1.** Adoptarlo es adoptar el trabajo de una persona sin release estable.
+
+**Reglas transversales (D16)** `[declarado]`: los principios se declaran en `.sdd/config.yaml`, cada uno con su invariante, la herramienta que lo hace cumplir y el paso del pipeline que la activa; `check_constitution.py` verifica que ese paso esté cableado y haya corrido. Un principio sin paso queda a la vista como no mecanizado, y uno con paso falla en rojo si su verificador no pasa. Detalle en `analisis/ANALISIS-SDD-FIRST.md` §El rasgo que más aporta.
 
 **Rasgo sin equivalente**: propagar el método a instalaciones derivadas a través de una frontera de repositorios, con detección de conflictos.
 
@@ -195,6 +207,8 @@ La fuente subraya que **no impone ninguno**: «None is the default, and none is 
 
 **Madurez, actividad, apertura y soporte**: anuncio del **2025-07-14**, lo que lo vuelve **el más antiguo del corpus**; respaldo de Amazon Web Services, el más grande de los seis; documentación oficial extensa, tracker público de issues y material formativo propio en AWS Skill Builder. Disponibilidad general (D14). Y **cerrado** (D13): sin licencia abierta, sin historial auditable, sin conteo de contribuyentes, y sin posibilidad de forkearlo si el producto cambia de rumbo o de precio.
 
+**Reglas transversales (D16)** `[declarado]`: el steering tiene cuatro modos de carga —siempre, por patrón de archivo, a pedido o por coincidencia con lo que se pide—, de modo que una regla de interfaz puede viajar sólo con los archivos de interfaz; si chocan, el del workspace gana al global. Los hooks pueden bloquear el uso de una herramienta, pero comprueban acciones, no la spec. La documentación no dice que el steering gobierne la redacción de los tres artefactos. Detalle en `analisis/ANALISIS-KIRO.md` §Actualización 2026-10-09 y C5.
+
 **Rasgo sin equivalente**: que el método no se instala — lo trae la herramienta. Su contracara: el método tampoco se puede llevar a otro lado, aunque los documentos sí.
 
 ### 4 ter. Tessl [R46] — el único que regenera, y el que menos se puede conseguir
@@ -221,6 +235,8 @@ Esa pareja es un camino de adopción en brownfield que ningún otro caso tiene e
 **Costo de entrada y de salida** `[derivado]`: la entrada exige acceso a una beta cerrada, que es el costo más alto de los seis y no es de dinero sino de disponibilidad. La salida, como en Kiro, cuesta el motor y no los documentos: los `.spec.md` viven en tu repositorio. Con una diferencia que sí es grave — si el código está marcado `DO NOT EDIT` y la herramienta que lo genera deja de estar, lo que queda es código generado que nadie mantuvo nunca a mano.
 
 **Madurez, actividad y soporte**: productos lanzados el **2025-09-16** y el **2025-09-23**; el más reciente de los casos externos. Sin repositorio de producto, así que D9 y D10 **no son medibles** del modo en que lo son para los cuatro abiertos. Respaldo de una startup, con blog y documentación propios.
+
+**Reglas transversales (D16)** `[declarado]`, y con una advertencia que vale para toda esta ficha: **la documentación pública del 2026-10-09 ya no describe el producto que esta ficha caracteriza**. No menciona specs, `@generate` ni `@describe`, y el registro retiró el campo con el que distribuía specs de librerías. Lo que documenta para reglas transversales son *rules* siempre activas dentro de plugins, que pueden vivir en el propio repositorio, y *verifiers*: un modelo que juzga los archivos commiteados contra un invariante escrito por el equipo y que, en nivel `error`, puede bloquear un PR. Que el *Framework* no figure en la documentación no prueba que se haya discontinuado. Detalle en `analisis/ANALISIS-TESSL.md` §Actualización 2026-10-09.
 
 **Rasgo sin equivalente**: es el único que regenera. [R20] lo ubica como «the only one of these three tools that explicitly aspires to a spec-anchored approach, and is even **exploring the spec-as-source level of SDD**».
 
@@ -391,8 +407,8 @@ Derivada de mecanismos declarados, **no de medición**. Si dos opciones parecen 
 | Quiero que el código se genere desde la spec, no junto a ella | `@generate` y `tessl build` | Tessl, **beta cerrada** |
 | Tengo código y quiero levantar specs de lo que ya existe | `@describe` (Tessl); `/speckit.converge` (Spec Kit); `changes` sobre capacidades (OpenSpec) | Tres opciones, con mecanismos distintos |
 | Que el agente no alucine APIs de librerías | Registro de specs de uso, +10.000 | Tessl |
-| Reglas transversales —estilo, UX, arquitectura— que alcancen a todas las specs | La constitución, leída en cada comando, o presets que componen las plantillas, con presets de gobernanza de comunidad ya armados (Spec Kit, `analisis/ANALISIS-SPEC-KIT.md` C9); `context` para todos los artefactos y `rules` por artefacto en `config.yaml` (OpenSpec, `analisis/ANALISIS-OPENSPEC.md` C9); steering cargado siempre, por patrón de archivo o por descripción del pedido (Kiro, `analisis/ANALISIS-KIRO.md` C5); `AGENTS.md` o `CLAUDE.md` del usuario, que van antes que las skills (Superpowers); principios declarados en `.sdd/config.yaml` (sdd-first) | Cinco opciones, con mecanismos distintos. Sólo Kiro carga la regla según el archivo que se toca |
-| Que además algo compruebe que esas reglas se cumplan | Principio de la constitución como gate del plan y CRITICAL en `analyze`, por juicio del agente (Spec Kit); hook previo al uso de una herramienta, que según la documentación puede bloquearla, y comprueba acciones, no el contenido de la spec (Kiro); principio con su verificador cableado a un paso del pipeline, que sale en rojo (sdd-first) | Spec Kit, Kiro, sdd-first. En OpenSpec y Superpowers la regla se entrega y nada la comprueba |
+| Reglas transversales —estilo, UX, arquitectura— que alcancen a todas las specs (D16) | La constitución, leída en cada comando, o presets que componen las plantillas, con presets de gobernanza de comunidad ya armados (Spec Kit, `analisis/ANALISIS-SPEC-KIT.md` C9); `context` para todos los artefactos y `rules` por artefacto en `config.yaml` (OpenSpec, `analisis/ANALISIS-OPENSPEC.md` C9); steering cargado siempre, por patrón de archivo o por descripción del pedido (Kiro, `analisis/ANALISIS-KIRO.md` C5); `AGENTS.md` o `CLAUDE.md` del usuario, que van antes que las skills (Superpowers); principios declarados en `.sdd/config.yaml` (sdd-first); *rules* siempre activas en plugins, también desde el propio repositorio (Tessl, según su documentación del 2026-10-09) | Seis opciones, con mecanismos distintos. Sólo Kiro carga la regla según el archivo que se toca |
+| Que además algo compruebe que esas reglas se cumplan | Principio de la constitución como gate del plan y CRITICAL en `analyze`, por juicio del agente (Spec Kit); hook previo al uso de una herramienta, que según la documentación puede bloquearla, y comprueba acciones, no el contenido de la spec (Kiro); principio con su verificador cableado a un paso del pipeline, que sale en rojo (sdd-first); *verifier* con un modelo como juez sobre los archivos commiteados, que en nivel `error` puede bloquear un PR (Tessl, misma fecha) | Spec Kit, Kiro, sdd-first, Tessl. En OpenSpec y Superpowers la regla se entrega y nada la comprueba |
 | Quiero saber con qué me voy a chocar antes de adoptar | Reportes de práctica de terceros identificables (D15) | Spec Kit, OpenSpec, Superpowers, Kiro. **sdd-first y Tessl no tienen ninguno** |
 
 Cuatro advertencias sobre esta tabla `[derivado]`:
@@ -432,7 +448,7 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 - [R38] Fission-AI/OpenSpec — capacidades y cambios, entrega por CLI, *stores* multi-repo.
 - [R39] mberliner/sdd-first — siembra y descarte, modo `none`, propagación a derivados. **Mismo autor que este repositorio.**
 - [R44] Kiro (Amazon Web Services) — IDE con el método adentro, EARS, `Quick Spec` sin compuertas. Producto cerrado.
-- [R46] Tessl — `.spec.md` con test por capacidad, `@generate` / `@describe`, *Spec Registry*. Producto cerrado, *Framework* en beta cerrada.
+- [R46] Tessl — `.spec.md` con test por capacidad, `@generate` / `@describe`, *Spec Registry*. Producto cerrado, *Framework* en beta cerrada. Re-consultada el 2026-10-09 para D16: *rules* y *verifiers*, y una documentación que ya no describe el producto anterior.
 - [R20] Martin Fowler — la taxonomía de tres niveles y la única observación de primera mano sobre regeneración desde spec.
 - [R47] Hilos públicos de práctica en Hacker News — reportes de primera mano, con handle, sobre las cuatro implementaciones que alguien pudo usar. **Autoseleccionados; no son medición.**
 - [R48] Discusiones y trackers de los propios proyectos — la objeción más votada de Spec Kit y la de precio de Kiro.
@@ -498,3 +514,15 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 - Cobertura: completa para los cinco casos evaluados; Tessl queda sin evaluar en estos dos escenarios
 - Deuda arrastrada: la del bloque de consolidacion sigue donde vive. El ecosistema del 1.0 de Spec Kit, que ese bloque manda a `analisis/ANALISIS-SPEC-KIT.md`, queda caracterizado allí **en parte**: lo que sigue abierto vive en el ultimo `[SDD-Check]` de ese documento
 - Riesgos/reservas: la tabla de §6 es la parte del documento que mas facil se lee como recomendacion, y estas dos filas no son excepcion: dicen que mecanismo existe, no cual funciona; que una regla se entregue o se compruebe no dice que el agente la cumpla
+
+---
+
+[SDD-Check] — D16 reglas transversales 2026-10-09
+- Spec leida: SI, y **enmendada antes de escribir** (sexta enmienda): `proposito` suma las reglas transversales; `incluye` pasa a dieciseis dimensiones con un bullet propio para D16 y la suma a la ficha por caso; `validacion` pide declarar que D16 llega despues de la seccion 5 y que separa entregar de comprobar
+- Incluye/Excluye verificado: SI — D16 tiene fila en §2 y en la tabla de §3, parrafo en las seis fichas y las dos filas de §6 pasan a nombrarla; la seccion 5 **no** se toca, porque se derivo de las quince anteriores y la spec lo exige asi; cada celda resume y remite al analisis del caso, sin reproducir su caracterizacion; no se emite veredicto de convergencia
+- Validaciones aplicadas: cada celda sale de una seccion de analisis escrita el mismo dia —o, para sdd-first, de `analisis/ANALISIS-SDD-FIRST.md`— y lo remite; la ficha de sdd-first se mantiene sin valoracion comparativa, como exige su reserva; la celda y la ficha de Tessl declaran que su documentacion del 2026-10-09 ya no describe el producto del resto de la ficha, y que esa ausencia no prueba discontinuidad; el bloque anterior de este mismo dia, que dejaba a Tessl sin evaluar en §6, queda como registro datado y no se reescribe; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: este documento y `../SPECS_REGISTRY.md` (sexta enmienda de su spec)
+- Derivados a revisar: ninguno registrado. Señalado sin modificar: `CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, que registro fuera del instrumento la dimension de la spec como dependencia instalable, hoy sin mecanismo en el formato vigente de Tessl
+- Cobertura: completa — D16 en las dos tablas, en las seis fichas y en §6
+- Deuda arrastrada: **la ficha de Tessl describe en D4, D5 y D14 el producto del 2026-09-05** —directivas, *Spec Registry* de +10.000 specs, *Framework* en beta cerrada— y su documentacion publica ya no lo sostiene; rehacerla exige decidir que se hace con un caso cuyo producto documentado cambio de naturaleza, y eso es decision del usuario, no de esta entrega. La seccion 5 no incorpora D16, y si alguna vez lo hace sera una correccion del instrumento con su nota, como la del 2026-09-07. Sigue la deuda del bloque de consolidacion
+- Riesgos/reservas: D16 es la dimension con mas mezcla de clases de evidencia del documento —clones en los cortes anclados para cuatro casos, documentacion de producto cerrado para Kiro, y una documentacion que cambio de producto para Tessl—; «entregar» y «comprobar» describen mecanismos, no que el agente cumpla la regla; la comprobacion de Tessl es un juez no determinista y la de Spec Kit es juicio del agente, y ninguna de las dos equivale a la de sdd-first aunque las tres figuren en la misma columna
