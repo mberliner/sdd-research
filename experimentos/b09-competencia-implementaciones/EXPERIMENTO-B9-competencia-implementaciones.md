@@ -44,6 +44,7 @@ Cinco brazos, dos rondas, tres repeticiones por celda. **30 corridas**, cada una
 
 - **Kiro** [R44]: el metodo lo trae un IDE. No hay forma de invocarlo desde un harness de linea de comandos con el resto de las condiciones selladas iguales. Excluido por imposibilidad de sello, no por ser cerrado.
 - **Tessl** [R46]: *Framework* en beta cerrada. No se consigue. Es el caso que mas interesaria —el unico que regenera— y su ausencia MUST declararse junto a cualquier lectura del resultado.
+  - **Corrección del 2026-10-09, pre-sello.** El motivo de arriba era falso al escribirse. El *Framework* no estaba en beta cerrada: **estaba pausado desde el 2025-11-14**, cuando la fuente reorientó su producto y lo sacó de la CLI (`../../software/analisis/ANALISIS-TESSL.md` §Actualización: cuándo cambió el producto). Tessl hoy **sí se consigue**, con disponibilidad general, y abre dos caminos que el diseño no consideró: su plugin `tessl-labs/spec-driven-development`, que se instala por CLI y es un método *spec-first*, sin regeneración; y la CLI 0.28.0, que según la fuente conserva el *Framework* sin desarrollo. Ninguno de los dos se verificó corriendo. [NEEDS CLARIFICATION: ¿entra Tessl a la población por alguno de los dos caminos, y por cuál? | asumido: queda fuera, con el motivo corregido —lo que interesaba medir, la regeneración, está pausado, y el plugin no lo ejerce— | costo: si entra, hay que sumar un brazo T5 con su secuencia de invocación, re-presupuestar la batería y pasarlo por Fase 0.A antes del sello]
 
 **Superpowers entra como brazo simple y no como factor.** Su ortogonalidad —gobierna al agente, no al artefacto— lo habilita a combinarse con T1 o T2 en un diseño factorial de ocho celdas. Ese factorial es **fase 2** y esta condicionado a que los brazos simples discriminen: un factorial sobre brazos que no se separan entre si es ilegible.
 
@@ -357,7 +358,7 @@ Lo que **no** es un riesgo, contra lo que una version anterior de este documento
 5. **Autoria del fixture** — enunciado y suite los escribe quien evalua, y quien evalua tambien escribio T3. Acotado por sellado previo, invisibilidad de la suite para los brazos y puntuacion sin juicio; **no eliminado**.
 6. **`n`=3** — resolucion para dispersion, no para tasas. Declarado.
 7. **Costo** — 30 corridas por harness, cada una un proyecto entero. Es el experimento mas caro del repositorio, y la replicacion lo multiplica por la cantidad de harnesses. Orden de recorte, si el presupuesto obliga: primero se recortan **harnesses** —bajando el techo de lo afirmable, que es una perdida declarable—, despues **reps**, declarando la perdida de resolucion. **Nunca** se recorta R2, que es lo que sostiene la equidad entre brazos, ni la completitud de una bateria, que es lo que impide elegir post-hoc que brazo corre en que harness.
-8. **Ausencia de los dos casos cerrados** — Kiro y Tessl no corren. Tessl es el unico que regenera desde la spec, y su ausencia significa que B-09 **no dice nada** sobre el paradigma *spec-as-source*. Esa pregunta vive en el item #20 del backlog y MUST NOT leerse contestada por aca.
+8. **Ausencia de los dos casos cerrados** — Kiro y Tessl no corren. Tessl es el unico que regenera desde la spec, y su ausencia significa que B-09 **no dice nada** sobre el paradigma *spec-as-source*. *(Nota del 2026-10-09: «regeneraba», hasta el 2025-11-14; hoy ningún caso vigente ejerce ese paradigma, así que su ausencia en B-09 ya no es sólo de esta batería.)* Esa pregunta vive en el item #20 del backlog y MUST NOT leerse contestada por aca.
 
 ## Plan de captura de datos
 
@@ -382,7 +383,7 @@ Lo que **no** es un riesgo, contra lo que una version anterior de este documento
 - [R38] Fission-AI/OpenSpec — brazo T2.
 - [R39] mberliner/sdd-first — brazo T3. **Mismo autor que este repositorio.**
 - [R44] Kiro — excluido de la poblacion por imposibilidad de sello.
-- [R46] Tessl — excluido de la poblacion por indisponibilidad.
+- [R46] Tessl — excluido de la poblacion; el motivo original, indisponibilidad, se corrigió el 2026-10-09, y su entrada queda pendiente de decisión pre-sello (§Poblacion).
 - [R47] Hilos publicos de practica — origen de la objecion de consumo que H3 convierte en medicion.
 
 ## Registro de cambios del documento
