@@ -220,7 +220,7 @@ Un solo commit después de `4a0851e`: `0e09037` (2026-09-07), que agrega 62 lín
 
 Lo que agrega es una postura de adopción en proyectos existentes, y su regla central es: «No necesitás escribir specs retrospectivas para el código que ya funciona. La disciplina spec-first entra en vigencia a partir del momento en que instalás el kit». Lo previo convive sin spec, y el gate sólo cubre el trabajo nuevo.
 
-Vale registrarlo porque es la posición contraria a la de los casos que levantan specs de lo que ya existe —`/speckit.converge` en Spec Kit, `@describe` en Tessl—, que `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 ter cuenta como camino de adopción en brownfield. **Lectura, no candidata.** Y dos reservas: es texto de README sin código nuevo detrás —las capacidades que menciona, como la autodetección de carpetas de código y de tests por el instalador, no se verificaron ejecutando `sdd_init.py`—, y la fuente es del mismo autor que este repositorio.
+Vale registrarlo porque es la posición contraria a la de los casos que levantan specs de lo que ya existe —`/speckit.converge` en Spec Kit, `@describe` en Tessl—, que `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 ter cuenta como camino de adopción en brownfield. **Lectura, no candidata.** *(Nota del 2026-10-09: el `@describe` de Tessl se pausó con su *Framework* el 2025-11-14, y la ficha §4 ter se rehízo con el producto vigente; de los dos casos citados, el que sigue vigente es `/speckit.converge`.)* Y dos reservas: es texto de README sin código nuevo detrás —las capacidades que menciona, como la autodetección de carpetas de código y de tests por el instalador, no se verificaron ejecutando `sdd_init.py`—, y la fuente es del mismo autor que este repositorio.
 
 [SDD-Check] — actualizacion 2026-09-30
 - Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
@@ -253,3 +253,15 @@ Vale registrarlo porque es la posición contraria a la de los casos que levantan
 - Cobertura: completa para la deuda de los bloques anteriores
 - Deuda arrastrada: abierta en este documento — lo que el `README.md` afirma del instalador no se verificó ejecutándolo. Con destino fuera: el hueco de `PATRONES.md` del lado del canal de error es nota del ítem #19 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-16 y M-17 siguen en Propuesta en `../../agenda/MEJORAS-METODO.md`; la deuda de convergencia vive en `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`. Cerrada: M-15 está hecha. Pasa a límite: por qué el kit dejó caer `[NEEDS CLARIFICATION]`, que la fuente no declara
 - Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
+---
+
+[SDD-Check] — nota sobre Tessl 2026-10-09
+- Spec leida: SI (sin cambio de `incluye`/`excluye`)
+- Incluye/Excluye verificado: SI — nota fechada en la unica mencion de Tessl, sin reescribir el parrafo; no se re-analiza Tessl
+- Validaciones aplicadas: fecha del cambio tomada de [R46]; el puntero a `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §4 ter sigue resolviendo, y la nota avisa que su contenido cambio
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: ninguno
+- Cobertura: completa para la mencion de Tessl
+- Deuda arrastrada: la del bloque de consolidacion sigue donde vive
+- Riesgos/reservas: ninguno nuevo
