@@ -6,6 +6,22 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## El registro deja de describir a Tessl en presente, y [R46] cita el cambio de oferta (2026-10-09) — COMPLETADA
+
+**Acción**: propagación del cambio de producto de Tessl a los documentos que lo seguían describiendo como vigente, pedida por el usuario. Esta entrada cubre la parte de método; el resto son ediciones de contenido, cada una con su commit.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**, `proposito` de la spec de `software/analisis/ANALISIS-TESSL.md`: «regenera» pasa a «regeneraba hasta el 2025-11-14», y suma el seguimiento fechado del cambio de producto. No cambian `incluye`, `excluye` ni `validacion`.
+- **`REFERENCIAS.md`**, [R46]: la cronología cita la frase con que la fuente declara el cambio de oferta, «a significant shift in focus… as an Agent Enablement Platform», que faltaba.
+
+### Validación
+`tools/check_docs.py` en verde. La cita es textual del changelog de la CLI 0.50.3, en `docs.tessl.io/llms-full.txt`.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## [R46] fecha el cambio de producto de Tessl, y corrige su propio estado al 2026-09-05 (2026-10-09) — COMPLETADA
 
 **Acción**: el usuario pidió rehacer la ficha de Tessl con el producto actual e indicar la fecha del cambio. Fecharlo exigió leer el changelog de la CLI y las fechas de publicación en npm, y eso mostró que el *Framework* ya estaba pausado cuando se escribió la entrada original. Es método porque toca `REFERENCIAS.md` (Principio VI).

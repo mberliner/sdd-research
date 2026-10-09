@@ -546,7 +546,7 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
 
 ### software/analisis/ANALISIS-TESSL.md
 - `path`: `software/analisis/ANALISIS-TESSL.md`
-- `proposito`: analisis de Tessl [R46] **como metodo**: el unico caso del corpus que regenera codigo desde la spec, y por lo tanto el unico que ejerce la posicion que este repositorio venia leyendo solo como retorica en otras fuentes.
+- `proposito`: analisis de Tessl [R46] **como metodo**: el unico caso del corpus que regeneraba codigo desde la spec —hasta el 2025-11-14, cuando la fuente pauso su *Framework* y reoriento el producto—, y por lo tanto el unico que ejercio la posicion que este repositorio venia leyendo solo como retorica en otras fuentes; mas el seguimiento fechado de ese cambio de producto.
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
