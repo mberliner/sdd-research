@@ -550,7 +550,7 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
 - `ssot_level`: `operativo`
 - `owner`: proyecto SDD
 - `incluye`:
-  - la clase de evidencia y su limite: producto en beta cerrada, sin código que clonar
+  - la clase de evidencia y su limite: producto cerrado, sin código que clonar; su *Framework* anunciado en beta cerrada y pausado desde el 2025-11-14
   - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
   - sintesis del metodo declarado: anatomia de la spec, directivas, registro de specs de uso
   - el estado de la documentacion publica en cada re-consulta fechada: que dejo de documentarse, y los mecanismos que la fuente documenta en su lugar (reglas, verificadores, politicas), declarando que la ausencia en la documentacion no prueba la discontinuidad de un producto

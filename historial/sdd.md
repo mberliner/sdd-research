@@ -6,6 +6,21 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## La spec de `ANALISIS-TESSL.md` deja de dar su Framework en beta cerrada (2026-10-09) — COMPLETADA
+
+**Acción**: último resto de la propagación del cambio de producto de Tessl. El control final buscó en todo el repositorio menciones que lo dieran por vigente, y encontró una en la propia spec del análisis.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**, spec de `software/analisis/ANALISIS-TESSL.md`: el primer bullet de `incluye` decía «producto en beta cerrada»; ahora dice que el *Framework* se anunció en beta cerrada y está pausado desde el 2025-11-14.
+
+### Validación
+`tools/check_docs.py` en verde. Búsqueda en todo el repositorio, fuera de `historial/`, de «beta cerrada» y «único que regenera» sin nota fechada: lo que queda son registros con fecha o frases cubiertas por una nota general.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## El registro deja de describir a Tessl en presente, y [R46] cita el cambio de oferta (2026-10-09) — COMPLETADA
 
 **Acción**: propagación del cambio de producto de Tessl a los documentos que lo seguían describiendo como vigente, pedida por el usuario. Esta entrada cubre la parte de método; el resto son ediciones de contenido, cada una con su commit.
