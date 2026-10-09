@@ -553,6 +553,7 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
   - la clase de evidencia y su limite: producto en beta cerrada, sin código que clonar
   - el resultado del filtro de procedencia exigido por `software/CONVERGENCIA-IMPLEMENTACIONES-SDD.md`
   - sintesis del metodo declarado: anatomia de la spec, directivas, registro de specs de uso
+  - el estado de la documentacion publica en cada re-consulta fechada: que dejo de documentarse, y los mecanismos que la fuente documenta en su lugar (reglas, verificadores, politicas), declarando que la ausencia en la documentacion no prueba la discontinuidad de un producto
   - su ubicacion en la taxonomia de [R20] y que la distingue de los otros casos
   - la observacion de terceros sobre no-determinismo en la regeneracion, con su estatuto declarado
   - conclusiónes accionables para Linea B, marcadas como lectura, candidatas o aprobadas
@@ -770,15 +771,16 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
 
 ### software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md
 - `path`: `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`
-- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, y en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una; y **que paradigma encarna cada una**, derivado de esas mismas dimensiones, mas **su nivel en la taxonomia de tres niveles de [R20]**, asignado por declaracion propia de cada fuente. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
+- `proposito`: SSOT de para que uso esta orientada cada implementacion SDD que alguien podria **evaluar o adoptar**, que pasa con su unidad de trabajo cuando el proyecto crece o se achica, que consecuencias tienen sus variantes de configuracion, en que estado de madurez, actividad, licencia, apertura, disponibilidad, soporte y reputacion reportada por terceros esta cada una, y como hace llegar al agente las reglas transversales del proyecto y si algo comprueba que se cumplan; y **que paradigma encarna cada una**, derivado de esas mismas dimensiones, mas **su nivel en la taxonomia de tres niveles de [R20]**, asignado por declaracion propia de cada fuente. Orientado a decidir cual usar; MUST NOT usarse para afirmar cual funciona mejor.
 - `ssot_level`: `SSOT`
 - `owner`: proyecto SDD
 - `incluye`:
   - la poblacion y por que difiere de la de convergencia: entra quien alguien pueda evaluar o adoptar, no quien sume linaje. **Ni la apertura del codigo ni la disponibilidad son criterio de admision**: son dimensiones que se documentan
-  - las quince dimensiones, con su procedencia y la fecha en que se fijaron
-  - tabla resumen de las quince dimensiones sobre los seis casos
+  - las dieciseis dimensiones, con su procedencia y la fecha en que se fijaron
+  - tabla resumen de las dieciseis dimensiones sobre los seis casos
+  - **reglas transversales y su comprobacion (D16)**: por que canal llega al agente una regla que vale para todo el trabajo —estilo, UX, arquitectura, convenciones—, si su carga es incondicional o depende del contexto, y que la comprueba despues, separando **entregar** la regla de **comprobarla**
   - **uso y reputacion en redes (D15)**: atencion acumulada medida en los repositorios publicos, y reportes de practica de terceros identificables —objeciones fundadas y verificaciones de buen comportamiento— con sus tres canales y sus sesgos declarados
-  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte, uso y reputacion reportada, y rasgo sin equivalente
+  - ficha por caso: orientacion declarada, objeto gobernado, unidad de trabajo y comportamiento por tamaño, variantes y sus consecuencias, configuracion y su costo, exigencias del entorno, costo de entrada y salida, modo de falla caracteristico, madurez, actividad, licencia, apertura del codigo, disponibilidad, soporte, uso y reputacion reportada, reglas transversales y su comprobacion, y rasgo sin equivalente
   - la distincion entre perder la **herramienta** y perder los **artefactos**, que es lo que la apertura decide en la practica
   - **el paradigma de cada caso (seccion 5)**, derivado de las dimensiones ya establecidas y de ninguna fuente nueva: que rol tiene la spec en la cadena spec→codigo, quien gana ante discrepancia entre spec y codigo, que verifica el enforcement y que se paga. Los cuatro predicados MUST ser uniformes: cada columna responde la **misma** pregunta para los seis casos. Es caracterizacion de cada caso por separado, **nunca** veredicto de convergencia, invariancia ni linaje
   - **la escala de vinculacion (seccion 5)**: tres niveles de que verifica el enforcement —nada mecanico, la forma del proceso, la correspondencia spec↔codigo— con los seis casos ubicados. Es un orden **descriptivo de grado de vinculacion**, MUST NOT presentarse como orden de calidad ni de idoneidad
@@ -793,7 +795,8 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
   - estadistica de adopcion y popularidad — vive en `comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md`
   - el proyecto testigo, que no es un producto que un tercero pueda evaluar ni adoptar
 - `validacion`:
-  - las quince dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - las dieciseis dimensiones estan fijadas y fechadas, y su procedencia declarada, incluida la advertencia de que NO son anteriores a la lectura de los casos
+  - D16 declara que se sumo el 2026-10-09, despues de que la seccion 5 se derivara de las quince anteriores, y que no la modifica; cada celda distingue entregar la regla de comprobarla y remite al analisis del caso
   - la apertura del codigo y la disponibilidad se documentan como dimensiones y **nunca** se usan para admitir o excluir un caso
   - cada caso cerrado declara que artefactos quedan en el repositorio del usuario, para no confundir perder la herramienta con perder el trabajo
   - ninguna afirmacion de idoneidad se presenta como medida: cada una declara si es orientacion **declarada por la fuente** o **derivada de un mecanismo verificable**

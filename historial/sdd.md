@@ -6,6 +6,23 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## `ORIENTACION-PRACTICA` suma D16, y la spec de Tessl admite su re-consulta (2026-10-09) — COMPLETADA
+
+**Acción**: dos enmiendas de spec pedidas por el usuario, y la re-consulta de [R46] que una de ellas necesita. El usuario eligió agregar «reglas transversales y su comprobación» como dimensión propia de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, en vez de repartirla entre las fichas. Completar esa dimensión para Tessl exige leer su documentación actual, que ya no describe el producto que analizó `software/analisis/ANALISIS-TESSL.md`. Es método porque toca `SPECS_REGISTRY.md` y `REFERENCIAS.md` (Principio VI).
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**, spec de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`: `proposito` suma las reglas transversales; `incluye` pasa de quince a dieciséis dimensiones, con un bullet propio para D16, y la ficha por caso la suma; `validacion` pide que D16 declare que se agregó después de derivar la sección 5 y que separe entregar la regla de comprobarla.
+- **`SPECS_REGISTRY.md`**, spec de `software/analisis/ANALISIS-TESSL.md`: `incluye` admite el estado de la documentación pública en cada re-consulta, con la advertencia de que una ausencia no prueba discontinuidad.
+- **`REFERENCIAS.md`**, [R46]: ítem «Re-consultada» del 2026-10-09.
+
+### Validación
+`tools/check_docs.py` en verde. Las enmiendas se hicieron antes de escribir los documentos.
+
+### Deuda abierta
+- La ficha de Tessl en `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` sigue describiendo el producto del 2026-09-05 en D4, D5 y D14: vive en el `Deuda arrastrada` del último `[SDD-Check]` de ese documento.
+
+---
+
 ## La spec de `ANALISIS-SPEC-KIT.md` incluye la parte del ecosistema que gobierna las reglas transversales (2026-10-09) — COMPLETADA
 
 **Acción**: enmienda de alcance pedida por el usuario. El análisis venía declarando fuera, por alcance, todo el ecosistema del 1.0. Para responder cómo llegan al flujo las reglas transversales hace falta una parte de ese ecosistema, y el usuario aprobó incluirla. Es método porque toca `SPECS_REGISTRY.md` (Principio VI); el contenido es investigación y vive en el análisis.
