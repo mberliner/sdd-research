@@ -160,12 +160,12 @@ La sección anterior registró que la documentación ya no describe el producto,
 |---|---|---|
 | 2025-09-16 y 2025-09-23 | Lanzamiento: *Spec Registry* en beta abierta, *Framework* en beta cerrada | Blog |
 | 2025-10-17 | CLI 0.28.0, la última que incluye el *Framework* | npm; changelog |
-| **2025-11-14** | CLI 0.50.3: «pausing work on the Tessl Framework to concentrate on our registry functionality and agent integration»; «The Framework functionality is no longer included. If you need the full framework features, v0.28.0 remains available (though development is paused)» | npm; changelog |
+| **2025-11-14** | CLI 0.50.3: «This release marks a significant shift in focus. We've rebuilt the CLI from the ground up as an **Agent Enablement Platform**, pausing work on the Tessl Framework to concentrate on our registry functionality and agent integration»; «The Framework functionality is no longer included. If you need the full framework features, v0.28.0 remains available (though development is paused)» | npm; changelog |
 | 2025-12-05 | Se crea el plugin de SDD del registro, `tessl-labs/spec-driven-development` | Su repositorio |
 | 2026-01-29 | «Announcing skills on Tessl: the package manager for agent skills» | Blog |
 | 2026-05-29 | CLI 0.81.0: «Tiles are now Plugins» | npm; changelog |
 
-**La fecha del cambio es el 2025-11-14.** Lo que vino después —skills, plugins, verificadores— es la plataforma nueva creciendo; el corte con el producto que analizó este documento está en esa versión de la CLI.
+**La fecha del cambio es el 2025-11-14**, y la palabra es de la fuente: un cambio de foco, no sólo de versión. Lo que vino después —skills, plugins, verificadores— es la plataforma nueva creciendo; el corte con el producto que analizó este documento está en esa versión de la CLI.
 
 ### Corrección: el estado que este documento dio al *Framework* ya era falso en su fecha
 
