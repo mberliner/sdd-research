@@ -137,3 +137,57 @@ También existe material formativo oficial de AWS —un curso en AWS Skill Build
 - Cobertura: **incompleta y declarada** — C1, C2 y C3 tienen destino; la propagacion a los tres documentos señalados **queda sin ejecutar** en esta entrega
 - Deuda arrastrada: **Tessl sigue sin pasar por el filtro de procedencia**, y era la otra mitad de la deuda que este documento paga a medias; ninguna afirmacion sobre Kiro es verificable en codigo y eso no se puede remediar mientras el producto sea cerrado. Sigue abierto: M-40 sin decidir, M-41 sin escribir, M-42 en Propuesta, el ecosistema del 1.0 de Spec Kit sin caracterizar, e instrumento v2 sin decidir
 - Riesgos/reservas: es el unico caso del corpus caracterizado **sin leer una sola linea de su implementacion**, y por lo tanto el mas expuesto a describir lo que la fuente promete en vez de lo que hace; es producto comercial de una empresa grande, con documentacion que cumple tambien una funcion de venta; y la incorporacion llega despues de que el instrumento v1 se fijara y de que los otros cuatro casos se leyeran, lo que MUST tenerse presente si alguna vez se lo lee con ese instrumento
+
+---
+
+## Actualización: steering y hooks, leídos en sus páginas propias (2026-10-09)
+
+La anatomía de arriba despacha el contexto de proyecto y los hooks en una línea cada uno, tomados de la página de specs. Esta actualización lee las dos páginas que los documentan —`kiro.dev/docs/steering/` y `kiro.dev/docs/hooks/`, consultadas el 2026-10-09 [R44]—, porque son el mecanismo con el que Kiro hace llegar reglas transversales a todo el trabajo: estilos, arquitectura, convenciones. Sigue valiendo la clase de evidencia del encabezado: todo lo de abajo es lo que la documentación declara.
+
+### El steering es el canal de las reglas transversales, y se carga por modo
+
+La página lo define como conocimiento persistente: «Steering gives Kiro persistent knowledge about your project through markdown files. Instead of explaining your conventions in every chat, steering files ensure Kiro consistently follows your established patterns, libraries, and standards» [R44].
+
+**Dos alcances, con precedencia declarada.** Archivos de workspace en `.kiro/steering/` y globales en `~/.kiro/steering/`. Si chocan, «Kiro will prioritize the workspace steering instructions» [R44]. Los globales pueden distribuirse a un equipo entero: «Team steering files can be pushed to user's PCs via MDM solutions or Group Policies» [R44].
+
+**Cuatro modos de inclusión**, declarados en el *front matter* de cada archivo [R44]:
+
+| Modo | Cuándo entra al contexto | Uso que la fuente le asigna |
+|---|---|---|
+| `always` (por defecto) | «loaded into every Kiro interaction automatically» | «core standards that should influence all code generation and suggestions», con el stack, las convenciones y «fundamental architectural principles» como ejemplos |
+| `fileMatch` | Sólo al trabajar con archivos que coinciden con `fileMatchPattern` | Guía especializada que no hace falta siempre |
+| `manual` | Cuando se la nombra en el chat | Contexto puntual, sin cargar cada interacción |
+| `auto` | Cuando el pedido coincide con la descripción del archivo | Guía pesada que sólo conviene cargar si es relevante |
+
+Los tres archivos base que la herramienta genera —producto, tecnología y estructura— «are included in every interaction by default» [R44].
+
+**Otros tres rasgos con consecuencia práctica** [R44]:
+- Lee `AGENTS.md`, de la raíz, de la ubicación global y de subdirectorios, pero esos archivos «do not support inclusion modes and are always included».
+- El steering puede referenciar archivos vivos del workspace con `#[[file:<ruta>]]`; si la referencia no resuelve, «Kiro leaves a visible unresolved-reference marker» en vez de descartar el documento en silencio.
+- Con agentes personalizados el steering **no** se carga solo: hay que declararlo en los recursos del agente.
+
+**Lo que la página no dice.** No dice que el steering gobierne específicamente la generación de los tres artefactos de la spec: dice que entra en «every interaction». Leerlo como regla de redacción de specs es inferencia, no declaración.
+
+### Los hooks pueden bloquear, y cambiaron de formato
+
+«Hooks run shell commands or agent prompts automatically when specific events happen in your session» [R44]. Cada hook es un archivo JSON en `.kiro/hooks/` con un evento disparador, un *matcher* opcional y una acción: un comando de shell o un prompt que se inyecta en la conversación. Entre los usos que la página enumera está el de compuerta: «Gate dangerous operations - block tool execution unless preconditions are met (PreToolUse)» [R44].
+
+Esto corrige en parte la línea de §Anatomía, que caracterizaba los hooks sólo por guardar o crear archivos: el evento previo al uso de una herramienta los vuelve capaces de **impedir** una acción, no sólo de reaccionar a ella.
+
+**El formato se movió**, y la página lo declara: en IDE 1.0, «Hooks moved from the previous format to standalone JSON files with PascalCase trigger names», y la CLI 3.0 tiene su propia migración desde el formato embebido en agentes de la 2.x [R44]. Ejemplos de terceros escritos antes de ese cambio —archivos `.kiro.hook` con bloques `when`/`then` y eventos en minúscula— describen el formato anterior y no deben leerse como el vigente.
+
+### C5. Una regla transversal no tiene por qué cargarse siempre
+
+Los cuatro modos de inclusión permiten que una regla del proyecto entre al contexto **sólo cuando aplica** —por el archivo que se está tocando o por coincidencia con lo que se pide— en vez de cargarse en cada interacción. La fuente lo justifica por el costo: `fileMatch` «keeps context relevant and reduces noise» [R44]. Una guía de estilo de interfaz, por ejemplo, puede atarse a los archivos de componentes y no viajar con cada pedido de backend. **Lectura**, con la reserva de siempre: nadie de este proyecto corrió el producto, y la documentación no dice cuánto contexto ahorra ni si la activación por descripción acierta. La comparación con los otros casos no se hace acá: vive en `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6.
+
+---
+
+[SDD-Check] — actualizacion 2026-10-09
+- Spec leida: SI (spec registrada en `../../SPECS_REGISTRY.md`; sin enmienda: la actualizacion cae en «sintesis del metodo declarado… contexto de proyecto y automatizaciones» y en «conclusiones accionables para Linea B»)
+- Incluye/Excluye verificado: SI — no se emite veredicto de convergencia ni orientacion practica (la comparacion entre casos va a `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6, en la misma entrega); no se re-analiza ninguna otra implementacion, y C5 remite la comparacion a su lugar en vez de hacerla
+- Validaciones aplicadas: cada cita textual se verifico en la pagina oficial descargada el 2026-10-09 (`kiro.dev/docs/steering/`, `kiro.dev/docs/hooks/`), no en un resumen; la clase de evidencia del encabezado sigue rigiendo y se repite en la apertura de la seccion; lo que la pagina no dice —que el steering gobierne la redaccion de specs— queda escrito como inferencia; la correccion a la linea de §Anatomia sobre hooks se escribe como correccion, sin reescribir esa linea; los ejemplos de terceros en formato `.kiro.hook` no sostienen ninguna afirmacion y se declaran formato anterior con la frase oficial que lo dice; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno por este documento. `../../REFERENCIAS.md` suma a [R44] las dos paginas consultadas
+- Derivados a revisar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — §6 suma las reglas transversales como escenario, en la misma entrega; su ficha de Kiro («Configuracion») queda correcta y menos detallada que esta seccion, sin contradiccion
+- Cobertura: completa para steering y hooks tal como la documentacion los declara
+- Deuda arrastrada: ninguna nueva; las de los bloques anteriores siguen donde viven
+- Riesgos/reservas: todo es declaracion de producto cerrado; la documentacion cambia sin version publicada, asi que las citas valen para la fecha de consulta y no hay commit que las ancle

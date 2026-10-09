@@ -6,6 +6,21 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## [R44] suma las páginas de steering y hooks de Kiro (2026-10-09) — COMPLETADA
+
+**Acción**: la entrada de Kiro en el catálogo de referencias registra dos páginas oficiales consultadas el 2026-10-09, que sostienen la actualización de `software/analisis/ANALISIS-KIRO.md` sobre reglas transversales. Es método sólo porque toca `REFERENCIAS.md` (Principio VI); el contenido es investigación y vive en el análisis.
+
+### Qué cambió
+- **`REFERENCIAS.md`**, [R44]: un ítem «Re-consultada» con las dos URL, qué se leyó en ellas y la advertencia de que la documentación no tiene versión que la ancle.
+
+### Validación
+`tools/check_docs.py` en verde. Las citas textuales del análisis se verificaron en las páginas descargadas ese día, no en un resumen.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## M-32 y M-33: el backlog de método gana un índice de descartes y ordena su detalle por ID (2026-10-07) — COMPLETADA
 
 **Acción**: M-32 y M-33, aprobadas por el usuario en la tanda del 2026-10-07. Van juntas porque las dos cambian la forma de `agenda/MEJORAS-METODO.md`. M-32 da un lugar a lo descartado para que no vuelva a discutirse. M-33 hace que recalibrar la prioridad de un ítem no obligue a mover su sección.
