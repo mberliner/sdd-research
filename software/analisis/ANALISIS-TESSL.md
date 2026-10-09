@@ -147,3 +147,51 @@ Lo que distinguía a Tessl en el corpus era la **correspondencia**: cada capacid
 - Cobertura: completa para lo que la documentacion publica dice hoy de reglas, verificadores y politicas
 - Deuda arrastrada: la de este documento sigue donde estaba; se suma que el estado del *Framework* de specs es desconocido y no se puede averiguar desde la documentacion publica
 - Riesgos/reservas: la documentacion no tiene version que la ancle, asi que todo vale para la fecha de consulta; la fuente describe una plataforma comercial y su documentacion cumple tambien una funcion de venta; nada se corrio
+
+---
+
+## Actualización: cuándo cambió el producto, y una corrección a este documento (2026-10-09)
+
+La sección anterior registró que la documentación ya no describe el producto, sin fecharlo. Fecharlo exigió leer el changelog de la CLI —publicado dentro del corpus completo de la documentación, `docs.tessl.io/llms-full.txt`— y cruzarlo con las fechas de publicación del paquete `@tessl/cli` en npm [R46].
+
+### Cronología
+
+| Fecha | Hecho | Fuente |
+|---|---|---|
+| 2025-09-16 y 2025-09-23 | Lanzamiento: *Spec Registry* en beta abierta, *Framework* en beta cerrada | Blog |
+| 2025-10-17 | CLI 0.28.0, la última que incluye el *Framework* | npm; changelog |
+| **2025-11-14** | CLI 0.50.3: «pausing work on the Tessl Framework to concentrate on our registry functionality and agent integration»; «The Framework functionality is no longer included. If you need the full framework features, v0.28.0 remains available (though development is paused)» | npm; changelog |
+| 2025-12-05 | Se crea el plugin de SDD del registro, `tessl-labs/spec-driven-development` | Su repositorio |
+| 2026-01-29 | «Announcing skills on Tessl: the package manager for agent skills» | Blog |
+| 2026-05-29 | CLI 0.81.0: «Tiles are now Plugins» | npm; changelog |
+
+**La fecha del cambio es el 2025-11-14.** Lo que vino después —skills, plugins, verificadores— es la plataforma nueva creciendo; el corte con el producto que analizó este documento está en esa versión de la CLI.
+
+### Corrección: el estado que este documento dio al *Framework* ya era falso en su fecha
+
+Este análisis se escribió el 2026-09-05 y dice, en su encabezado y en C4, que el *Framework* «está en beta cerrada». A esa fecha llevaba casi diez meses pausado y fuera de la CLI. El dato salía del blog de septiembre de 2025 y no se contrastó con el estado del producto al momento de escribir. **Se corrige acá, sin reescribir arriba**: lo de arriba describe el producto que la fuente anunció, no el que existía al consultarlo. La consecuencia de método es la que el repositorio ya conoce para los clones —anclar la versión antes de leer—, y acá se manifiesta en una fuente sin clon: una fecha de anuncio no es una fecha de vigencia.
+
+La regeneración que sostiene C1 sigue verificada por [R20], que la observó en 2025, con el *Framework* activo. Lo que cambia es su alcance: describe un producto pausado, no el actual.
+
+### El flujo de specs sobrevive como plugin
+
+El registro publica `tessl-labs/spec-driven-development` (versión 2.0.1 al consultarlo), con código abierto bajo MIT en `spec-driven-development-tile` [R46], leído en el commit `b8fdff70` (2026-03-30). Es **método entregado como plugin**, no motor:
+
+- Una regla siempre activa, «Never begin implementation without an approved spec», con excepciones declaradas para cambios triviales y para urgencias, que exigen spec retroactiva (`spec-driven-development-tile:rules/spec-before-code.md`).
+- Specs en `specs/`, con extensión `.spec.md`, *front matter* con `targets` —los archivos que la spec describe— y enlaces `[@test]` a los tests que verifican cada requisito (`spec-driven-development-tile:docs/spec-format.md`). Es el formato de la anatomía original, sin `@generate` ni `@describe`.
+- Un script que comprueba que los enlaces `[@test]` y los `targets` apunten a archivos que existen (`spec-driven-development-tile:scripts/check-spec-links.sh`), y skills para escribir specs, verificarlas contra el código y revisar el trabajo.
+- Nueve escenarios de evaluación, uno de ellos para que un cambio trivial **no** dispare el flujo completo.
+
+**Lectura.** El par capacidad-test que distinguía a Tessl se conserva como formato, pero cambia lo que lo sostiene: antes, un motor que generaba código desde la spec; ahora, una regla que el agente sigue y un script que comprueba que los enlaces existan, no que el test pase ni que el código cumpla la spec. C5 queda así: la pareja documentada es regla y juez para las reglas del proyecto, y regla y verificador de enlaces para las specs.
+
+---
+
+[SDD-Check] — cronologia 2026-10-09
+- Spec leida: SI (spec enmendada en la entrega anterior del mismo dia; la cronologia y el plugin caen en «el estado de la documentacion publica en cada re-consulta fechada… y los mecanismos que la fuente documenta en su lugar»)
+- Incluye/Excluye verificado: SI — no se emite orientacion practica; no se toca B-07; la correccion se escribe como correccion y no reescribe el cuerpo del 2026-09-05
+- Validaciones aplicadas: cada fecha de la cronologia sale de la publicacion en npm (`registry.npmjs.org/@tessl/cli`, campo `time`), del post del blog o de la API de GitHub, y cada cita del changelog es textual; el plugin se leyo en su repositorio en un commit fijado; dos fuentes de terceros que señalaban la pausa —un perfil de ai.engineer y la reseña de un producto competidor— no se citan, porque la fuente oficial lo dice; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno por este documento. `../../REFERENCIAS.md` suma a [R46] la cronologia y la correccion
+- Derivados a revisar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — la ficha de Tessl se rehace con el producto actual en la misma entrega. Señalado sin modificar: `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md`, cuya mencion de Tessl describe el producto anunciado
+- Cobertura: completa para la fecha del cambio y para el flujo de specs que sobrevive
+- Deuda arrastrada: ninguna nueva en este documento
+- Riesgos/reservas: el changelog no fecha sus entradas y las fechas salen de npm, que registra la publicacion del paquete y no el anuncio; «pausa» es la palabra de la fuente, y no se sabe si el *Framework* volvera
