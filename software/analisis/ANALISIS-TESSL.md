@@ -4,6 +4,8 @@ Fecha: 2026-09-05.
 Fuente: Tessl, blog y documentación oficiales consultados el 2026-09-05 [R46]; la regeneración y su no-determinismo, verificados en [R20].
 Alcance: Línea B (software).
 
+> **Aviso del 2026-10-09, antes de leer el resto.** Este documento describe el producto que Tessl anunció en septiembre de 2025. Su *Framework* —la regeneración de código desde la spec que da título al análisis— **está pausado desde el 2025-11-14**, y ya lo estaba cuando se escribió esto: donde abajo dice «beta cerrada» o «regenera», léase «regeneraba hasta esa fecha». La cronología, la corrección y el producto vigente están en §Actualización: cuándo cambió el producto, al final.
+
 > **Clase de evidencia.** Igual que Kiro [R44], Tessl **no tiene código que clonar y no puede tenerlo**. Y va un paso más allá: su *Framework* está en **beta cerrada**, así que ni siquiera es instalable libremente. Todo rasgo se cita de documentación oficial o de un tercero identificado. Nada se leyó en código, nada se corrió.
 
 ---
