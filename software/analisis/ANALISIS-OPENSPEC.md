@@ -219,3 +219,40 @@ La fila 8 de convergencia y [R38] dicen «62 herramientas» a partir de `docs/su
 - Cobertura: completa para la deuda de los bloques anteriores
 - Deuda arrastrada: abierta en este documento — **las dos preguntas sin formular** (C6: si separar el repositorio de specs del del artefacto tiene consecuencias medibles; C7: reescribir en vez de regenerar la documentación propia) y la transferencia a Línea A que C7 habilita; se formulan acá antes de darlas de alta, porque darlas de alta a medias es peor que no darlas. **La cifra de herramientas soportadas, sin reconciliar**; la fila 8 de `../CONVERGENCIA-IMPLEMENTACIONES-SDD.md` la toma de acá. Con destino fuera: el corpus observacional de C4 es el ítem #21 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-41 y M-42 siguen en `../../agenda/MEJORAS-METODO.md`; el ecosistema del 1.0 de Spec Kit, en `ANALISIS-SPEC-KIT.md`; cuánto cuesta frenar es el ítem #23. Cerradas: M-40 hecha, `../RELACION-SPEC-VS-EPICA.md` actualizado el 2026-09-05. Pasa a límite: la reserva de procedencia frente a Kiro (búsqueda de marcadores negativa, 2026-09-06)
 - Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
+---
+
+## Actualización: las reglas transversales del proyecto, en el corte vigente (2026-10-09)
+
+Lectura dirigida, **sin mover el corte**: todo lo de abajo se verificó en `c879d13d`, el commit que ya ancla [R38], con `git show` sobre cada archivo citado. El motivo es una pregunta que este análisis no se había hecho: cómo llega al agente una regla que vale para todos los cambios —un estilo, una restricción de arquitectura, una convención—. La respuesta ya estaba en §Flujo de trabajo («las reglas del proyecto viven en `openspec/config.yaml`»); lo que se agrega es por qué la fuente eligió ese mecanismo y cómo se comporta.
+
+### C9. La fuente abandonó el documento de contexto pasivo, y dijo por qué
+
+Antes de `config.yaml`, el contexto del proyecto vivía en `openspec/project.md`, un markdown libre. La guía de migración explica el cambio así: «The old `project.md` was passive—agents might read it, might not, might forget what they read. We found reliability was inconsistent», y lo contrapone a que el `context` nuevo «is **actively injected into every OpenSpec planning request**» (`OpenSpec:docs/migration-guide.md`). El pasaje está en la fuente desde el 2026-01-25 (#574), antes del primer corte de este análisis; no se había leído.
+
+Es la justificación que la propia fuente da del rasgo que este documento destaca en §El rasgo que más aporta y en C2: la instrucción **servida** en vez de leída. Ahí era una lectura de este análisis; acá es la razón declarada por quien lo diseñó. **Lectura**, y con la reserva que esta fuente exige siempre: «we found» no viene acompañado de ninguna medición, así que es una observación del equipo, no un dato. Toca de cerca el problema de este repositorio, que entrega su protocolo como documentos a leer (`../../AGENTS.md`, `../../CONSTITUTION.md`), y queda señalado para A-04 sin proponer nada.
+
+### Cómo se comporta `config.yaml`
+
+Leído en `OpenSpec:src/core/project-config.ts` y `OpenSpec:src/core/artifact-graph/instruction-loader.ts`:
+
+- **`context`** va a las instrucciones de todos los artefactos; **`rules`** se indexa por ID de artefacto y sólo entra en el que coincide. Los dos se entregan como campos aparte, marcados en el código como «constraints for AI, not to be included in output»: son restricciones para quien escribe, no texto para copiar al artefacto.
+- **Los IDs de `rules` no se limitan a los del esquema por defecto**: sirven para artefactos de esquemas propios. Una clave que no coincide con ningún artefacto de ningún esquema disponible produce un aviso, no un error.
+- **Nada falla.** Un `context` de más de 50KB se ignora con aviso; un campo inválido se descarta con aviso y el resto de la configuración sigue valiendo («Returns partial config if some fields are invalid»).
+- **`operations`** agrega una guía consultiva sólo para `apply` y `archive`, separada de las reglas por artefacto.
+
+El propio `openspec/config.yaml` de la fuente sirve de ejemplo de uso: en `context` pone el stack, el lenguaje de producto en que se escriben las specs y los requisitos multiplataforma; en `rules`, reglas concretas por artefacto —escenarios de rutas de Windows en `specs`, verificación en CI de Windows en `tasks`, búsquedas explícitas en vez de patrones en `design`—.
+
+**Lo que esto no hace**, y vale escribirlo: ningún mecanismo comprueba que el artefacto producido cumpla las reglas. La configuración se entrega, no se verifica. Un aviso por una clave inválida es la misma familia que las notas de M-31 de las actualizaciones anteriores, en versión más suave: no hay verificador en verde, porque no hay verificador.
+
+---
+
+[SDD-Check] — actualizacion 2026-10-09
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — el comportamiento de `config.yaml` cae en «síntesis del flujo de trabajo» y C9 en «conclusiónes accionables para Linea B»; la comparacion con los otros casos va a `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6, en la misma entrega, y no se hace aca
+- Validaciones aplicadas: sin mover el corte — cada archivo citado se verifico con `git show c879d13d:<ruta>`, y el commit de origen del pasaje de `project.md` se fecho con `git log -S`; las citas textuales son del codigo y de la guia de migracion en ese commit; «we found» se declara sin medicion; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — §6 suma las reglas transversales como escenario, en la misma entrega. Señalado sin modificar: `../../agenda/BACKLOG-INVESTIGACION.md`, C9 como caso para A-04, igual que C8
+- Cobertura: completa para el mecanismo de reglas transversales; el resto del clon no se releyo
+- Deuda arrastrada: ninguna nueva; la del bloque de consolidacion sigue donde vive
+- Riesgos/reservas: lectura de codigo y documentacion sin correr el CLI; C9 descansa en lo que la fuente dice de su propia experiencia, sin dato que la respalde
