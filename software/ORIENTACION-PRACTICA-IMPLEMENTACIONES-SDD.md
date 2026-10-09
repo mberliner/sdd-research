@@ -391,6 +391,8 @@ Derivada de mecanismos declarados, **no de medición**. Si dos opciones parecen 
 | Quiero que el código se genere desde la spec, no junto a ella | `@generate` y `tessl build` | Tessl, **beta cerrada** |
 | Tengo código y quiero levantar specs de lo que ya existe | `@describe` (Tessl); `/speckit.converge` (Spec Kit); `changes` sobre capacidades (OpenSpec) | Tres opciones, con mecanismos distintos |
 | Que el agente no alucine APIs de librerías | Registro de specs de uso, +10.000 | Tessl |
+| Reglas transversales —estilo, UX, arquitectura— que alcancen a todas las specs | La constitución, leída en cada comando, o presets que componen las plantillas, con presets de gobernanza de comunidad ya armados (Spec Kit, `analisis/ANALISIS-SPEC-KIT.md` C9); `context` para todos los artefactos y `rules` por artefacto en `config.yaml` (OpenSpec, `analisis/ANALISIS-OPENSPEC.md` C9); steering cargado siempre, por patrón de archivo o por descripción del pedido (Kiro, `analisis/ANALISIS-KIRO.md` C5); `AGENTS.md` o `CLAUDE.md` del usuario, que van antes que las skills (Superpowers); principios declarados en `.sdd/config.yaml` (sdd-first) | Cinco opciones, con mecanismos distintos. Sólo Kiro carga la regla según el archivo que se toca |
+| Que además algo compruebe que esas reglas se cumplan | Principio de la constitución como gate del plan y CRITICAL en `analyze`, por juicio del agente (Spec Kit); hook previo al uso de una herramienta, que según la documentación puede bloquearla, y comprueba acciones, no el contenido de la spec (Kiro); principio con su verificador cableado a un paso del pipeline, que sale en rojo (sdd-first) | Spec Kit, Kiro, sdd-first. En OpenSpec y Superpowers la regla se entrega y nada la comprueba |
 | Quiero saber con qué me voy a chocar antes de adoptar | Reportes de práctica de terceros identificables (D15) | Spec Kit, OpenSpec, Superpowers, Kiro. **sdd-first y Tessl no tienen ninguno** |
 
 Cuatro advertencias sobre esta tabla `[derivado]`:
@@ -484,3 +486,15 @@ Cuatro advertencias sobre esta tabla `[derivado]`:
 - Cobertura: completa para la deuda de los bloques anteriores
 - Deuda arrastrada: abierta en este documento — **re-medición completa de D9 y D10 con corte nuevo** (la ficha de Superpowers y §6 siguen en 14 skills y 14 harnesses; hoy son 15 y 16), la práctica propia de Spec Kit (`analisis/ANALISIS-SPEC-KIT.md` C8) para §5, las tres extensiones puente sin leer, `../comun/PROYECTOS-LIDERES-Y-FRAMEWORKS.md` sin entradas para Kiro ni Tessl, y la D14 de Tessl si su *Framework* sale de la beta cerrada. Espera: el resultado de `../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md` (B-09) para §7. Con destino fuera: el ecosistema del 1.0 de Spec Kit se caracteriza en `analisis/ANALISIS-SPEC-KIT.md`. Cerrada: las líneas 337 y 398 que señaló convergencia el 2026-09-30 (corregidas ese día). Pasan a límite: D15 sin fuente con población definida, y su conjunto no reproducible; D9 y D10 no medibles en los dos casos cerrados; el rasgo de Tessl conocido por [R20]; la asimetría de evidencia de Kiro; la asignación de Superpowers, la menos limpia de las seis
 - Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
+---
+
+[SDD-Check] — reglas transversales en §6 2026-10-09
+- Spec leida: SI (sin enmienda: las dos filas caen en «una seccion de orientacion por escenario, marcada como derivada de mecanismos declarados y no de medicion»)
+- Incluye/Excluye verificado: SI — no se agrega dimension ni se toca la tabla de §3, porque las quince estan fijadas; cada mecanismo remite a la seccion del analisis que lo caracteriza, sin reproducirla; no se emite veredicto de convergencia
+- Validaciones aplicadas: cada celda sale de una actualizacion de analisis del mismo dia (`analisis/ANALISIS-SPEC-KIT.md`, `analisis/ANALISIS-OPENSPEC.md`, `analisis/ANALISIS-SUPERPOWERS.md`, `analisis/ANALISIS-KIRO.md`) o de lo ya escrito en `analisis/ANALISIS-SDD-FIRST.md`; la segunda fila es coherente con la escala de vinculacion de §5 —Spec Kit sigue en N0 porque su gate es juicio del agente, y el hook de Kiro se declara comprobacion de acciones y no de la spec—; Tessl no se evaluo para estos dos escenarios y no figura en ellos
+- SSOT afectado: este documento
+- Derivados a revisar: ninguno registrado
+- Cobertura: completa para los cinco casos evaluados; Tessl queda sin evaluar en estos dos escenarios
+- Deuda arrastrada: la del bloque de consolidacion sigue donde vive. El ecosistema del 1.0 de Spec Kit, que ese bloque manda a `analisis/ANALISIS-SPEC-KIT.md`, queda caracterizado allí **en parte**: lo que sigue abierto vive en el ultimo `[SDD-Check]` de ese documento
+- Riesgos/reservas: la tabla de §6 es la parte del documento que mas facil se lee como recomendacion, y estas dos filas no son excepcion: dicen que mecanismo existe, no cual funciona; que una regla se entregue o se compruebe no dice que el agente la cumpla
