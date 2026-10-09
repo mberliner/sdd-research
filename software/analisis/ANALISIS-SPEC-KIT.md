@@ -113,6 +113,8 @@ Nuestro protocolo dice "MUST preguntar al usuario", pero no tiene un marcador es
 ### C3. La "Power Inversion" es una posicion mas fuerte que la nuestra — y es una tension a investigar
 
 > **Precision del 2026-09-05.** Esta conclusion quedo doblemente acotada. Primero por C6: el manifiesto de Spec Kit afirma la inversion y su documentacion de referencia declara que **no impone** ningun modelo de persistencia. Y despues desde afuera: existe un caso del corpus que **si** regenera codigo desde la spec —Tessl [R46], `tessl build`, con el archivo generado marcado `// GENERATED FROM SPEC - DO NOT EDIT`, ubicado por [R20] como el unico que «is even exploring the spec-as-source level of SDD»— y no es Spec Kit. Al citar «la posicion mas fuerte» MUST nombrarse a quien se le atribuye: **la fuente que la enuncia y la que la ejerce no son la misma** (`ANALISIS-TESSL.md`, C1).
+>
+> **Nota del 2026-10-09.** «Si regenera» vale hasta el **2025-11-14**: ese dia Tessl pauso su *Framework* y lo saco de la CLI, y ya estaba pausado cuando se escribio la precision de arriba (`ANALISIS-TESSL.md` §Actualización: cuándo cambió el producto). Desde entonces **ningun caso del corpus ejerce la posicion fuerte**: Spec Kit la enuncia y nadie la practica. La precision sigue valiendo en su forma —nombrar a quien se le atribuye la posicion—, y ahora la respuesta honesta a «quien la ejerce» es «nadie, desde esa fecha».
 
 Spec Kit asume specs **ejecutables que generan codigo**. Nuestro proyecto, hoy, trata la spec como representacion del conocimiento, no como generador automatico. Esta no es una deficiencia: es una decision deliberada para contexto sin CI (`../../comun/IMPLEMENTACION-INICIAL-CONTEXTO-ACTUAL.md`). Pero plantea una pregunta de investigacion: hasta que punto conviene mover el entregable hacia "regenerable desde spec" vs. "editado a mano con spec como guia". Conecta con el backlog "umbral de control manual a automatizado".
 
@@ -378,3 +380,15 @@ El bundler, los workflows, las integraciones y el contenido de los presets de go
 - Cobertura: **incompleta y declarada** — la parte del ecosistema que toca reglas transversales queda caracterizada; bundler, workflows, integraciones y el contenido de los presets de gobernanza siguen sin leer
 - Deuda arrastrada: el ecosistema del 1.0 queda **caracterizado en parte**: lo que sigue abierto es el resto de la plataforma y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`. La formalizacion de la precedencia como experimento sigue como estaba
 - Riesgos/reservas: lectura de plantillas, documentacion, catalogo y constitucion, sin correr el CLI ni instalar un preset; la recomendacion de presets versionados es de la fuente sobre si misma, no un resultado; el clon sigue moviendose (56 commits despues de `d2ddd910` el 2026-10-09) y este bloque no los lee
+
+---
+
+[SDD-Check] — nota sobre Tessl en C3 2026-10-09
+- Spec leida: SI (sin cambio de `incluye`/`excluye`)
+- Incluye/Excluye verificado: SI — nota fechada dentro de C3, sin reescribir la precision del 2026-09-05; la caracterizacion del cambio de Tessl vive en `ANALISIS-TESSL.md`
+- Validaciones aplicadas: fecha del cambio tomada de [R46]; la nota no reformula C3, solo actualiza quien ejerce la posicion fuerte
+- SSOT afectado: este documento (`ssot_level: SSOT`)
+- Derivados a revisar: `../COMPARATIVA-SPECKIT-VS-TESTIGO.md` y `../RELACION-FR-VS-SC-Y-COBERTURA.md` — sin impacto: ninguno menciona a Tessl
+- Cobertura: completa para la mencion de Tessl
+- Deuda arrastrada: la del bloque anterior de este mismo dia
+- Riesgos/reservas: ninguno nuevo
