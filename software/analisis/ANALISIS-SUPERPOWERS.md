@@ -224,3 +224,27 @@ Por qué importa acá: nuestro campo `Cobertura` del `[SDD-Check]` pregunta qué
 - Cobertura: completa para la deuda de los bloques anteriores
 - Deuda arrastrada: ninguna propia. Con destino fuera: cuánto cuesta frenar es el ítem #23 de `../../agenda/BACKLOG-INVESTIGACION.md`; M-41 y M-42 siguen en `../../agenda/MEJORAS-METODO.md`; la versión del brazo T4 se fija al sellar B-09 (`../../experimentos/b09-competencia-implementaciones/EXPERIMENTO-B9-competencia-implementaciones.md` §Sello). Cerrada: M-40 hecha
 - Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
+---
+
+## Actualización: cómo llegan al agente el método y las reglas del proyecto (2026-10-09)
+
+Lectura dirigida en el corte vigente, `8ca22db`, que sigue siendo el `HEAD` del clon: no hay delta. La pregunta es la misma que se les hizo a los otros casos el mismo día —cómo llega al agente una regla que vale para todo el trabajo— y acá tiene dos mitades, porque esta fuente separa el método de las reglas del proyecto.
+
+**El método llega por inyección al abrir la sesión.** El único hook del plugin es `SessionStart`, que se dispara al arrancar, al limpiar y al compactar el contexto (`superpowers:hooks/hooks.json`). Lo que hace es leer la skill `using-superpowers` entera e inyectarla como contexto adicional, envuelta en `<EXTREMELY_IMPORTANT>` (`superpowers:hooks/session-start`); el resto de las skills se cargan después, cuando el agente las invoca. Es el mecanismo por el que el disparo de skills —el modo de falla de este caso— tiene al menos su instrucción de entrada siempre presente. No verifica nada: inyecta.
+
+**Las reglas del proyecto no son de Superpowers.** La fuente no trae ningún lugar para convenciones, estilos o arquitectura propios del proyecto, y las delega en los archivos del usuario, que según la propia skill van primero: «User instructions (CLAUDE.md, AGENTS.md, GEMINI.md, etc, direct requests) take precedence over skills, which in turn override default behavior» (`superpowers:skills/using-superpowers/SKILL.md`). Lo más cercano dentro del método es la indicación de `brainstorming` de explorar la estructura existente y «Follow existing patterns» (`superpowers:skills/brainstorming/SKILL.md`).
+
+Consecuencia `[derivado]`: en un proyecto con Superpowers, una regla transversal escrita en `AGENTS.md` o `CLAUDE.md` **le gana** a cualquier skill que la contradiga. Es el mismo orden que el mapeo de arriba registra como fuente de autoridad; lo que se agrega es que ese orden es también el **único** canal para reglas del proyecto. **Lectura**, sin consecuencia de método para este repositorio.
+
+---
+
+[SDD-Check] — actualizacion 2026-10-09
+- Spec leida: SI (spec de este doc en `../../SPECS_REGISTRY.md`; sin cambio de incluye/excluye)
+- Incluye/Excluye verificado: SI — cae en «síntesis del flujo de trabajo (skills, artefactos, gates)»; la comparacion con los otros casos va a `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6, en la misma entrega, y no se hace aca
+- Validaciones aplicadas: el clon esta en el commit anclado (`git rev-parse` = `8ca22db`), asi que no hay delta que diffear; las tres citas son textuales y declaran su archivo; el contenido del hook se leyo en el script, no en la documentacion; el check que exige nombrar la constitucion al invocar la cadena de autoridad dio ERROR sobre la primera redaccion, que usaba esa palabra para el orden propio de Superpowers a menos de doce lineas de la mencion al registro: falso positivo de la heuristica, resuelto con la redaccion y sin tocar el check
+- SSOT afectado: ninguno (doc `operativo`)
+- Derivados a revisar: `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` — §6 suma las reglas transversales como escenario, en la misma entrega
+- Cobertura: completa para lo leido
+- Deuda arrastrada: ninguna nueva; la del bloque de consolidacion sigue donde vive
+- Riesgos/reservas: lectura del script y de las skills, sin correr el plugin; que la inyeccion al iniciar sesion mejore el disparo de las demas skills no lo mide nadie
