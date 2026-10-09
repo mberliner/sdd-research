@@ -6,6 +6,21 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## [R46] fecha el cambio de producto de Tessl, y corrige su propio estado al 2026-09-05 (2026-10-09) — COMPLETADA
+
+**Acción**: el usuario pidió rehacer la ficha de Tessl con el producto actual e indicar la fecha del cambio. Fecharlo exigió leer el changelog de la CLI y las fechas de publicación en npm, y eso mostró que el *Framework* ya estaba pausado cuando se escribió la entrada original. Es método porque toca `REFERENCIAS.md` (Principio VI).
+
+### Qué cambió
+- **`REFERENCIAS.md`**, [R46]: ítem con la cronología fechada —0.28.0, 0.50.3, anuncio de skills, 0.81.0—, el plugin de SDD que sobrevive en el registro, y la corrección explícita del estado que la entrada daba al *Framework*.
+
+### Validación
+`tools/check_docs.py` en verde. Cada fecha sale de la publicación del paquete en npm o de la fecha del post, no de fuentes de terceros; las dos de terceros que señalaban el cambio (un perfil de ai.engineer y una reseña de un producto competidor) no se citan.
+
+### Deuda abierta
+- ninguna
+
+---
+
 ## `ORIENTACION-PRACTICA` suma D16, y la spec de Tessl admite su re-consulta (2026-10-09) — COMPLETADA
 
 **Acción**: dos enmiendas de spec pedidas por el usuario, y la re-consulta de [R46] que una de ellas necesita. El usuario eligió agregar «reglas transversales y su comprobación» como dimensión propia de `software/ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md`, en vez de repartirla entre las fichas. Completar esa dimensión para Tessl exige leer su documentación actual, que ya no describe el producto que analizó `software/analisis/ANALISIS-TESSL.md`. Es método porque toca `SPECS_REGISTRY.md` y `REFERENCIAS.md` (Principio VI).
