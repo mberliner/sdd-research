@@ -506,6 +506,7 @@ Un nivel más, con un campo de refresco, se agrega cuando haya quien lo consuma:
 - `owner`: proyecto SDD
 - `incluye`:
   - síntesis del flujo de trabajo de Spec Kit (comandos y artefactos)
+  - la parte del ecosistema —presets, extensiones y sus catalogos— que gobierna como llegan al flujo las reglas transversales: resolucion de la constitucion, composicion de presets, hooks y presets de gobernanza de comunidad. El resto de la plataforma (bundler, workflows, integraciones) sigue fuera
   - mapeo Spec Kit vs. protocolo SDD del proyecto
   - conclusiónes accionables para Linea B
 - `excluye`:

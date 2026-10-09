@@ -6,6 +6,21 @@ Archivo vivo: el trimestre en curso. Las entradas de trimestres cerrados están,
 
 ---
 
+## La spec de `ANALISIS-SPEC-KIT.md` incluye la parte del ecosistema que gobierna las reglas transversales (2026-10-09) — COMPLETADA
+
+**Acción**: enmienda de alcance pedida por el usuario. El análisis venía declarando fuera, por alcance, todo el ecosistema del 1.0. Para responder cómo llegan al flujo las reglas transversales hace falta una parte de ese ecosistema, y el usuario aprobó incluirla. Es método porque toca `SPECS_REGISTRY.md` (Principio VI); el contenido es investigación y vive en el análisis.
+
+### Qué cambió
+- **`SPECS_REGISTRY.md`**, spec de `software/analisis/ANALISIS-SPEC-KIT.md`: `incluye` suma la resolución de la constitución, la composición de presets, los hooks y los presets de gobernanza de comunidad, y deja escrito que bundler, workflows e integraciones siguen fuera.
+
+### Validación
+`tools/check_docs.py` en verde. La enmienda se hizo antes de escribir la actualización del análisis, y su `[SDD-Check]` la declara.
+
+### Deuda abierta
+- El resto del ecosistema sigue sin caracterizar, con su efecto sobre `software/DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`: vive en el `Deuda arrastrada` del último `[SDD-Check]` de `software/analisis/ANALISIS-SPEC-KIT.md`.
+
+---
+
 ## [R44] suma las páginas de steering y hooks de Kiro (2026-10-09) — COMPLETADA
 
 **Acción**: la entrada de Kiro en el catálogo de referencias registra dos páginas oficiales consultadas el 2026-10-09, que sostienen la actualización de `software/analisis/ANALISIS-KIRO.md` sobre reglas transversales. Es método sólo porque toca `REFERENCIAS.md` (Principio VI); el contenido es investigación y vive en el análisis.
