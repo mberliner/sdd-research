@@ -325,3 +325,56 @@ Su hallazgo cualitativo central, textual: «Spec Kit did not eliminate the PRP. 
 - Cobertura: completa para la deuda de los bloques anteriores
 - Deuda arrastrada: abierta en este documento — **el ecosistema del 1.0 sin caracterizar**, y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md` sin evaluar; si la formalización de la precedencia merece experimento propio, candidato señalado el día de su bloque y nunca dado de alta. Con destino fuera: [R33], [R34], [R30] y [R25] sin verificar en fuente completa, deuda de `../../REFERENCIAS.md` y no de este documento
 - Riesgos/reservas: la consolidación lee los bloques anteriores, no re-verifica sus afirmaciones
+
+---
+
+## Actualización: cómo llegan al flujo las reglas transversales (2026-10-09)
+
+Lectura dirigida, **sin mover el corte**: todo lo de abajo se verificó en `d2ddd910`, el commit que ya ancla [R10], con `git show` sobre cada archivo citado. La pregunta es cómo hace Spec Kit para que una regla que vale para todas las features —un estilo de interfaz, una restricción de arquitectura, una convención— llegue a cada spec y cada plan.
+
+Responderla obliga a entrar en una parte del ecosistema que las actualizaciones del 2026-09-05 y del 2026-09-30 dejaron fuera por alcance. La spec de este documento se enmendó antes de escribir para incluir **sólo esa parte** —resolución de la constitución, composición de presets, hooks y presets de gobernanza—; el bundler, los workflows y las integraciones siguen fuera.
+
+### La constitución se lee en cada ejecución, y la propagación pasó a ser opcional
+
+El comando del núcleo lo declara en su guarda de alcance: «Dependent templates and commands read the constitution at runtime and are not modified here» (`spec-kit:templates/commands/constitution.md`). Hasta el 2026-07-28 el mismo comando propagaba la constitución a las plantillas; ese día dejó de hacerlo (#3790), y dos días después la propagación volvió como preset **opcional**, `constitution-sync` (#3873).
+
+El README de ese preset explica por qué se sacó: «Propagation was removed deliberately — it duplicates the constitution as the source of truth and can fight the composition stack». Y precisa qué pasa sin él: `plan`, `tasks` y `analyze` «still read the live constitution every run» (`spec-kit:presets/constitution-sync/README.md`). Con el preset instalado, la constitución generada se re-materializa cuando cambia la pila de presets, pero sólo si nadie la editó a mano.
+
+**Lectura.** El motivo que da la fuente es el de nuestro Principio I: una copia de la regla en otro archivo es una segunda fuente de verdad que termina divergiendo. Y responde algo que C4 dejaba abierto desde el comienzo: el gate de autoridad no se apoya en una copia de la constitución dentro de la plantilla, sino en el archivo vivo leído en cada comando.
+
+### C9. Las reglas transversales tienen dos canales, y para una organización la fuente recomienda los presets
+
+**Primer canal: la constitución**, con su gate en la plantilla de plan y su severidad CRITICAL en `analyze` (§Mapeo, C4).
+
+**Segundo canal: los presets.** Son pilas de overrides de plantillas, comandos y scripts, ordenadas por prioridad; entre presets gana el número más bajo. Por defecto un archivo reemplaza entero al de abajo, pero plantillas y comandos también pueden componerse: «**prepend** places preset content before lower-priority content, **append** places it after lower-priority content, and **wrap** replaces `{CORE_TEMPLATE}` with lower-priority content» (`spec-kit:docs/reference/presets.md`). La misma página les asigna el propósito que importa acá: «enforce organizational standards». Y el README de `constitution-sync` dice cuál de los dos canales recomienda la fuente para gobernar muchos repositorios: una política que un equipo central «owns, versions, and audits… in one place», en un preset versionado, en vez de copias congeladas por repositorio.
+
+**Los hooks de las extensiones** se atan a eventos del ciclo —`after_specify`, `after_plan`, `after_tasks`, `after_implement`, `before_analyze`— y son opcionales por defecto: `optional: boolean # Default: true` (`spec-kit:extensions/EXTENSION-API-REFERENCE.md`).
+
+**El catálogo de comunidad ya trae reglas transversales empaquetadas.** De los 40 presets de comunidad en `d2ddd910`, varios son de gobernanza por tema: `a11y-governance` («WCAG 2.2 AA, accessible status output…»), `architecture-governance` («STRIDE/CAPEC threat modeling, arc42/S-ADR guidance, Zero Trust…»), `isaqb-architecture-governance`, `security-governance`, `test-first-governance` y `db-standards` (`spec-kit:presets/catalog.community.json`). **Ninguno de los 40 está marcado como verificado**, y la fuente advierte que «Catalog discovery does not audit or endorse community code» (`spec-kit:docs/guides/agentic-sdlc.md`). De estos presets se leyó sólo la descripción del catálogo, no su contenido.
+
+**Lectura**: para la pregunta de cómo imponer estilos o arquitectura a todas las specs, Spec Kit responde con el mismo mecanismo con el que se personaliza todo lo demás, no con un registro de reglas propio. La regla vive en el texto de una plantilla compuesta, y nada verifica que el artefacto la cumpla, salvo que esté escrita como principio de la constitución.
+
+### La constitución del propio proyecto usa ese canal para su guía de UX
+
+`.specify/memory/constitution.md` es la constitución con la que se desarrolla Spec Kit. Tiene cinco principios, y el III, «CLI & User-Experience Consistency», es una guía de UX escrita como principio: vocabulario de verbos compartido («New verbs MUST NOT be invented when an existing one fits»), convenciones de salida, JSON limpio en `--json`, y acciones destructivas que muestran el cambio antes de confirmar. Su §Governance los vuelve vinculantes: «Principles I–V are binding gates», con la Constitution Check del plan, CRITICAL en `analyze` y «Unjustified violations block merge» (`spec-kit:.specify/memory/constitution.md`).
+
+**Nota menor, de la familia del Principio I.** La misma constitución exige que toda enmienda «MUST propagate to dependent templates and command guidance in the same change». Se escribió el 2026-06-19 (#3070), antes de que el núcleo dejara de propagar, y no se tocó después. La regla del propio proyecto quedó describiendo un modelo que la herramienta abandonó: lo que el README de `constitution-sync` llama duplicación y deriva, dentro de la fuente.
+
+### Lo que sigue sin caracterizar
+
+El bundler, los workflows, las integraciones y el contenido de los presets de gobernanza, del que sólo se leyó la descripción. Y el efecto de todo el ecosistema sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`, que sigue sin evaluarse.
+
+### Revisión de derivados (regla de propagación)
+
+- **`../COMPARATIVA-SPECKIT-VS-TESTIGO.md`** — revisado. Sin contradicción: describe la Constitution Check como gate de contenido y los presets como mecanismo de adaptación, y las dos cosas siguen valiendo.
+- **`../RELACION-FR-VS-SC-Y-COBERTURA.md`** — revisado. Sin impacto.
+
+[SDD-Check] — actualizacion 2026-10-09
+- Spec leida: SI, y **enmendada antes de escribir**: `incluye` suma la parte del ecosistema que gobierna como llegan al flujo las reglas transversales, y deja escrito que el resto de la plataforma sigue fuera
+- Incluye/Excluye verificado: SI — la constitucion, los presets, los hooks y los presets de gobernanza caen en el `incluye` enmendado; C9 en «conclusiónes accionables para Linea B»; la comparacion con los otros casos va a `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6, en la misma entrega, y no se hace aca
+- Validaciones aplicadas: sin mover el corte — cada archivo citado se verifico con `git show d2ddd910:<ruta>`; las fechas de #3070, #3790 y #3873 salen de `git log` en ese commit; el conteo de presets de comunidad y su estado de verificacion salen de leer el catalogo en ese commit; de los presets de gobernanza se declara que solo se leyo su descripcion; las citas son textuales y declaran su archivo; sin emoticones; fechas YYYY-MM-DD
+- SSOT afectado: este documento (`ssot_level: SSOT`) y `../../SPECS_REGISTRY.md` (enmienda de su spec)
+- Derivados a revisar: **revisados los dos registrados** — `../COMPARATIVA-SPECKIT-VS-TESTIGO.md` (sin contradiccion) y `../RELACION-FR-VS-SC-Y-COBERTURA.md` (sin impacto). `../ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md` §6 suma las reglas transversales como escenario en la misma entrega. Señalado sin modificar: `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`
+- Cobertura: **incompleta y declarada** — la parte del ecosistema que toca reglas transversales queda caracterizada; bundler, workflows, integraciones y el contenido de los presets de gobernanza siguen sin leer
+- Deuda arrastrada: el ecosistema del 1.0 queda **caracterizado en parte**: lo que sigue abierto es el resto de la plataforma y su efecto sobre `../DECISION-ADOPTAR-VS-PORTAR-SPECKIT.md`. La formalizacion de la precedencia como experimento sigue como estaba
+- Riesgos/reservas: lectura de plantillas, documentacion, catalogo y constitucion, sin correr el CLI ni instalar un preset; la recomendacion de presets versionados es de la fuente sobre si misma, no un resultado; el clon sigue moviendose (56 commits despues de `d2ddd910` el 2026-10-09) y este bloque no los lee
