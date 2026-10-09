@@ -18,7 +18,7 @@ Como aplicar SDD para convertir especificaciones en software confiable, verifica
 - [ANALISIS-OPENSPEC.md](./analisis/ANALISIS-OPENSPEC.md) — análisis de OpenSpec. Fuente: [R38].
 - [ANALISIS-SDD-FIRST.md](./analisis/ANALISIS-SDD-FIRST.md) — análisis de sdd-first. Fuente: [R39].
 - [ANALISIS-KIRO.md](./analisis/ANALISIS-KIRO.md) — análisis de Kiro (AWS). Sin código que clonar: producto cerrado, leído de su documentación oficial.
-- [ANALISIS-TESSL.md](./analisis/ANALISIS-TESSL.md) — análisis de Tessl. Sin código que clonar: producto cerrado, con el Framework en beta cerrada.
+- [ANALISIS-TESSL.md](./analisis/ANALISIS-TESSL.md) — análisis de Tessl. Sin código que clonar: producto cerrado. Su Framework de specs, el único del corpus que regeneraba código, está pausado desde el 2025-11-14; el producto vigente es una plataforma de skills y plugins.
 - [CONVERGENCIA-IMPLEMENTACIONES-SDD.md](./CONVERGENCIA-IMPLEMENTACIONES-SDD.md) — convergencia entre implementaciones de SDD, leído sobre los análisis de arriba y el testigo.
 - [ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md](./ORIENTACION-PRACTICA-IMPLEMENTACIONES-SDD.md) — orientación práctica sobre esas implementaciones, leída con un instrumento propio de dimensiones.
 - [COMPARATIVA-SPECKIT-VS-TESTIGO.md](./COMPARATIVA-SPECKIT-VS-TESTIGO.md) — comparación Spec Kit vs. proyecto testigo.
